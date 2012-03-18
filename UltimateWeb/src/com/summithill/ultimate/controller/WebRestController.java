@@ -120,7 +120,7 @@ public class WebRestController {
 	
 	@RequestMapping(value = "/team/{teamId}/stats/player", method = RequestMethod.POST)
 	@ResponseBody
-	public Collection<PlayerStats> getGame(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
+	public Collection<PlayerStats> getTeamPlayerStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {

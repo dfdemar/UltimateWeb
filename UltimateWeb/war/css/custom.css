@@ -45,11 +45,11 @@
 #playerRankings {
 	margin-left: 50px;
 }
-.rankingTablePlayerName {
-	width: 100px;
+.statsTableDescriptionColumn {
+	width: 130px;
 }
-.rankingTableStat {
-	width: 80px;
+.statsTableValueColumn {
+	width: 60px;
 	text-align: right;
 }
 .clear{

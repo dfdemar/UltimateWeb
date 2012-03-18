@@ -134,5 +134,29 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 </div>
 
+<div id="playerstatspage" class="pagediv" data-role="page" data-theme="b">
+	<div class="top-section">
+		<h1 class="teamName"></h1> 
+	</div>
+	<div data-role="header" data-position="inline">
+		<a href="#mainpage" data-icon="back">Back</a>
+		<h1>Player</h1>
+	</div>
+
+	<div data-role="content">
+		<h2 id="statsPlayerNameHeading">Player</h2>
+		<div data-role="controlgroup" data-type="horizontal">
+			<div class="gamesIncludedLink" data-role="button">Events</div> 
+			<div class="gamesIncludedLink ui-btn-active" data-role="button">Statistics</div>
+		</div>
+		
+		<table id="playerStats">
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
 </body>
 </html>

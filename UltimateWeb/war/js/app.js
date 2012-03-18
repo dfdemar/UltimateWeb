@@ -9,7 +9,10 @@ $(document).live('pagechange', function(event, data) {
 			break;
 		case 'gamestatspage' :
 			renderGameStatsPage(data);
-			break;			
+			break;
+		case 'playerstatspage' :
+			renderPlayerStatsPage(data);
+			break;				
 		default:
 			renderMainPage(data);
 	}
@@ -34,6 +37,12 @@ function renderGameStatsPage(data) {
 	renderGamePageBasics(data);
 	populateGamePlayerStats(data);
 }
+
+function renderPlayerStatsPage(data) {
+	renderGamePageBasics(data);
+	populatePlayerStats(data);
+}
+
 
 function renderGamePageBasics(data) {
 	populateTeamName();
@@ -87,9 +96,11 @@ function updatePlayersList(players) {
 		var html = [];
 		for ( var i = 0; i < players.length; i++) {
 			var player = players[i];
-			html[html.length] = '<li>';
+			html[html.length] = '<li><a href="#playerstatspage?name=';
 			html[html.length] = player.name;
-			html[html.length] = '</li>';
+			html[html.length] = '">'
+			html[html.length] = player.name;
+			html[html.length] = '</a></li>';
 		}
 		$("#players").empty().append(html.join('')).listview("refresh");
 }
@@ -137,15 +148,6 @@ function updateGamesList(games) {
 	$("#games").empty().append(html.join('')).listview("refresh");
 }
 
-function sortGames(games) {
-	var sortedGames = games.sort(function(a,b) { 
-		var first = a.msSinceEpoch ? a.msSinceEpoch : 0;
-		var second = b.msSinceEpoch ? b.msSinceEpoch : 0;
-		return second - first;
-	});
-	return sortedGames;
-}
-
 function isBlank(s) {
 	return s == null || s == '';
 }
@@ -164,14 +166,23 @@ function populateGamePlayerStats(data) {
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
 			Ultimate.playerStats = playerStats;
-			updatePlayerRankingsList(data.options.pageData.ranktype);
+			updatePlayerRankingsTable(data.options.pageData.ranktype);
 			$('#selectPlayerRank').on('change', function() {
 				//$.mobile.changePage('#gamestatspage?gameId=' + Ultimate.gameId + '&ranktype=' + $(this).val());
-				updatePlayerRankingsList($(this).val());
+				updatePlayerRankingsTable($(this).val());
 			})
 		}) 
 	}) 
+}
 
+function populatePlayerStats(data, options) {
+	Ultimate.playerName = data.options.pageData.name;
+	var retrieveFn = options == null || options.retrieveFn == null ? retrievePlayerStatsForLastGame : options.retrieveFn;
+	retrieveFn(Ultimate.teamId, function(playerStatsArray) {
+		$('#statsPlayerNameHeading').html(Ultimate.playerName);
+		var playerStats = statsForPlayer(playerStatsArray, Ultimate.playerName);
+		updatePlayerStatsTable(playerStats);
+	}); 
 }
 
 function populateGameTitle() {
@@ -208,31 +219,51 @@ function updateGameEventsList(game) {
 			});
 }
 
-function updatePlayerRankingsList(rankingType) {
+function updatePlayerRankingsTable(rankingType) {
 	var rankingType = rankingType == null ? 'pointsPlayed' : rankingType;
 	$('#selectPlayerRank').val(rankingType);
-	var test = $('#selectPlayerRank').val();
 	var rankings = playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
-	addRowToRankingTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>');
-	addRowToRankingTable(html,'&nbsp;','&nbsp;');
+	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>');
+	addRowToStatsTable(html,'&nbsp;','&nbsp;');
 	var total = 0;
 	for (var i = 0; i < rankings.length; i++) {
 		total += rankings[i].value;
-		addRowToRankingTable(html,rankings[i].playerName, rankings[i].value);
+		addRowToStatsTable(html,rankings[i].playerName, rankings[i].value);
 	}
-	addRowToRankingTable(html,'&nbsp;','&nbsp;');
-	addRowToRankingTable(html,'<strong>Total</strong>', '<strong>' + total + '</strong>');
+	addRowToStatsTable(html,'&nbsp;','&nbsp;');
+	addRowToStatsTable(html,'<strong>Total</strong>', '<strong>' + total + '</strong>');
 	$('#playerRankings tbody').html(html.join(''));
 }
 
-function addRowToRankingTable(html, name, stat) {
-	html[html.length] = '<tr><td class="rankingTablePlayerName">';
+function addRowToStatsTable(html, name, stat) {
+	html[html.length] = '<tr><td class="statsTableDescriptionColumn">';
 	html[html.length] = name;
-	html[html.length] = '</td><td class="rankingTableStat">';
+	html[html.length] = '</td><td class="statsTableValueColumn">';
 	html[html.length] = stat;
 	html[html.length] = '</td></tr>';
+}
+
+function updatePlayerStatsTable(playerStats) {
+	var html = [];
+	var statDescription = playerStats.playerName + " stat";
+	addRowToStatsTable(html,'<strong>' + statDescription + '</strong>','<strong>Value</strong>');
+	addRowToStatsTable(html,'&nbsp;','&nbsp;');
+	addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
+	addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
+	addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
+	addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
+	addRowToStatsTable(html,'Goals',playerStats.goals);
+	addRowToStatsTable(html,'Assists',playerStats.assists);
+	addRowToStatsTable(html,'Throws',playerStats.passes);
+	addRowToStatsTable(html,'Catches',playerStats.catches);
+	addRowToStatsTable(html,'Drops',playerStats.drops);
+	addRowToStatsTable(html,'Throwaways',playerStats.throwaways);
+	addRowToStatsTable(html,'Ds',playerStats.ds);
+	addRowToStatsTable(html,'Pulls',playerStats.pulls);
+
+	$('#playerStats tbody').html(html.join(''));
 }
 
 function populatePointEvents($pointEl) {
@@ -285,4 +316,15 @@ function playerRankingsFor(statName) {
 		return b.value - a.value;
 	})
 	return rankings;
+}
+
+function statsForPlayer(playerStatsArray, playerName) {
+	var stats = null;
+	jQuery.each(playerStatsArray, function() {
+		if (this.playerName == playerName) {
+			stats = this;
+			return false;
+		}
+	})
+	return stats;
 }

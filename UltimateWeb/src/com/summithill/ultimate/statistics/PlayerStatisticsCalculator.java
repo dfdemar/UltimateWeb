@@ -3,8 +3,10 @@ package com.summithill.ultimate.statistics;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Team;
@@ -26,16 +28,18 @@ public class PlayerStatisticsCalculator {
 		
 		for (String gameId : gameIds) {
 			Game game = getGame(team, gameId);
-			updateStats(game.getPoints());
+			updateStatsForGame(game);
 		}
 		
 		return stats.values();
 	}
 	
-	private void updateStats(List<Point> points) {
+	private void updateStatsForGame(Game game) {
+		Set<String> playedInGame = new HashSet<String>();
+		List<Point> points = game.getPoints();
 		Collections.reverse(points);
 		for (Point point : points) {
-			updatePointsPlayedStats(point);
+			updatePointsPlayedStats(point, playedInGame);
 			List<Event> events = point.getEvents();
 			Collections.reverse(events);
 			for (Event event : events) {
@@ -57,10 +61,15 @@ public class PlayerStatisticsCalculator {
 				} 
 			}
 		}
+		for (String name : playedInGame) {
+			PlayerStats playerStats = getStats(name);
+			playerStats.incGamesPlayed();
+		}
 	}
 
-	private void updatePointsPlayedStats(Point point) {
+	private void updatePointsPlayedStats(Point point, Set<String> playedInGame ) {
 		for (String name : point.getLine()) {
+			playedInGame.add(name);
 			PlayerStats playerStats = getStats(name);
 			playerStats.incPointsPlayed();
 			if ("O".equals(point.getSummary().getLineType())) {

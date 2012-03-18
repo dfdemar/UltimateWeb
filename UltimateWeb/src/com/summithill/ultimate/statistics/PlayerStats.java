@@ -2,6 +2,7 @@ package com.summithill.ultimate.statistics;
 
 public class PlayerStats {
 	private String playerName;
+	private int gamesPlayed;
 	private int pointsPlayed;
 	private int oPointsPlayed;
 	private int dPointsPlayed;
@@ -19,9 +20,12 @@ public class PlayerStats {
 		this.playerName = playerName;
 	}
 	
+	public void incGamesPlayed() {
+		this.gamesPlayed++;
+	}
 	public void incPointsPlayed() {
 		this.pointsPlayed++;
-	}
+	}	
 	public void incOPointsPlayed() {
 		this.oPointsPlayed++;
 	}
@@ -126,5 +130,13 @@ public class PlayerStats {
 
 	public void setCatches(int catches) {
 		this.catches = catches;
+	}
+
+	public int getGamesPlayed() {
+		return gamesPlayed;
+	}
+
+	public void setGamesPlayed(int gamesPlayed) {
+		this.gamesPlayed = gamesPlayed;
 	}
 }
