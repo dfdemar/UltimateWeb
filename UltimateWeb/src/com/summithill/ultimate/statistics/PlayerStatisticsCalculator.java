@@ -68,14 +68,16 @@ public class PlayerStatisticsCalculator {
 	}
 
 	private void updatePointsPlayedStats(Point point, Set<String> playedInGame ) {
-		for (String name : point.getLine()) {
-			playedInGame.add(name);
-			PlayerStats playerStats = getStats(name);
-			playerStats.incPointsPlayed();
-			if ("O".equals(point.getSummary().getLineType())) {
-				playerStats.incOPointsPlayed();
-			} else {
-				playerStats.incDPointsPlayed();
+		if (point.getLine() != null) {
+			for (String name : point.getLine()) {
+				playedInGame.add(name);
+				PlayerStats playerStats = getStats(name);
+				playerStats.incPointsPlayed();
+				if ("O".equals(point.getSummary().getLineType())) {
+					playerStats.incOPointsPlayed();
+				} else {
+					playerStats.incDPointsPlayed();
+				}
 			}
 		}
 	}

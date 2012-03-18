@@ -154,9 +154,7 @@ function gamesFromLastTournament(games) {
 	jQuery.each(sortedGames, function() {
 		if (this.tournamentName == tournament) {
 			gameIds.push(this.gameId);
-		} else {
-			return gameIds;
-		}
+		} 
 	})
 	return gameIds;
 }

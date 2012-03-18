@@ -145,10 +145,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 	<div data-role="content">
 		<h2 id="statsPlayerNameHeading">Player</h2>
-		<div data-role="controlgroup" data-type="horizontal">
-			<div class="gamesIncludedLink" data-role="button">Events</div> 
-			<div class="gamesIncludedLink ui-btn-active" data-role="button">Statistics</div>
-		</div>
+		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
+		<select name="selectGamesForPlayerStats" id="selectGamesForPlayerStats">
+			<option value="LastGame">Last Game</option>
+			<option value="AllGames">All Games</option>
+			<option value="LastTournament">Last Tournament</option>
+		</select>
 		
 		<table id="playerStats">
 			<tbody>

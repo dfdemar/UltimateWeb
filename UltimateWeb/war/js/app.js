@@ -167,7 +167,7 @@ function populateGamePlayerStats(data) {
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
 			Ultimate.playerStats = playerStats;
 			updatePlayerRankingsTable(data.options.pageData.ranktype);
-			$('#selectPlayerRank').on('change', function() {
+			$('#selectPlayerRank').unbind('change').on('change', function() {
 				//$.mobile.changePage('#gamestatspage?gameId=' + Ultimate.gameId + '&ranktype=' + $(this).val());
 				updatePlayerRankingsTable($(this).val());
 			})
@@ -175,13 +175,21 @@ function populateGamePlayerStats(data) {
 	}) 
 }
 
-function populatePlayerStats(data, options) {
+function populatePlayerStats(data, gamesToIncludeType) {
 	Ultimate.playerName = data.options.pageData.name;
-	var retrieveFn = options == null || options.retrieveFn == null ? retrievePlayerStatsForLastGame : options.retrieveFn;
+	var includeType = gamesToIncludeType == null ? 'LastGame' : gamesToIncludeType;
+	var retrieveFunctions = {
+			'LastGame': retrievePlayerStatsForLastGame,
+			'AllGames': retrievePlayerStatsForAllGames,
+			'LastTournament': retrievePlayerStatsForLastTournament
+			}
+	var retrieveFn = retrieveFunctions[includeType];
 	retrieveFn(Ultimate.teamId, function(playerStatsArray) {
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
-		var playerStats = statsForPlayer(playerStatsArray, Ultimate.playerName);
-		updatePlayerStatsTable(playerStats);
+		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
+		$('#selectGamesForPlayerStats').unbind('change').on('change', function() {
+			populatePlayerStats(data, $(this).val());
+		})
 	}); 
 }
 
