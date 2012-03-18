@@ -1,3 +1,7 @@
+if (getInternetExplorerVersion() > 0) {
+	alert("Ewww...I see you are using Internet Explorer.  This application hasn't been tested on this browser.  I recommend Chrome, Firefox, or Safari.  You can also use this site on most mobile web browsers.")
+}
+
 $(document).live('pagechange', function(event, data) {
 	var toPageId = data.toPage.attr("id");
 	switch (toPageId) {
@@ -341,3 +345,4 @@ function statsForPlayer(playerStatsArray, playerName) {
 	})
 	return stats;
 }
+
