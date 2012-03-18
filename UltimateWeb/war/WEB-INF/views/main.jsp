@@ -147,8 +147,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<h2 id="statsPlayerNameHeading">Player</h2>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
 		<select name="selectGamesForPlayerStats" id="selectGamesForPlayerStats">
-			<option value="LastGame">Last Game</option>
 			<option value="AllGames">All Games</option>
+			<option value="LastGame">Last Game</option>
 			<option value="LastTournament">Last Tournament</option>
 		</select>
 		

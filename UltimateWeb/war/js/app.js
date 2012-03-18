@@ -177,7 +177,7 @@ function populateGamePlayerStats(data) {
 
 function populatePlayerStats(data, gamesToIncludeType) {
 	Ultimate.playerName = data.options.pageData.name;
-	var includeType = gamesToIncludeType == null ? 'LastGame' : gamesToIncludeType;
+	var includeType = gamesToIncludeType == null ? 'AllGames' : gamesToIncludeType;
 	var retrieveFunctions = {
 			'LastGame': retrievePlayerStatsForLastGame,
 			'AllGames': retrievePlayerStatsForAllGames,
@@ -256,21 +256,25 @@ function addRowToStatsTable(html, name, stat) {
 
 function updatePlayerStatsTable(playerStats) {
 	var html = [];
-	var statDescription = playerStats.playerName + " stat for " + $("#selectGamesForPlayerStats :selected").text();;
-	addRowToStatsTable(html,'<strong>' + statDescription + '</strong>','<strong>Value</strong>');
-	addRowToStatsTable(html,'&nbsp;','&nbsp;');
-	addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
-	addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
-	addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
-	addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
-	addRowToStatsTable(html,'Goals',playerStats.goals);
-	addRowToStatsTable(html,'Assists',playerStats.assists);
-	addRowToStatsTable(html,'Throws',playerStats.passes);
-	addRowToStatsTable(html,'Catches',playerStats.catches);
-	addRowToStatsTable(html,'Drops',playerStats.drops);
-	addRowToStatsTable(html,'Throwaways',playerStats.throwaways);
-	addRowToStatsTable(html,'Ds',playerStats.ds);
-	addRowToStatsTable(html,'Pulls',playerStats.pulls);
+	if (playerStats) {
+		var statDescription = playerStats.playerName + " stat for " + $("#selectGamesForPlayerStats :selected").text();;
+		addRowToStatsTable(html,'<strong>' + statDescription + '</strong>','<strong>Value</strong>');
+		addRowToStatsTable(html,'&nbsp;','&nbsp;');
+		addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
+		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
+		addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
+		addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
+		addRowToStatsTable(html,'Goals',playerStats.goals);
+		addRowToStatsTable(html,'Assists',playerStats.assists);
+		addRowToStatsTable(html,'Throws',playerStats.passes);
+		addRowToStatsTable(html,'Catches',playerStats.catches);
+		addRowToStatsTable(html,'Drops',playerStats.drops);
+		addRowToStatsTable(html,'Throwaways',playerStats.throwaways);
+		addRowToStatsTable(html,'Ds',playerStats.ds);
+		addRowToStatsTable(html,'Pulls',playerStats.pulls);
+	} else {
+		addRowToStatsTable(html,'No Data','');
+	}
 
 	$('#playerStats tbody').html(html.join(''));
 }
