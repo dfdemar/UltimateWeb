@@ -1,0 +1,118 @@
+package com.summithill.ultimate.model;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
+import com.summithill.ultimate.model.lightweights.Point;
+
+public class Game extends ModelObject {
+	public static final String ENTITY_TYPE_NAME = "Game";
+	public static final String TIMESTAMP_PROPERTY = "timestamp";
+	public static final String SCORE_OURS_PROPERTY = "scoreOurs";
+	public static final String SCORE_THEIRS_PROPERTY = "scoreTheirs";
+	public static final String GAME_ID_NAME_PROPERTY = "gameId";
+	public static final String OPPONENT_NAME_PROPERTY = "opponent";
+	public static final String TOURNAMENT_NAME_PROPERTY = "tournament";
+	public static final String POINTS_JSON_PROPERTY = "pointsJson";
+	private List<Point> points; // transient
+	
+	private Game(Entity entity) {
+		super();
+		this.entity = entity;
+	}
+	
+	public Game(Team team) {
+		this(team.asEntity().getKey());
+	}
+	
+	private Game(Key teamKey) {
+		this(new Entity(ENTITY_TYPE_NAME, teamKey));
+	}
+	
+	public static Game fromEntity(Entity entity) {
+		return new Game(entity);
+	}
+	
+	public String getTeamId() {
+		return Long.toString(entity.getParent().getId());
+	}
+	
+	public String getGameId() {
+		return (String)entity.getProperty(GAME_ID_NAME_PROPERTY);
+	}
+	
+	public void setGameId(String id) {
+		entity.setProperty(GAME_ID_NAME_PROPERTY, id);
+	}
+	
+	public String getOpponentName() {
+		return (String)entity.getProperty(OPPONENT_NAME_PROPERTY);
+	}
+	
+	public void setOpponentName(String name) {
+		entity.setProperty(OPPONENT_NAME_PROPERTY, name);
+	}
+	
+	public String getTournamentName() {
+		return (String)entity.getProperty(TOURNAMENT_NAME_PROPERTY);
+	}
+	
+	public void setTournamentName(String name) {
+		entity.setProperty(TOURNAMENT_NAME_PROPERTY, name);
+	}
+	
+	public String getTimestamp() {
+		return (String)entity.getProperty(TIMESTAMP_PROPERTY);
+	}
+	
+	public void setTimestamp(String name) {
+		entity.setProperty(TIMESTAMP_PROPERTY, name);
+	}
+	
+	public Long getOurScore() {
+		return (Long)entity.getProperty(SCORE_OURS_PROPERTY);
+	}
+	
+	public void setOurScore(Long score) {
+		entity.setProperty(SCORE_OURS_PROPERTY, score);
+	}
+	
+	public Long getTheirScore() {
+		return (Long)entity.getProperty(SCORE_THEIRS_PROPERTY);
+	}
+	
+	public void setTheirScore(Long score) {
+		entity.setProperty(SCORE_THEIRS_PROPERTY, score);
+	}
+
+	public String getPointsJson() {
+		Text text = (Text)entity.getProperty(POINTS_JSON_PROPERTY);
+		return text == null ? null : text.getValue();
+	}
+	
+	public void setPointsJson(String json) {
+		Text text = json == null ? null : new Text(json);
+		entity.setProperty(POINTS_JSON_PROPERTY, text);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Point> getPoints() {
+		if (points == null) {
+			String json = this.getPointsJson();
+			try {
+				points = (List<Point>) (json == null ? Collections.EMPTY_LIST : new ObjectMapper().readValue(json, new TypeReference<List<Point>>() {} ));
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to parse points json",e);
+			} 
+		}
+		return points;
+	}
+}
+
+;;

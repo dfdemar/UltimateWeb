@@ -1,0 +1,57 @@
+/*  custom css for ultimate site */
+.teamName {
+	margin-left: 10px
+}
+.content {
+	margin: 0 10px;
+}
+.insetlist h4 {
+	margin: .5em .5em;
+}
+.xxxxxxxx{
+	text-align:right;
+}
+.ourlead {
+	color: green;
+}
+.theirlead {
+	color: red;
+}
+.game-list {
+	font-size:  small;
+}
+.game-date{
+	width: 140px;
+}
+.opponent{
+ 	width: 150px;
+}
+.tournament{
+	width: 160px;
+}
+.score {
+	float: left;
+}
+#points li {
+    min-height: 25px;
+}
+.actionImage {
+	height: 40px;
+	width: 40px;
+}
+.opponentTitle {
+	font-size: x-large;
+}
+#playerRankings {
+	margin-left: 50px;
+}
+.rankingTablePlayerName {
+	width: 100px;
+}
+.rankingTableStat {
+	width: 80px;
+	text-align: right;
+}
+.clear{
+	clear: both;
+}
