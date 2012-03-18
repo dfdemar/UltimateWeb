@@ -185,6 +185,7 @@ function populatePlayerStats(data, gamesToIncludeType) {
 			}
 	var retrieveFn = retrieveFunctions[includeType];
 	retrieveFn(Ultimate.teamId, function(playerStatsArray) {
+		$('#selectGamesForPlayerStats').val(includeType);
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
 		$('#selectGamesForPlayerStats').unbind('change').on('change', function() {
@@ -255,7 +256,7 @@ function addRowToStatsTable(html, name, stat) {
 
 function updatePlayerStatsTable(playerStats) {
 	var html = [];
-	var statDescription = playerStats.playerName + " stat";
+	var statDescription = playerStats.playerName + " stat for " + $("#selectGamesForPlayerStats :selected").text();;
 	addRowToStatsTable(html,'<strong>' + statDescription + '</strong>','<strong>Value</strong>');
 	addRowToStatsTable(html,'&nbsp;','&nbsp;');
 	addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
