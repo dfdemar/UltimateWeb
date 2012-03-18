@@ -185,7 +185,7 @@ function populatePlayerStats(data, gamesToIncludeType) {
 			}
 	var retrieveFn = retrieveFunctions[includeType];
 	retrieveFn(Ultimate.teamId, function(playerStatsArray) {
-		$('#selectGamesForPlayerStats').val(includeType);
+		$('#selectGamesForPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
 		$('#selectGamesForPlayerStats').unbind('change').on('change', function() {
@@ -230,7 +230,7 @@ function updateGameEventsList(game) {
 
 function updatePlayerRankingsTable(rankingType) {
 	var rankingType = rankingType == null ? 'pointsPlayed' : rankingType;
-	$('#selectPlayerRank').val(rankingType);
+	$('#selectPlayerRank').val(rankingType).selectmenu('refresh');
 	var rankings = playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
