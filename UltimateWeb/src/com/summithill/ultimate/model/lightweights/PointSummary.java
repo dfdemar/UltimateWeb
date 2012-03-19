@@ -4,6 +4,7 @@ public class PointSummary {
 	private Score score;
 	private String lineType;
 	private boolean finished;
+	private long elapsedTime;
 	
 	public Score getScore() {
 		return score;
@@ -22,5 +23,11 @@ public class PointSummary {
 	}
 	public void setFinished(boolean finished) {
 		this.finished = finished;
+	}
+	public long getElapsedTime() {
+		return elapsedTime;
+	}
+	public void setElapsedTime(long elapsedTime) {
+		this.elapsedTime = elapsedTime;
 	}
 }
