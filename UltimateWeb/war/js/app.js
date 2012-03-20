@@ -285,7 +285,7 @@ function updatePlayerStatsTable(playerStats) {
 
 function populatePointEvents($pointEl) {
 	var point = Ultimate.points[$pointEl.data('index')];
-	var events = point.events.reverse();
+	var events = point.events.slice().reverse();
 	var html = [];
 	for ( var i = 0; i < events.length; i++) {
 		var event = events[i];
