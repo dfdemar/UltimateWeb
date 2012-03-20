@@ -68,7 +68,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div class="content">
 		<div class="insetlist">
 			<div><h4>Games</h4></div>
-			<ul id="games" data-role="listview" data-theme="d" data-inset="true" >
+			<ul id="games" data-role="listview" data-theme="d" class="game-list" data-inset="true" >
 				
 			</ul>
 		</div>

@@ -128,26 +128,25 @@ function updateGamesList(games) {
 		html[html.length] = '<li><a href="#eventspage?gameId=';
 		html[html.length] =  game.gameId;
 		html[html.length] = '">';
-		html[html.length] = '<div class="game-date">';
+		html[html.length] = '<span class="game-date">';
 		html[html.length] = game.date;
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = game.time;
-		html[html.length] = '</div>';		
-		html[html.length] = '<div class="opponent">vs. ';
+		html[html.length] = '</span>&nbsp;&nbsp;';		
+		html[html.length] = '<span class="opponent">vs. ';
 		html[html.length] = game.opponentName;
-		html[html.length] = '</div>';
-		html[html.length] = '<div class="tournament">';
-		html[html.length] = isBlank(game.tournamentName) ?  '&nbsp;' : 'at ' + game.tournamentName;
-		html[html.length] = '</div>';		
-		html[html.length] = '<div class="score '; 
+		html[html.length] = '</span>';
+		html[html.length] = '<span class="tournament">';
+		html[html.length] = isBlank(game.tournamentName) ?  '&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;at ' + game.tournamentName;
+		html[html.length] = '</span>&nbsp;&nbsp;';		
+		html[html.length] = '<span class="score '; 
 		html[html.length] = game.ours > game.theirs ? 'ourlead' : game.theirs > game.ours ? 'theirlead' : ''; 
 		html[html.length] = '">';
 		html[html.length] = game.ours;
 		html[html.length] = '-';
 		html[html.length] = game.theirs;
-		html[html.length] = '</div>';
-		html[html.length] = '<div class="clear">';
-		html[html.length] = '<a></li>';
+		html[html.length] = '</span>';
+		html[html.length] = '</a></li>';
 	}
 	$("#games").empty().append(html.join('')).listview("refresh");
 }

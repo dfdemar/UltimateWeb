@@ -18,19 +18,11 @@
 	color: red;
 }
 .game-list {
-	font-size:  small;
-}
-.game-date{
-	width: 140px;
+	font-weight: lighter;
 }
 .opponent{
- 	width: 150px;
-}
-.tournament{
-	width: 160px;
-}
-.score {
-	float: left;
+ 	left:200px;
+ 	font-weight: bolder;
 }
 #points li {
     min-height: 25px;
