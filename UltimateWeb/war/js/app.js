@@ -23,33 +23,41 @@ $(document).live('pagechange', function(event, data) {
 });
 
 function renderMainPage(data) {
-	populateTeamName();
-	populatePlayersList();
+	populateTeamName(function() {
+		populatePlayersList();
+	});
 }
 
 function renderGamesPage(data) {
-	populateTeamName();
-	populateGamesList();
+	populateTeamName(function() {
+		populateGamesList();
+	});
 }
 
 function renderGameEventsPage(data) {
-	renderGamePageBasics(data)
-	populateEventsList();
+	populateTeamName(function() {
+		renderGamePageBasics(data)
+		populateEventsList();
+	});
 }
 
 function renderGameStatsPage(data) {
-	renderGamePageBasics(data);
-	populateGamePlayerStats(data);
+	populateTeamName(function() {
+		renderGamePageBasics(data);
+		populateGamePlayerStats(data);
+	});
 }
 
 function renderPlayerStatsPage(data) {
-	renderGamePageBasics(data);
-	populatePlayerStats(data);
+	populateTeamName(function() {
+		renderGamePageBasics(data);
+		populateSelectGamesControl();
+		populatePlayerStats(data);
+	});
 }
 
 
 function renderGamePageBasics(data) {
-	populateTeamName();
 	Ultimate.gameId = data.options.pageData.gameId;
 	$('.gameStatsChoiceLink').attr('href','#gamestatspage?gameId=' + Ultimate.gameId);
 	$('.gameEventsChoiceLink').attr('href', '#eventspage?gameId=' + Ultimate.gameId);
@@ -73,15 +81,21 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 	});
 }
 
-function populateTeamName() {
+function populateTeamName(successFunction) {
 	if (!Ultimate.teamName) {
 		retrieveTeam(Ultimate.teamId, true, function(team) {
 			Ultimate.team = team;
 			Ultimate.teamName = team.name;
 			$('.teamName').html(Ultimate.teamName);
+			if (successFunction) {
+				successFunction();
+			}
 		}) 
 	} else {
 		$('.teamName').html(Ultimate.teamName);
+		if (successFunction) {
+			successFunction();
+		}
 	}
 }
 
@@ -171,25 +185,29 @@ function populateGamePlayerStats(data) {
 			Ultimate.playerStats = playerStats;
 			updatePlayerRankingsTable(data.options.pageData.ranktype);
 			$('#selectPlayerRank').unbind('change').on('change', function() {
-				//$.mobile.changePage('#gamestatspage?gameId=' + Ultimate.gameId + '&ranktype=' + $(this).val());
 				updatePlayerRankingsTable($(this).val());
 			})
 		}) 
 	}) 
 }
 
-function populatePlayerStats(data, gamesToIncludeType) {
+function populatePlayerStats(data, gamesToIncludeSelection) {
 	$('#statsPlayerNameHeading').html('');
 	$('#playerStats').hide();
 	Ultimate.playerName = data.options.pageData.name;
-	var includeType = gamesToIncludeType == null ? 'AllGames' : gamesToIncludeType;
+	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var retrieveFunctions = {
 			'LastGame': retrievePlayerStatsForLastGame,
 			'AllGames': retrievePlayerStatsForAllGames,
 			'LastTournament': retrievePlayerStatsForLastTournament
 			}
 	var retrieveFn = retrieveFunctions[includeType];
-	retrieveFn(Ultimate.teamId, function(playerStatsArray) {
+	var options = {teamId: Ultimate.teamId};
+	if (retrieveFn == null) { 
+		retrieveFn = retrievePlayerStatsForGame;
+		options.gameId = gamesToIncludeSelection;
+	}
+	retrieveFn(options, function(playerStatsArray) {
 		$('#selectGamesForPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
@@ -198,6 +216,39 @@ function populatePlayerStats(data, gamesToIncludeType) {
 			populatePlayerStats(data, $(this).val());
 		})
 	}); 
+}
+
+function populateSelectGamesControl() {
+	if (!Ultimate.games) {
+		retrieveGames(Ultimate.teamId, function(games) {
+			Ultimate.games = games;
+			updateSelectGamesControl(Ultimate.games);
+		}) 
+	} else {
+		updateSelectGamesControl(Ultimate.games);
+	}
+}
+
+function updateSelectGamesControl(games) {
+	var sortedGames = sortGames(games);
+	var html = [];
+	addGameSelection(html, 'AllGames', 'All Games');
+	addGameSelection(html, 'LastGame', 'Last Team Game');
+	addGameSelection(html, 'LastTournament', 'Last Tournament');
+	for ( var i = 0; i < sortedGames.length; i++) {
+		var game = sortedGames[i];
+		var description = game.date + (isBlank(game.tournamentName) ?  ' ' : (' at ' + game.tournamentName)) + ' vs. ' +  game.opponentName + ' ';
+		addGameSelection(html, game.gameId, description);
+	}
+	$("#selectGamesForPlayerStats").empty().html(html.join(''));
+}
+
+function addGameSelection(html, value, display) {
+	html[html.length] = '<option value="';
+	html[html.length] =  value;
+	html[html.length] = '">';
+	html[html.length] = display;
+	html[html.length] = '</option>';
 }
 
 function populateGameTitle() {
@@ -222,7 +273,7 @@ function updateGameEventsList(game) {
 		html[html.length] = '-';
 		html[html.length] = score.theirs;
 		html[html.length] = point.summary.finished ? '' : ' (unfinished point)';
-		html[html.length] = '&nbsp&nbsp';
+		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = point.summary.lineType == 'O' ? 'O-line' : 'D-line';
 		html[html.length] = '</h3><ul data-role="listview" data-inset="true" data-theme="c"></div>';
 	}

@@ -21,7 +21,8 @@ function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunc
 	restQuery({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
-function retrievePlayerStatsForLastGame(teamId, successFunction, errorFunction) {
+function retrievePlayerStatsForLastGame(options, successFunction, errorFunction) {
+	var teamId = options.teamId;
 	retrieveGames(teamId, function(games) {
 		if (games && games.length > 0) {
 			games = sortGames(games);
@@ -33,7 +34,8 @@ function retrievePlayerStatsForLastGame(teamId, successFunction, errorFunction) 
 	}, errorFunction);
 }
 	  
-function retrievePlayerStatsForAllGames(teamId, successFunction, errorFunction) {
+function retrievePlayerStatsForAllGames(options, successFunction, errorFunction) {
+	var teamId = options.teamId;
 	retrieveGames(teamId, function(games) {
 		if (games && games.length > 0) {
 			var gameIds = getGameIds(games);
@@ -44,7 +46,8 @@ function retrievePlayerStatsForAllGames(teamId, successFunction, errorFunction) 
 	}, errorFunction);
 }
 
-function retrievePlayerStatsForLastTournament(teamId, successFunction, errorFunction) {
+function retrievePlayerStatsForLastTournament(options, successFunction, errorFunction) {
+	var teamId = options.teamId;
 	retrieveGames(teamId, function(games) {
 		if (games && games.length > 0) {
 			var gameIds = gamesFromLastTournament(games);
@@ -53,6 +56,11 @@ function retrievePlayerStatsForLastTournament(teamId, successFunction, errorFunc
 			successFunction([]);
 		}
 	}, errorFunction);
+}
+
+function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
+	var teamId = options.teamId;
+	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
 function restQuery(request) {

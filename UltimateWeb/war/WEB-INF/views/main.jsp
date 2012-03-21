@@ -149,7 +149,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<select name="selectGamesForPlayerStats" id="selectGamesForPlayerStats">
 			<option value="AllGames">All Games</option>
 			<option value="LastGame">Last Game</option>
-			<option value="LastTournament">Last Tournament</option>
+			<option value="LastTournament">Last Tournament Team Played</option>
 		</select>
 		<table class="statsTable" id="playerStats">
 			<tbody>
