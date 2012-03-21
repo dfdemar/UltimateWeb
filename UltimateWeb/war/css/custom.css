@@ -1,6 +1,13 @@
 /*  custom css for ultimate site */
+.pageHeading {
+	margin: 15px;
+}
 .teamName {
-	margin-left: 10px
+	font-size: xx-large;
+	font-weight: bold;
+}
+.pageTitle {
+	
 }
 .content {
 	margin: 0 10px;

@@ -34,7 +34,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <body>
 <div id="mainpage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
-		<h1 class="teamName"></h1> 
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
 	</div>
 
 	<div data-role="navbar">
