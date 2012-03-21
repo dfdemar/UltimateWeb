@@ -18,11 +18,10 @@
 	color: red;
 }
 .game-list {
-	font-weight: lighter;
+	font-size: small;
 }
-.opponent{
- 	left:200px;
- 	font-weight: bolder;
+.opponent {
+	color: blue;
 }
 #points li {
     min-height: 25px;

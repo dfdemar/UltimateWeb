@@ -179,6 +179,8 @@ function populateGamePlayerStats(data) {
 }
 
 function populatePlayerStats(data, gamesToIncludeType) {
+	$('#statsPlayerNameHeading').html('');
+	$('#playerStats').hide();
 	Ultimate.playerName = data.options.pageData.name;
 	var includeType = gamesToIncludeType == null ? 'AllGames' : gamesToIncludeType;
 	var retrieveFunctions = {
@@ -191,6 +193,7 @@ function populatePlayerStats(data, gamesToIncludeType) {
 		$('#selectGamesForPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
+		$('#playerStats').show();
 		$('#selectGamesForPlayerStats').unbind('change').on('change', function() {
 			populatePlayerStats(data, $(this).val());
 		})

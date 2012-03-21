@@ -142,7 +142,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<a href="#mainpage" data-icon="back">Back</a>
 		<h1>Player</h1>
 	</div>
-
+	
 	<div data-role="content">
 		<h2 id="statsPlayerNameHeading">Player</h2>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
@@ -151,8 +151,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<option value="LastGame">Last Game</option>
 			<option value="LastTournament">Last Tournament</option>
 		</select>
-		
-		<table id="playerStats">
+		<table class="statsTable" id="playerStats">
 			<tbody>
 
 			</tbody>
