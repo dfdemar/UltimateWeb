@@ -34,6 +34,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <body>
 <div id="mainpage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
+			<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
 			<span class="teamName"></span><br> 
 			<span class="pageTitle">Ultimate Team Statistics</span> 
@@ -58,7 +59,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 <div id="gamespage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
-		<h1 class="teamName"></h1> 
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
 	</div>
 
 	<div data-role="navbar">
@@ -82,7 +86,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 <div id="eventspage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
-		<h1 class="teamName"></h1> 
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
 	</div>
 	<div data-role="header" data-position="inline">
 		<a href="#gamespage" data-icon="back">Back</a>
@@ -102,7 +109,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 <div id="gamestatspage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
-		<h1 class="teamName"></h1> 
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
 	</div>
 	<div data-role="header" data-position="inline">
 		<a href="#gamespage" data-icon="back">Back</a>
@@ -139,7 +149,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 <div id="playerstatspage" class="pagediv" data-role="page" data-theme="b">
 	<div class="top-section">
-		<h1 class="teamName"></h1> 
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
 	</div>
 	<div data-role="header" data-position="inline">
 		<a href="#mainpage" data-icon="back">Back</a>
