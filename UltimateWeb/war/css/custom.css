@@ -6,8 +6,9 @@
 	font-size: xx-large;
 	font-weight: bold;
 }
-.pageTitle {
-	
+#statsPlayerNameHeading {
+	font-size: x-large;
+	font-weight: bold;
 }
 .content {
 	margin: 0 10px;

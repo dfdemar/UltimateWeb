@@ -1,5 +1,5 @@
 if (getInternetExplorerVersion() > 0) {
-	alert("Ewww...I see you are using Internet Explorer.  This application hasn't been tested on this browser.  I recommend Chrome, Firefox, or Safari.  You can also use this site on most mobile web browsers.")
+	alert("Ewww. We see you are using Internet Explorer.  This application hasn't been tested on this browser.  We recommend Chrome, Firefox, or Safari.  You can also use this site on most mobile web browsers.")
 }
 
 $(document).live('pagechange', function(event, data) {
@@ -115,7 +115,7 @@ function updatePlayersList(players) {
 		for ( var i = 0; i < players.length; i++) {
 			var player = players[i];
 			html[html.length] = '<li><a href="#playerstatspage?name=';
-			html[html.length] = player.name;
+			html[html.length] = encodeURIComponent(player.name);
 			html[html.length] = '">'
 			html[html.length] = player.name;
 			html[html.length] = '</a></li>';
@@ -194,7 +194,7 @@ function populateGamePlayerStats(data) {
 function populatePlayerStats(data, gamesToIncludeSelection) {
 	$('#statsPlayerNameHeading').html('');
 	$('#playerStats').hide();
-	Ultimate.playerName = data.options.pageData.name;
+	Ultimate.playerName = decodeURIComponent(data.options.pageData.name);
 	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var retrieveFunctions = {
 			'LastGame': retrievePlayerStatsForLastGame,
@@ -314,8 +314,7 @@ function addRowToStatsTable(html, name, stat) {
 function updatePlayerStatsTable(playerStats) {
 	var html = [];
 	if (playerStats) {
-		var statDescription = playerStats.playerName + " stat for " + $("#selectGamesForPlayerStats :selected").text();;
-		addRowToStatsTable(html,'<strong>' + statDescription + '</strong>','<strong>Value</strong>');
+		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
 		addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
 		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);

@@ -101,7 +101,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<div data-role="content">
 		<div><span class="opponentTitle"></span>&nbsp;&nbsp;&nbsp;<span class="gameScore"></span>&nbsp;&nbsp;&nbsp;<span class="gameDetails"></span></div>
 		<div data-role="controlgroup" data-type="horizontal">
-			<a class="gameEventsChoiceLink ui-btn-active" href="#eventspage" data-role="button">Events</a> 
+			<a class="gameEventsChoiceLink ui-btn-active" href="#eventspage" data-role="button">Points</a> 
 			<a class="gameStatsChoiceLink" href="#gamestatspage" data-role="button">Statistics</a>
 		</div>
 		<div><h4>Points</h4></div>
@@ -163,11 +163,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	
 	<div data-role="header" data-position="inline">
 		<a href="#mainpage" data-icon="back">Back</a>
-		<h1>Player</h1>
+		<h1>Player Statistics</h1>
 	</div>
 	
 	<div data-role="content">
-		<h2 id="statsPlayerNameHeading">Player</h2>
+		<div>
+			Player:&nbsp;&nbsp;<span class="playerName" id="statsPlayerNameHeading">Player</span>
+		</div>
+		<div>&nbsp;</div>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
 		<select name="selectGamesForPlayerStats" id="selectGamesForPlayerStats">
 			<option value="AllGames">All Games</option>
