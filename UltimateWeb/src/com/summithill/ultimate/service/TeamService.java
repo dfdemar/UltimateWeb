@@ -20,7 +20,7 @@ import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
 
 @Component
-public class MobileService {
+public class TeamService {
 	private static final String USER_ID_PROPERTY = ModelObject.USER_ID_PROPERTY;
 	
 	public long saveTeam(String userIdentifier, Team team) {

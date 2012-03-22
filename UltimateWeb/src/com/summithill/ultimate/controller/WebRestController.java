@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
-import com.summithill.ultimate.service.MobileService;
+import com.summithill.ultimate.service.TeamService;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
 
@@ -30,7 +30,7 @@ public class WebRestController {
     private static final Logger log = Logger.getLogger(WebRestController.class.getName());
     
 	@Autowired
-	private MobileService service;
+	private TeamService service;
 	
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody

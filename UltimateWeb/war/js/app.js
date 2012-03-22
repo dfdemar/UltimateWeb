@@ -23,33 +23,33 @@ $(document).live('pagechange', function(event, data) {
 });
 
 function renderMainPage(data) {
-	populateTeamName(function() {
+	populateTeam(function() {
 		populatePlayersList();
 	});
 }
 
 function renderGamesPage(data) {
-	populateTeamName(function() {
+	populateTeam(function() {
 		populateGamesList();
 	});
 }
 
 function renderGameEventsPage(data) {
-	populateTeamName(function() {
+	populateTeam(function() {
 		renderGamePageBasics(data)
 		populateEventsList();
 	});
 }
 
 function renderGameStatsPage(data) {
-	populateTeamName(function() {
+	populateTeam(function() {
 		renderGamePageBasics(data);
 		populateGamePlayerStats(data);
 	});
 }
 
 function renderPlayerStatsPage(data) {
-	populateTeamName(function() {
+	populateTeam(function() {
 		renderGamePageBasics(data);
 		populateSelectGamesControl();
 		populatePlayerStats(data);
@@ -81,7 +81,7 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 	});
 }
 
-function populateTeamName(successFunction) {
+function populateTeam(successFunction) {
 	if (!Ultimate.teamName) {
 		retrieveTeam(Ultimate.teamId, true, function(team) {
 			Ultimate.team = team;

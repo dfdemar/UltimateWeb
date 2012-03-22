@@ -10,7 +10,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <html>
 <!-- saved from url=(0014)about:internet -->
 <head>
-	<title>Ultimate Team</title> 
+	<title>Ultimate Team - ${teamName}</title> 
 	
 	<!--  ios offline meta stuff -->
     <meta name="apple-mobile-web-app-capable" content="yes" />  

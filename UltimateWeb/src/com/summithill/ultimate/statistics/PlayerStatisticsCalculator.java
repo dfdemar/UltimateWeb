@@ -12,13 +12,13 @@ import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.Point;
-import com.summithill.ultimate.service.MobileService;
+import com.summithill.ultimate.service.TeamService;
 
 public class PlayerStatisticsCalculator {
-	private MobileService service;
+	private TeamService service;
 	private Map<String, PlayerStats> stats;
 	
-	public PlayerStatisticsCalculator(MobileService service) {
+	public PlayerStatisticsCalculator(TeamService service) {
 		super();
 		this.service = service;
 	}

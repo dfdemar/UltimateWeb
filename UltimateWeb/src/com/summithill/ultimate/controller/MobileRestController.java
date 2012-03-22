@@ -20,7 +20,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
-import com.summithill.ultimate.service.MobileService;
+import com.summithill.ultimate.service.TeamService;
 
 @Controller
 @RequestMapping("/mobile")
@@ -28,7 +28,7 @@ public class MobileRestController {
     private static final Logger log = Logger.getLogger(MobileRestController.class.getName());
     
 	@Autowired
-	private MobileService service;
+	private TeamService service;
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
