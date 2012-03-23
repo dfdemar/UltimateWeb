@@ -60,20 +60,13 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 }
 
 function populateTeamsList(successFunction) {
-	if (!Ultimate.teams) {
-		retrieveTeams(function(teams) {
-			Ultimate.teams = teams;
-			updateTeamsList(Ultimate.teams);
-			if (successFunction) {
-				successFunction();
-			}
-		}) 
-	} else {
+	retrieveTeams(function(teams) {
+		Ultimate.teams = teams;
 		updateTeamsList(Ultimate.teams);
 		if (successFunction) {
 			successFunction();
 		}
-	}
+	});
 }
 
 function updateTeamsList(teams) {
@@ -83,7 +76,7 @@ function updateTeamsList(teams) {
 			html[html.length] = '<li><a href="#gamespage?team=';
 			html[html.length] = team.cloudId;
 			html[html.length] = '"><img class="teamDeleteButton"src="/images/delete.png" data-teamname="';
-			html[html.length] = team.name;
+			html[html.length] = team.name + ' (team ID ' + team.cloudId + ')';
 			html[html.length] = '" data-teamid="';
 			html[html.length] = team.cloudId;
 			html[html.length] = '" />'
@@ -95,7 +88,7 @@ function updateTeamsList(teams) {
 		$("#teams").empty().append(html.join('')).listview("refresh");
 		$('.teamDeleteButton').unbind().on('click', function() {
 			$deleteButton = $(this);
-			Ultimate.itemToDeleteDescription = 'team ' + $deleteButton.data('teamname');
+			Ultimate.itemToDeleteDescription = $deleteButton.data('teamname');
 			Ultimate.itemToDeleteId = $deleteButton.data('teamid');
 			Ultimate.deleteConfirmedFn = function() {
 				deleteTeam(Ultimate.itemToDeleteId, function() {

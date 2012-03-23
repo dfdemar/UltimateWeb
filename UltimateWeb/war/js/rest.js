@@ -196,3 +196,8 @@ function getInternetExplorerVersion()
 	return rv;
 }
 
+function log(message) {
+	if (window.console) {
+		console.log(message);
+	}
+}

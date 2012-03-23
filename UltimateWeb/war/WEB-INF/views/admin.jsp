@@ -35,7 +35,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 </head>
 <body>
 
-	<div id="mainpage" class="pagediv" data-role="page" data-theme="b">
+	<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-cache="never">
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
@@ -53,8 +53,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<div>
 					<h4>Teams</h4>
 				</div>
-				<ul id="teams" data-role="listview" data-theme="d" class="game-list"
-					data-inset="true">
+				<ul id="teams" data-role="listview" data-theme="d" class="game-list" data-inset="true">
 
 				</ul>
 			</div>
