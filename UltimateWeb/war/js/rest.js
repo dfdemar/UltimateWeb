@@ -16,6 +16,11 @@ function retrieveGame(teamId, gameId, successFunction, errorFunction) {
 	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
+function deleteGame(teamId, gameId, successFunction, errorFunction) {
+	var url = ultimateBaseRestQuery + '/team/' + teamId + '/game/' + gameId + '/delete'; 
+	restQuery({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + teamId + '/stats/player';   
 	restQuery({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});

@@ -10,7 +10,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <html>
 <!-- saved from url=(0014)about:internet -->
 <head>
-	<title>Ultimate Team Admin - ${teamName}</title> 
+	<title>Ultimate Team Admin</title> 
 	
 	<!--  ios offline meta stuff -->
     <meta name="apple-mobile-web-app-capable" content="yes" />  
@@ -35,56 +35,74 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 </head>
 <body>
 
-<div id="mainpage" class="pagediv" data-role="page" data-theme="b">
-	<div class="top-section">
-		<img class="players-image" src="/images/ultimate-silhouette.png">
-		<div class="pageHeading">
-			<span class="teamName">Teams Admin</span><br> 
-			<span class="pageTitle">Ultimate Team Statistics</span> 
+	<div id="mainpage" class="pagediv" data-role="page" data-theme="b">
+		<div class="top-section">
+			<img class="players-image" src="/images/ultimate-silhouette.png">
+			<div class="pageHeading">
+				<span class="teamName">Teams Admin</span><br> <span
+					class="pageTitle">Ultimate Team Statistics</span>
+			</div>
+		</div>
+
+		<div data-role="header" data-position="inline">
+			<h1>Teams Administration</h1>
+		</div>
+
+		<div class="content">
+			<div class="insetlist">
+				<div>
+					<h4>Teams</h4>
+				</div>
+				<ul id="teams" data-role="listview" data-theme="d" class="game-list"
+					data-inset="true">
+
+				</ul>
+			</div>
 		</div>
 	</div>
 
-	<div data-role="header" data-position="inline">
-		<h1>Teams Administration</h1>
-	</div>
-	
-	<div class="content">
-	<div class="insetlist">
-		<div><h4>Teams</h4></div>
-		<ul id="teams" data-role="listview" data-theme="d" class="game-list" data-inset="true" >
-			
-		</ul>
-	</div>
-	
-	</div>
+	<div id="gamespage" class="pagediv" data-role="page" data-theme="b">
+		<div class="top-section">
+			<img class="players-image" src="/images/ultimate-silhouette.png">
+			<div class="pageHeading">
+				<span class="teamName"></span><br> <span class="pageTitle">Ultimate
+					Team Statistics</span>
+			</div>
+		</div>
 
-</div>
+		<div data-role="header" data-position="inline">
+			<a href="#mainpage" data-icon="back">Teams</a>
+			<h1>Team Administration</h1>
+		</div>
 
-<div id="gamespage" class="pagediv" data-role="page" data-theme="b">
-	<div class="top-section">
-		<img class="players-image" src="/images/ultimate-silhouette.png">
-		<div class="pageHeading">
-			<span class="teamName"></span><br> 
-			<span class="pageTitle">Ultimate Team Statistics</span> 
+		<div class="content">
+			<div id="admin-games" class="insetlist">
+				<div>
+					<h4>Games</h4>
+				</div>
+				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
+
+				</ul>
+			</div>
 		</div>
 	</div>
 
-	<div data-role="header" data-position="inline">
-		<a href="#mainpage" data-icon="back">Teams</a>
-		<h1>Team Administration</h1>
-	</div>
-	
-	<div class="content">
-	<div class="insetlist">
-		<div><h4>Games</h4></div>
-		<ul id="games" data-role="listview" data-theme="d" class="game-list" data-inset="true" >
-			
-		</ul>
-	</div>
-	
+	<div id="confirmDeleteDialog" class="pagediv" data-role="dialog"
+		data-theme="b">
+
+		<div data-role="header">
+			<h1>Confirm Delete</h1>
+		</div>
+
+		<div data-role="content" data-tem="c">
+			<div>Do you really want to delete <strong><span id="deleteDescription"></span></strong>?</div> 
+			<a id="deleteConfirmedButton" href="#" data-role="button" data-inline="true" data-theme="a">Yes</a> 
+			<a href="#" data-role="button" data-inline="true" data-rel="back">No</a>
+		</div>
 	</div>
 
-</div>
+
+
 
 </body>
 </html>

@@ -343,7 +343,7 @@ function populatePointEvents($pointEl) {
 		html[html.length] = '<li data-theme="';
 		html[html.length] = event.type == 'Offense' ? 'd' : 'c';
 		html[html.length] = '">';
-		html[html.length] = '<img src="/images/' + description.image + '" class="actionImage">&nbsp;&nbsp;';
+		html[html.length] = '<img src="/images/' + description.image + '" class="listImage">&nbsp;&nbsp;';
 		html[html.length] = description.text;
 		html[html.length] = '</li>';
 	}

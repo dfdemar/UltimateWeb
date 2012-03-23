@@ -34,7 +34,7 @@
 #points li {
     min-height: 25px;
 }
-.actionImage {
+.listImage {
 	height: 40px;
 	width: 40px;
 }
@@ -54,6 +54,12 @@
 .players-image {
 	float: right;
 	margin-right: 20px;
+}
+#admin-games {
+	font-size: small;
+}
+#admin-games li {
+    min-height: 25px;
 }
 .clear{
 	clear: both;

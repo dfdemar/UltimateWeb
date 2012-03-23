@@ -6,11 +6,17 @@ if (ieVersion > 5 && ieVersion < 9) {
 $(document).live('pagechange', function(event, data) {
 	var toPageId = data.toPage.attr("id");
 	switch (toPageId) {
+		case 'mainpage':
+			renderMainPage(data);
+			break;
 		case 'gamespage':
 			renderGamesPage(data);
-			break;
+			break;	
+		case 'confirmDeleteDialog':
+			renderConfirmDeleteDialog(data);
+			break;				
 		default:
-			renderMainPage(data);
+			//
 	}
 });
 
@@ -32,6 +38,12 @@ function renderGamePageBasics(data) {
 	$('.gameEventsChoiceLink').attr('href', '#eventspage?gameId=' + Ultimate.gameId);
 }
 
+function renderConfirmDeleteDialog(data) {
+	$('#deleteDescription').html(Ultimate.itemToDeleteDescription);
+	$('#deleteConfirmedButton').unbind().on('click', function() {
+			Ultimate.deleteConfirmedFn();
+		});
+}
 
 $('.pagediv').live('pageinit', function(event, data) {
 	registerPageSwipeHandler('mainPage', 'swipeleft', '#teamsPage');
@@ -101,6 +113,18 @@ function populateGamesList() {
 	retrieveGames(Ultimate.teamId, function(games) {
 		Ultimate.games = games;
 		updateGamesList(Ultimate.games);
+		$('.gameDeleteButton').unbind().on('click', function() {
+			$deleteButton = $(this);
+			Ultimate.itemToDeleteDescription = 'game ' + decodeURIComponent($deleteButton.data('description'));
+			Ultimate.itemToDeleteId = $deleteButton.data('game');
+			Ultimate.deleteConfirmedFn = function() {
+				alert('about to really delete');
+				deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
+					$.mobile.changePage('#gamespage?team=' + Ultimate.teamId, {transition: 'pop'});
+				})
+			};
+			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
+		})
 	}) 
 }
 
@@ -109,10 +133,13 @@ function updateGamesList(games) {
 	var html = [];
 	for ( var i = 0; i < sortedGames.length; i++) {
 		var game = sortedGames[i];
-		html[html.length] = '<li><a href="#eventspage?gameId=';
-		html[html.length] =  game.gameId;
-		html[html.length] = '">';
-		html[html.length] = '<span class="game-date">';
+		var shortGameDesc = game.date + ' ' + game.time + ' vs. ' + game.opponentName;
+		html[html.length] = '<li>';
+		html[html.length] = '<img src="/images/delete.png" class="listImage gameDeleteButton" data-game="';
+        html[html.length] =  game.gameId;
+		html[html.length] = '" data-description="';
+        html[html.length] = encodeURIComponent(shortGameDesc);       
+		html[html.length] = '"><span class="game-date">';
 		html[html.length] = game.date;
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = game.time;
@@ -130,7 +157,7 @@ function updateGamesList(games) {
 		html[html.length] = '-';
 		html[html.length] = game.theirs;
 		html[html.length] = '</span>';
-		html[html.length] = '</a></li>';
+		html[html.length] = '</li>';
 	}
 	$("#games").empty().append(html.join('')).listview("refresh");
 }
