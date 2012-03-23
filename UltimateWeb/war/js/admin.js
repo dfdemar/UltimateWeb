@@ -177,5 +177,4 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 	} else {
 		throw errorDescription(jqXHR, textStatus, errorThrown);
 	}
-	alert(JSON.stringify(jqXHR));
 }
