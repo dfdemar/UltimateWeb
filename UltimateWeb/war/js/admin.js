@@ -66,7 +66,7 @@ function populateTeamsList(successFunction) {
 		if (successFunction) {
 			successFunction();
 		}
-	});
+	},handleRestError);
 }
 
 function updateTeamsList(teams) {
@@ -93,7 +93,7 @@ function updateTeamsList(teams) {
 			Ultimate.deleteConfirmedFn = function() {
 				deleteTeam(Ultimate.itemToDeleteId, function() {
 					$.mobile.changePage('#mainpage', {transition: 'pop'});
-				})
+				},handleRestError);
 			};
 			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
 			
@@ -130,7 +130,7 @@ function populateGamesList() {
 			Ultimate.deleteConfirmedFn = function() {
 				deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
 					$.mobile.changePage('#gamespage?team=' + Ultimate.teamId, {transition: 'pop'});
-				})
+				},handleRestError);
 			};
 			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
 		})
@@ -157,7 +157,7 @@ function updateGamesList(games) {
 		html[html.length] = game.opponentName;
 		html[html.length] = '</span>';
 		html[html.length] = '<span class="tournament">';
-		html[html.length] = isBlank(game.tournamentName) ?  '&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;at ' + game.tournamentName;
+		html[html.length] = isNullOrEmpty(game.tournamentName) ?  '&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;at ' + game.tournamentName;
 		html[html.length] = '</span>&nbsp;&nbsp;';		
 		html[html.length] = '<span class="score '; 
 		html[html.length] = game.ours > game.theirs ? 'ourlead' : game.theirs > game.ours ? 'theirlead' : ''; 
@@ -171,7 +171,11 @@ function updateGamesList(games) {
 	$("#games").empty().append(html.join('')).listview("refresh");
 }
 
-function isBlank(s) {
-	return s == null || s == '';
+function handleRestError(jqXHR, textStatus, errorThrown) {
+	if (jqXHR.status = 401) {
+		location.href = Ultimate.logonUrl;
+	} else {
+		throw errorDescription(jqXHR, textStatus, errorThrown);
+	}
+	alert(JSON.stringify(jqXHR));
 }
-

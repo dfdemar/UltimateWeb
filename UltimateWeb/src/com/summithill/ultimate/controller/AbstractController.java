@@ -13,7 +13,7 @@ public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
     
 	protected String getUserIdentifier(HttpServletRequest request) {
-		//if (true) {throw new UnauthorizedException()}; // force authorization error
+		//if (true) {throw new UnauthorizedException();} // force authorization error
 		if (request.getRequestURL().toString().contains("//local")) {
 			return "localtestuser";
 		}

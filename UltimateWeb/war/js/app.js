@@ -80,19 +80,23 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 }
 
 function populateTeam(successFunction) {
-	if (!Ultimate.teamName) {
-		retrieveTeam(Ultimate.teamId, true, function(team) {
-			Ultimate.team = team;
-			Ultimate.teamName = team.name;
+	if (isNullOrEmpty(Ultimate.teamId)) {
+		$('.teamName').html("Team Not Found");
+	} else {
+		if (!Ultimate.teamName) {
+			retrieveTeam(Ultimate.teamId, true, function(team) {
+				Ultimate.team = team;
+				Ultimate.teamName = team.name;
+				$('.teamName').html(Ultimate.teamName);
+				if (successFunction) {
+					successFunction();
+				}
+			}) 
+		} else {
 			$('.teamName').html(Ultimate.teamName);
 			if (successFunction) {
 				successFunction();
 			}
-		}) 
-	} else {
-		$('.teamName').html(Ultimate.teamName);
-		if (successFunction) {
-			successFunction();
 		}
 	}
 }

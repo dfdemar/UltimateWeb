@@ -135,6 +135,7 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/team/{teamId}/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteTeam(@PathVariable String teamId, HttpServletRequest request) {
+		//if (true) {throw new UnauthorizedException();} 
 		String userIdentifier = getUserIdentifier(request);
 		try {
 			Team team = service.getTeam(teamId);

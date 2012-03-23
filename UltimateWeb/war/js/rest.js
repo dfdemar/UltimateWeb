@@ -90,10 +90,12 @@ function sendRequest(request) {
 	  		}
 		}, 
 		error: function(jqXHR, textStatus, errorThrown){
-				logRequestFailure(jqXHR, textStatus, errorThrown);
+				var error = logRequestFailure(jqXHR, textStatus, errorThrown);
 				if (request.error) {
 					request.error(jqXHR, textStatus, errorThrown);
-				}
+				} else {
+					throw error;
+				} 
 		}
 	};
 	if (request.dataType) {
@@ -132,9 +134,14 @@ function addCommas(nStr)
 }
 
 function logRequestFailure(jqXHR, textStatus, errorThrow) {
-    var error = 'ERROR: status '  + jqXHR.status + ' ('  + textStatus  + ') '  + errorThrow +
-        (jqXHR.responseText ? ' \n'  + jqXHR.responseText : '');
+    var error = errorDescription(jqXHR, textStatus, errorThrow);
     logError(error);
+    return error;
+}
+
+function errorDescription(jqXHR, textStatus, errorThrow) {
+    return 'ERROR: status '  + jqXHR.status + ' ('  + textStatus  + ') '  + errorThrow +
+        (jqXHR.responseText ? ' \n'  + jqXHR.responseText : '');
 }
 
 function getParameterByName(name) {
@@ -149,7 +156,6 @@ function logError(error) {
 	if (window.console) {
 		console.log(error);
 	} 
-	throw error;
 }
 
 // descending date-ordered list
@@ -183,8 +189,7 @@ function gamesFromLastTournament(games) {
 }
 
 function getInternetExplorerVersion()
-// Returns the version of Internet Explorer or a -1
-// (indicating the use of another browser).
+// Returns the version of Internet Explorer or a -1 (indicating the use of another browser).
 {
 	var rv = -1; // Return value assumes failure.
 	if (navigator.appName == 'Microsoft Internet Explorer') {
@@ -201,3 +206,8 @@ function log(message) {
 		console.log(message);
 	}
 }
+
+function isNullOrEmpty(s) {
+	return s == null || jQuery.trim(s) == '';
+}
+

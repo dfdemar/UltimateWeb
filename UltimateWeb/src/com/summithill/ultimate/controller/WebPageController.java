@@ -22,8 +22,12 @@ public class WebPageController {
 	@RequestMapping(value = "/{id}/main", method = RequestMethod.GET)
 	public String getTeamMainPage(@PathVariable String id, ModelMap model) {
 		Team team = service.getTeam(id);
-		model.addAttribute("teamId", id);
-		model.addAttribute("teamName", team.getName());
+		if (team == null) {
+			model.addAttribute("teamName", "TEAM NOT FOUND");
+		} else {
+			model.addAttribute("teamId", id);
+			model.addAttribute("teamName", team.getName());
+		}
 		return "main"; // forward to jsp
 	}
 	
