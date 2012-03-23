@@ -4,6 +4,7 @@ if (ieVersion > 5 && ieVersion < 9) {
 }
 
 $(document).live('pagechange', function(event, data) {
+	$('.logout').attr('href', Ultimate.logoutUrl);
 	var toPageId = data.toPage.attr("id");
 	switch (toPageId) {
 		case 'mainpage':

@@ -39,9 +39,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Teams Admin</span><br> <span
-					class="pageTitle">Ultimate Team Statistics</span>
+				<span class="teamName">Teams Admin</span><br> <span	class="pageTitle">Ultimate Team Statistics</span>
 			</div>
+			<a href="#" class="logout" rel=external>logout</a>
 		</div>
 
 		<div data-role="header" data-position="inline">
@@ -64,9 +64,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName"></span><br> <span class="pageTitle">Ultimate
-					Team Statistics</span>
+				<span class="teamName"></span><br> <span class="pageTitle">Ultimate Team Statistics</span>
 			</div>
+			<a href="#" class="logout" rel=external>logout</a>			
 		</div>
 
 		<div data-role="header" data-position="inline">
