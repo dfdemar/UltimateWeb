@@ -82,13 +82,30 @@ function updateTeamsList(teams) {
 			var team = teams[i];
 			html[html.length] = '<li><a href="#gamespage?team=';
 			html[html.length] = team.cloudId;
-			html[html.length] = '">'
+			html[html.length] = '"><img class="teamDeleteButton"src="/images/delete.png" data-teamname="';
+			html[html.length] = team.name;
+			html[html.length] = '" data-teamid="';
+			html[html.length] = team.cloudId;
+			html[html.length] = '" />'
 			html[html.length] = team.name;
 			html[html.length] = ' (team ID = ';
 			html[html.length] = team.cloudId;
 			html[html.length] = ')</a></li>';
 		}
 		$("#teams").empty().append(html.join('')).listview("refresh");
+		$('.teamDeleteButton').unbind().on('click', function() {
+			$deleteButton = $(this);
+			Ultimate.itemToDeleteDescription = 'team ' + $deleteButton.data('teamname');
+			Ultimate.itemToDeleteId = $deleteButton.data('teamid');
+			Ultimate.deleteConfirmedFn = function() {
+				deleteTeam(Ultimate.itemToDeleteId, function() {
+					$.mobile.changePage('#mainpage', {transition: 'pop'});
+				})
+			};
+			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
+			
+			return false;
+		})
 }
 
 function populateTeam(successFunction) {
@@ -118,7 +135,6 @@ function populateGamesList() {
 			Ultimate.itemToDeleteDescription = 'game ' + decodeURIComponent($deleteButton.data('description'));
 			Ultimate.itemToDeleteId = $deleteButton.data('game');
 			Ultimate.deleteConfirmedFn = function() {
-				alert('about to really delete');
 				deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
 					$.mobile.changePage('#gamespage?team=' + Ultimate.teamId, {transition: 'pop'});
 				})

@@ -3,32 +3,37 @@ window.ultimateBaseRestQuery = "/rest/view";
 function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + id;
 	url = includePlayers ? url + "?players=true" : url;
-	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGames(teamId, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + teamId + '/games'; 
-	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGame(teamId, gameId, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + teamId + '/game/' + gameId; 
-	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function deleteGame(teamId, gameId, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + teamId + '/game/' + gameId + '/delete'; 
-	restQuery({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
+function deleteTeam(teamId, successFunction, errorFunction) {
+	var url = ultimateBaseRestQuery + '/team/' + teamId + '/delete'; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/team/' + teamId + '/stats/player';   
-	restQuery({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
 function retrieveTeams(successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/teams'; 
-	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForLastGame(options, successFunction, errorFunction) {
@@ -73,7 +78,7 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
-function restQuery(request) {
+function sendRequest(request) {
 	var options = {
     	cache: false, 
 	  	success: function(data, textStatus, jqXHR){

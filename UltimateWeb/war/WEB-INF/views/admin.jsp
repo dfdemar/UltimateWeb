@@ -49,7 +49,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 
 		<div class="content">
-			<div class="insetlist">
+			<div id="admin-teams" class="insetlist">
 				<div>
 					<h4>Teams</h4>
 				</div>

@@ -103,6 +103,10 @@ public class TeamService {
 		getDatastore().delete(game.asEntity().getKey());
 	}
 	
+	public void deleteTeam(Team team) {
+		getDatastore().delete(team.asEntity().getKey());
+	}
+	
 	public void deleteAllGames(String userIdentifier, Team team) {
 		List<Game> games = getGames(team);
 		List<Key> gameKeys = new ArrayList<Key>();

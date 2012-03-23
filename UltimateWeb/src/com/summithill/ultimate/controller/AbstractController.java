@@ -33,4 +33,9 @@ public class AbstractController {
 		}
 		throw new RuntimeException(message, t);
 	}
+	
+	protected void logErrorAndThrow(String userIdentifier, String message, Throwable t) {
+		String userQualifiedMessage = "User " + userIdentifier + " experienced error: " + message;
+		logErrorAndThrow(userQualifiedMessage, t);
+	}
 }

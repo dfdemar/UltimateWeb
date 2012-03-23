@@ -132,9 +132,26 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	@RequestMapping(value = "/team/{teamId}/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteTeam(@PathVariable String teamId, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				service.deleteTeam(team);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on getGame", e);
+		}
+	}
+	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
@@ -144,7 +161,7 @@ public class WebRestController extends AbstractController {
 				service.deleteGame(game);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getGame", e);
+			logErrorAndThrow(userIdentifier, "Error on getGame", e);
 		}
 	}
 	

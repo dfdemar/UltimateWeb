@@ -61,6 +61,13 @@
 #admin-games li {
     min-height: 25px;
 }
+#admin-teams {
+	font-size: small;
+}
+#admin-teams a {
+    min-height: 25px;
+}
+
 .clear{
 	clear: both;
 }
