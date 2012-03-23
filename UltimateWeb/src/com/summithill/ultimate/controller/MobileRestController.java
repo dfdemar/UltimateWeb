@@ -1,10 +1,7 @@
 package com.summithill.ultimate.controller;
 
-import static java.util.logging.Level.SEVERE;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
@@ -24,8 +19,7 @@ import com.summithill.ultimate.service.TeamService;
 
 @Controller
 @RequestMapping("/mobile")
-public class MobileRestController {
-    private static final Logger log = Logger.getLogger(MobileRestController.class.getName());
+public class MobileRestController extends AbstractController {
     
 	@Autowired
 	private TeamService service;
@@ -78,19 +72,6 @@ public class MobileRestController {
 		}
 	}
 	
-	private String getUserIdentifier(HttpServletRequest request) {
-		//if (true) {throw new UnauthorizedException()}; // force authorization error
-		if (request.getRequestURL().toString().contains("//local")) {
-			return "localtestuser";
-		}
-		UserService userService = UserServiceFactory.getUserService();
-		if (userService != null && userService.isUserLoggedIn()) {
-			return userService.getCurrentUser().getUserId();
-		} else {
-			throw new UnauthorizedException();
-		}
-	}
-	
 	private void savePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
 		List<Player> players = new ArrayList<Player>();
 		for (ParameterPlayer mobilePlayer : mobilePlayers) {
@@ -100,12 +81,5 @@ public class MobileRestController {
 		service.savePlayers(userIdentifier, team, players);
 	}
 	
-	private void logErrorAndThrow(String message, Throwable t) {
-		if (t == null) {
-			log.log(SEVERE, message);
-		} else {
-			log.log(SEVERE, message, t);
-		}
-		throw new RuntimeException(message, t);
-	}
+
 }

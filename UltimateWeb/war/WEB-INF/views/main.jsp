@@ -10,7 +10,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <html>
 <!-- saved from url=(0014)about:internet -->
 <head>
-	<title>Ultimate Team - ${teamName}</title> 
+	<title>Ultimate Team Admin</title> 
 	
 	<!--  ios offline meta stuff -->
     <meta name="apple-mobile-web-app-capable" content="yes" />  
@@ -27,7 +27,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/app.js"></script>
 	<script type="text/javascript">
 	Ultimate = {};
-	Ultimate.teamId = ${teamId};
+	Ultimate.teamId = "${teamId}";
 	</script>
 
 </head>

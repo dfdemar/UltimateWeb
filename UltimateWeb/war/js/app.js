@@ -1,4 +1,5 @@
-if (getInternetExplorerVersion() < 9) {
+var ieVersion = getInternetExplorerVersion();
+if (ieVersion > 5 && ieVersion < 9) {
 	alert("Ewww. We see you are using a version of Internet Explorer prior to version 9 (or running your new version in compatibility mode).  This application hasn't been tested on this browser.  We recommend Chrome, Firefox, Safari or Internet Explorer 9 or above.  You can also use this site on most mobile web browsers.")
 }
 
@@ -65,11 +66,8 @@ function renderGamePageBasics(data) {
 
 
 $('.pagediv').live('pageinit', function(event, data) {
-	registerPageSwipeHandler('teamPage', 'swipeleft', 'games');
-	registerPageSwipeHandler('gamesPage', 'swiperight', 'main');
-	
-	registerPageSwipeHandler('eventsPage', 'swiperight', 'games');
-	
+	registerPageSwipeHandler('mainPage', 'swipeleft', '#gamesPage');
+	registerPageSwipeHandler('gamesPage', 'swiperight', '#mainPage');
 });
 
 function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {

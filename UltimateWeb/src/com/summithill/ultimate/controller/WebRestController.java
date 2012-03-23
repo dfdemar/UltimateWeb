@@ -1,11 +1,8 @@
 package com.summithill.ultimate.controller;
 
-import static java.util.logging.Level.SEVERE;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,8 +23,7 @@ import com.summithill.ultimate.statistics.PlayerStats;
 
 @Controller
 @RequestMapping("/view")
-public class WebRestController {
-    private static final Logger log = Logger.getLogger(WebRestController.class.getName());
+public class WebRestController extends AbstractController {
     
 	@Autowired
 	private TeamService service;
@@ -53,6 +49,24 @@ public class WebRestController {
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeam", e);
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/teams", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterTeam> getTeams(HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			List<ParameterTeam> teamsResponseList = new ArrayList<ParameterTeam>();
+			List<Team> teams = service.getTeams(userIdentifier);
+			for (Team team : teams) {
+				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+				teamsResponseList.add(pTeam);
+			}
+			return teamsResponseList;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeams", e);
 			return null;
 		}
 	}
@@ -134,8 +148,5 @@ public class WebRestController {
 		}
 	}
 	
-	private void logErrorAndThrow(String message, Throwable t) {
-		log.log(SEVERE, message, t);
-		throw new RuntimeException(message, t);
-	}
+
 }

@@ -21,6 +21,11 @@ function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunc
 	restQuery({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
+function retrieveTeams(successFunction, errorFunction) {
+	var url = ultimateBaseRestQuery + '/teams'; 
+	restQuery({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
 function retrievePlayerStatsForLastGame(options, successFunction, errorFunction) {
 	var teamId = options.teamId;
 	retrieveGames(teamId, function(games) {

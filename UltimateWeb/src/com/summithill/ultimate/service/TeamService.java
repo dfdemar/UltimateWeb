@@ -32,7 +32,7 @@ public class TeamService {
 	}
 
 	public List<Team> getTeams(String userIdentifier) {
-		Query query = new Query(Team.ENTITY_TYPE_NAME, null).addSort("date", Query.SortDirection.ASCENDING);
+		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
 		addUserFilter(userIdentifier, query);
 	    Iterable<Entity> teamEntities = getDatastore().prepare(query).asIterable();
 	    List<Team> teamList = new ArrayList<Team>();
