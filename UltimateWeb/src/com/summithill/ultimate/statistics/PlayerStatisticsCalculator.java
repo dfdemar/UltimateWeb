@@ -42,10 +42,16 @@ public class PlayerStatisticsCalculator {
 			updatePointsPlayedStats(point, playedInGame);
 			List<Event> events = point.getEvents();
 			Collections.reverse(events);
+			boolean firstEvent = true;
+			Event lastEvent = null;
 			for (Event event : events) {
 				if (event.getAction().equals("Catch")) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incCatches();
+					getStats(event.getReceiver()).incTouches();
+					if (firstEvent || (lastEvent !=null && lastEvent.getAction().equals("D"))) {
+						getStats(event.getPasser()).incTouches();
+					}
 				} else if (event.getAction().equals("Drop")) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incDrops();
@@ -57,8 +63,15 @@ public class PlayerStatisticsCalculator {
 					getStats(event.getDefender()).incDs();
 				} else if (event.getAction().equals("Goal") && event.getType().equals("Offense")) {
 					getStats(event.getPasser()).incAssists();
+					getStats(event.getReceiver()).incTouches();
 					getStats(event.getReceiver()).incGoals();
-				} 
+				}
+				firstEvent = false;
+				lastEvent = event;
+			}
+			for (String name : playedInGame) {
+				PlayerStats playerStats = getStats(name);
+				playerStats.addSecondsPlayed(point.getSummary().getElapsedTime());
 			}
 		}
 		for (String name : playedInGame) {

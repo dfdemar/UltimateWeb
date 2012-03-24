@@ -321,6 +321,8 @@ function updatePlayerStatsTable(playerStats) {
 		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
 		addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
 		addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
+		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : Math.round(playerStats.secondsPlayed / 60));
+		addRowToStatsTable(html,'Touches',playerStats.touches);
 		addRowToStatsTable(html,'Goals',playerStats.goals);
 		addRowToStatsTable(html,'Assists',playerStats.assists);
 		addRowToStatsTable(html,'Throws',playerStats.passes);

@@ -14,6 +14,8 @@ public class PlayerStats {
 	private int throwaways;
 	private int ds;
 	private int pulls;
+	private int touches;
+	private int secondsPlayed;
 	
 	public PlayerStats(String playerName) {
 		super();
@@ -56,7 +58,12 @@ public class PlayerStats {
 	public void incPulls() {
 		this.pulls++;
 	}
-	
+	public void incTouches() {
+		this.touches++;
+	}
+	public void addSecondsPlayed(long seconds) {
+		this.secondsPlayed += seconds;
+	}
 	public int getPointsPlayed() {
 		return pointsPlayed;
 	}
@@ -138,5 +145,21 @@ public class PlayerStats {
 
 	public void setGamesPlayed(int gamesPlayed) {
 		this.gamesPlayed = gamesPlayed;
+	}
+
+	public int getTouches() {
+		return touches;
+	}
+
+	public void setTouches(int touches) {
+		this.touches = touches;
+	}
+
+	public int getSecondsPlayed() {
+		return secondsPlayed;
+	}
+
+	public void setSecondsPlayed(int secondsPlayed) {
+		this.secondsPlayed = secondsPlayed;
 	}
 }
