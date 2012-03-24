@@ -6,6 +6,14 @@
 	font-size: xx-large;
 	font-weight: bold;
 }
+.teamTitle {
+	font-size: large;
+	font-weight: bold;
+}
+.adminUser {
+	font-size: medium;
+	font-weight: bold;
+}
 #statsPlayerNameHeading {
 	font-size: x-large;
 	font-weight: bold;

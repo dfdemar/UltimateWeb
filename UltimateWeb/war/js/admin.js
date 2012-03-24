@@ -22,7 +22,7 @@ $(document).live('pagechange', function(event, data) {
 });
 
 function renderMainPage(data) {
-	$('.teamName').html("Admin of " + Ultimate.userName + " teams");
+	$('.adminUser').html(Ultimate.userName);
 	populateTeamsList();
 }
 
@@ -107,13 +107,13 @@ function populateTeam(successFunction) {
 		retrieveTeam(Ultimate.teamId, false, function(team) {
 			Ultimate.team = team;
 			Ultimate.teamName = team.name;
-			$('.teamName').html(Ultimate.teamName + " Admin");
+			$('.teamTitle').html(Ultimate.teamName + " games");
 			if (successFunction) {
 				successFunction();
 			}
 		}) 
 	} else {
-		$('.teamName').html(Ultimate.teamName + " Admin");
+		$('.teamTitle').html(Ultimate.teamName + " games");
 		if (successFunction) {
 			successFunction();
 		}

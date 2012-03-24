@@ -39,13 +39,15 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Teams Admin</span><br> <span	class="pageTitle">Ultimate Team Statistics</span>
+				<span class="teamName">Admin Tool</span><br>
+				<span class="adminUser"></span><br><br>
+				<span	class="pageTitle">Ultimate Team Statistics</span>
 			</div>
 			<a href="#" class="logout" rel=external>logout</a>
 		</div>
 
 		<div data-role="header" data-position="inline">
-			<h1>Teams Administration</h1>
+			<h1>Teams</h1>
 		</div>
 
 		<div class="content">
@@ -64,20 +66,22 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName"></span><br> <span class="pageTitle">Ultimate Team Statistics</span>
+				<span class="teamName">Admin Tool</span><br>
+				<span class="adminUser"></span><br><br>
+				<span class="pageTitle">Ultimate Team Statistics</span>
 			</div>
-			<a href="#" class="logout" rel=external>logout</a>			
+			<a href="#" class="logout" rel=external>logout</a>
 		</div>
 
 		<div data-role="header" data-position="inline">
 			<a href="#mainpage" data-icon="back">Teams</a>
-			<h1>Team Administration</h1>
+			<h1>Games</h1>
 		</div>
 
 		<div class="content">
 			<div id="admin-games" class="insetlist">
 				<div>
-					<h4>Games</h4>
+					<h4 class="teamTitle"></h4>
 				</div>
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
 
