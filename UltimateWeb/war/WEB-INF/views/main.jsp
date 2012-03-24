@@ -10,7 +10,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 <html>
 <!-- saved from url=(0014)about:internet -->
 <head>
-	<title>Ultimate Team</title> 
+	<title>Ultimate Team - ${teamName}</title> 
 	
 	<!--  ios offline meta stuff -->
     <meta name="apple-mobile-web-app-capable" content="yes" />  
@@ -28,11 +28,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script type="text/javascript">
 	Ultimate = {};
 	Ultimate.teamId = "${teamId}";
+	Ultimate.teamName = "${teamName}";
 	</script>
 
 </head>
 <body>
-<div id="mainpage" class="pagediv" data-role="page" data-theme="b">
+<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -57,7 +58,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 </div>
 
-<div id="gamespage" class="pagediv" data-role="page" data-theme="b">
+<div id="gamespage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -85,7 +86,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 </div>
 
-<div id="eventspage" class="pagediv" data-role="page" data-theme="b">
+<div id="eventspage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -110,7 +111,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 </div>
 
 
-<div id="gamestatspage" class="pagediv" data-role="page" data-theme="b">
+<div id="gamestatspage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
