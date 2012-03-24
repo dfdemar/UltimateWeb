@@ -1,4 +1,24 @@
 /*  custom css for ultimate site */
+
+/* center the page if we are not running on a smart phone */
+@media only screen and (min-width: 600px) {
+	body {
+		margin: 0px !important;
+	}
+	.ui-page {
+		 width: 600px !important;
+		 margin: 0 auto !important;
+		 position: relative !important;
+		 background-color: #E0E0E0  !important;
+	}
+	.ui-mobile-viewport {
+		background-color: #E0E0E0 !important;
+	}
+	.ui-body-b {
+		background: #E0E0E0 !important;
+	}
+}
+    
 .pageHeading {
 	margin: 15px;
 }
@@ -23,9 +43,6 @@
 }
 .insetlist h4 {
 	margin: .5em .5em;
-}
-.xxxxxxxx{
-	text-align:right;
 }
 .ourlead {
 	color: green;
