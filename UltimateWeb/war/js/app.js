@@ -3,6 +3,20 @@ if (ieVersion > 5 && ieVersion < 9) {
 	alert("Ewww. We see you are using a version of Internet Explorer prior to version 9 (or running your new version in compatibility mode).  This application hasn't been tested on this browser.  We recommend Chrome, Firefox, Safari or Internet Explorer 9 or above.  You can also use this site on most mobile web browsers.")
 }
 
+$('.pagediv').live('pageinit', function(event, data) {
+	registerPageSwipeHandler('mainpage', 'swipeleft', '#gamespage');
+	registerPageSwipeHandler('gamespage', 'swiperight', '#mainpage');
+});
+
+function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
+	$('#' + pageSource).off(swipeEvent).on(swipeEvent, function(event, data) { // off called because need to ensure only one swipe handler
+		$.mobile.changePage(pageTarget, {
+			transition : 'slide',
+			reverse : swipeEvent == 'swiperight'
+		});
+	});
+}
+
 $(document).live('pagechange', function(event, data) {
 	var toPageId = data.toPage.attr("id");
 	switch (toPageId) {
@@ -62,21 +76,6 @@ function renderGamePageBasics(data) {
 	Ultimate.gameId = data.options.pageData.gameId;
 	$('.gameStatsChoiceLink').attr('href','#gamestatspage?gameId=' + Ultimate.gameId);
 	$('.gameEventsChoiceLink').attr('href', '#eventspage?gameId=' + Ultimate.gameId);
-}
-
-
-$('.pagediv').live('pageinit', function(event, data) {
-	registerPageSwipeHandler('mainPage', 'swipeleft', '#gamesPage');
-	registerPageSwipeHandler('gamesPage', 'swiperight', '#mainPage');
-});
-
-function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
-	$('#' + pageSource).off(swipeEvent).on(swipeEvent, function(event, data) { // off called because need to ensure only one swipe handler
-		$.mobile.changePage(pageTarget, {
-			transition : 'slide',
-			reverse : swipeEvent == 'swiperight'
-		});
-	});
 }
 
 function populateTeam(successFunction) {

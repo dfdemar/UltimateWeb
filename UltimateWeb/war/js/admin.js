@@ -46,20 +46,6 @@ function renderConfirmDeleteDialog(data) {
 		});
 }
 
-$('.pagediv').live('pageinit', function(event, data) {
-	registerPageSwipeHandler('mainPage', 'swipeleft', '#teamsPage');
-	registerPageSwipeHandler('teamsPage', 'swiperight', '#mainPage');
-});
-
-function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
-	$('#' + pageSource).off(swipeEvent).on(swipeEvent, function(event, data) { // off called because need to ensure only one swipe handler
-		$.mobile.changePage(pageTarget, {
-			transition : 'slide',
-			reverse : swipeEvent == 'swiperight'
-		});
-	});
-}
-
 function populateTeamsList(successFunction) {
 	retrieveTeams(function(teams) {
 		Ultimate.teams = teams;
