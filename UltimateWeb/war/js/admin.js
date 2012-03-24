@@ -103,21 +103,13 @@ function updateTeamsList(teams) {
 }
 
 function populateTeam(successFunction) {
-	if (!Ultimate.teamName) {
-		retrieveTeam(Ultimate.teamId, false, function(team) {
-			Ultimate.team = team;
-			Ultimate.teamName = team.name;
-			$('.teamTitle').html(Ultimate.teamName + " games");
-			if (successFunction) {
-				successFunction();
-			}
-		}) 
-	} else {
-		$('.teamTitle').html(Ultimate.teamName + " games");
+	retrieveTeam(Ultimate.teamId, false, function(team) {
+		Ultimate.team = team;
+		Ultimate.teamName = team.name;
 		if (successFunction) {
 			successFunction();
 		}
-	}
+	});
 }
 
 function populateGamesList() {
@@ -169,6 +161,8 @@ function updateGamesList(games) {
 		html[html.length] = '</span>';
 		html[html.length] = '</li>';
 	}
+	var teamTitle = Ultimate.teamName + (sortedGames.length > 0 ? ' games' : ' (no games for this team)');
+	$('.teamTitle').html(teamTitle);
 	$("#games").empty().append(html.join('')).listview("refresh");
 }
 
