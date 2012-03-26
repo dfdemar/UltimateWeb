@@ -149,6 +149,8 @@ function updateGamesList(games) {
 	}
 	var teamTitle = Ultimate.teamName + (sortedGames.length > 0 ? ' games' : ' (no games for this team)');
 	$('.teamTitle').html(teamTitle);
+	var $websiteLink = $('#teamWebsite');
+	$websiteLink.attr('href', $websiteLink.attr('href').replace('{TEAMID}', Ultimate.teamId));
 	$("#games").empty().append(html.join('')).listview("refresh");
 }
 

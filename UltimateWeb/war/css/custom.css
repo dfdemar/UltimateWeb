@@ -22,6 +22,10 @@
 .pageHeading {
 	margin: 15px;
 }
+#adminTeamHeading {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 .teamName {
 	font-size: xx-large;
 	font-weight: bold;

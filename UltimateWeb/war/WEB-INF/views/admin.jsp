@@ -80,8 +80,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 		<div class="content">
 			<div id="admin-games" class="insetlist">
-				<div>
-					<h4 class="teamTitle"></h4>
+				<div id="adminTeamHeading">
+					<span class="teamTitle"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a rel="external" id="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
 				</div>
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
 
