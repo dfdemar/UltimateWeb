@@ -173,7 +173,7 @@ function isBlank(s) {
 function populateEventsList() {
 	retrieveGame(Ultimate.teamId, Ultimate.gameId, function(game) {
 		Ultimate.game = game;
-		updateGameEventsList(Ultimate.game);
+		updateGamePointsList(Ultimate.game);
 		populateGameTitle();
 	}) 
 }
@@ -261,21 +261,24 @@ function populateGameTitle() {
 	$('.gameDetails').html(game.date + ' ' + game.time + (isBlank(game.tournamentName) ?  '' : ' at ' + game.tournamentName));
 }
 
-function updateGameEventsList(game) {
+function updateGamePointsList(game) {
 	Ultimate.points = JSON.parse(game.pointsJson).reverse();
 	var html = [];
 	for ( var i = 0; i < Ultimate.points.length; i++) {
 		var point = Ultimate.points[i];
 		var score = point.summary.score;
+		var elapsedTime = point.summary.elapsedTime;
+		elapsedTime = elapsedTime == null ? '' : ' (' + secondsToMinutes(elapsedTime, 1) + ' minutes)';
 		html[html.length] = '<div data-role="collapsible" data-index="';
 		html[html.length] = i;
 		html[html.length] = '"><h3>';
 		html[html.length] = score.ours;
 		html[html.length] = '-';
 		html[html.length] = score.theirs;
-		html[html.length] = point.summary.finished ? '' : ' (unfinished point)';
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = point.summary.lineType == 'O' ? 'O-line' : 'D-line';
+		html[html.length] = '&nbsp;&nbsp;';
+		html[html.length] = point.summary.finished ? elapsedTime : ' (unfinished point)';
 		html[html.length] = '</h3><ul data-role="listview" data-inset="true" data-theme="c"></div>';
 	}
 	$('#points').empty().append(html.join('')).trigger('create');
@@ -331,7 +334,7 @@ function updatePlayerStatsTable(playerStats) {
 		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
 		addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
 		addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
-		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed));
+		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed, 1));
 		addRowToStatsTable(html,'Touches',playerStats.touches, perPointPointStat(playerStats.touches, playerStats.pointsPlayed));
 		addRowToStatsTable(html,'Goals',playerStats.goals, perPointPointStat(playerStats.goals, playerStats.pointsPlayed));
 		addRowToStatsTable(html,'Assists',playerStats.assists, perPointPointStat(playerStats.assists, playerStats.pointsPlayed));
@@ -413,8 +416,9 @@ function statsForPlayer(playerStatsArray, playerName) {
 	return stats;
 }
 
-function secondsToMinutes(seconds) {
-	return Math.round(seconds / 60);
+function secondsToMinutes(seconds, decimalPositions) {
+	return decimalPositions ? (seconds/60).toFixed(decimalPositions) : Math.round(seconds / 60);
+	return decimalPositions ? seconds/60 : Math.round(seconds / 60);
 }
 
 function playerRankingsFor(statName) {
