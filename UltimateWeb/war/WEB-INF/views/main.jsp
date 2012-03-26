@@ -133,8 +133,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<label for="selectPlayerRank" class="select">Statistic:</label>
 		<select name="selectPlayerRank" id="selectPlayerRank">
 			<option value="pointsPlayed">Points Played</option>
+			<option value="secondsPlayed">Time (minutes) Played</option>
 			<option value="opointsPlayed">O Points Played</option>
 			<option value="dpointsPlayed">D Points Played</option>
+			<option value="touches">Touches</option>
 			<option value="goals">Goals</option>
 			<option value="assists">Assists</option>
 			<option value="passes">Throws</option>

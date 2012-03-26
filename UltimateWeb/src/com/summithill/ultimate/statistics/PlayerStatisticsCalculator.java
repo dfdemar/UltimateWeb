@@ -41,15 +41,13 @@ public class PlayerStatisticsCalculator {
 		for (Point point : points) {
 			updatePointsPlayedStats(point, playedInGame);
 			List<Event> events = point.getEvents();
-			Collections.reverse(events);
-			boolean firstEvent = true;
 			Event lastEvent = null;
 			for (Event event : events) {
 				if (event.getAction().equals("Catch")) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incCatches();
 					getStats(event.getReceiver()).incTouches();
-					if (firstEvent || (lastEvent !=null && lastEvent.getAction().equals("D"))) {
+					if (lastEvent == null || (lastEvent.getAction().equals("D"))) {
 						getStats(event.getPasser()).incTouches();
 					}
 				} else if (event.getAction().equals("Drop")) {
@@ -63,15 +61,16 @@ public class PlayerStatisticsCalculator {
 					getStats(event.getDefender()).incDs();
 				} else if (event.getAction().equals("Goal") && event.getType().equals("Offense")) {
 					getStats(event.getPasser()).incAssists();
+					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incTouches();
 					getStats(event.getReceiver()).incGoals();
 				}
-				firstEvent = false;
 				lastEvent = event;
 			}
-			for (String name : playedInGame) {
+			for (String name : point.getLine()) {
 				PlayerStats playerStats = getStats(name);
 				playerStats.addSecondsPlayed(point.getSummary().getElapsedTime());
+				System.out.println(name + " " + point.getSummary().getElapsedTime());
 			}
 		}
 		for (String name : playedInGame) {

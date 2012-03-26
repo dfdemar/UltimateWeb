@@ -292,45 +292,55 @@ function updatePlayerRankingsTable(rankingType) {
 	var rankings = playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
-	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>');
+	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>', isPerPointStat(rankingType) ? 
+			'<strong>per point played</strong>' : '');
 	addRowToStatsTable(html,'&nbsp;','&nbsp;');
 	var total = 0;
 	for (var i = 0; i < rankings.length; i++) {
-		total += rankings[i].value;
-		addRowToStatsTable(html,rankings[i].playerName, rankings[i].value);
+		var value = rankings[i].value;
+		if (rankingType == 'secondsPlayed') {
+			value = secondsToMinutes(value);
+		}
+		var perPoint = rankings[i].perPoint;
+		addRowToStatsTable(html,rankings[i].playerName, value, perPoint);
+		total += value;
 	}
-	addRowToStatsTable(html,'&nbsp;','&nbsp;');
-	addRowToStatsTable(html,'<strong>Total</strong>', '<strong>' + total + '</strong>');
+	if (rankingType.indexOf("Played") < 0)	 {
+		addRowToStatsTable(html,'&nbsp;','&nbsp;');
+		addRowToStatsTable(html,'<strong>Total</strong>', '<strong>' + total + '</strong>', '&nbsp;');
+	}
 	$('#playerRankings tbody').html(html.join(''));
 }
 
-function addRowToStatsTable(html, name, stat) {
+function addRowToStatsTable(html, name, stat1, stat2) {
 	html[html.length] = '<tr><td class="statsTableDescriptionColumn">';
 	html[html.length] = name;
-	html[html.length] = '</td><td class="statsTableValueColumn">';
-	html[html.length] = stat;
+	html[html.length] = '</td><td class="statsTableValueColumn1">';
+	html[html.length] = stat1;
+	html[html.length] = '</td><td class="statsTableValueColumn2">';
+	html[html.length] = stat2;	
 	html[html.length] = '</td></tr>';
 }
 
 function updatePlayerStatsTable(playerStats) {
 	var html = [];
 	if (playerStats) {
-		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>');
+		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>','<strong>Per Point Played</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
 		addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
 		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
 		addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
 		addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
-		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : Math.round(playerStats.secondsPlayed / 60));
-		addRowToStatsTable(html,'Touches',playerStats.touches);
-		addRowToStatsTable(html,'Goals',playerStats.goals);
-		addRowToStatsTable(html,'Assists',playerStats.assists);
-		addRowToStatsTable(html,'Throws',playerStats.passes);
-		addRowToStatsTable(html,'Catches',playerStats.catches);
-		addRowToStatsTable(html,'Drops',playerStats.drops);
-		addRowToStatsTable(html,'Throwaways',playerStats.throwaways);
-		addRowToStatsTable(html,'Ds',playerStats.ds);
-		addRowToStatsTable(html,'Pulls',playerStats.pulls);
+		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed));
+		addRowToStatsTable(html,'Touches',playerStats.touches, perPointPointStat(playerStats.touches, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Goals',playerStats.goals, perPointPointStat(playerStats.goals, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Assists',playerStats.assists, perPointPointStat(playerStats.assists, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Throws',playerStats.passes, perPointPointStat(playerStats.passes, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Catches',playerStats.catches, perPointPointStat(playerStats.catches, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Drops',playerStats.drops, perPointPointStat(playerStats.drops, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Throwaways',playerStats.throwaways, perPointPointStat(playerStats.throwaways, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Ds',playerStats.ds, perPointPointStat(playerStats.ds, playerStats.pointsPlayed));
+		addRowToStatsTable(html,'Pulls',playerStats.pulls, perPointPointStat(playerStats.pulls, playerStats.pointsPlayed));
 	} else {
 		addRowToStatsTable(html,'No Data','');
 	}
@@ -403,3 +413,38 @@ function statsForPlayer(playerStatsArray, playerName) {
 	return stats;
 }
 
+function secondsToMinutes(seconds) {
+	return Math.round(seconds / 60);
+}
+
+function playerRankingsFor(statName) {
+	var stats = Ultimate.playerStats;  // array of PlayerStats
+	var rankings = [];
+	jQuery.each(stats, function() {
+		var value = this[statName];
+		if (value > 0) {
+			var ranking = {playerName: this.playerName, value: this[statName]};
+			if (isPerPointStat(statName)) {
+				ranking.perPoint = perPointPointStat(value, this.pointsPlayed);
+			}
+			rankings.push(ranking);
+		}
+	})
+	rankings.sort(function (a, b) {
+		return b.value - a.value;
+	})
+	return rankings;
+}
+
+function isPerPointStat(statName) {
+	return statName.indexOf('Played') < 0;
+}
+
+function perPointPointStat(value, denominator) {
+	if (denominator && value) {
+		var perPoint = value / denominator;
+		return perPoint.toFixed(2);
+	} else {
+		return '';
+	}
+}

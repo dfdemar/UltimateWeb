@@ -72,8 +72,12 @@
 .statsTableDescriptionColumn {
 	width: 130px;
 }
-.statsTableValueColumn {
+.statsTableValueColumn1 {
 	width: 60px;
+	text-align: right;
+}
+.statsTableValueColumn2 {
+	width: 100px;
 	text-align: right;
 }
 .players-image {
