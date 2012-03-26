@@ -1,5 +1,7 @@
 package com.summithill.ultimate.statistics;
 
+import static java.util.logging.Level.SEVERE;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,7 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.model.lightweights.Event;
@@ -15,6 +19,7 @@ import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.service.TeamService;
 
 public class PlayerStatisticsCalculator {
+	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private TeamService service;
 	private Map<String, PlayerStats> stats;
 	
@@ -67,10 +72,11 @@ public class PlayerStatisticsCalculator {
 				}
 				lastEvent = event;
 			}
-			for (String name : point.getLine()) {
-				PlayerStats playerStats = getStats(name);
-				playerStats.addSecondsPlayed(point.getSummary().getElapsedTime());
-				System.out.println(name + " " + point.getSummary().getElapsedTime());
+			if (point.getLine() != null) {
+				for (String name : point.getLine()) {
+					PlayerStats playerStats = getStats(name);
+					playerStats.addSecondsPlayed(point.getSummary().getElapsedTime());
+				}
 			}
 		}
 		for (String name : playedInGame) {

@@ -145,7 +145,7 @@ public class WebRestController extends AbstractController {
 				service.deleteTeam(team);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow(userIdentifier, "Error on getGame", e);
+			logErrorAndThrow(userIdentifier, "Error on deleteTeam", e);
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class WebRestController extends AbstractController {
 				service.deleteGame(game);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow(userIdentifier, "Error on getGame", e);
+			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);
 		}
 	}
 	
@@ -177,7 +177,7 @@ public class WebRestController extends AbstractController {
 				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIds);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getGame", e);
+			logErrorAndThrow("Error on getTeamPlayerStats", e);
 			return null;
 		}
 	}
