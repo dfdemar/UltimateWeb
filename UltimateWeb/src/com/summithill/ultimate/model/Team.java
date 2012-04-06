@@ -6,7 +6,7 @@ public class Team extends ModelObject {
 	public static final String ENTITY_TYPE_NAME = "Team";
 	public static final String NAME_PROPERTY = "name";
 	public static final String IS_MIXED_PROPERTY = "isMixed";
-
+	public static final String MOBILE_TEAMID_PROPERTY = "teamId";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -32,6 +32,14 @@ public class Team extends ModelObject {
 	
 	public void setName(String teamName) {
 		entity.setProperty(NAME_PROPERTY, teamName);
+	}
+	
+	public String getMobileId() {
+		return (String)entity.getProperty(MOBILE_TEAMID_PROPERTY);
+	}
+	
+	public void setMobileId(String teamName) {
+		entity.setProperty(MOBILE_TEAMID_PROPERTY, teamName);
 	}
 
 	public boolean isMixed() {

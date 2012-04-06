@@ -2,7 +2,6 @@ package com.summithill.ultimate.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Team;
-import com.summithill.ultimate.service.TeamService;
 
 @Controller
-public class WebPageController {
-	@Autowired
-	private  TeamService service;
+public class WebPageController extends AbstractController {
 	
 	@RequestMapping(value = "/{id}/main", method = RequestMethod.GET)
 	public String getTeamMainPage(@PathVariable String id, ModelMap model) {

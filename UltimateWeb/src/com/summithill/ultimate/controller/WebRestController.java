@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
-import com.summithill.ultimate.service.TeamService;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
 
@@ -25,32 +23,10 @@ import com.summithill.ultimate.statistics.PlayerStats;
 @RequestMapping("/view")
 public class WebRestController extends AbstractController {
     
-	@Autowired
-	private TeamService service;
-	
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request) {
-		try {
-			Team team = service.getTeam(id);
-			if (team == null) {
-				return null;
-			} else {
-				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
-				if ("true".equals(request.getParameter("players"))) {
-					List<Player> players = service.getPlayers(team);
-					List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
-					for (Player player : players) {
-						paramPlayers.add(ParameterPlayer.fromPlayer(player));
-					}
-					pTeam.setPlayers(paramPlayers);
-				}
-				return pTeam;
-			}
-		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeam", e);
-			return null;
-		}
+		return getParameterTeam(id, request);
 	}
 	
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)

@@ -2,16 +2,50 @@ package com.summithill.ultimate.controller;
 
 import static java.util.logging.Level.SEVERE;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.summithill.ultimate.model.Player;
+import com.summithill.ultimate.model.Team;
+import com.summithill.ultimate.service.TeamService;
 
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
+	
+	@Autowired
+	protected TeamService service;
     
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) {
+		try {
+			Team team = service.getTeam(id);
+			if (team == null) {
+				return null;
+			} else {
+				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+				if ("true".equals(request.getParameter("players"))) {
+					List<Player> players = service.getPlayers(team);
+					List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
+					for (Player player : players) {
+						paramPlayers.add(ParameterPlayer.fromPlayer(player));
+					}
+					pTeam.setPlayers(paramPlayers);
+				}
+				return pTeam;
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeam", e);
+			return null;
+		}
+	}
+	
 	protected String getUserIdentifier(HttpServletRequest request) {
 		//if (true) {throw new UnauthorizedException();} // force authorization error
 		if (request.getRequestURL().toString().contains("//local")) {

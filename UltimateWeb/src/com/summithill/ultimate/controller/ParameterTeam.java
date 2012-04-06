@@ -6,6 +6,7 @@ import com.summithill.ultimate.model.Team;
 
 public class ParameterTeam {
 	private String cloudId;
+	private String teamId;  // mobile id
 	private String name;
 	private boolean isMixed;
 	private List<ParameterPlayer> players;
@@ -13,12 +14,14 @@ public class ParameterTeam {
 	public static ParameterTeam fromTeam(Team team) {
 		ParameterTeam pTeam = new ParameterTeam();
 		pTeam.setCloudId(team.getPersistenceId());
+		pTeam.setTeamId(team.getMobileId());
 		pTeam.setName(team.getName());
 		pTeam.setMixed(team.isMixed());
 		return pTeam;
 	}
 	
 	public void copyToTeam(Team team) {
+		team.setMobileId(teamId);
 		team.setName(name);
 		team.setIsMale(isMixed);
 	}
@@ -53,5 +56,13 @@ public class ParameterTeam {
 
 	public void setCloudId(String cloudId) {
 		this.cloudId = cloudId;
+	}
+
+	public String getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
 	}
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
-import com.summithill.ultimate.service.TeamService;
 
 @Controller
 @RequestMapping("/mobile")
 public class MobileRestController extends AbstractController {
-    
-	@Autowired
-	private TeamService service;
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
@@ -33,6 +29,13 @@ public class MobileRestController extends AbstractController {
 		return testTeam;
 	}
 
+	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request) {
+		getUserIdentifier(request);
+		return getParameterTeam(id, request);
+	}
+	
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
 	@ResponseBody
 	public SaveTeamResponse saveTeam(@RequestBody ParameterTeam parameterTeam, HttpServletRequest request) {
