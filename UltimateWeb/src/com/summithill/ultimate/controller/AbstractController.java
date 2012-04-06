@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -42,6 +45,22 @@ public class AbstractController {
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeam", e);
+			return null;
+		}
+	}
+	
+	protected List<ParameterTeam> getParameterTeams(HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			List<ParameterTeam> teamsResponseList = new ArrayList<ParameterTeam>();
+			List<Team> teams = service.getTeams(userIdentifier);
+			for (Team team : teams) {
+				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+				teamsResponseList.add(pTeam);
+			}
+			return teamsResponseList;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeams", e);
 			return null;
 		}
 	}

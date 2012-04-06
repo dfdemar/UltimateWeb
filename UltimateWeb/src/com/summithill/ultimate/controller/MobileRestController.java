@@ -36,6 +36,12 @@ public class MobileRestController extends AbstractController {
 		return getParameterTeam(id, request);
 	}
 	
+	@RequestMapping(value = "/teams", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterTeam> getTeams(HttpServletRequest request) {
+		return getParameterTeams(request);
+	}
+	
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
 	@ResponseBody
 	public SaveTeamResponse saveTeam(@RequestBody ParameterTeam parameterTeam, HttpServletRequest request) {

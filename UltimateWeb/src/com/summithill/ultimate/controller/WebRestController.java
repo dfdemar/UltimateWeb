@@ -32,19 +32,7 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterTeam> getTeams(HttpServletRequest request) {
-		String userIdentifier = getUserIdentifier(request);
-		try {
-			List<ParameterTeam> teamsResponseList = new ArrayList<ParameterTeam>();
-			List<Team> teams = service.getTeams(userIdentifier);
-			for (Team team : teams) {
-				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
-				teamsResponseList.add(pTeam);
-			}
-			return teamsResponseList;
-		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeams", e);
-			return null;
-		}
+		return getParameterTeams(request);
 	}
 	
 	@RequestMapping(value = "/team/{id}/players", method = RequestMethod.GET)
