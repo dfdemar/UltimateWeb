@@ -1,7 +1,5 @@
 package com.summithill.ultimate.statistics;
 
-import static java.util.logging.Level.SEVERE;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;

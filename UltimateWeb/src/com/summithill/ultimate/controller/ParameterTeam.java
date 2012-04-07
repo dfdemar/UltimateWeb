@@ -2,8 +2,11 @@ package com.summithill.ultimate.controller;
 
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.summithill.ultimate.model.Team;
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ParameterTeam {
 	private String cloudId;
 	private String teamId;  // mobile id

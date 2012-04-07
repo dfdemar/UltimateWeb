@@ -1,7 +1,10 @@
 package com.summithill.ultimate.controller;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.summithill.ultimate.model.Player;
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ParameterPlayer {
 	private String name;
 	private String number;
