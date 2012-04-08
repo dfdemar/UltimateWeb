@@ -6,6 +6,7 @@ public class Team extends ModelObject {
 	public static final String ENTITY_TYPE_NAME = "Team";
 	public static final String NAME_PROPERTY = "name";
 	public static final String IS_MIXED_PROPERTY = "isMixed";
+	public static final String IS_DISPLAYING_NUMBER_PROPERTY = "isDispNumb";
 	public static final String MOBILE_TEAMID_PROPERTY = "teamId";
 	
 	public Team(String name) {
@@ -49,6 +50,15 @@ public class Team extends ModelObject {
 	
 	public void setIsMale(boolean isMixed) {
 		entity.setProperty(IS_MIXED_PROPERTY, Boolean.valueOf(isMixed));
+	}
+	
+	public boolean isDisplayingPlayerNumber() {
+		Boolean answer = (Boolean)entity.getProperty(IS_DISPLAYING_NUMBER_PROPERTY);
+		return answer == null ? false : answer.booleanValue();
+	}
+	
+	public void setIsDisplayingPlayerNumber(boolean isDisplayNumber) {
+		entity.setProperty(IS_DISPLAYING_NUMBER_PROPERTY, Boolean.valueOf(isDisplayNumber));
 	}
 	
 }

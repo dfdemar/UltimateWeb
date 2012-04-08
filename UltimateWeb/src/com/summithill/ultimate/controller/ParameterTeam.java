@@ -12,6 +12,7 @@ public class ParameterTeam {
 	private String teamId;  // mobile id
 	private String name;
 	private boolean isMixed;
+	private boolean isDisplayPlayerNumber;
 	private List<ParameterPlayer> players;
 	
 	public static ParameterTeam fromTeam(Team team) {
@@ -20,6 +21,7 @@ public class ParameterTeam {
 		pTeam.setTeamId(team.getMobileId());
 		pTeam.setName(team.getName());
 		pTeam.setMixed(team.isMixed());
+		pTeam.setDisplayPlayerNumber(team.isDisplayingPlayerNumber());
 		return pTeam;
 	}
 	
@@ -27,6 +29,7 @@ public class ParameterTeam {
 		team.setMobileId(teamId);
 		team.setName(name);
 		team.setIsMale(isMixed);
+		team.setIsDisplayingPlayerNumber(isDisplayPlayerNumber);
 	}
 
 	public String getName() {
@@ -67,5 +70,13 @@ public class ParameterTeam {
 
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
+	}
+
+	public boolean isDisplayPlayerNumber() {
+		return isDisplayPlayerNumber;
+	}
+
+	public void setDisplayPlayerNumber(boolean isDisplayPlayerNumber) {
+		this.isDisplayPlayerNumber = isDisplayPlayerNumber;
 	}
 }
