@@ -85,6 +85,7 @@ public class MobileRestController extends AbstractController {
 		List<Player> players = new ArrayList<Player>();
 		for (ParameterPlayer mobilePlayer : mobilePlayers) {
 			Player player = new Player(team, mobilePlayer.getName());
+			mobilePlayer.copyToPlayer(player);
 			players.add(player);
 		}
 		service.savePlayers(userIdentifier, team, players);
