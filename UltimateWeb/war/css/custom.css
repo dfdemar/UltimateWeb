@@ -1,12 +1,12 @@
 /*  custom css for ultimate site */
 
 /* center the page if we are not running on a smart phone */
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 	body {
 		margin: 0px !important;
 	}
 	.ui-page {
-		 width: 600px !important;
+		 width: 900px !important;
 		 margin: 0 auto !important;
 		 position: relative !important;
 		 background-color: #E0E0E0  !important;
@@ -109,4 +109,11 @@
 }
 .clear{
 	clear: both;
+}
+#wideTeamPlayerStats {
+	table-layout:fixed;
+}
+#wideTeamPlayerStats td {
+	width:5%;
+	text-align: right;
 }

@@ -33,7 +33,6 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/app.js"></script>
 	
 	<script id="teamPlayerStatsTableTemplate" type="text/x-handlebars-template">
-	<table>
 		<thead>
 			{{#with headings}}
 				<th>{{playerName}}</th>
@@ -72,7 +71,6 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			</tr>
 			{{/each}}
 		</tbody>
-	</table>
 	</script>
 
 </head>
@@ -198,8 +196,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</tbody>
 			</table>
 		</div>
-		<div id="wideTeamPlayerStats">
-		</div>
+		<table id="wideTeamPlayerStats">
+		</table>
 	</div>
 </div>
 

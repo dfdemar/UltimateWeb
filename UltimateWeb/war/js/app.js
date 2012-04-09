@@ -16,7 +16,7 @@ Ultimate.headingForProperty = {
 	passes : 'Throws',
 	catches : 'Catches',
 	drops : 'Drops',
-	throwaways : 'Throwaways',
+	throwaways : 'Throw aways',
 	ds : 'Ds',
 	pulls : 'Pulls'
 }
@@ -206,8 +206,7 @@ function populateGamePlayerStats(data) {
 			if (document.documentElement.clientWidth < 900) {
 				populateMobileGamePlayerStatsData(data);
 			} else {
-				//populateWideGamePlayerStatsData(data);  // UNCOMMENT AND REMOVE NEXT LINE WHEN WIDE VIEW DONE
-				populateMobileGamePlayerStatsData(data);
+				populateWideGamePlayerStatsData(data);  
 			}
 		}) 
 	}) 
