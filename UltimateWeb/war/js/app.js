@@ -3,6 +3,25 @@ if (ieVersion > 5 && ieVersion < 9) {
 	alert("Ewww. We see you are using a version of Internet Explorer prior to version 9 (or running your new version in compatibility mode).  This application hasn't been tested on this browser.  We recommend Chrome, Firefox, Safari or Internet Explorer 9 or above.  You can also use this site on most mobile web browsers.")
 }
 
+Ultimate.headingForProperty = {
+	playerName : 'Player',
+	gamesPlayed : 'Games played',
+	pointsPlayed : 'Points played',
+	opointsPlayed : 'O-line pts played',
+	dpointsPlayed : 'D-line pts played',
+	secondsPlayed : 'Minutes played',
+	touches : 'Touches',
+	goals : 'Goals',
+	assists: 'Assists',
+	passes : 'Throws',
+	catches : 'Catches',
+	drops : 'Drops',
+	throwaways : 'Throwaways',
+	ds : 'Ds',
+	pulls : 'Pulls'
+}
+
+
 $('.pagediv').live('pageinit', function(event, data) {
 	registerPageSwipeHandler('mainpage', 'swipeleft', '#gamespage');
 	registerPageSwipeHandler('gamespage', 'swiperight', '#mainpage');
@@ -184,12 +203,33 @@ function populateGamePlayerStats(data) {
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
 			Ultimate.playerStats = playerStats;
-			updatePlayerRankingsTable(data.options.pageData.ranktype);
-			$('#selectPlayerRank').unbind('change').on('change', function() {
-				updatePlayerRankingsTable($(this).val());
-			})
+			if (document.documentElement.clientWidth < 900) {
+				populateMobileGamePlayerStatsData(data);
+			} else {
+				//populateWideGamePlayerStatsData(data);  // UNCOMMENT AND REMOVE NEXT LINE WHEN WIDE VIEW DONE
+				populateMobileGamePlayerStatsData(data);
+			}
 		}) 
 	}) 
+}
+
+function populateMobileGamePlayerStatsData(data) {
+	$('#wideTeamPlayerStats').addClass('hidden');
+	updatePlayerRankingsTable(data.options.pageData.ranktype);
+	$('#selectPlayerRank').unbind('change').on('change', function() {
+		updatePlayerRankingsTable($(this).val());
+	});
+	$('#mobileTeamPlayerStats').removeClass('hidden');
+}
+
+function populateWideGamePlayerStatsData(data) {
+	$('#mobileTeamPlayerStats').addClass('hidden');
+	if (Ultimate.teamStatsTemplate == null) {
+		Ultimate.teamStatsTemplate = Handlebars.compile($("#teamPlayerStatsTableTemplate").html());
+	}
+	$statsTable = $('#wideTeamPlayerStats');
+	$statsTable.html(Ultimate.teamStatsTemplate(statsTable()));
+	$statsTable.removeClass('hidden');
 }
 
 function populatePlayerStats(data, gamesToIncludeSelection) {
@@ -327,23 +367,24 @@ function addRowToStatsTable(html, name, stat1, stat2) {
 
 function updatePlayerStatsTable(playerStats) {
 	var html = [];
+	var headings = Ultimate.headingForProperty;
 	if (playerStats) {
 		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>','<strong>Per Point Played</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
-		addRowToStatsTable(html,'Games played',playerStats.gamesPlayed);
-		addRowToStatsTable(html,'Points played',playerStats.pointsPlayed);
-		addRowToStatsTable(html,'O-line pts played',playerStats.opointsPlayed);
-		addRowToStatsTable(html,'D-line pts played',playerStats.dpointsPlayed);
-		addRowToStatsTable(html,'Minutes played',playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed, 1));
-		addRowToStatsTable(html,'Touches',playerStats.touches, perPointPointStat(playerStats.touches, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Goals',playerStats.goals, perPointPointStat(playerStats.goals, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Assists',playerStats.assists, perPointPointStat(playerStats.assists, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Throws',playerStats.passes, perPointPointStat(playerStats.passes, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Catches',playerStats.catches, perPointPointStat(playerStats.catches, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Drops',playerStats.drops, perPointPointStat(playerStats.drops, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Throwaways',playerStats.throwaways, perPointPointStat(playerStats.throwaways, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Ds',playerStats.ds, perPointPointStat(playerStats.ds, playerStats.pointsPlayed));
-		addRowToStatsTable(html,'Pulls',playerStats.pulls, perPointPointStat(playerStats.pulls, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.gamesPlayed,playerStats.gamesPlayed);
+		addRowToStatsTable(html,headings.pointsPlayed,playerStats.pointsPlayed);
+		addRowToStatsTable(html,headings.opointsPlayed,playerStats.opointsPlayed);
+		addRowToStatsTable(html,headings.dpointsPlayed,playerStats.dpointsPlayed);
+		addRowToStatsTable(html,headings.secondsPlayed,playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed, 1));
+		addRowToStatsTable(html,headings.touches,playerStats.touches, perPointPointStat(playerStats.touches, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.goals,playerStats.goals, perPointPointStat(playerStats.goals, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.assists,playerStats.assists, perPointPointStat(playerStats.assists, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.passes,playerStats.passes, perPointPointStat(playerStats.passes, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.catches,playerStats.catches, perPointPointStat(playerStats.catches, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.drops,playerStats.drops, perPointPointStat(playerStats.drops, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.throwaways,playerStats.throwaways, perPointPointStat(playerStats.throwaways, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.ds,playerStats.ds, perPointPointStat(playerStats.ds, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.pulls,playerStats.pulls, perPointPointStat(playerStats.pulls, playerStats.pointsPlayed));
 	} else {
 		addRowToStatsTable(html,'No Data','');
 	}
@@ -452,3 +493,11 @@ function perPointPointStat(value, denominator) {
 		return '';
 	}
 }
+
+function statsTable() {
+	return {
+		playerStats : Ultimate.playerStats, /* array of PlayerStats */
+		headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
+	};
+}
+

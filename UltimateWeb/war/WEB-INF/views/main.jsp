@@ -23,17 +23,61 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/jquery-1.7.1.min.js"></script>
 	<script src="../../js/jquery.mobile-1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
+	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>
+	<script type="text/javascript">
+		Ultimate = {};
+		Ultimate.teamId = "${teamId}";
+		Ultimate.teamName = "${teamName}";
+	</script>
 	<script src="../../js/rest.js"></script>
 	<script src="../../js/app.js"></script>
-	<script type="text/javascript">
-	Ultimate = {};
-	Ultimate.teamId = "${teamId}";
-	Ultimate.teamName = "${teamName}";
+	
+	<script id="teamPlayerStatsTableTemplate" type="text/x-handlebars-template">
+	<table>
+		<thead>
+			{{#with headings}}
+				<th>{{playerName}}</th>
+				<th>{{pointsPlayed}}</th>
+				<th>{{secondsPlayed}}</th>
+				<th>{{opointsPlayed}}</th>
+				<th>{{dpointsPlayed}}</th>
+				<th>{{touches}}</th>
+				<th>{{goals}}</th>
+				<th>{{assists}}</th>
+				<th>{{passes}}</th>
+				<th>{{catches}}</th>
+				<th>{{drops}}</th>
+				<th>{{throwaways}}</th>
+				<th>{{ds}}</th>
+				<th>{{pulls}}</th>
+			{{/with}}
+		</thead>
+		<tbody>
+			{{#each playerStats}}
+			<tr>
+				<td>{{playerName}}</td>
+				<td>{{pointsPlayed}}</td>
+				<td>{{secondsPlayed}}</td>
+				<td>{{opointsPlayed}}</td>
+				<td>{{dpointsPlayed}}</td>
+				<td>{{touches}}</td>
+				<td>{{goals}}</td>
+				<td>{{assists}}</td>
+				<td>{{passes}}</td>
+				<td>{{catches}}</td>
+				<td>{{drops}}</td>
+				<td>{{throwaways}}</td>
+				<td>{{ds}}</td>
+				<td>{{pulls}}</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
 	</script>
 
 </head>
 <body>
-<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
+	<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -130,28 +174,32 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
 			<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
 		</div>
-		<label for="selectPlayerRank" class="select">Statistic:</label>
-		<select name="selectPlayerRank" id="selectPlayerRank">
-			<option value="pointsPlayed">Points Played</option>
-			<option value="secondsPlayed">Time (minutes) Played</option>
-			<option value="opointsPlayed">O Points Played</option>
-			<option value="dpointsPlayed">D Points Played</option>
-			<option value="touches">Touches</option>
-			<option value="goals">Goals</option>
-			<option value="assists">Assists</option>
-			<option value="passes">Throws</option>
-			<option value="catches">Catches</option>
-			<option value="drops">Drops</option>
-			<option value="throwaways">Throwaways</option>
-			<option value="ds">Ds</option>
-			<option value="pulls">Pulls</option>
-		</select>
-		
-		<table id="playerRankings">
-			<tbody>
-
-			</tbody>
-		</table>
+		<div id="mobileTeamPlayerStats">
+			<label for="selectPlayerRank" class="select">Statistic:</label>
+			<select name="selectPlayerRank" id="selectPlayerRank">
+				<option value="pointsPlayed">Points Played</option>
+				<option value="secondsPlayed">Time (minutes) Played</option>
+				<option value="opointsPlayed">O Points Played</option>
+				<option value="dpointsPlayed">D Points Played</option>
+				<option value="touches">Touches</option>
+				<option value="goals">Goals</option>
+				<option value="assists">Assists</option>
+				<option value="passes">Throws</option>
+				<option value="catches">Catches</option>
+				<option value="drops">Drops</option>
+				<option value="throwaways">Throwaways</option>
+				<option value="ds">Ds</option>
+				<option value="pulls">Pulls</option>
+			</select>
+			
+			<table id="playerRankings">
+				<tbody>
+	
+				</tbody>
+			</table>
+		</div>
+		<div id="wideTeamPlayerStats">
+		</div>
 	</div>
 </div>
 

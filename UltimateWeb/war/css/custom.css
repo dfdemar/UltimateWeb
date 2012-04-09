@@ -104,7 +104,9 @@
 #admin-teams a {
     min-height: 25px;
 }
-
+.hidden {
+	display: none;
+}
 .clear{
 	clear: both;
 }
