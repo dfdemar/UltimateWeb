@@ -1,7 +1,7 @@
 /*  custom css for ultimate site */
 
 /* center the page if we are not running on a smart phone */
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 500px) {
 	body {
 		margin: 0px !important;
 	}
@@ -115,5 +115,13 @@
 }
 #wideTeamPlayerStats td {
 	width:5%;
-	text-align: right;
+	text-align: center;
+}
+#wideTeamPlayerStats th {
+		text-align: left;
+	vertical-align: bottom;
+	padding-bottom: 5px;
+}
+.tablePlayerName {
+	text-align: left !important;
 }

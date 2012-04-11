@@ -35,7 +35,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script id="teamPlayerStatsTableTemplate" type="text/x-handlebars-template">
 		<thead>
 			{{#with headings}}
-				<th>{{playerName}}</th>
+				<th class="tablePlayerName">{{playerName}}</th>
 				<th>{{pointsPlayed}}</th>
 				<th>{{secondsPlayed}}</th>
 				<th>{{opointsPlayed}}</th>
@@ -54,7 +54,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<tbody>
 			{{#each playerStats}}
 			<tr>
-				<td>{{playerName}}</td>
+				<td class="tablePlayerName">{{playerName}}</td>
 				<td>{{pointsPlayed}}</td>
 				<td>{{secondsPlayed}}</td>
 				<td>{{opointsPlayed}}</td>
