@@ -35,20 +35,20 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script id="teamPlayerStatsTableTemplate" type="text/x-handlebars-template">
 		<thead>
 			{{#with headings}}
-				<th class="tablePlayerName">{{playerName}}</th>
-				<th>{{pointsPlayed}}</th>
-				<th>{{secondsPlayed}}</th>
-				<th>{{opointsPlayed}}</th>
-				<th>{{dpointsPlayed}}</th>
-				<th>{{touches}}</th>
-				<th>{{goals}}</th>
-				<th>{{assists}}</th>
-				<th>{{passes}}</th>
-				<th>{{catches}}</th>
-				<th>{{drops}}</th>
-				<th>{{throwaways}}</th>
-				<th>{{ds}}</th>
-				<th>{{pulls}}</th>
+				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
+				<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
+				<th><a href="#" data-stattype="secondsPlayed">{{secondsPlayed}}</a></th>
+				<th><a href="#" data-stattype="opointsPlayed">{{opointsPlayed}}</a></th>
+				<th><a href="#" data-stattype="dpointsPlayed">{{dpointsPlayed}}</a></th>
+				<th><a href="#" data-stattype="touches">{{touches}}</a></th>
+				<th><a href="#" data-stattype="goals">{{goals}}</a></th>
+				<th><a href="#" data-stattype="assists">{{assists}}</a></th>
+				<th><a href="#" data-stattype="passes">{{passes}}</a></th>
+				<th><a href="#" data-stattype="catches">{{catches}}</a></th>
+				<th><a href="#" data-stattype="drops">{{drops}}</a></th>
+				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
+				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
+				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
 			{{/with}}
 		</thead>
 		<tbody>

@@ -202,26 +202,26 @@ function populateGamePlayerStats(data) {
 		Ultimate.game = game;
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
-			Ultimate.playerStats = playerStats;
-			if (document.documentElement.clientWidth < 900) {
-				populateMobileGamePlayerStatsData(data);
+			Ultimate.playerStats = sortPlayerStats(playerStats);
+			if (isNarrowDevice()) {
+				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
 			} else {
-				populateWideGamePlayerStatsData(data);  
+				populateWideGamePlayerStatsData();  
 			}
 		}) 
 	}) 
 }
 
-function populateMobileGamePlayerStatsData(data) {
+function populateMobileGamePlayerStatsData(stattype) {
 	$('#wideTeamPlayerStats').addClass('hidden');
-	updatePlayerRankingsTable(data.options.pageData.ranktype);
+	updatePlayerRankingsTable(stattype);
 	$('#selectPlayerRank').unbind('change').on('change', function() {
 		updatePlayerRankingsTable($(this).val());
 	});
 	$('#mobileTeamPlayerStats').removeClass('hidden');
 }
 
-function populateWideGamePlayerStatsData(data) {
+function populateWideGamePlayerStatsData() {
 	$('#mobileTeamPlayerStats').addClass('hidden');
 	if (Ultimate.teamStatsTemplate == null) {
 		Ultimate.teamStatsTemplate = Handlebars.compile($("#teamPlayerStatsTableTemplate").html());
@@ -229,6 +229,10 @@ function populateWideGamePlayerStatsData(data) {
 	$statsTable = $('#wideTeamPlayerStats');
 	$statsTable.html(Ultimate.teamStatsTemplate(statsTable()));
 	$statsTable.removeClass('hidden');
+	$statsTable.find('th a').off().on('click', function() {
+		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
+		populateWideGamePlayerStatsData();
+	})
 }
 
 function populatePlayerStats(data, gamesToIncludeSelection) {
@@ -500,3 +504,7 @@ function statsTable() {
 	};
 }
 
+function isNarrowDevice() {
+	return screen.width < 500; // equivalent to media query device-width 
+	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
+}

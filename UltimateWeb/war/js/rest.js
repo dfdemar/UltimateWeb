@@ -168,6 +168,21 @@ function sortGames(games) {
 	return sortedGames;
 }
 
+//descending 
+function sortPlayerStats(playerStats, stattype) {
+	var stat = stattype == null ? 'playerName' : stattype;
+	var sortedPlayerStats = playerStats.sort(stat == 'playerName' ? 
+		function(a,b) {
+			var first = a[stat] == null ? '' : a[stat].toLowerCase();
+			var second = b[stat] == null ? '' : b[stat].toLowerCase();
+			return (first<second?-1:(first>second?1:0)); 
+		}: 
+		function(a,b) {
+			return b[stat] - a[stat];
+		});
+	return sortedPlayerStats;
+}
+
 function getGameIds(games) {
 	var gameIds = [];
 	jQuery.each(games, function() {
