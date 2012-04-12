@@ -86,18 +86,28 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 	<div data-role="navbar">
 		<ul>
-			<li><a id="teamTab" href="#mainpage" data-prefetch class="ui-btn-active ui-state-persist">Players</a></li>
+			<li><a id="teamTab" href="#mainpage" data-prefetch class="ui-btn-active ui-state-persist">Team</a></li>
 			<li><a id="gamesTab" href="#gamespage" data-prefetch >Games</a></li>
 		</ul>
 	</div>
 	<div class="content">
-		<div class="insetlist">
-			<div><h4>Players</h4></div>
-			<ul id="players" data-role="listview" data-theme="d" data-inset="true" >
-				
-			</ul>
+		<div id="narrowTeamStats">
+			<div class="insetlist">
+				<div><h4>Players</h4></div>
+				<ul id="players" data-role="listview" data-theme="d" data-inset="true" ></ul>
+			</div>
+		</div>
+		<div id="wideTeamStats">
+			<label for="selectGamesForTeamStats" class="select">Games to include:</label>
+			<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats">
+				<option value="AllGames">All Games</option>
+				<option value="LastGame">Last Game</option>
+				<option value="LastTournament">Last Tournament Team Played</option>
+			</select>
+			<table id="teamPlayerStats" class="teamPlayerStatsTable"></table>
 		</div>
 	</div>
+	
 </div>
 
 <div id="gamespage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
@@ -196,7 +206,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</tbody>
 			</table>
 		</div>
-		<table id="wideTeamPlayerStats">
+		<table id="wideTeamPlayerStats" class="teamPlayerStatsTable">
 		</table>
 	</div>
 </div>
@@ -221,7 +231,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 		<div>&nbsp;</div>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
-		<select name="selectGamesForPlayerStats" id="selectGamesForPlayerStats">
+		<select name="selectGamesForPlayerStats" class="gameSelect" id="selectGamesForTeamPlayerStats">
 			<option value="AllGames">All Games</option>
 			<option value="LastGame">Last Game</option>
 			<option value="LastTournament">Last Tournament Team Played</option>

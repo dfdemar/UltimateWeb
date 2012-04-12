@@ -58,7 +58,9 @@ $(document).live('pagechange', function(event, data) {
 
 function renderMainPage(data) {
 	populateTeam(function() {
-		populatePlayersList();
+		showDeviceBasedTeamStats();
+		//isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamStats();
+		renderTeamByPlayerStats();
 	});
 }
 
@@ -119,18 +121,19 @@ function populateTeam(successFunction) {
 	}
 }
 
-function populatePlayersList() {
+function renderTeamByPlayerStats() {
 	if (!Ultimate.team) {
 		retrieveTeam(Ultimate.teamId, true, function(team) {
 			Ultimate.team = team;
-			updatePlayersList(team.players);
+			updateTeamByPlayerStats();
 		}) 
 	} else {
-		updatePlayersList(Ultimate.team.players);
+		updateTeamByPlayerStats();
 	}
 }
 
-function updatePlayersList(players) {
+function updateTeamByPlayerStats() {
+	var players = Ultimate.team.players;
 		var html = [];
 		for ( var i = 0; i < players.length; i++) {
 			var player = players[i];
@@ -141,6 +144,65 @@ function updatePlayersList(players) {
 			html[html.length] = '</a></li>';
 		}
 		$("#players").empty().append(html.join('')).listview("refresh");
+}
+
+function renderTeamStats() {
+	populateSelectGamesControl();
+	populateTeamStats();
+}
+
+function populateTeamStats(gamesToIncludeSelection) {
+	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
+	var retrieveFunctions = {
+			'LastGame': retrievePlayerStatsForLastGame,
+			'AllGames': retrievePlayerStatsForAllGames,
+			'LastTournament': retrievePlayerStatsForLastTournament
+			}
+	var retrieveFn = retrieveFunctions[includeType];
+	var options = {teamId: Ultimate.teamId};
+	if (retrieveFn == null) { 
+		retrieveFn = retrievePlayerStatsForGame;
+		options.gameId = gamesToIncludeSelection;
+	}
+	retrieveFn(options, function(playerStatsArray) {
+		Ultimate.playerStats = playerStatsArray;
+		$('#selectGamesForTeamStats').val(includeType).selectmenu('refresh');
+		populateTeamStatsForSelectedGames();
+		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
+			populateTeamStats($(this).val());
+		})
+	}); 
+}
+
+function populateTeamStatsForSelectedGames() {
+	$statsTable = $('#teamPlayerStats');
+	$statsTable.html(createTeamStatsTableHtml(statsTable()));
+	$statsTable.removeClass('hidden');
+	$statsTable.find('th a').off().on('click', function() {
+		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
+		populateWideGamePlayerStatsData();
+	})
+	
+}
+
+
+function updateTeamStats() {
+	var html = [];
+	for ( var i = 0; i < players.length; i++) {
+		var player = players[i];
+		html[html.length] = '<li><a href="#playerstatspage?name=';
+		html[html.length] = encodeURIComponent(player.name);
+		html[html.length] = '">'
+		html[html.length] = player.name;
+		html[html.length] = '</a></li>';
+	}
+	$("#players").empty().append(html.join('')).listview("refresh");
+}
+
+function showDeviceBasedTeamStats() {
+	var isNarrow = isNarrowDevice();
+	$('#narrowTeamPlayerStats').toggleClass('hidden', !isNarrow);
+	$('#wideTeamPlayerStats').toggleClass('hidden', isNarrow);
 }
 
 function populateGamesList() {
@@ -223,11 +285,8 @@ function populateMobileGamePlayerStatsData(stattype) {
 
 function populateWideGamePlayerStatsData() {
 	$('#mobileTeamPlayerStats').addClass('hidden');
-	if (Ultimate.teamStatsTemplate == null) {
-		Ultimate.teamStatsTemplate = Handlebars.compile($("#teamPlayerStatsTableTemplate").html());
-	}
 	$statsTable = $('#wideTeamPlayerStats');
-	$statsTable.html(Ultimate.teamStatsTemplate(statsTable()));
+	$statsTable.html(createTeamStatsTableHtml(statsTable()));
 	$statsTable.removeClass('hidden');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
@@ -252,11 +311,11 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 		options.gameId = gamesToIncludeSelection;
 	}
 	retrieveFn(options, function(playerStatsArray) {
-		$('#selectGamesForPlayerStats').val(includeType).selectmenu('refresh');
+		$('#selectGamesForTeamPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
 		$('#playerStats').show();
-		$('#selectGamesForPlayerStats').unbind('change').on('change', function() {
+		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
 			populatePlayerStats(data, $(this).val());
 		})
 	}); 
@@ -284,7 +343,7 @@ function updateSelectGamesControl(games) {
 		var description = game.date + (isBlank(game.tournamentName) ?  ' ' : (' at ' + game.tournamentName)) + ' vs. ' +  game.opponentName + ' ';
 		addGameSelection(html, game.gameId, description);
 	}
-	$("#selectGamesForPlayerStats").empty().html(html.join(''));
+	$(".gameSelect").empty().html(html.join(''));
 }
 
 function addGameSelection(html, value, display) {
@@ -503,8 +562,15 @@ function statsTable() {
 		headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
 	};
 }
+function createTeamStatsTableHtml(statsTable) {
+	if (Ultimate.teamStatsTemplate == null) {
+		Ultimate.teamStatsTemplate = Handlebars.compile($("#teamPlayerStatsTableTemplate").html());
+	}
+	return Ultimate.teamStatsTemplate(statsTable);
+}
 
 function isNarrowDevice() {
 	return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
+	//return true;
 }

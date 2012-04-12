@@ -110,14 +110,14 @@
 .clear{
 	clear: both;
 }
-#wideTeamPlayerStats {
+.teamPlayerStatsTable {
 	table-layout:fixed;
 }
-#wideTeamPlayerStats td {
+.teamPlayerStatsTable td {
 	width:5%;
 	text-align: center;
 }
-#wideTeamPlayerStats th {
+#.teamPlayerStatsTable th {
 		text-align: left;
 	vertical-align: bottom;
 	padding-bottom: 5px;
