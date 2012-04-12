@@ -199,10 +199,16 @@ function updateTeamStats() {
 	$("#players").empty().append(html.join('')).listview("refresh");
 }
 
+function showDeviceBasedPlayerStats() {
+	var isNarrow = isNarrowDevice();
+	$('#playerStatsNarrow').toggleClass('hidden', !isNarrow);
+	$('#playerStatsWide').toggleClass('hidden', isNarrow);
+}
+
 function showDeviceBasedTeamStats() {
 	var isNarrow = isNarrowDevice();
-	$('#narrowTeamPlayerStats').toggleClass('hidden', !isNarrow);
-	$('#wideTeamPlayerStats').toggleClass('hidden', isNarrow);
+	$('#teamStatsNarrow').toggleClass('hidden', !isNarrow);
+	$('#teamStatsWide').toggleClass('hidden', isNarrow);
 }
 
 function populateGamesList() {
@@ -265,6 +271,7 @@ function populateGamePlayerStats(data) {
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
 			Ultimate.playerStats = sortPlayerStats(playerStats);
+			showDeviceBasedPlayerStats();
 			if (isNarrowDevice()) {
 				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
 			} else {
@@ -275,19 +282,16 @@ function populateGamePlayerStats(data) {
 }
 
 function populateMobileGamePlayerStatsData(stattype) {
-	$('#wideTeamPlayerStats').addClass('hidden');
 	updatePlayerRankingsTable(stattype);
 	$('#selectPlayerRank').unbind('change').on('change', function() {
 		updatePlayerRankingsTable($(this).val());
 	});
-	$('#mobileTeamPlayerStats').removeClass('hidden');
 }
 
 function populateWideGamePlayerStatsData() {
-	$('#mobileTeamPlayerStats').addClass('hidden');
-	$statsTable = $('#wideTeamPlayerStats');
+	$statsTable = $('#playerStatsTable');
 	$statsTable.html(createTeamStatsTableHtml(statsTable()));
-	$statsTable.removeClass('hidden');
+	//$statsTable.removeClass('hidden');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
 		populateWideGamePlayerStatsData();
@@ -564,7 +568,7 @@ function statsTable() {
 }
 function createTeamStatsTableHtml(statsTable) {
 	if (Ultimate.teamStatsTemplate == null) {
-		Ultimate.teamStatsTemplate = Handlebars.compile($("#teamPlayerStatsTableTemplate").html());
+		Ultimate.teamStatsTemplate = Handlebars.compile($("#playerStatsTableTemplate").html());
 	}
 	return Ultimate.teamStatsTemplate(statsTable);
 }

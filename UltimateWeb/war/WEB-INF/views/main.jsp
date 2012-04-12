@@ -32,7 +32,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/rest.js"></script>
 	<script src="../../js/app.js"></script>
 	
-	<script id="teamPlayerStatsTableTemplate" type="text/x-handlebars-template">
+	<script id="playerStatsTableTemplate" type="text/x-handlebars-template">
 		<thead>
 			{{#with headings}}
 				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
@@ -74,6 +74,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</script>
 
 </head>
+		
 <body>
 	<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
@@ -91,20 +92,20 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</ul>
 	</div>
 	<div class="content">
-		<div id="narrowTeamStats">
+		<div id="teamStatsNarrow">
 			<div class="insetlist">
 				<div><h4>Players</h4></div>
 				<ul id="players" data-role="listview" data-theme="d" data-inset="true" ></ul>
 			</div>
 		</div>
-		<div id="wideTeamStats">
+		<div id="teamStatsWide">
 			<label for="selectGamesForTeamStats" class="select">Games to include:</label>
 			<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats">
 				<option value="AllGames">All Games</option>
 				<option value="LastGame">Last Game</option>
 				<option value="LastTournament">Last Tournament Team Played</option>
 			</select>
-			<table id="teamPlayerStats" class="teamPlayerStatsTable"></table>
+			<table id="teamPlayerStats" class="playerStats"></table>
 		</div>
 	</div>
 	
@@ -182,7 +183,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
 			<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
 		</div>
-		<div id="mobileTeamPlayerStats">
+		<div id="playerStatsNarrow">
 			<label for="selectPlayerRank" class="select">Statistic:</label>
 			<select name="selectPlayerRank" id="selectPlayerRank">
 				<option value="pointsPlayed">Points Played</option>
@@ -199,15 +200,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<option value="ds">Ds</option>
 				<option value="pulls">Pulls</option>
 			</select>
-			
 			<table id="playerRankings">
-				<tbody>
-	
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</div>
-		<table id="wideTeamPlayerStats" class="teamPlayerStatsTable">
-		</table>
+		<div id="playerStatsWide">
+			<table id="playerStatsTable" class="playerStats">
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -237,9 +237,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<option value="LastTournament">Last Tournament Team Played</option>
 		</select>
 		<table class="statsTable" id="playerStats">
-			<tbody>
-
-			</tbody>
+			<tbody></tbody>
 		</table>
 	</div>
 </div>
