@@ -59,8 +59,7 @@ $(document).live('pagechange', function(event, data) {
 function renderMainPage(data) {
 	populateTeam(function() {
 		showDeviceBasedTeamStats();
-		//isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamStats();
-		renderTeamByPlayerStats();
+		isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamStats();
 	});
 }
 
@@ -180,7 +179,7 @@ function populateTeamStatsForSelectedGames() {
 	$statsTable.removeClass('hidden');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
-		populateWideGamePlayerStatsData();
+		populateTeamStatsForSelectedGames();
 	})
 	
 }
