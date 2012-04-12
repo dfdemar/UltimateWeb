@@ -99,6 +99,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			</div>
 		</div>
 		<div id="teamStatsWide">
+			<br>
 			<label for="selectGamesForTeamStats" class="select">Games to include:</label>
 			<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats">
 				<option value="AllGames">All Games</option>

@@ -122,6 +122,12 @@
 	vertical-align: bottom;
 	padding-bottom: 5px;
 }
+.playerStats th a {
+	color:#000000; 
+}
+.selectedColumn {
+	color:#3F09DC !important; 
+}
 .tablePlayerName {
 	text-align: left !important;
 }

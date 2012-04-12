@@ -166,24 +166,13 @@ function populateTeamStats(gamesToIncludeSelection) {
 	retrieveFn(options, function(playerStatsArray) {
 		Ultimate.playerStats = playerStatsArray;
 		$('#selectGamesForTeamStats').val(includeType).selectmenu('refresh');
-		populateTeamStatsForSelectedGames();
+		Ultimate.statType = 'playerName';
+		populatePlayerStatsTable();
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
 			populateTeamStats($(this).val());
 		})
 	}); 
 }
-
-function populateTeamStatsForSelectedGames() {
-	$statsTable = $('#teamPlayerStats');
-	$statsTable.html(createTeamStatsTableHtml(statsTable()));
-	$statsTable.removeClass('hidden');
-	$statsTable.find('th a').off().on('click', function() {
-		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
-		populateTeamStatsForSelectedGames();
-	})
-	
-}
-
 
 function updateTeamStats() {
 	var html = [];
@@ -269,12 +258,13 @@ function populateGamePlayerStats(data) {
 		Ultimate.game = game;
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
-			Ultimate.playerStats = sortPlayerStats(playerStats);
+			Ultimate.statType = 'playerName';
+			Ultimate.playerStats = sortPlayerStats(playerStats, Ultimate.statType);
 			showDeviceBasedPlayerStats();
 			if (isNarrowDevice()) {
 				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
 			} else {
-				populateWideGamePlayerStatsData();  
+				populatePlayerStatsTable();  
 			}
 		}) 
 	}) 
@@ -287,13 +277,14 @@ function populateMobileGamePlayerStatsData(stattype) {
 	});
 }
 
-function populateWideGamePlayerStatsData() {
-	$statsTable = $('#playerStatsTable');
+function populatePlayerStatsTable() {
+	$statsTable = $('.playerStats');
 	$statsTable.html(createTeamStatsTableHtml(statsTable()));
-	//$statsTable.removeClass('hidden');
+	$("a[data-stattype='" + Ultimate.statType + "']").addClass('selectedColumn');
 	$statsTable.find('th a').off().on('click', function() {
-		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, $(this).data('stattype'));
-		populateWideGamePlayerStatsData();
+		Ultimate.statType = $(this).data('stattype');
+		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, Ultimate.statType);
+		populatePlayerStatsTable();
 	})
 }
 
