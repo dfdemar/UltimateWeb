@@ -122,7 +122,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 	<div data-role="navbar">
 		<ul>
-			<li><a id="teamTab" href="#mainpage" data-prefetch>Players</a></li>
+			<li><a id="teamTab" href="#mainpage" data-prefetch>Team</a></li>
 			<li><a id="gamesTab" href="#gamespage" data-prefetch class="ui-btn-active ui-state-persist">Games</a></li>
 		</ul>
 	</div>

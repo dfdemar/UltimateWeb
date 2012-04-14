@@ -39,10 +39,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
 				<span class="teamName">Admin Tool</span><br>
-				<span class="adminUser"></span><br><br>
+				<span class="adminUser"></span><a href="#" class="logout" rel=external>logout</a><br><br>
 				<span	class="pageTitle">Ultimate Team Statistics</span>
 			</div>
-			<a href="#" class="logout" rel=external>logout</a>
+			
 		</div>
 
 		<div data-role="header" data-position="inline">
