@@ -18,10 +18,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
     <link rel="apple-touch-icon" href="images/frenchflag123-icon.png"/>
     
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-	<link rel="stylesheet" href="../../css/jquery.mobile-1.0.css" />
+	<link rel="stylesheet" href="../../css/jquery.mobile-1.1.0.min.css" />
 	<link rel="stylesheet" href="../../css/custom.css" />
 	<script src="../../js/jquery-1.7.1.min.js"></script>
-	<script src="../../js/jquery.mobile-1.0.min.js"></script>
+	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
 	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>
 	<script type="text/javascript">

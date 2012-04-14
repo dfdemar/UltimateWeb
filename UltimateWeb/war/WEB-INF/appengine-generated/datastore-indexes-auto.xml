@@ -1,10 +1,4 @@
-<!-- Indices written at Thu, 12 Apr 2012 11:13:51 UTC -->
+<!-- Indices written at Sat, 14 Apr 2012 13:01:29 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Player" ancestor="true" source="auto">
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
