@@ -131,3 +131,6 @@
 .tablePlayerName {
 	text-align: left !important;
 }
+.gameSelect option {
+	font-size: medium;
+}
