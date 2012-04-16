@@ -117,12 +117,12 @@ public class Game extends ModelObject {
 	}
 	
 	public int getGamePoint() {
-		Integer gamePoint = (Integer)entity.getProperty(GAME_POINT_PROPERTY);
+		Long gamePoint = (Long)entity.getProperty(GAME_POINT_PROPERTY);
 		return gamePoint == null ? 0 : gamePoint.intValue();
 	}
 	
-	public void setGamePoint(int gamePoint) {
-		entity.setProperty(GAME_POINT_PROPERTY, Integer.valueOf(gamePoint));
+	public void setGamePoint(long gamePoint) {
+		entity.setProperty(GAME_POINT_PROPERTY, Long.valueOf(gamePoint));
 	}
 
 	public boolean isFirstPointOline() {

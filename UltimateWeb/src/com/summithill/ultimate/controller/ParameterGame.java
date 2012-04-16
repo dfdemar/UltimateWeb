@@ -6,14 +6,16 @@ import java.util.Date;
 
 import com.summithill.ultimate.model.Game;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ParameterGame {
 	private String teamId;
 	private String gameId;
 	private String opponentName;
 	private String tournamentName;
-	private int gamePoint;
+	private long gamePoint;
 	private boolean isFirstPointOline;
 	private String pointsJson;
 	private String timestamp;
@@ -34,6 +36,7 @@ public class ParameterGame {
 		pGame.setOpponentName(game.getOpponentName());
 		pGame.setTournamentName(game.getTournamentName());
 		if (game.getTimestamp() != null) {
+			pGame.setTimestamp(game.getTimestamp());
 			DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			DateFormat dateFormatter = new SimpleDateFormat("EEE, M/dd");
 			DateFormat timeFormatter = new SimpleDateFormat("h:mm");
@@ -49,7 +52,7 @@ public class ParameterGame {
 		pGame.setOurs(game.getOurScore());
 		pGame.setTheirs(game.getTheirScore());
 		pGame.setPointsJson(game.getPointsJson());
-		pGame.setIsFirstPointOline(game.isFirstPointOline());
+		pGame.setFirstPointOline(game.isFirstPointOline());
 		pGame.setGamePoint(game.getGamePoint());
 		return pGame;
 	}
@@ -144,11 +147,11 @@ public class ParameterGame {
 		this.msSinceEpoch = msSinceEpoch;
 	}
 
-	public int getGamePoint() {
+	public long getGamePoint() {
 		return gamePoint;
 	}
 
-	public void setGamePoint(int gamePoint) {
+	public void setGamePoint(long gamePoint) {
 		this.gamePoint = gamePoint;
 	}
 
@@ -156,7 +159,7 @@ public class ParameterGame {
 		return isFirstPointOline;
 	}
 
-	public void setIsFirstPointOline(boolean isFirstPointOline) {
+	public void setFirstPointOline(boolean isFirstPointOline) {
 		this.isFirstPointOline = isFirstPointOline;
 	}
 
