@@ -59,41 +59,13 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request) {
-		try {
-			Team team = service.getTeam(teamId);
-			if (team == null) {
-				return null;
-			} else {
-				// note: assuming that Text objects are not pulled from the DB until referenced.  Therefore we aren't creating a memory burden by reading in a 100 games
-				List<Game> games = service.getGames(team);
-				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
-				for (Game game : games) {
-					game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
-					pGames.add(ParameterGame.fromGame(game));
-				}
-				return pGames;
-			}
-		} catch (Exception e) {
-			logErrorAndThrow("Error on getGames", e);
-			return null;
-		}
+		return getParameterGames(teamId);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
-		try {
-			Team team = service.getTeam(teamId);
-			if (team == null) {
-				return null;
-			} else {
-				Game game = service.getGame(team, gameId);
-				return ParameterGame.fromGame(game);
-			}
-		} catch (Exception e) {
-			logErrorAndThrow("Error on getGame", e);
-			return null;
-		}
+		return getParameterGame(teamId, gameId);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/delete", method = RequestMethod.POST)

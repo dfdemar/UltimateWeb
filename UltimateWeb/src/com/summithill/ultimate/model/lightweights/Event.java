@@ -1,5 +1,8 @@
 package com.summithill.ultimate.model.lightweights;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Event {
 	private String type;
 	private String action;

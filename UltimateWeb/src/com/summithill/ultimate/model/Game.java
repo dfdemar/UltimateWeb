@@ -19,6 +19,8 @@ public class Game extends ModelObject {
 	public static final String GAME_ID_NAME_PROPERTY = "gameId";
 	public static final String OPPONENT_NAME_PROPERTY = "opponent";
 	public static final String TOURNAMENT_NAME_PROPERTY = "tournament";
+	public static final String GAME_POINT_PROPERTY = "gamePoint";
+	public static final String IS_FIRST_POINT_OLINE_PROPERTY = "isFirstPointOline";
 	public static final String POINTS_JSON_PROPERTY = "pointsJson";
 	private List<Point> points; // transient
 	
@@ -112,6 +114,24 @@ public class Game extends ModelObject {
 			} 
 		}
 		return points;
+	}
+	
+	public int getGamePoint() {
+		Integer gamePoint = (Integer)entity.getProperty(GAME_POINT_PROPERTY);
+		return gamePoint == null ? 0 : gamePoint.intValue();
+	}
+	
+	public void setGamePoint(int gamePoint) {
+		entity.setProperty(GAME_POINT_PROPERTY, Integer.valueOf(gamePoint));
+	}
+
+	public boolean isFirstPointOline() {
+		Boolean gamePoint = (Boolean)entity.getProperty(IS_FIRST_POINT_OLINE_PROPERTY);
+		return gamePoint == null ? false : gamePoint.booleanValue();
+	}
+
+	public void setFirstPointOline(boolean isFirstPointOline) {
+		entity.setProperty(IS_FIRST_POINT_OLINE_PROPERTY, Boolean.valueOf(isFirstPointOline));
 	}
 }
 

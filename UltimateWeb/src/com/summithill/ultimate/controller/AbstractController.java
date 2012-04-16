@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.service.TeamService;
@@ -58,6 +59,43 @@ public class AbstractController {
 			return teamsResponseList;
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeams", e);
+			return null;
+		}
+	}
+	
+	protected List<ParameterGame> getParameterGames(String teamId) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				return null;
+			} else {
+				// note: assuming that Text objects are not pulled from the DB until referenced.  Therefore we aren't creating a memory burden by reading in a 100 games
+				List<Game> games = service.getGames(team);
+				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
+				for (Game game : games) {
+					game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
+					pGames.add(ParameterGame.fromGame(game));
+				}
+				return pGames;
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGames", e);
+			return null;
+		}
+	}
+	
+	
+	protected ParameterGame getParameterGame(String teamId, String gameId) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				return null;
+			} else {
+				Game game = service.getGame(team, gameId);
+				return ParameterGame.fromGame(game);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGame", e);
 			return null;
 		}
 	}

@@ -5,12 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.summithill.ultimate.model.Game;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class ParameterGame {
 	private String teamId;
 	private String gameId;
 	private String opponentName;
 	private String tournamentName;
+	private int gamePoint;
+	private boolean isFirstPointOline;
 	private String pointsJson;
 	private String timestamp;
 	private String date;
@@ -18,6 +22,7 @@ public class ParameterGame {
 	private long msSinceEpoch;
 	private long ours;
 	private long theirs;
+	
 	public String getGameId() {
 		return gameId;
 	}
@@ -44,6 +49,8 @@ public class ParameterGame {
 		pGame.setOurs(game.getOurScore());
 		pGame.setTheirs(game.getTheirScore());
 		pGame.setPointsJson(game.getPointsJson());
+		pGame.setIsFirstPointOline(game.isFirstPointOline());
+		pGame.setGamePoint(game.getGamePoint());
 		return pGame;
 	}
 
@@ -55,6 +62,8 @@ public class ParameterGame {
 		game.setTimestamp(timestamp);
 		game.setOurScore(ours);
 		game.setTheirScore(theirs);
+		game.setFirstPointOline(isFirstPointOline);
+		game.setGamePoint(gamePoint);
 	}
 		
 	public void setGameId(String gameId) {
@@ -133,6 +142,22 @@ public class ParameterGame {
 
 	public void setMsSinceEpoch(long msSinceEpoch) {
 		this.msSinceEpoch = msSinceEpoch;
+	}
+
+	public int getGamePoint() {
+		return gamePoint;
+	}
+
+	public void setGamePoint(int gamePoint) {
+		this.gamePoint = gamePoint;
+	}
+
+	public boolean isFirstPointOline() {
+		return isFirstPointOline;
+	}
+
+	public void setIsFirstPointOline(boolean isFirstPointOline) {
+		this.isFirstPointOline = isFirstPointOline;
 	}
 
 
