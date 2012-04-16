@@ -5,7 +5,10 @@ import java.util.List;
 public class Point {
 	private List<Event> events;
 	private List<String> line;
+	private long startSeconds;
+	private long endSeconds;
 	private PointSummary summary;
+	
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -23,5 +26,17 @@ public class Point {
 	}
 	public void setSummary(PointSummary summary) {
 		this.summary = summary;
+	}
+	public long getStartSeconds() {
+		return startSeconds;
+	}
+	public void setStartSeconds(long startSeconds) {
+		this.startSeconds = startSeconds;
+	}
+	public long getEndSeconds() {
+		return endSeconds;
+	}
+	public void setEndSeconds(long endSeconds) {
+		this.endSeconds = endSeconds;
 	}
 }
