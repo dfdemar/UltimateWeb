@@ -1,53 +1,109 @@
-
-StatsHelper = function(stats /* array of PlayerStats */) {
+/*
+ * @PARAM stats: REQUIRED  Object	stats object returned from server
+ * Example: 	{
+ * 					playerStats: [stat: "goals", value: 5, "touches": 9, etc...],
+ * 				}
+ * @PARAM name:  OPTIONAL 	String	name of the stats (not used by the helper)
+ * 		
+ */
+StatsHelper = function(stats, statsName) {
 	var self = this;
-	var stats = stats;  
+	var name = statsName;
+	var playerStatsArray = stats.playerStats;  //  [{playerName : 'Joe', gamesPlayed : 5, ...}, {playerName : 'Sue', gamesPlayed : 3, ...}]
+	pointsPlayed : 'Points played',
 	
-	this.playerRankingsFor = function(statName) {
+	this.name {
+		return name;
+	}
+	
+	function playerRankingsFor(statName) {
+		var stats = Ultimate.playerStats;  // array of PlayerStats
 		var rankings = [];
 		jQuery.each(stats, function() {
 			var value = this[statName];
 			if (value > 0) {
-				rankings.push({playerName: this.playerName, value: this[statName]});
+				var ranking = {playerName: this.playerName, value: this[statName]};
+				if (self.isPerPointStat(statName)) {
+					ranking.perPoint = self.perPointPointStat(value, this.pointsPlayed);
+				}
+				rankings.push(ranking);
 			}
 		})
 		rankings.sort(function (a, b) {
 			return b.value - a.value;
 		})
 		return rankings;
-	};
+	}
 	
-	this.statsForPlayer = function(playerStatsArray, playerName) {
+	// answer an object with the player's stats in the form {playerName : 'Joe', gamesPlayed : 5, ...}
+	this.statsForPlayer = function(playerName, isPerPoint) {
 		var stats = null;
 		jQuery.each(playerStatsArray, function() {
 			if (this.playerName == playerName) {
-				stats = this;
+				stats = formatPlayerStats(this, isPerPoint);
 				return false;
 			}
 		})
 		return stats;
 	};
 	
-	this.isPerPointStat = function(statName) {
-		return statName.indexOf('Played') < 0;
+	this.playerStatsTable = function(isPerPoint) {
+		return {
+			playerStats : formatPlayerStatsArray(playerStatsArray),
+			headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
+		};
 	};
 	
-	this.perPointPointStat = function(value, denominator) {
+	this.secondsToMinutes = function(seconds, decimalPositions) {
+		return decimalPositions ? (seconds/60).toFixed(decimalPositions) : Math.round(seconds / 60);
+		return decimalPositions ? seconds/60 : Math.round(seconds / 60);
+	};
+	
+	this.getStatLabelLookup() {
+		return Ultimate.headingForProperty;
+	}
+	
+	/**** PRIVATE ****/
+	
+	// answer the playerStatsArray as formatted values
+	function formatPlayerStatsArray(isPerPoint) {
+		var formattedStatsArray = [];
+		jQuery.each(playerStatsArray, function() {
+			formattedStatsArray.push(formatPlayerStats(this, isPerPoint));
+		});
+		return formattedStatsArray;
+	}
+	
+	// answer a single playerStats object formatted
+	function formatPlayerStats(playerStats /* {playerName : 'Joe', gamesPlayed : 5, ...} */, isPerPoint) {
+		var formattedStats = {};
+		for ( var stat in playerStats) {
+			if (typeof stat == 'number') {
+				if (!isPerPoint || (isPerPointStat(stat)))
+				var name = stat = 'secondsPlayed' ? 'minutesPlayed' : stat;
+				var value = stat == 'secondsPlayed' ? self.secondsToMinutes(1) : playerStats[stat];
+				if (isPerPoint) {
+					value = perPointStat(value, playerStats.pointsPlayed);
+				}
+				formattedStats[name] = value; 
+			} else {
+				formattedStats[stat] = playerStats[stat]; 
+			}
+		}
+	}
+	
+	function perPointStat(value, denominator) {
 		if (denominator && value) {
 			var perPoint = value / denominator;
 			return perPoint.toFixed(2);
 		} else {
 			return '';
 		}
-	};
-	
-	this.statsTable = function() {
-		return {
-			playerStats : stats, /* array of PlayerStats */
-			headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
-		};
 	}
 	
+	function isPerPointStat(statName) {
+		return statName.indexOf('Played') < 0;
+	}
 }
 
 Ultimate.headingForProperty = {
