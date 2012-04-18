@@ -471,21 +471,6 @@ function eventDescription(event) {
 	}
 }
 
-function playerRankingsFor(statName) {
-	var stats = Ultimate.playerStats;  // array of PlayerStats
-	var rankings = [];
-	jQuery.each(stats, function() {
-		var value = this[statName];
-		if (value > 0) {
-			rankings.push({playerName: this.playerName, value: this[statName]});
-		}
-	})
-	rankings.sort(function (a, b) {
-		return b.value - a.value;
-	})
-	return rankings;
-}
-
 function statsForPlayer(playerStatsArray, playerName) {
 	var stats = null;
 	jQuery.each(playerStatsArray, function() {
@@ -500,25 +485,6 @@ function statsForPlayer(playerStatsArray, playerName) {
 function secondsToMinutes(seconds, decimalPositions) {
 	return decimalPositions ? (seconds/60).toFixed(decimalPositions) : Math.round(seconds / 60);
 	return decimalPositions ? seconds/60 : Math.round(seconds / 60);
-}
-
-function playerRankingsFor(statName) {
-	var stats = Ultimate.playerStats;  // array of PlayerStats
-	var rankings = [];
-	jQuery.each(stats, function() {
-		var value = this[statName];
-		if (value > 0) {
-			var ranking = {playerName: this.playerName, value: this[statName]};
-			if (isPerPointStat(statName)) {
-				ranking.perPoint = perPointPointStat(value, this.pointsPlayed);
-			}
-			rankings.push(ranking);
-		}
-	})
-	rankings.sort(function (a, b) {
-		return b.value - a.value;
-	})
-	return rankings;
 }
 
 function isPerPointStat(statName) {
