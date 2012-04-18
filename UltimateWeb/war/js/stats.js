@@ -84,16 +84,17 @@ StatsHelper = function(stats, statsName) {
 	function formatPlayerStats(playerStats, isPerPoint) {
 		var formattedStats = {};
 		for ( var stat in playerStats) {
-			if (typeof stat == 'number') {
-				if (!isPerPoint || (isPerPointStat(stat)))
-				var name = stat = 'secondsPlayed' ? 'minutesPlayed' : stat;
-				var value = stat == 'secondsPlayed' ? self.secondsToMinutes(1) : playerStats[stat];
-				if (isPerPoint) {
-					value = perPointStat(value, playerStats.pointsPlayed);
+			var value = (stat == 'secondsPlayed') ? self.secondsToMinutes(playerStats[stat], 1) : playerStats[stat];
+			var name = (stat == 'secondsPlayed') ? 'minutesPlayed' : stat;
+			if (typeof playerStats[stat] == 'number') {
+				if (!isPerPoint || isPerPointStat(stat)) {
+					if (isPerPoint) {
+						value = perPointStat(value, playerStats.pointsPlayed);
+					}
+					formattedStats[name] = value; 					
 				}
-				formattedStats[name] = value; 
 			} else {
-				formattedStats[stat] = playerStats[stat]; 
+				formattedStats[name] = value; 
 			}
 		}
 		return formattedStats;
@@ -104,7 +105,7 @@ StatsHelper = function(stats, statsName) {
 			var perPoint = value / denominator;
 			return perPoint.toFixed(2);
 		} else {
-			return '';
+			return 0;
 		}
 	}
 	
@@ -134,7 +135,8 @@ Ultimate.headingForProperty = {
 	pointsPlayed : 'Points played',
 	opointsPlayed : 'O-line points played',
 	dpointsPlayed : 'D-line points played',
-	secondsPlayed : 'Minutes played',
+	minutesPlayed : 'Minutes played',
+	secondsPlayed : 'Seconds played',
 	touches : 'Touches',
 	goals : 'Goals',
 	assists: 'Assists',

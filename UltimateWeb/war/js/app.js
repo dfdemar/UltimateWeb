@@ -3,25 +3,6 @@ if (ieVersion > 5 && ieVersion < 9) {
 	alert("Ewww. We see you are using a version of Internet Explorer prior to version 9 (or running your new version in compatibility mode).  This application hasn't been tested on this browser.  We recommend Chrome, Firefox, Safari or Internet Explorer 9 or above.  You can also use this site on most mobile web browsers.")
 }
 
-Ultimate.headingForProperty = {
-	playerName : 'Player',
-	gamesPlayed : 'Games played',
-	pointsPlayed : 'Points played',
-	opointsPlayed : 'O-line points played',
-	dpointsPlayed : 'D-line points played',
-	secondsPlayed : 'Minutes played',
-	touches : 'Touches',
-	goals : 'Goals',
-	assists: 'Assists',
-	passes : 'Throws',
-	catches : 'Catches',
-	drops : 'Drops',
-	throwaways : 'Throw aways',
-	ds : 'Ds',
-	pulls : 'Pulls'
-}
-
-
 $('.pagediv').live('pageinit', function(event, data) {
 	registerPageSwipeHandler('mainpage', 'swipeleft', '#gamespage');
 	registerPageSwipeHandler('gamespage', 'swiperight', '#mainpage');
@@ -279,7 +260,7 @@ function populateMobileGamePlayerStatsData(stattype) {
 
 function populatePlayerStatsTable() {
 	$statsTable = $('.playerStats');
-	$statsTable.html(createTeamStatsTableHtml(Ultimate.statsHelper.playerStatsTable(true, Ultimate.statType)));
+	$statsTable.html(createTeamStatsTableHtml(Ultimate.statsHelper.playerStatsTable(false, Ultimate.statType)));
 	$("a[data-stattype='" + Ultimate.statType + "']").addClass('selectedColumn');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.statType = $(this).data('stattype');
@@ -304,9 +285,11 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 		options.gameId = gamesToIncludeSelection;
 	}
 	retrieveFn(options, function(playerStatsArray) {
+		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
-		updatePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
+		//updateSinglePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
+		updateSinglePlayerStatsTable(Ultimate.playerName);
 		$('#playerStats').show();
 		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
 			populatePlayerStats(data, $(this).val());
@@ -420,26 +403,28 @@ function addRowToStatsTable(html, name, stat1, stat2) {
 	html[html.length] = '</td></tr>';
 }
 
-function updatePlayerStatsTable(playerStats) {
+function updateSinglePlayerStatsTable(playerName) {
+	var absolutePlayerStats = Ultimate.statsHelper.statsForPlayer(playerName, false);
 	var html = [];
-	var headings = Ultimate.headingForProperty;
-	if (playerStats) {
+	if (absolutePlayerStats) {
+		var headings = Ultimate.statsHelper.getStatLabelLookup();
+		var perPointPlayerStats = Ultimate.statsHelper.statsForPlayer(playerName, true);
 		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>','<strong>Per Point Played</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
-		addRowToStatsTable(html,headings.gamesPlayed,playerStats.gamesPlayed);
-		addRowToStatsTable(html,headings.pointsPlayed,playerStats.pointsPlayed);
-		addRowToStatsTable(html,headings.opointsPlayed,playerStats.opointsPlayed);
-		addRowToStatsTable(html,headings.dpointsPlayed,playerStats.dpointsPlayed);
-		addRowToStatsTable(html,headings.secondsPlayed,playerStats.secondsPlayed == null ? '' : secondsToMinutes(playerStats.secondsPlayed, 1));
-		addRowToStatsTable(html,headings.touches,playerStats.touches, perPointPointStat(playerStats.touches, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.goals,playerStats.goals, perPointPointStat(playerStats.goals, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.assists,playerStats.assists, perPointPointStat(playerStats.assists, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.passes,playerStats.passes, perPointPointStat(playerStats.passes, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.catches,playerStats.catches, perPointPointStat(playerStats.catches, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.drops,playerStats.drops, perPointPointStat(playerStats.drops, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.throwaways,playerStats.throwaways, perPointPointStat(playerStats.throwaways, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.ds,playerStats.ds, perPointPointStat(playerStats.ds, playerStats.pointsPlayed));
-		addRowToStatsTable(html,headings.pulls,playerStats.pulls, perPointPointStat(playerStats.pulls, playerStats.pointsPlayed));
+		addRowToStatsTable(html,headings.gamesPlayed,absolutePlayerStats.gamesPlayed);
+		addRowToStatsTable(html,headings.pointsPlayed,absolutePlayerStats.pointsPlayed);
+		addRowToStatsTable(html,headings.opointsPlayed,absolutePlayerStats.opointsPlayed);
+		addRowToStatsTable(html,headings.dpointsPlayed,absolutePlayerStats.dpointsPlayed);
+		addRowToStatsTable(html,headings.minutesPlayed,absolutePlayerStats.minutesPlayed);
+		addRowToStatsTable(html,headings.touches,absolutePlayerStats.touches, perPointPlayerStats.touches);
+		addRowToStatsTable(html,headings.goals,absolutePlayerStats.goals, perPointPlayerStats.goals);
+		addRowToStatsTable(html,headings.assists,absolutePlayerStats.assists, perPointPlayerStats.assists);
+		addRowToStatsTable(html,headings.passes,absolutePlayerStats.passes, perPointPlayerStats.passes);
+		addRowToStatsTable(html,headings.catches,absolutePlayerStats.catches, perPointPlayerStats.catches);
+		addRowToStatsTable(html,headings.drops,absolutePlayerStats.drops, perPointPlayerStats.drops);
+		addRowToStatsTable(html,headings.throwaways,absolutePlayerStats.throwaways, perPointPlayerStats.throwaways);
+		addRowToStatsTable(html,headings.ds,absolutePlayerStats.ds, perPointPlayerStats.ds);
+		addRowToStatsTable(html,headings.pulls,absolutePlayerStats.pulls, perPointPlayerStats.pulls);
 	} else {
 		addRowToStatsTable(html,'No Data','');
 	}
@@ -549,12 +534,6 @@ function perPointPointStat(value, denominator) {
 	}
 }
 
-function statsTable() {
-	return {
-		playerStats : Ultimate.playerStats, /* array of PlayerStats */
-		headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
-	};
-}
 function createTeamStatsTableHtml(statsTable) {
 	if (Ultimate.teamStatsTemplate == null) {
 		Ultimate.teamStatsTemplate = Handlebars.compile($("#playerStatsTableTemplate").html());
