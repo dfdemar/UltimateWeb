@@ -288,7 +288,6 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamPlayerStats').val(includeType).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
-		//updateSinglePlayerStatsTable(statsForPlayer(playerStatsArray, Ultimate.playerName));
 		updateSinglePlayerStatsTable(Ultimate.playerName);
 		$('#playerStats').show();
 		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
@@ -471,33 +470,9 @@ function eventDescription(event) {
 	}
 }
 
-function statsForPlayer(playerStatsArray, playerName) {
-	var stats = null;
-	jQuery.each(playerStatsArray, function() {
-		if (this.playerName == playerName) {
-			stats = this;
-			return false;
-		}
-	})
-	return stats;
-}
-
 function secondsToMinutes(seconds, decimalPositions) {
 	return decimalPositions ? (seconds/60).toFixed(decimalPositions) : Math.round(seconds / 60);
 	return decimalPositions ? seconds/60 : Math.round(seconds / 60);
-}
-
-function isPerPointStat(statName) {
-	return statName.indexOf('Played') < 0;
-}
-
-function perPointPointStat(value, denominator) {
-	if (denominator && value) {
-		var perPoint = value / denominator;
-		return perPoint.toFixed(2);
-	} else {
-		return '';
-	}
 }
 
 function createTeamStatsTableHtml(statsTable) {

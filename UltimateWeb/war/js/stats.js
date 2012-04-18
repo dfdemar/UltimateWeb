@@ -24,7 +24,7 @@ StatsHelper = function(stats, statsName) {
 			if (value) {
 				var ranking = {playerName: this.playerName, value: value};
 				if (self.isPerPointStat(statName)) {
-					ranking.perPoint = perPointPointStat(value, this.pointsPlayed);
+					ranking.perPoint = perPointStat(value, this.pointsPlayed);
 				}
 				rankings.push(ranking);
 			}
