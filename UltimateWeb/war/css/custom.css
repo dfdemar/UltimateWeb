@@ -17,6 +17,9 @@
 	.ui-body-b {
 		background: #E0E0E0 !important;
 	}
+	.statsTableDescriptionColumn {
+		width: 200px !important;
+	}
 }
     
 .pageHeading {
