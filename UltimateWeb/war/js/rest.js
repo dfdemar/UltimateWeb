@@ -82,6 +82,7 @@ function sendRequest(request) {
 	var options = {
     	cache: false, 
 	  	success: function(data, textStatus, jqXHR){
+	  		$.mobile.hidePageLoadingMsg();
 	  		var responseTypeReceived = jqXHR.getResponseHeader('Content-Type'); 
 	  		if (isExpectedResponseType(request, jqXHR)) {
 	  			request.success(data, textStatus, jqXHR);
@@ -90,12 +91,13 @@ function sendRequest(request) {
 	  		}
 		}, 
 		error: function(jqXHR, textStatus, errorThrown){
-				var error = logRequestFailure(jqXHR, textStatus, errorThrown);
-				if (request.error) {
-					request.error(jqXHR, textStatus, errorThrown);
-				} else {
-					throw error;
-				} 
+			$.mobile.hidePageLoadingMsg();
+			var error = logRequestFailure(jqXHR, textStatus, errorThrown);
+			if (request.error) {
+				request.error(jqXHR, textStatus, errorThrown);
+			} else {
+				throw error;
+			} 
 		}
 	};
 	if (request.dataType) {
@@ -108,6 +110,7 @@ function sendRequest(request) {
 	if (request.data) {
 		options.data = request.data;
 	}
+	$.mobile.showPageLoadingMsg("b", "Loading", false);
     $.ajax(request.url, options);
 }
 
