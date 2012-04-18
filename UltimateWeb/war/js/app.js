@@ -164,7 +164,7 @@ function populateTeamStats(gamesToIncludeSelection) {
 		options.gameId = gamesToIncludeSelection;
 	}
 	retrieveFn(options, function(playerStatsArray) {
-		Ultimate.playerStats = playerStatsArray;
+		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamStats').val(includeType).selectmenu('refresh');
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
@@ -279,11 +279,10 @@ function populateMobileGamePlayerStatsData(stattype) {
 
 function populatePlayerStatsTable() {
 	$statsTable = $('.playerStats');
-	$statsTable.html(createTeamStatsTableHtml(statsTable()));
+	$statsTable.html(createTeamStatsTableHtml(Ultimate.statsHelper.playerStatsTable(true, Ultimate.statType)));
 	$("a[data-stattype='" + Ultimate.statType + "']").addClass('selectedColumn');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.statType = $(this).data('stattype');
-		Ultimate.playerStats = sortPlayerStats(Ultimate.playerStats, Ultimate.statType);
 		populatePlayerStatsTable();
 	})
 }

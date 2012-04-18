@@ -29,6 +29,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		Ultimate.teamName = "${teamName}";
 	</script>
 	<script src="../../js/rest.js"></script>
+	<script src="../../js/stats.js"></script>
 	<script src="../../js/app.js"></script>
 	
 	<script id="playerStatsTableTemplate" type="text/x-handlebars-template">

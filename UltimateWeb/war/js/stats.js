@@ -12,11 +12,11 @@ StatsHelper = function(stats, statsName) {
 	var playerStatsArray = stats.playerStats;  //  [{playerName : 'Joe', gamesPlayed : 5, ...}, {playerName : 'Sue', gamesPlayed : 3, ...}]
 	pointsPlayed : 'Points played',
 	
-	this.name {
+	this.name = function() {
 		return name;
-	}
+	};
 	
-	function playerRankingsFor(statName) {
+	this.playerRankingsFor = function(statName) {
 		var stats = Ultimate.playerStats;  // array of PlayerStats
 		var rankings = [];
 		jQuery.each(stats, function() {
@@ -33,7 +33,7 @@ StatsHelper = function(stats, statsName) {
 			return b.value - a.value;
 		})
 		return rankings;
-	}
+	};
 	
 	// answer an object with the player's stats in the form {playerName : 'Joe', gamesPlayed : 5, ...}
 	this.statsForPlayer = function(playerName, isPerPoint) {
@@ -47,9 +47,9 @@ StatsHelper = function(stats, statsName) {
 		return stats;
 	};
 	
-	this.playerStatsTable = function(isPerPoint) {
+	this.playerStatsTable = function(isPerPoint, sortByStat) {
 		return {
-			playerStats : formatPlayerStatsArray(playerStatsArray),
+			playerStats : formatPlayerStatsArray(isPerPoint, sortByStat),
 			headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
 		};
 	};
@@ -59,23 +59,29 @@ StatsHelper = function(stats, statsName) {
 		return decimalPositions ? seconds/60 : Math.round(seconds / 60);
 	};
 	
-	this.getStatLabelLookup() {
+	this.getStatLabelLookup = function() {
 		return Ultimate.headingForProperty;
-	}
+	};
 	
 	/**** PRIVATE ****/
 	
-	// answer the playerStatsArray as formatted values
-	function formatPlayerStatsArray(isPerPoint) {
+	/* answer the playerStatsArray with formatted values (optional sort player rows by stat)
+	 * @PARAM playerStats REQUIRED Object e.g., {playerName : 'Joe', gamesPlayed : 5, ...}
+	 * @PARAM isPerPoint OPTIONAL Boolean absolute or per point value?
+	*/	
+	function formatPlayerStatsArray(isPerPoint, sortByStat) {
 		var formattedStatsArray = [];
 		jQuery.each(playerStatsArray, function() {
 			formattedStatsArray.push(formatPlayerStats(this, isPerPoint));
 		});
-		return formattedStatsArray;
+		return sortPlayerStatsArray(formattedStatsArray, sortByStat);
 	}
 	
-	// answer a single playerStats object formatted
-	function formatPlayerStats(playerStats /* {playerName : 'Joe', gamesPlayed : 5, ...} */, isPerPoint) {
+	/* answer a single playerStats object formatted
+	 * @PARAM playerStats REQUIRED Object e.g., {playerName : 'Joe', gamesPlayed : 5, ...}
+	 * @PARAM isPerPoint OPTIONAL Boolean absolute or per point value?
+	*/
+	function formatPlayerStats(playerStats, isPerPoint) {
 		var formattedStats = {};
 		for ( var stat in playerStats) {
 			if (typeof stat == 'number') {
@@ -90,6 +96,7 @@ StatsHelper = function(stats, statsName) {
 				formattedStats[stat] = playerStats[stat]; 
 			}
 		}
+		return formattedStats;
 	}
 	
 	function perPointStat(value, denominator) {
@@ -103,6 +110,21 @@ StatsHelper = function(stats, statsName) {
 	
 	function isPerPointStat(statName) {
 		return statName.indexOf('Played') < 0;
+	}
+	
+	//descending 
+	function sortPlayerStatsArray(anArrayOfPlayerStats, stattype) {
+		var stat = stattype == null ? 'playerName' : stattype;
+		var sortedPlayerStats = anArrayOfPlayerStats.sort(stat == 'playerName' ? 
+			function(a,b) {
+				var first = a[stat] == null ? '' : a[stat].toLowerCase();
+				var second = b[stat] == null ? '' : b[stat].toLowerCase();
+				return (first<second?-1:(first>second?1:0)); 
+			}: 
+			function(a,b) {
+				return b[stat] - a[stat];
+			});
+		return sortedPlayerStats;
 	}
 }
 
