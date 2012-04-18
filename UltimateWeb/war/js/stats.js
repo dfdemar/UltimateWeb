@@ -23,7 +23,7 @@ StatsHelper = function(stats, statsName) {
 			var value = this[statName];
 			if (value) {
 				var ranking = {playerName: this.playerName, value: value};
-				if (isPerPointStat(statName)) {
+				if (self.isPerPointStat(statName)) {
 					ranking.perPoint = perPointPointStat(value, this.pointsPlayed);
 				}
 				rankings.push(ranking);
@@ -63,6 +63,10 @@ StatsHelper = function(stats, statsName) {
 		return Ultimate.headingForProperty;
 	};
 	
+	this.isPerPointStat = function(statName) {
+		return statName.indexOf('Played') < 0;
+	};
+	
 	/**** PRIVATE ****/
 	
 	/* answer the playerStatsArray with formatted values (optional sort player rows by stat)
@@ -87,7 +91,7 @@ StatsHelper = function(stats, statsName) {
 			var value = (stat == 'secondsPlayed') ? self.secondsToMinutes(playerStats[stat], 1) : playerStats[stat];
 			var name = (stat == 'secondsPlayed') ? 'minutesPlayed' : stat;
 			if (typeof playerStats[stat] == 'number') {
-				if (!isPerPoint || isPerPointStat(stat)) {
+				if (!isPerPoint || self.isPerPointStat(stat)) {
 					if (isPerPoint) {
 						value = perPointStat(value, playerStats.pointsPlayed);
 					}
@@ -107,10 +111,6 @@ StatsHelper = function(stats, statsName) {
 		} else {
 			return 0;
 		}
-	}
-	
-	function isPerPointStat(statName) {
-		return statName.indexOf('Played') < 0;
 	}
 	
 	//descending 

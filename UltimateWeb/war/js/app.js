@@ -373,8 +373,8 @@ function updatePlayerRankingsTable(rankingType) {
 	var rankings = Ultimate.statsHelper.playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
-	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>', isPerPointStat(rankingType) ? 
-			'<strong>per point played</strong>' : '');
+	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>', 
+			Ultimate.statsHelper.isPerPointStat(rankingType) ? '<strong>per point played</strong>' : '');
 	addRowToStatsTable(html,'&nbsp;','&nbsp;');
 	var total = 0;
 	for (var i = 0; i < rankings.length; i++) {
