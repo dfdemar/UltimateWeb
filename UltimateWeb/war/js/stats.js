@@ -16,15 +16,15 @@ StatsHelper = function(stats, statsName) {
 		return name;
 	};
 	
+	// answer an array of objects: {playerName: 'joe' : value: x}
 	this.playerRankingsFor = function(statName) {
-		var stats = Ultimate.playerStats;  // array of PlayerStats
 		var rankings = [];
-		jQuery.each(stats, function() {
+		jQuery.each(playerStatsArray, function() {
 			var value = this[statName];
-			if (value > 0) {
-				var ranking = {playerName: this.playerName, value: this[statName]};
-				if (self.isPerPointStat(statName)) {
-					ranking.perPoint = self.perPointPointStat(value, this.pointsPlayed);
+			if (value) {
+				var ranking = {playerName: this.playerName, value: value};
+				if (isPerPointStat(statName)) {
+					ranking.perPoint = perPointPointStat(value, this.pointsPlayed);
 				}
 				rankings.push(ranking);
 			}

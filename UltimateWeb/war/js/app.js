@@ -238,9 +238,9 @@ function populateGamePlayerStats(data) {
 	retrieveGame(Ultimate.teamId, Ultimate.gameId, function(game) {
 		Ultimate.game = game;
 		populateGameTitle();
-		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStats) {
+		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStatsArray) {
 			Ultimate.statType = 'playerName';
-			Ultimate.playerStats = sortPlayerStats(playerStats, Ultimate.statType);
+			Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
 			showDeviceBasedPlayerStats();
 			if (isNarrowDevice()) {
 				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
@@ -370,7 +370,7 @@ function updateGamePointsList(game) {
 function updatePlayerRankingsTable(rankingType) {
 	var rankingType = rankingType == null ? 'pointsPlayed' : rankingType;
 	$('#selectPlayerRank').val(rankingType).selectmenu('refresh');
-	var rankings = playerRankingsFor(rankingType);
+	var rankings = Ultimate.statsHelper.playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
 	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>', isPerPointStat(rankingType) ? 
@@ -542,7 +542,7 @@ function createTeamStatsTableHtml(statsTable) {
 }
 
 function isNarrowDevice() {
-	return screen.width < 500; // equivalent to media query device-width 
+	//return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
-	//return true;
+	return true;
 }
