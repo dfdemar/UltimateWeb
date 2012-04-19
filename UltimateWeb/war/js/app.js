@@ -316,7 +316,7 @@ function updateSelectGamesControl(games) {
 		addGameSelection(html, game.gameId, description);
 	}
 	
-	$(".gameSelect").empty().html(html.join(''));
+	$(".gameSelect").empty().html(html.join('')).selectmenu('refresh');
 }
 
 function getGamesForSelection(selectionName) {

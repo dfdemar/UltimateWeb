@@ -3,6 +3,7 @@ package com.summithill.ultimate.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.ModelObject;
 import com.summithill.ultimate.model.Player;
@@ -22,6 +24,7 @@ import com.summithill.ultimate.model.Team;
 @Component
 public class TeamService {
 	private static final String USER_ID_PROPERTY = ModelObject.USER_ID_PROPERTY;
+	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	
 	public long saveTeam(String userIdentifier, Team team) {
 		Entity entity = team.asEntity();
@@ -54,6 +57,7 @@ public class TeamService {
 	}
 	
 	public List<Game> getGames(Team team) {
+		long beginTime = System.currentTimeMillis();
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null); //.addSort("timestamp", Query.SortDirection.DESCENDING);
 		query.setAncestor(team.asEntity().getKey());
 	    Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
@@ -61,6 +65,7 @@ public class TeamService {
 	    for (Entity gameEntity : gameEntities) {
 	    	gameList.add(Game.fromEntity(gameEntity));
 		}
+	    log.info("GetGames took " + (System.currentTimeMillis() - beginTime) + "ms");
 	    return gameList;
 	}
 	
