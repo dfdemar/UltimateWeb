@@ -115,12 +115,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 						<option value="LastTournament">Last Tournament Team Played</option>
 					</select>
 				</div>
-				<div id="statDenominatorRadioButtons" class="ui-block-b">
-					<fieldset data-role="controlgroup" data-type="horizontal">
-				    	   	<input type="radio" name="statDenominatorType" id="statDenominatorType-Absolute" value="Absolute" checked="checked" />
-				         	<label for="statDenominatorType-Absolute">Absolute</label>
-				         	<input type="radio" name="statDenominatorType" id="statDenominatorType-PerPoint" value="PerPoint"  />
-				         	<label for="statDenominatorType-PerPoint">Per Point</label>
+				<div class="ui-block-b statDenominatorRadioButtons">
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+				    	   	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb1" value="Absolute" checked="checked" />
+				         	<label for="mainpage-sdrb1">Absolute</label>
+				         	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb2" value="PerPoint"  />
+				         	<label for="mainpage-sdrb2">Per Point</label>
 				    </fieldset>
 				</div>
 			</fieldset>
@@ -199,10 +199,25 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	<div data-role="content">
 		<div><span class="opponentTitle"></span>&nbsp;&nbsp;&nbsp;<span class="gameScore"></span>&nbsp;&nbsp;&nbsp;<span class="gameDetails"></span></div>
-		<div data-role="controlgroup" data-type="horizontal">
-			<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
-			<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
-		</div>
+		
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<div data-role="controlgroup" data-type="horizontal">
+						<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
+						<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
+					</div>
+				</div>
+				<div class="ui-block-b statDenominatorRadioButtons">
+					<fieldset data-role="controlgroup" data-type="horizontal" >
+				    	   	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb1" value="Absolute" checked="checked" />
+				         	<label for="gamestatspage-sdrb1">Absolute</label>
+				         	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb2" value="PerPoint"  />
+				         	<label for="gamestatspage-sdrb2">Per Point</label>
+				    </fieldset>
+				</div>
+			</fieldset>
+		
+
 		<div id="playerStatsNarrow">
 			<label for="selectPlayerRank" class="select">Statistic:</label>
 			<select name="selectPlayerRank" id="selectPlayerRank">

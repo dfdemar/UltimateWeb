@@ -19,6 +19,7 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 
 $(document).live('pagechange', function(event, data) {
 	var toPageId = data.toPage.attr("id");
+	Ultimate.currentPageId = toPageId;
 	switch (toPageId) {
 		case 'gamespage':
 			renderGamesPage(data);
@@ -153,7 +154,7 @@ function populateTeamStats() {
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
 			populateTeamStats();
 		});
-		$('#statDenominatorRadioButtons input').unbind('click').on('click', function() {
+		$('.statDenominatorRadioButtons input').unbind('click').on('click', function() {
 			populateTeamStats();
 		});
 	}); 
@@ -250,6 +251,9 @@ function populateGamePlayerStats(data) {
 				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
 			} else {
 				populatePlayerStatsTable();  
+				$('.statDenominatorRadioButtons input').unbind('click').on('click', function() {
+					populatePlayerStatsTable();
+				});
 			}
 		}) 
 	}) 
@@ -488,7 +492,7 @@ function createTeamStatsTableHtml(statsTable) {
 }
 
 function isAbsoluteDenominator() {
-	return $('#statDenominatorRadioButtons input[@name=statDenominatorType]:checked').attr('value') == 'Absolute';	
+	return $('#' + Ultimate.currentPageId + ' .statDenominatorRadioButtons input:checked').attr('value') == 'Absolute';	
 }
 
 function getTeamsSelectionChoice() {
