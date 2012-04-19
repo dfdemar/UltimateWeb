@@ -131,7 +131,8 @@ function renderTeamStats() {
 	populateTeamStats();
 }
 
-function populateTeamStats(gamesToIncludeSelection) {
+function populateTeamStats() {
+	var gamesToIncludeSelection = getTeamsSelectionChoice();
 	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var retrieveFunctions = {
 			'LastGame': retrievePlayerStatsForLastGame,
@@ -150,8 +151,11 @@ function populateTeamStats(gamesToIncludeSelection) {
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
-			populateTeamStats($(this).val());
-		})
+			populateTeamStats();
+		});
+		$('#statDenominatorRadioButtons input').unbind('click').on('click', function() {
+			populateTeamStats();
+		});
 	}); 
 }
 
@@ -260,7 +264,8 @@ function populateMobileGamePlayerStatsData(stattype) {
 
 function populatePlayerStatsTable() {
 	$statsTable = $('.playerStats');
-	$statsTable.html(createTeamStatsTableHtml(Ultimate.statsHelper.playerStatsTable(false, Ultimate.statType)));
+	var statsTable = Ultimate.statsHelper.playerStatsTable(!isAbsoluteDenominator(), Ultimate.statType);
+	$statsTable.html(createTeamStatsTableHtml(statsTable));
 	$("a[data-stattype='" + Ultimate.statType + "']").addClass('selectedColumn');
 	$statsTable.find('th a').off().on('click', function() {
 		Ultimate.statType = $(this).data('stattype');
@@ -480,6 +485,14 @@ function createTeamStatsTableHtml(statsTable) {
 		Ultimate.teamStatsTemplate = Handlebars.compile($("#playerStatsTableTemplate").html());
 	}
 	return Ultimate.teamStatsTemplate(statsTable);
+}
+
+function isAbsoluteDenominator() {
+	return $('#statDenominatorRadioButtons input[@name=statDenominatorType]:checked').attr('value') == 'Absolute';	
+}
+
+function getTeamsSelectionChoice() {
+	return $('#selectGamesForTeamStats option:selected').val();
 }
 
 function isNarrowDevice() {

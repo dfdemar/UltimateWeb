@@ -36,13 +36,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<thead>
 			{{#with headings}}
 				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
-  			{{#unless isPerPoint}}
-				<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
-				<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
-				<th><a href="#" data-stattype="secondsPlayed">{{minutesPlayed}}</a></th>
-				<th><a href="#" data-stattype="opointsPlayed">{{opointsPlayed}}</a></th>
-				<th><a href="#" data-stattype="dpointsPlayed">{{dpointsPlayed}}</a></th>
-  			{{/unless}}
+  				{{#unless ../isPerPoint}}
+					<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
+					<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
+					<th><a href="#" data-stattype="secondsPlayed">{{minutesPlayed}}</a></th>
+					<th><a href="#" data-stattype="opointsPlayed">{{opointsPlayed}}</a></th>
+					<th><a href="#" data-stattype="dpointsPlayed">{{dpointsPlayed}}</a></th>
+  				{{/unless}}
 				<th><a href="#" data-stattype="touches">{{touches}}</a></th>
 				<th><a href="#" data-stattype="goals">{{goals}}</a></th>
 				<th><a href="#" data-stattype="assists">{{assists}}</a></th>
@@ -58,13 +58,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			{{#each playerStats}}
 			<tr>
 				<td class="tablePlayerName">{{playerName}}</td>
-  			{{#unless isPerPoint}}
-				<td>{{gamesPlayed}}</td>
-				<td>{{pointsPlayed}}</td>
-				<td>{{minutesPlayed}}</td>
-				<td>{{opointsPlayed}}</td>
-				<td>{{dpointsPlayed}}</td>
-  			{{/unless}}
+  				{{#unless ../isPerPoint}}
+					<td>{{gamesPlayed}}</td>
+					<td>{{pointsPlayed}}</td>
+					<td>{{minutesPlayed}}</td>
+					<td>{{opointsPlayed}}</td>
+					<td>{{dpointsPlayed}}</td>
+  				{{/unless}}
 				<td>{{touches}}</td>
 				<td>{{goals}}</td>
 				<td>{{assists}}</td>
@@ -106,12 +106,25 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 		<div id="teamStatsWide">
 			<br>
-			<label for="selectGamesForTeamStats" class="select">Games to include:</label>
-			<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats">
-				<option value="AllGames">All Games</option>
-				<option value="LastGame">Last Game</option>
-				<option value="LastTournament">Last Tournament Team Played</option>
-			</select>
+			
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats" data-inline="true">
+						<option value="AllGames">All Games</option>
+						<option value="LastGame">Last Game</option>
+						<option value="LastTournament">Last Tournament Team Played</option>
+					</select>
+				</div>
+				<div id="statDenominatorRadioButtons" class="ui-block-b">
+					<fieldset data-role="controlgroup" data-type="horizontal">
+				    	   	<input type="radio" name="statDenominatorType" id="statDenominatorType-Absolute" value="Absolute" checked="checked" />
+				         	<label for="statDenominatorType-Absolute">Absolute</label>
+				         	<input type="radio" name="statDenominatorType" id="statDenominatorType-PerPoint" value="PerPoint"  />
+				         	<label for="statDenominatorType-PerPoint">Per Point</label>
+				    </fieldset>
+				</div>
+			</fieldset>
+
 			<table id="teamPlayerStats" class="playerStats"></table>
 		</div>
 	</div>

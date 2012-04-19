@@ -50,7 +50,8 @@ StatsHelper = function(stats, statsName) {
 	this.playerStatsTable = function(isPerPoint, sortByStat) {
 		return {
 			playerStats : formatPlayerStatsArray(isPerPoint, sortByStat),
-			headings : Ultimate.headingForProperty /* hashtable of stattype/heading */
+			headings : Ultimate.headingForProperty, /* hashtable of stattype/heading */
+			isPerPoint: isPerPoint
 		};
 	};
 	
