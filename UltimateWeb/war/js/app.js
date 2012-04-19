@@ -134,7 +134,8 @@ function renderTeamStats() {
 
 function populateTeamStats() {
 	var gamesToIncludeSelection = getTeamsSelectionChoice();
-	var games = getGamesForSelection(gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection);
+	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
+	var games = getGamesForSelection(gamesToIncludeSelection);
 	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
 		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
