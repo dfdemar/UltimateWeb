@@ -206,6 +206,35 @@ function gamesFromLastTournament(games) {
 	return gameIds;
 }
 
+//answer an array of object: {id: 'TOURNAMENT-Centex-2012', name: 'Centex', year: 2012, games:['game1234', 'game345']} in reverse chrono order
+function getTournaments(games) {
+	var tournamentsList = [];
+	if (games && games.length > 0) {
+		var sortedGames = sortGames(games);
+		var tournamentGames = {};
+
+		jQuery.each(sortedGames, function() {
+			var name = this.tournamentName;
+			if (name) {
+				var year = this.msSinceEpoch ? new Date(this.msSinceEpoch).getFullYear() : '';
+				var id = 'TOURNAMENT-' + name + '-' + year;
+				if (!tournamentGames[id]) {
+					tournamentGames[id] = [];
+					tournamentsList.push({id: id, name: name, year: year});
+				}
+				tournamentGames[id].push(this.gameId);
+			}
+		});
+		
+		jQuery.each(tournamentsList, function() {
+			this.games = tournamentGames[this.id];
+		});
+		
+		return tournamentsList;
+	} 
+	return [];
+}
+
 function getInternetExplorerVersion()
 // Returns the version of Internet Explorer or a -1 (indicating the use of another browser).
 {
