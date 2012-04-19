@@ -134,21 +134,10 @@ function renderTeamStats() {
 
 function populateTeamStats() {
 	var gamesToIncludeSelection = getTeamsSelectionChoice();
-	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
-	var retrieveFunctions = {
-			'LastGame': retrievePlayerStatsForLastGame,
-			'AllGames': retrievePlayerStatsForAllGames,
-			'LastTournament': retrievePlayerStatsForLastTournament
-			}
-	var retrieveFn = retrieveFunctions[includeType];
-	var options = {teamId: Ultimate.teamId};
-	if (retrieveFn == null) { 
-		retrieveFn = retrievePlayerStatsForGame;
-		options.gameId = gamesToIncludeSelection;
-	}
-	retrieveFn(options, function(playerStatsArray) {
+	var games = getGamesForSelection(gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection);
+	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
 		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
-		$('#selectGamesForTeamStats').val(includeType).selectmenu('refresh');
+		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
@@ -282,21 +271,11 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 	$('#statsPlayerNameHeading').html('');
 	$('#playerStats').hide();
 	Ultimate.playerName = decodeURIComponent(data.options.pageData.name);
-	var includeType = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
-	var retrieveFunctions = {
-			'LastGame': retrievePlayerStatsForLastGame,
-			'AllGames': retrievePlayerStatsForAllGames,
-			'LastTournament': retrievePlayerStatsForLastTournament
-			}
-	var retrieveFn = retrieveFunctions[includeType];
-	var options = {teamId: Ultimate.teamId};
-	if (retrieveFn == null) { 
-		retrieveFn = retrievePlayerStatsForGame;
-		options.gameId = gamesToIncludeSelection;
-	}
-	retrieveFn(options, function(playerStatsArray) {
+	var selection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
+	var games = getGamesForSelection(selection);
+	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
 		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
-		$('#selectGamesForTeamPlayerStats').val(includeType).selectmenu('refresh');
+		$('#selectGamesForTeamPlayerStats').val(selection).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updateSinglePlayerStatsTable(Ultimate.playerName);
 		$('#playerStats').show();
@@ -318,17 +297,40 @@ function populateSelectGamesControl() {
 }
 
 function updateSelectGamesControl(games) {
-	var sortedGames = sortGames(games);
 	var html = [];
+
 	addGameSelection(html, 'AllGames', 'All Games');
-	addGameSelection(html, 'LastGame', 'Last Team Game');
-	addGameSelection(html, 'LastTournament', 'Last Tournament');
+	
+	Ultimate.tournaments = getTournaments(games);
+	for ( var i = 0; i < Ultimate.tournaments.length; i++) {
+		var tournament = Ultimate.tournaments[i];
+		var description = tournament.name + ' ' + tournament.year;
+		addGameSelection(html, tournament.id, description);
+	}	
+	
+	var sortedGames = sortGames(games);
 	for ( var i = 0; i < sortedGames.length; i++) {
 		var game = sortedGames[i];
 		var description = game.date + (isBlank(game.tournamentName) ?  ' ' : (' at ' + game.tournamentName)) + ' vs. ' +  game.opponentName + ' ';
 		addGameSelection(html, game.gameId, description);
 	}
+	
 	$(".gameSelect").empty().html(html.join(''));
+}
+
+function getGamesForSelection(selectionName) {
+	if (selectionName == 'AllGames') {
+		return [];
+	} else if (selectionName.indexOf('TOURNAMENT-') == 0) {
+		for ( var i = 0; i < Ultimate.tournaments.length; i++) {
+			if (Ultimate.tournaments[i].id == selectionName) {
+				return Ultimate.tournaments[i].games;
+			}
+		}
+		throw 'Tournament ID ' + selectionName + ' not found';
+	} else {
+		return [selectionName];
+	}
 }
 
 function addGameSelection(html, value, display) {
@@ -501,7 +503,7 @@ function getTeamsSelectionChoice() {
 }
 
 function isNarrowDevice() {
-	return screen.width < 500; // equivalent to media query device-width 
+	//return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
-	//return true;
+	return true;
 }

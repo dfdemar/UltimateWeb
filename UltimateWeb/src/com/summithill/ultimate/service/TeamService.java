@@ -64,6 +64,15 @@ public class TeamService {
 	    return gameList;
 	}
 	
+	public List<String> getGameIDs(Team team) {
+		List<String> idList = new ArrayList<String>();
+		List<Game> games = this.getGames(team);
+		for (Game game : games) {
+			idList.add(game.getGameId());
+		}
+	    return idList;
+	}
+	
 	private void deleteAllPlayers(String userIdentifier, Team team) {
 		List<Player> players = getPlayers(team);
 		List<Key> playerKeys = new ArrayList<Key>();

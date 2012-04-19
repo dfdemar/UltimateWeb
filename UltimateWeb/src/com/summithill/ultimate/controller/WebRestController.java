@@ -110,7 +110,8 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				return null;
 			} else {
-				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIds);
+				List<String> gameIdsToInclude = gameIds.size() == 0 ? service.getGameIDs(team) : gameIds;
+				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeamPlayerStats", e);
