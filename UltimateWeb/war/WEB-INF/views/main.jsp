@@ -120,7 +120,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				    	   	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb1" value="Absolute" checked="checked" />
 				         	<label for="mainpage-sdrb1">Absolute</label>
 				         	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb2" value="PerPoint"  />
-				         	<label for="mainpage-sdrb2">Per Point</label>
+				         	<label for="mainpage-sdrb2">Per Point Played</label>
 				    </fieldset>
 				</div>
 			</fieldset>
@@ -212,7 +212,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				    	   	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb1" value="Absolute" checked="checked" />
 				         	<label for="gamestatspage-sdrb1">Absolute</label>
 				         	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb2" value="PerPoint"  />
-				         	<label for="gamestatspage-sdrb2">Per Point</label>
+				         	<label for="gamestatspage-sdrb2">Per Point Played</label>
 				    </fieldset>
 				</div>
 			</fieldset>
