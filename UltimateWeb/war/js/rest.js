@@ -36,43 +36,6 @@ function retrieveTeams(successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
-function retrievePlayerStatsForLastGame(options, successFunction, errorFunction) {
-	var teamId = options.teamId;
-	retrieveGames(teamId, function(games) {
-		if (games && games.length > 0) {
-			games = sortGames(games);
-			var lastGame = games[0];
-			retrievePlayerStatsForGames(teamId, [lastGame.gameId], successFunction, errorFunction);
-		} else {
-			successFunction([]);
-		}
-	}, errorFunction);
-}
-	  
-function retrievePlayerStatsForAllGames(options, successFunction, errorFunction) {
-	var teamId = options.teamId;
-	retrieveGames(teamId, function(games) {
-		if (games && games.length > 0) {
-			var gameIds = getGameIds(games);
-			retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction);
-		} else {
-			successFunction([]);
-		}
-	}, errorFunction);
-}
-
-function retrievePlayerStatsForLastTournament(options, successFunction, errorFunction) {
-	var teamId = options.teamId;
-	retrieveGames(teamId, function(games) {
-		if (games && games.length > 0) {
-			var gameIds = gamesFromLastTournament(games);
-			retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction);
-		} else {
-			successFunction([]);
-		}
-	}, errorFunction);
-}
-
 function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 	var teamId = options.teamId;
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
@@ -184,26 +147,6 @@ function sortPlayerStats(playerStats, stattype) {
 			return b[stat] - a[stat];
 		});
 	return sortedPlayerStats;
-}
-
-function getGameIds(games) {
-	var gameIds = [];
-	jQuery.each(games, function() {
-		gameIds.push(this.gameId);
-	})
-	return gameIds;
-}
-
-function gamesFromLastTournament(games) {
-	var sortedGames = sortGames(games);
-	var tournament = sortedGames[0].tournamentName;
-	var gameIds = [];
-	jQuery.each(sortedGames, function() {
-		if (this.tournamentName == tournament) {
-			gameIds.push(this.gameId);
-		} 
-	})
-	return gameIds;
 }
 
 //answer an array of object: {id: 'TOURNAMENT-Centex-2012', name: 'Centex', year: 2012, games:['game1234', 'game345']} in reverse chrono order

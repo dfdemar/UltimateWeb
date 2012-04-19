@@ -503,7 +503,7 @@ function getTeamsSelectionChoice() {
 }
 
 function isNarrowDevice() {
-	//return screen.width < 500; // equivalent to media query device-width 
+	return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
-	return true;
+	//return true;
 }
