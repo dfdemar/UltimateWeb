@@ -110,6 +110,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
 					<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats" data-inline="true">
+						<option value="AllGames">All Games</option>
 					</select>
 				</div>
 				<div class="ui-block-b statDenominatorRadioButtons">
@@ -264,6 +265,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div>&nbsp;</div>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
 		<select name="selectGamesForPlayerStats" class="gameSelect" id="selectGamesForTeamPlayerStats">
+			<option value="AllGames">All Games</option>
 		</select>
 		<table class="statsTable" id="playerStats">
 			<tbody></tbody>
