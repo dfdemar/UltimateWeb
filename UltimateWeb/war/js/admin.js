@@ -28,15 +28,10 @@ function renderMainPage(data) {
 
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
+	$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
 	populateTeam(function() {
 		populateGamesList();
 	});
-}
-
-function renderGamePageBasics(data) {
-	Ultimate.gameId = data.options.pageData.gameId;
-	$('.gameStatsChoiceLink').attr('href','#gamestatspage?gameId=' + Ultimate.gameId);
-	$('.gameEventsChoiceLink').attr('href', '#eventspage?gameId=' + Ultimate.gameId);
 }
 
 function renderConfirmDeleteDialog(data) {
