@@ -198,22 +198,22 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<div data-role="content">
 		<div><span class="opponentTitle"></span>&nbsp;&nbsp;&nbsp;<span class="gameScore"></span>&nbsp;&nbsp;&nbsp;<span class="gameDetails"></span></div>
 		
-			<fieldset class="ui-grid-a">
-				<div class="ui-block-a">
-					<div data-role="controlgroup" data-type="horizontal">
-						<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
-						<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
-					</div>
+		<fieldset class="ui-grid-a">
+			<div id="gamespageDataSelection" class="ui-block-a">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a class="gameEventsChoiceLink" href="#eventspage" data-role="button">Events</a> 
+					<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
 				</div>
-				<div class="ui-block-b statDenominatorRadioButtons">
-					<fieldset data-role="controlgroup" data-type="horizontal" >
-				    	   	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb1" value="Absolute" checked="checked" />
-				         	<label for="gamestatspage-sdrb1">Absolute</label>
-				         	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb2" value="PerPoint"  />
-				         	<label for="gamestatspage-sdrb2">Per Point Played</label>
-				    </fieldset>
-				</div>
-			</fieldset>
+			</div>
+			<div class="ui-block-b statDenominatorRadioButtons">
+				<fieldset data-role="controlgroup" data-type="horizontal" >
+			    	   	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb1" value="Absolute" checked="checked" />
+			         	<label for="gamestatspage-sdrb1">Absolute</label>
+			         	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb2" value="PerPoint"  />
+			         	<label for="gamestatspage-sdrb2">Per Point Played</label>
+			    </fieldset>
+			</div>
+		</fieldset>
 		
 
 		<div id="playerStatsNarrow">

@@ -168,6 +168,7 @@ function showDeviceBasedPlayerStats() {
 	$('#playerStatsNarrow').toggleClass('hidden', !isNarrow);
 	$('#playerStatsWide').toggleClass('hidden', isNarrow);
 	$('.statDenominatorRadioButtons').toggleClass('hidden', isNarrow);
+	$('#gamespageDataSelection').toggleClass('ui-block-a', !isNarrow);
 }
 
 function showDeviceBasedTeamStats() {
