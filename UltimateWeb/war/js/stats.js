@@ -20,8 +20,11 @@ StatsHelper = function(stats, statsName) {
 	this.playerRankingsFor = function(statName) {
 		var rankings = [];
 		jQuery.each(playerStatsArray, function() {
-			var value = this[statName];
+			var value = this[statName == 'minutesPlayed' ? 'secondsPlayed' : statName];
 			if (value) {
+				if (statName == 'minutesPlayed') {
+					value = secondsToMinutes(value);
+				}
 				var ranking = {playerName: this.playerName, value: value};
 				if (self.isPerPointStat(statName)) {
 					ranking.perPoint = perPointStat(value, this.pointsPlayed);
@@ -124,7 +127,9 @@ StatsHelper = function(stats, statsName) {
 				return (first<second?-1:(first>second?1:0)); 
 			}: 
 			function(a,b) {
-				return b[stat] - a[stat];
+				var aAsFloat = parseFloat(a[stat]) ;
+				var bAsFloat = parseFloat(b[stat]);
+				return bAsFloat - aAsFloat;
 			});
 		return sortedPlayerStats;
 	}

@@ -39,7 +39,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
   				{{#unless ../isPerPoint}}
 					<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
 					<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
-					<th><a href="#" data-stattype="secondsPlayed">{{minutesPlayed}}</a></th>
+					<th><a href="#" data-stattype="minutesPlayed">{{minutesPlayed}}</a></th>
 					<th><a href="#" data-stattype="opointsPlayed">{{opointsPlayed}}</a></th>
 					<th><a href="#" data-stattype="dpointsPlayed">{{dpointsPlayed}}</a></th>
   				{{/unless}}
@@ -220,7 +220,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<label for="selectPlayerRank" class="select">Statistic:</label>
 			<select name="selectPlayerRank" id="selectPlayerRank">
 				<option value="pointsPlayed">Points Played</option>
-				<option value="secondsPlayed">Time (minutes) Played</option>
+				<option value="minutesPlayed">Time (minutes) Played</option>
 				<option value="opointsPlayed">O Points Played</option>
 				<option value="dpointsPlayed">D Points Played</option>
 				<option value="touches">Touches</option>
