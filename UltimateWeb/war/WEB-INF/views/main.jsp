@@ -17,6 +17,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <link rel="shortcut icon" href="../../images/favicon.ico">
 	<link rel="stylesheet" href="../../css/jquery.mobile-1.1.0.min.css" />
 	<link rel="stylesheet" href="../../css/custom.css" />
 	<script src="../../js/jquery-1.7.1.min.js"></script>
