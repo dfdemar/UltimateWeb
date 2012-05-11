@@ -30,6 +30,11 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    		$('.carousel').carousel('pause');  // prevents automatic scrolling
+    	});
+    </script>
   </head>
 
   <body>
@@ -78,7 +83,7 @@
           <div id="screenshot-carousel" class="carousel slide ">
                  	  <div id="screenshot-heading">
           	<h2>Screenshots</h2>
-          	<p>Watch the slideshow below.</p>
+          	<p></p>
 		  </div>
             <div class="carousel-inner">
               <div class="item active">
