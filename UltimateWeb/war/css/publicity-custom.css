@@ -1,5 +1,11 @@
 /*  custom css for publicity page(s) */
 
-#icon {
-	
+.screenshot {
+	padding: 0px 75px 50px 75px;
+}
+#screenshot-heading {
+	text-align: center;
+}
+#screenshot-carousel {
+	width: 500px;
 }

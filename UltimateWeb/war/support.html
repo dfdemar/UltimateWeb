@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <script src="js/jquery-1.7.1.min.js"></script>
     <!-- Les styles -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="css/publicity-custom.css" rel="stylesheet">
@@ -30,6 +30,12 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    	  // Handler for .ready() called.
+    	});
+    </script>
   </head>
 
   <body>
@@ -50,7 +56,7 @@
               <li class="active"><a href="#">Support</a></li>
               <li><a href="contact.html">Contact</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
@@ -58,26 +64,75 @@
     <div class="container">
 
       <h1>Support</h1>
-      <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+      <p><br>Having a problem with iUltimate?  Check out the FAQ that follows.<br>  If you still have a question (or suggestion) <a href="mailto:support@ultimate-numbers.com">send us a note</a>.</p>
+      
+      <div class="span9 columns">
+          <h2>Frequently Asked Questions</h2>
+          <p>Click on a question below to get details:</p>
 
-    </div> <!-- /container -->
+          <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  How do I create my website for publishing the stats collected by iUltimate?
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  iUltimate automatically creates a custom site for your team the first time you upload your team.  Each team you create get's it own site.  The site is public so your and your teammates can visit the page without logging on. 
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  On the "recent tweets" view I see "SKIPPED...TO MANY RECENT TWEETS".  What causes that?
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  Unfortunately Twitter has limits to how many tweets it will accept from a user during the day.  And worse, once it reaches those limits it rejects all messages for an hour or two.  To keep you from exceeding your "tweet budget" iUltimate governs the tweets and skips tweets that are not considered critical.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  On the "recent tweets" view I see "REJECTED BY TWITTER".  What causes that?  
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  This is usually the result of duplicate messages which Twitter rejects.
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <hr>
+	  <footer>
+      	<br>
+        <p>&copy; 2012 Summit Hill Software, Inc., all rights reserved</p>
+      </footer>
+      
+    </div> 
+    
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
 
   </body>
 </html>
