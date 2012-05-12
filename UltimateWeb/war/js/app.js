@@ -316,8 +316,7 @@ function updateSelectGamesControl(games) {
 		var description = game.date + (isBlank(game.tournamentName) ?  ' ' : (' at ' + game.tournamentName)) + ' vs. ' +  game.opponentName + ' ';
 		addGameSelection(html, game.gameId, description);
 	}
-	
-	$(".gameSelect").empty().html(html.join('')).selectmenu('refresh');
+	$(".gameSelect").selectmenu().empty().html(html.join('')).selectmenu('refresh');
 }
 
 function getGamesForSelection(selectionName) {
