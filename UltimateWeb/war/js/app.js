@@ -18,9 +18,10 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 }
 
 $(document).live('pagechange', function(event, data) {
-	var toPageId = data.toPage.attr("id");
-	Ultimate.currentPageId = toPageId;
-	switch (toPageId) {
+	var currentPageId = data.toPage.attr("id");
+	Ultimate.currentPageId = currentPageId;
+	console.log("pagechange: " + Ultimate.currentPageId);
+	switch (currentPageId) {
 		case 'gamespage':
 			renderGamesPage(data);
 			break;
@@ -59,7 +60,7 @@ function renderGameEventsPage(data) {
 }
 
 function renderGameStatsPage(data) {
-	resetStatsDenomintorChooser();
+	resetStatsDenomintorChooser($('.gameStatsDenominatorChooser'));
 	populateTeam(function() {
 		renderGamePageBasics(data);
 		populateGamePlayerStats(data);
@@ -75,7 +76,7 @@ function renderPlayerStatsPage(data) {
 }
 
 function renderTeamStats() {
-	resetStatsDenomintorChooser();
+	resetStatsDenomintorChooser($('.teamStatsDenominatorChooser'));
 	populateSelectGamesControl();
 	populateTeamStats();
 }
@@ -86,10 +87,12 @@ function renderGamePageBasics(data) {
 	$('.gameEventsChoiceLink').attr('href', '#eventspage?gameId=' + Ultimate.gameId);
 }
 
-function resetStatsDenomintorChooser() {
-	$chooser = $('.statDenominatorRadioButtons');
-	$chooser.find('input').prop('checked', false);
-	$chooser.find('input[value="Absolute"]').prop('checked', true);
+function resetStatsDenomintorChooser($container) {
+	if (Ultimate.statsDenominatorChooserTemplate == null) {
+		Ultimate.statsDenominatorChooserTemplate = Handlebars.compile($("#statsDenominatorChooserTemplate").html());
+	}
+	var html = Ultimate.statsDenominatorChooserTemplate({});
+	$container.html(html).trigger('create');
 }
 
 function renderTeamByPlayerStats() {

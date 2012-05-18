@@ -18,7 +18,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
     
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <link rel="shortcut icon" href="../../images/favicon.ico">
-	<link rel="stylesheet" href="../../css/jquery.mobile-1.1.0.min.css" />
+    <link rel="stylesheet" href="../../css/ultimate1.css" />
+  	<link rel="stylesheet" href="../../css/jquery.mobile.structure-1.1.0.min.css" /> 
 	<link rel="stylesheet" href="../../css/custom.css" />
 	<script src="../../js/jquery-1.7.1.min.js"></script>
 	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
@@ -79,7 +80,18 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			{{/each}}
 		</tbody>
 	</script>
-
+	
+	<script id="statsDenominatorChooserTemplate" type="text/x-handlebars-template">
+		<div class="ui-block-b statDenominatorRadioButtons">
+			<fieldset data-role="controlgroup" data-type="horizontal" >
+		  	   	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb1" value="Absolute" checked="checked" />
+		       	<label for="mainpage-sdrb1">Absolute</label>
+		       	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb2" value="PerPoint"  />
+		       	<label for="mainpage-sdrb2">Per Point Played</label>
+		    </fieldset>
+		</div>
+	</script>
+	
 </head>
 		
 <body>
@@ -114,13 +126,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 						<option value="AllGames">All Games</option>
 					</select>
 				</div>
-				<div class="ui-block-b statDenominatorRadioButtons">
-					<fieldset data-role="controlgroup" data-type="horizontal" >
-				    	   	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb1" value="Absolute" checked="checked" />
-				         	<label for="mainpage-sdrb1">Absolute</label>
-				         	<input type="radio" name="mainpage-statDenominatorType" id="mainpage-sdrb2" value="PerPoint"  />
-				         	<label for="mainpage-sdrb2">Per Point Played</label>
-				    </fieldset>
+				<div class="teamStatsDenominatorChooser">
 				</div>
 			</fieldset>
 
@@ -206,13 +212,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					<a class="gameStatsChoiceLink ui-btn-active" href="#gamestatspage" data-role="button">Statistics</a>
 				</div>
 			</div>
-			<div class="ui-block-b statDenominatorRadioButtons">
-				<fieldset data-role="controlgroup" data-type="horizontal" >
-			    	   	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb1" value="Absolute" checked="checked" />
-			         	<label for="gamestatspage-sdrb1">Absolute</label>
-			         	<input type="radio" name="gamestatspage-statDenominatorType" id="gamestatspage-sdrb2" value="PerPoint"  />
-			         	<label for="gamestatspage-sdrb2">Per Point Played</label>
-			    </fieldset>
+			<div class="gameStatsDenominatorChooser">
 			</div>
 		</fieldset>
 		
