@@ -60,6 +60,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</ul>
 			</div>
 		</div>
+		<div><br>&nbsp;<a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
 	<div id="gamespage" class="pagediv" data-role="page" data-theme="b">
@@ -89,6 +90,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</ul>
 			</div>
 		</div>
+		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
 	<div id="confirmDeleteDialog" class="pagediv" data-role="dialog"
@@ -106,6 +108,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 
 
+	
+	
 
 
 </body>
