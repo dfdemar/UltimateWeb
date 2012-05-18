@@ -379,7 +379,7 @@ function updateGamePointsList(game) {
 		html[html.length] = point.summary.lineType == 'O' ? 'O-line' : 'D-line';
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = point.summary.finished ? elapsedTime : ' (unfinished point)';
-		html[html.length] = '</h3><ul data-role="listview" data-inset="true" data-theme="c"></div>';
+		html[html.length] = '</h3><ul data-role="listview" data-inset="true" data-theme="a"></div>';
 	}
 	$('#points').empty().append(html.join('')).trigger('create');
 	$('#points div[data-role="collapsible"]').live(
@@ -462,7 +462,7 @@ function populatePointEvents($pointEl) {
 		var event = events[i];
 		var description = eventDescription(event);
 		html[html.length] = '<li data-theme="';
-		html[html.length] = event.type == 'Offense' ? 'd' : 'c';
+		html[html.length] = event.type == 'Offense' ? 'a' : 'b';
 		html[html.length] = '">';
 		html[html.length] = '<img src="/images/' + description.image + '" class="listImage">&nbsp;&nbsp;';
 		html[html.length] = description.text;
