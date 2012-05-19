@@ -95,7 +95,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 </head>
 		
 <body>
-	<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
+<div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -106,8 +106,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 	<div data-role="navbar">
 		<ul>
-			<li><a id="teamTab" href="#mainpage" data-prefetch class="ui-btn-active ui-state-persist">Team</a></li>
+			<li><a id="playersTab" href="#mainpage" data-prefetch class="ui-btn-active ui-state-persist">Players</a></li>
 			<li><a id="gamesTab" href="#gamespage" data-prefetch >Games</a></li>
+			<li><a id="teamTab" href="#teamstatspage" data-prefetch >Team</a></li>
 		</ul>
 	</div>
 	<div class="content">
@@ -147,8 +148,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 	<div data-role="navbar">
 		<ul>
-			<li><a id="teamTab" href="#mainpage" data-prefetch>Team</a></li>
+			<li><a id="playersTab" href="#mainpage" data-prefetch >Players</a></li>
 			<li><a id="gamesTab" href="#gamespage" data-prefetch class="ui-btn-active ui-state-persist">Games</a></li>
+			<li><a id="teamTab" href="#teamstatspage" data-prefetch >Team</a></li>
 		</ul>
 	</div>
 	
@@ -274,5 +276,38 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 </div>
 
+<div id="teamstatspage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
+	<div class="top-section">
+		<img class="players-image" src="/images/ultimate-silhouette.png">
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
+	</div>
+
+	<div data-role="navbar">
+		<ul>
+			<li><a id="playersTab" href="#mainpage" data-prefetch>Players</a></li>
+			<li><a id="gamesTab" href="#gamespage" data-prefetch >Games</a></li>
+			<li><a id="teamTab" href="#teamstatspage" data-prefetch  class="ui-btn-active ui-state-persist">Team</a></li>
+		</ul>
+	</div>
+	<div class="content">
+		<div id="teamStats">
+			<br>
+			
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats" data-inline="true">
+						<option value="AllGames">All Games</option>
+					</select>
+				</div>
+			</fieldset>
+
+
+		</div>
+	</div>
+	
+</div>
 </body>
 </html>

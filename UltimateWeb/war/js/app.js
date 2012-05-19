@@ -33,7 +33,10 @@ $(document).live('pagechange', function(event, data) {
 			break;
 		case 'playerstatspage' :
 			renderPlayerStatsPage(data);
-			break;				
+			break;		
+		case 'teamstatspage' :
+			renderTeamStats(data);
+			break;			
 		default:
 			renderMainPage(data);
 	}
@@ -41,8 +44,8 @@ $(document).live('pagechange', function(event, data) {
 
 function renderMainPage(data) {
 	populateTeam(function() {
-		showDeviceBasedTeamStats();
-		isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamStats();
+		showDeviceBasedTeamPlayerStats();
+		isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamPlayerStats();
 	});
 }
 
@@ -75,11 +78,19 @@ function renderPlayerStatsPage(data) {
 	});
 }
 
-function renderTeamStats() {
+function renderTeamPlayerStats() {
 	resetStatsDenomintorChooser($('.teamStatsDenominatorChooser'));
 	populateSelectGamesControl();
-	populateTeamStats();
+	populateTeamPlayerStats();
 }
+
+function renderTeamStats(data) {
+	populateTeam(function() {
+		populateSelectGamesControl();
+		populateTeamStats();
+	});
+}
+
 
 function renderGamePageBasics(data) {
 	Ultimate.gameId = data.options.pageData.gameId;
@@ -142,7 +153,7 @@ function updateTeamByPlayerStats() {
 		$("#players").empty().append(html.join('')).listview("refresh");
 }
 
-function populateTeamStats() {
+function populateTeamPlayerStats() {
 	var gamesToIncludeSelection = getTeamsSelectionChoice();
 	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(gamesToIncludeSelection);
@@ -152,25 +163,16 @@ function populateTeamStats() {
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
-			populateTeamStats();
+			populateTeamPlayerStats();
 		});
 		$('.statDenominatorRadioButtons input').unbind('click').on('click', function() {
-			populateTeamStats();
+			populateTeamPlayerStats();
 		});
 	}); 
 }
 
-function updateTeamStats() {
-	var html = [];
-	for ( var i = 0; i < players.length; i++) {
-		var player = players[i];
-		html[html.length] = '<li><a href="#playerstatspage?name=';
-		html[html.length] = encodeURIComponent(player.name);
-		html[html.length] = '">'
-		html[html.length] = player.name;
-		html[html.length] = '</a></li>';
-	}
-	$("#players").empty().append(html.join('')).listview("refresh");
+function populateTeamStats() {
+
 }
 
 function showDeviceBasedPlayerStats() {
@@ -181,7 +183,7 @@ function showDeviceBasedPlayerStats() {
 	$('#gamespageDataSelection').toggleClass('ui-block-a', !isNarrow);
 }
 
-function showDeviceBasedTeamStats() {
+function showDeviceBasedTeamPlayerStats() {
 	var isNarrow = isNarrowDevice();
 	$('#teamStatsNarrow').toggleClass('hidden', !isNarrow);
 	$('#teamStatsWide').toggleClass('hidden', isNarrow);
