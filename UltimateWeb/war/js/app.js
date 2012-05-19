@@ -154,15 +154,15 @@ function updateTeamByPlayerStats() {
 }
 
 function populateTeamPlayerStats() {
-	var gamesToIncludeSelection = getTeamsSelectionChoice();
+	var gamesToIncludeSelection = $('#selectGamesForTeamPlayerStats option:selected').val();
 	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(gamesToIncludeSelection);
 	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
 		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
-		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
+		$('#selectGamesForTeamPlayerStats').val(gamesToIncludeSelection).selectmenu('refresh');
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
-		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
+		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
 			populateTeamPlayerStats();
 		});
 		$('.statDenominatorRadioButtons input').unbind('click').on('click', function() {
@@ -172,7 +172,21 @@ function populateTeamPlayerStats() {
 }
 
 function populateTeamStats() {
+	var gamesToIncludeSelection = $('#selectGamesForTeamStats option:selected').val();
+	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
+	var games = getGamesForSelection(gamesToIncludeSelection);
+	retrieveTeamStatsForGames(Ultimate.teamId, games, function(teamStats) {
+		Ultimate.teamStatsHelper = new TeamStatsHelper({teamStats: teamStats});
+		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
+		populateTeamStatsGraphs();
+		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
+			populateTeamStats();
+		});
+	}); 
+}
 
+function populateTeamStatsGraphs() {
+	var helper = Ultimate.teamStatsHelper;
 }
 
 function showDeviceBasedPlayerStats() {
@@ -509,10 +523,6 @@ function createTeamStatsTableHtml(statsTable) {
 
 function isAbsoluteDenominator() {
 	return $('#' + Ultimate.currentPageId + ' .statDenominatorRadioButtons input:checked').attr('value') == 'Absolute';	
-}
-
-function getTeamsSelectionChoice() {
-	return $('#selectGamesForTeamStats option:selected').val();
 }
 
 function isNarrowDevice() {

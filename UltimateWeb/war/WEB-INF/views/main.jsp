@@ -123,7 +123,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
-					<select name="selectGamesForTeamStats" class="gameSelect" id="selectGamesForTeamStats" data-inline="true">
+					<select name="selectGamesForPlayerTeamStats" class="gameSelect" id="selectGamesForTeamPlayerStats" data-inline="true">
 						<option value="AllGames">All Games</option>
 					</select>
 				</div>

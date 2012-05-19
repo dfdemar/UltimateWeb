@@ -1,3 +1,22 @@
+/****************  TEAM STATS ********************/
+/*
+ * @PARAM stats: REQUIRED  Object	stats object returned from server
+ * Example: 	{
+ * 					playerStats: [stat: "goals", value: 5, "touches": 9, etc...],
+ * 				}
+ * @PARAM name:  OPTIONAL 	String	name of the stats (not used by the helper)
+ * 		
+ */
+TeamStatsHelper = function(stats, statsName) {
+	var self = this;
+	var name = statsName;
+	
+	this.name = function() {
+		return name;
+	};
+}
+
+/****************  PLAYER STATS ********************/
 /*
  * @PARAM stats: REQUIRED  Object	stats object returned from server
  * Example: 	{
