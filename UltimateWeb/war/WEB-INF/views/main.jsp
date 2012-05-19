@@ -25,6 +25,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
 	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>
+	<script src="../../js/jquery.flot.min.js"></script>
 	<script type="text/javascript">
 		Ultimate = {};
 		Ultimate.teamId = "${teamId}";
@@ -303,7 +304,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					</select>
 				</div>
 			</fieldset>
-
+			
+			<h3 class="chartTitle">O-line vs. D-line Goals</h3>
+			<table>
+				<thead>
+					<tr>
+						<th><h2>${teamName}</h2></th>
+						<th></th>
+						<th><h2>Opponents</h2></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><div id="ourGoalSummaryPie" class="goalSummaryPie"></div></td>
+						<td><div class="sideBySideChartGap"></div></td>
+						<td><div id="theirGoalSummaryPie" class="goalSummaryPie"></div></td>
+					</tr>
+				</tbody>
+			</table>
 
 		</div>
 	</div>

@@ -186,7 +186,7 @@ function populateTeamStats() {
 }
 
 function populateTeamStatsGraphs() {
-	var helper = Ultimate.teamStatsHelper;
+	Ultimate.teamStatsHelper.renderGoalsSummaryPieCharts();
 }
 
 function showDeviceBasedPlayerStats() {

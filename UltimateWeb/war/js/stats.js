@@ -9,11 +9,40 @@
  */
 TeamStatsHelper = function(stats, statsName) {
 	var self = this;
+	var teamStats = stats.teamStats;
 	var name = statsName;
 	
 	this.name = function() {
 		return name;
 	};
+	
+	this.renderGoalsSummaryPieCharts = function() {
+		renderGoalsSummaryPieChart($("#ourGoalSummaryPie"), teamStats.goalSummary.ourOlineGoals, teamStats.goalSummary.ourDlineGoals); 
+		renderGoalsSummaryPieChart($("#theirGoalSummaryPie"), teamStats.goalSummary.theirOlineGoals, teamStats.goalSummary.theirDlineGoals);
+	};
+	
+	function renderGoalsSummaryPieChart($container, oLineGoals, dLineGoals) {
+		var data = [];
+		data.push({label: 'O-line', data: oLineGoals, color: '#999900' });  
+		data.push({label: 'D-line', data: dLineGoals, color: '#334066'});
+		$.plot($($container), data,
+			{
+	        	series: {
+	        		pie: {
+	        			show: true,
+	        	        label: {
+	        	            show: true,
+	        	            formatter: function(label, series) {
+	        	                return '<div class="pieLabel">' + label + '<br/>'+Math.round(series.percent) + '%</div>';
+	        	            }
+	        	        }
+	        		}
+	        	},
+	        	legend: {
+	        		show: false
+	        	}
+			});
+	}
 }
 
 /****************  PLAYER STATS ********************/

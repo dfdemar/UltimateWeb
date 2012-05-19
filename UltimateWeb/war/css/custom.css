@@ -137,3 +137,16 @@
 .gameSelect option {
 	font-size: medium;
 }
+.goalSummaryPie {
+	width: 340px;
+	height: 300px;
+}
+.sideBySideChartGap {
+	width: 100px;
+}
+.pieLabel {
+	font-size: large;
+}
+.chartTitle {
+	text-align: center;
+}
