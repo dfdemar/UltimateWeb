@@ -21,6 +21,36 @@ TeamStatsHelper = function(stats, statsName) {
 		renderGoalsSummaryPieChart($("#theirGoalSummaryPie"), teamStats.goalSummary.theirOlineGoals, teamStats.goalSummary.theirDlineGoals);
 	};
 	
+	this.renderTrendGraph = function() {
+		var touches = [];
+		var drops = [];
+		var throwaways = [];
+		var turnovers = [];
+		var turnoversPerTouch = [];
+		for ( var i = 0; i < teamStats.trendPoints.length; i++) {
+			p = teamStats.trendPoints[i];
+			x = i + 1;
+			touches.push([x, p.touches]);
+			drops.push([x, p.drops]);
+			throwaways.push([x, p.throwaways]);
+			turnovers.push([x, p.turnovers]);
+			turnoversPerTouch.push([x, p.touch ? p.turnovers / p.touch : 0]);
+		}
+		$.plot($('#trendLineGraph'), 
+				[
+				 	{label: 'Touches', data: touches, color: '#999900'}, 
+				 	{label: 'Turnovers', data: turnovers, color: '#334066'}
+				 ],
+			{
+				grid: {
+					backgroundColor: { colors: ["#fff", "#eee"] }
+				},
+				xaxis: {
+					label: 'foo'
+				}
+			});
+	}
+	
 	function renderGoalsSummaryPieChart($container, oLineGoals, dLineGoals) {
 		var data = [];
 		data.push({label: 'O-line', data: oLineGoals, color: '#999900' });  

@@ -150,3 +150,11 @@
 .chartTitle {
 	text-align: center;
 }
+.xAxisLabel {
+	font-size:  medium;
+	text-align: center;
+}
+.singleTeamGraph {
+	width: 780px;
+	height: 300px;
+}

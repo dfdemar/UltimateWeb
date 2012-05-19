@@ -323,6 +323,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</tbody>
 			</table>
 
+			<h3 class="chartTitle">Trend</h3>
+			<div id="trendLineGraph" class="singleTeamGraph"></div>
+			<div class="xAxisLabel">Game</div>
 		</div>
 	</div>
 	

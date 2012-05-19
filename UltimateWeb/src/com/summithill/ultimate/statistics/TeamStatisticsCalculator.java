@@ -74,6 +74,7 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 		} else if (event.getAction().equals(THROWAWAY)) {
 			gameTrendPoint.incrementThroways();
 		} 
-		gameTrendPoint.incrementThroways();
+		
+		gameTrendPoint.setTouches(gameTrendPoint.getTouches() + touches);
 	}
 }
