@@ -1,7 +1,8 @@
 package com.summithill.ultimate.statistics;
 
+import static com.summithill.ultimate.model.lightweights.PointSummary.O_LINE;
+
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,6 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	private void updateStatsForGame(Game game) {
 		Set<String> playedInGame = new HashSet<String>();
 		List<Point> points = game.getPoints();
-		Collections.reverse(points);
 		for (Point point : points) {
 			updatePointsPlayedStats(point, playedInGame);
 			List<Event> events = point.getEvents();
@@ -87,7 +87,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				playedInGame.add(name);
 				PlayerStats playerStats = getStats(name);
 				playerStats.incPointsPlayed();
-				if ("O".equals(point.getSummary().getLineType())) {
+				if (O_LINE.equals(point.getSummary().getLineType())) {
 					playerStats.incOPointsPlayed();
 				} else {
 					playerStats.incDPointsPlayed();

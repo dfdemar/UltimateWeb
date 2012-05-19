@@ -18,6 +18,10 @@ public class Point {
 		}
 	}
 	
+	public boolean isOline() {
+		return this.summary.isOline();
+	}
+	
 	public List<Event> getEvents() {
 		return events;
 	}

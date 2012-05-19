@@ -4,10 +4,17 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PointSummary {
+	public static final String O_LINE = "O";
+	public static final String D_LINE = "D";
+	
 	private Score score;
 	private String lineType;
 	private boolean finished;
 	private long elapsedTime;
+	
+	public boolean isOline() {
+		return lineType.equals(O_LINE);
+	}
 	
 	public Score getScore() {
 		return score;
