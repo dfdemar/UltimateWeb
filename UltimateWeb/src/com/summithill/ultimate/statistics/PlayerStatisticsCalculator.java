@@ -16,14 +16,12 @@ import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.service.TeamService;
 
-public class PlayerStatisticsCalculator {
+public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
-	private TeamService service;
 	private Map<String, PlayerStats> stats;
 	
 	public PlayerStatisticsCalculator(TeamService service) {
-		super();
-		this.service = service;
+		super(service);
 	}
 	
 	public Collection<PlayerStats> calculateStats(Team team, List<String> gameIds) {
@@ -107,7 +105,5 @@ public class PlayerStatisticsCalculator {
 		return playerStats;
 	}
 	
-	private Game getGame(Team team, String gameId) {
-		return service.getGame(team, gameId);
-	}
+
 }

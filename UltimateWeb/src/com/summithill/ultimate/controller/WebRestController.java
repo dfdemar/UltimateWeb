@@ -18,6 +18,8 @@ import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
+import com.summithill.ultimate.statistics.TeamStatisticsCalculator;
+import com.summithill.ultimate.statistics.TeamStats;
 
 @Controller
 @RequestMapping("/view")
@@ -104,7 +106,7 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/team/{teamId}/stats/player", method = RequestMethod.POST)
 	@ResponseBody
-	public Collection<PlayerStats> getTeamPlayerStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
+	public Collection<PlayerStats> getPlayerStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
@@ -114,10 +116,26 @@ public class WebRestController extends AbstractController {
 				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeamPlayerStats", e);
+			logErrorAndThrow("Error on getPlayerStats", e);
 			return null;
 		}
 	}
 	
+	@RequestMapping(value = "/team/{teamId}/stats/team", method = RequestMethod.POST)
+	@ResponseBody
+	public TeamStats getTeamStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				return null;
+			} else {
+				List<String> gameIdsToInclude = gameIds.size() == 0 ? service.getGameIDs(team) : gameIds;
+				return new TeamStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeamStats", e);
+			return null;
+		}
+	}
 
 }

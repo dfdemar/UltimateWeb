@@ -9,6 +9,15 @@ public class Point {
 	private long endSeconds;
 	private PointSummary summary;
 	
+	public boolean isOurPoint(Point lastPoint) {
+		Score currentScore = this.getSummary().getScore();
+		if (lastPoint == null) {
+			return currentScore.getOurs() > currentScore.getTheirs();
+		} else {
+			return currentScore.getOurs() > lastPoint.getSummary().getScore().getOurs();
+		}
+	}
+	
 	public List<Event> getEvents() {
 		return events;
 	}

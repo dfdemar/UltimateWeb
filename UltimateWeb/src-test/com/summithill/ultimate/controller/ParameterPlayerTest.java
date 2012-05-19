@@ -1,6 +1,6 @@
 package com.summithill.ultimate.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;

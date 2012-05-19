@@ -4,9 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.summithill.ultimate.model.Game;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.summithill.ultimate.model.Game;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
