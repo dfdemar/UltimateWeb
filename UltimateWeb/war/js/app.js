@@ -147,7 +147,7 @@ function populateTeamStats() {
 	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(gamesToIncludeSelection);
 	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
-		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
+		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
@@ -247,7 +247,7 @@ function populateGamePlayerStats(data) {
 		populateGameTitle();
 		retrievePlayerStatsForGames(Ultimate.teamId, [Ultimate.gameId], function(playerStatsArray) {
 			Ultimate.statType = 'playerName';
-			Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
+			Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
 			showDeviceBasedPlayerStats();
 			if (isNarrowDevice()) {
 				populateMobileGamePlayerStatsData(data.options.pageData.ranktype);
@@ -270,7 +270,7 @@ function populateMobileGamePlayerStatsData(stattype) {
 
 function populatePlayerStatsTable() {
 	$statsTable = $('.playerStats');
-	var statsTable = Ultimate.statsHelper.playerStatsTable(!isAbsoluteDenominator(), Ultimate.statType);
+	var statsTable = Ultimate.playerStatsHelper.playerStatsTable(!isAbsoluteDenominator(), Ultimate.statType);
 	$statsTable.html(createTeamStatsTableHtml(statsTable));
 	$("a[data-stattype='" + Ultimate.statType + "']").addClass('selectedColumn');
 	$statsTable.find('th a').off().on('click', function() {
@@ -286,7 +286,7 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 	var selection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(selection);
 	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
-		Ultimate.statsHelper = new StatsHelper({playerStats: playerStatsArray});
+		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
 		$('#selectGamesForTeamPlayerStats').val(selection).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updateSinglePlayerStatsTable(Ultimate.playerName);
@@ -392,11 +392,11 @@ function updateGamePointsList(game) {
 function updatePlayerRankingsTable(rankingType) {
 	var rankingType = rankingType == null ? 'pointsPlayed' : rankingType;
 	$('#selectPlayerRank').val(rankingType).selectmenu('refresh');
-	var rankings = Ultimate.statsHelper.playerRankingsFor(rankingType);
+	var rankings = Ultimate.playerStatsHelper.playerRankingsFor(rankingType);
 	var html = [];
 	var statDescription = $("#selectPlayerRank :selected").text();
 	addRowToStatsTable(html,'<strong>Player</strong>','<strong>' + statDescription + '</strong>', 
-			Ultimate.statsHelper.isPerPointStat(rankingType) ? '<strong>per point played</strong>' : '');
+			Ultimate.playerStatsHelper.isPerPointStat(rankingType) ? '<strong>per point played</strong>' : '');
 	addRowToStatsTable(html,'&nbsp;','&nbsp;');
 	var total = 0;
 	for (var i = 0; i < rankings.length; i++) {
@@ -426,11 +426,11 @@ function addRowToStatsTable(html, name, stat1, stat2) {
 }
 
 function updateSinglePlayerStatsTable(playerName) {
-	var absolutePlayerStats = Ultimate.statsHelper.statsForPlayer(playerName, false);
+	var absolutePlayerStats = Ultimate.playerStatsHelper.statsForPlayer(playerName, false);
 	var html = [];
 	if (absolutePlayerStats) {
-		var headings = Ultimate.statsHelper.getStatLabelLookup();
-		var perPointPlayerStats = Ultimate.statsHelper.statsForPlayer(playerName, true);
+		var headings = Ultimate.playerStatsHelper.getStatLabelLookup();
+		var perPointPlayerStats = Ultimate.playerStatsHelper.statsForPlayer(playerName, true);
 		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>','<strong>Per Point Played</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
 		addRowToStatsTable(html,headings.gamesPlayed,absolutePlayerStats.gamesPlayed);

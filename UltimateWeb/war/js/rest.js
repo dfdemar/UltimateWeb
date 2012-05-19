@@ -31,6 +31,11 @@ function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunc
 	sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
+function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFunction) {
+    var url = ultimateBaseRestQuery + '/team/' + teamId + '/stats/team';
+    sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
+}
+
 function retrieveTeams(successFunction, errorFunction) {
 	var url = ultimateBaseRestQuery + '/teams'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});

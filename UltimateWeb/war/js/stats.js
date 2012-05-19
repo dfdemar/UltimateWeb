@@ -6,7 +6,7 @@
  * @PARAM name:  OPTIONAL 	String	name of the stats (not used by the helper)
  * 		
  */
-StatsHelper = function(stats, statsName) {
+PlayerStatsHelper = function(stats, statsName) {
 	var self = this;
 	var name = statsName;
 	var playerStatsArray = stats.playerStats;  //  [{playerName : 'Joe', gamesPlayed : 5, ...}, {playerName : 'Sue', gamesPlayed : 3, ...}]
