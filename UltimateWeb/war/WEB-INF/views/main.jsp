@@ -97,6 +97,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		
 <body>
 <div id="mainpage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
+	
 	<div class="top-section">
 		<img class="players-image" src="/images/ultimate-silhouette.png">
 		<div class="pageHeading">
@@ -113,6 +114,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</ul>
 	</div>
 	<div class="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div id="teamStatsNarrow">
 			<div class="insetlist">
 				<div><h4>Players</h4></div>
@@ -156,6 +158,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	
 		<div class="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div class="insetlist">
 			<div><h4>Games</h4></div>
 			<ul id="games" data-role="listview" data-theme="a" class="game-list" data-inset="true" >
@@ -181,6 +184,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<h1>Game</h1>
 	</div>
 	<div data-role="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div><span class="opponentTitle"></span>&nbsp;&nbsp;&nbsp;<span class="gameScore"></span>&nbsp;&nbsp;&nbsp;<span class="gameDetails"></span></div>
 		<div data-role="controlgroup" data-type="horizontal">
 			<a class="gameEventsChoiceLink ui-btn-active" href="#eventspage" data-role="button">Points</a> 
@@ -206,6 +210,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<h1>Game</h1>
 	</div>
 	<div data-role="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div><span class="opponentTitle"></span>&nbsp;&nbsp;&nbsp;<span class="gameScore"></span>&nbsp;&nbsp;&nbsp;<span class="gameDetails"></span></div>
 		
 		<fieldset class="ui-grid-a">
@@ -263,6 +268,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	
 	<div data-role="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div>
 			Player:&nbsp;&nbsp;<span class="playerName" id="statsPlayerNameHeading">Player</span>
 		</div>
@@ -294,6 +300,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</ul>
 	</div>
 	<div class="content">
+		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div id="teamStats">
 			<br>
 			

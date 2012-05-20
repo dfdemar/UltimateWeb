@@ -195,7 +195,7 @@ function isNullOrEmpty(s) {
 function busyDialogStart() {
 	Ultimate.busyDialogStack++;
 	if (Ultimate.busyDialogStack == 1) {
-		$.mobile.showPageLoadingMsg("b", "Loading", false);
+		$('.spinner').removeClass('hidden');
 	}
 }
 
@@ -207,6 +207,6 @@ function busyDialogEnd() {
 }
 
 function resetBusyDialog() {
-	$.mobile.hidePageLoadingMsg();
+	$('.spinner').addClass('hidden');
 }
 
