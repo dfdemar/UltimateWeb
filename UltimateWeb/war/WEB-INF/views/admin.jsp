@@ -23,14 +23,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/jquery-1.7.1.min.js"></script>
 	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
-	<script src="../../js/rest.js"></script>
-	<script src="../../js/admin.js"></script>
 	<script type="text/javascript">
 	Ultimate = {};
 	Ultimate.userName = "${userName}";
 	Ultimate.logonUrl = "${logonUrl}";
 	Ultimate.logoutUrl =" ${logoutUrl}";
 	</script>
+	<script src="../../js/rest.js"></script>
+	<script src="../../js/admin.js"></script>
 
 </head>
 <body>
