@@ -208,5 +208,6 @@ function busyDialogEnd() {
 
 function resetBusyDialog() {
 	$('.spinner').addClass('hidden');
+	Ultimate.busyDialogStack == 0;
 }
 
