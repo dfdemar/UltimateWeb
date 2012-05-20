@@ -46,7 +46,7 @@ TeamStatsHelper = function(stats, statsName) {
 					backgroundColor: { colors: ["#fff", "#eee"] }
 				},
 				xaxis: {
-					label: 'foo'
+					tickFormatter: function(value) {return '';}  // hides x-axis numbers (but grid still shows)
 				}
 			});
 	}
