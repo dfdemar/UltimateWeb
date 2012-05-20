@@ -18,7 +18,6 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 }
 
 $(document).live('pagechange', function(event, data) {
-	resetBusyDialog();
 	var currentPageId = data.toPage.attr("id");
 	Ultimate.currentPageId = currentPageId;
 	//console.log("pagechange: " + Ultimate.currentPageId);

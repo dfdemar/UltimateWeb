@@ -195,7 +195,9 @@ function isNullOrEmpty(s) {
 function busyDialogStart() {
 	Ultimate.busyDialogStack++;
 	if (Ultimate.busyDialogStack == 1) {
+		$('.hideWhenBusy').addClass('hidden');
 		$('.spinner').removeClass('hidden');
+		console.log("busy on");
 	}
 }
 
@@ -208,6 +210,8 @@ function busyDialogEnd() {
 
 function resetBusyDialog() {
 	$('.spinner').addClass('hidden');
+	$('.hideWhenBusy').removeClass('hidden');
 	Ultimate.busyDialogStack == 0;
+	console.log("busy off");
 }
 

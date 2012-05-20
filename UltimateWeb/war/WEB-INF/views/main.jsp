@@ -115,13 +115,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	<div class="content">
 		<img class="spinner hidden" src="/images/spinner.gif" />
-		<div id="teamStatsNarrow">
+		<div id="teamStatsNarrow" class="hideWhenBusy">
 			<div class="insetlist">
 				<div><h4>Players</h4></div>
 				<ul id="players" data-role="listview" data-theme="d" data-inset="true" ></ul>
 			</div>
 		</div>
-		<div id="teamStatsWide">
+		<div id="teamStatsWide" class="hideWhenBusy">
 			<br>
 			
 			<fieldset class="ui-grid-a">
@@ -159,7 +159,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	
 		<div class="content">
 		<img class="spinner hidden" src="/images/spinner.gif" />
-		<div class="insetlist">
+		<div class="insetlist" class="hideWhenBusy">
 			<div><h4>Games</h4></div>
 			<ul id="games" data-role="listview" data-theme="a" class="game-list" data-inset="true" >
 				
@@ -191,7 +191,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a class="gameStatsChoiceLink" href="#gamestatspage" data-role="button">Statistics</a>
 		</div>
 		<div><h4>Points</h4></div>
-		<div id="points" data-role="collapsible-set"></div>
+		<div id="points" data-role="collapsible-set" class="hideWhenBusy"></div>
 	</div>
 </div>
 
@@ -225,7 +225,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</fieldset>
 		
 
-		<div id="playerStatsNarrow">
+		<div id="playerStatsNarrow" class="hideWhenBusy">
 			<label for="selectPlayerRank" class="select">Statistic:</label>
 			<select name="selectPlayerRank" id="selectPlayerRank">
 				<option value="pointsPlayed">Points Played</option>
@@ -246,7 +246,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<tbody></tbody>
 			</table>
 		</div>
-		<div id="playerStatsWide">
+		<div id="playerStatsWide" class="hideWhenBusy">
 			<table id="playerStatsTable" class="playerStats">
 			</table>
 		</div>
@@ -277,7 +277,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<select name="selectGamesForPlayerStats" class="gameSelect" id="selectGamesForTeamPlayerStats">
 			<option value="AllGames">All Games</option>
 		</select>
-		<table class="statsTable" id="playerStats">
+		<table class="statsTable hideWhenBusy" id="playerStats">  
 			<tbody></tbody>
 		</table>
 	</div>
@@ -301,7 +301,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	<div class="content">
 		<img class="spinner hidden" src="/images/spinner.gif" />
-		<div id="teamStats">
+		<div id="teamStats" class="hideWhenBusy">  
 			<br>
 			
 			<fieldset class="ui-grid-a">
