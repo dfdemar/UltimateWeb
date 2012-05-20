@@ -1,43 +1,44 @@
-window.ultimateBaseRestQuery = "/rest/view";
+Ultimate.busyDialogStack = 0;
+Ultimate.baseRestUrl = "/rest/view";
 
 function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + id;
+	var url = Ultimate.baseRestUrl + '/team/' + id;
 	url = includePlayers ? url + "?players=true" : url;
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGames(teamId, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + teamId + '/games'; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/games'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGame(teamId, gameId, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + teamId + '/game/' + gameId; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function deleteGame(teamId, gameId, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + teamId + '/game/' + gameId + '/delete'; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/delete'; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function deleteTeam(teamId, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + teamId + '/delete'; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/delete'; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/team/' + teamId + '/stats/player';   
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player';   
 	sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
 function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFunction) {
-    var url = ultimateBaseRestQuery + '/team/' + teamId + '/stats/team';
+    var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/team';
     sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
 }
 
 function retrieveTeams(successFunction, errorFunction) {
-	var url = ultimateBaseRestQuery + '/teams'; 
+	var url = Ultimate.baseRestUrl + '/teams'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
@@ -50,7 +51,7 @@ function sendRequest(request) {
 	var options = {
     	cache: false, 
 	  	success: function(data, textStatus, jqXHR){
-	  		$.mobile.hidePageLoadingMsg();
+	  		busyDialogEnd();
 	  		var responseTypeReceived = jqXHR.getResponseHeader('Content-Type'); 
 	  		if (isExpectedResponseType(request, jqXHR)) {
 	  			request.success(data, textStatus, jqXHR);
@@ -59,7 +60,7 @@ function sendRequest(request) {
 	  		}
 		}, 
 		error: function(jqXHR, textStatus, errorThrown){
-			$.mobile.hidePageLoadingMsg();
+			busyDialogEnd();
 			var error = logRequestFailure(jqXHR, textStatus, errorThrown);
 			if (request.error) {
 				request.error(jqXHR, textStatus, errorThrown);
@@ -78,7 +79,7 @@ function sendRequest(request) {
 	if (request.data) {
 		options.data = request.data;
 	}
-	$.mobile.showPageLoadingMsg("b", "Loading", false);
+	busyDialogStart();
     $.ajax(request.url, options);
 }
 
@@ -189,5 +190,23 @@ function log(message) {
 
 function isNullOrEmpty(s) {
 	return s == null || jQuery.trim(s) == '';
+}
+
+function busyDialogStart() {
+	Ultimate.busyDialogStack++;
+	if (Ultimate.busyDialogStack == 1) {
+		$.mobile.showPageLoadingMsg("b", "Loading", false);
+	}
+}
+
+function busyDialogEnd() {
+	Ultimate.busyDialogStack--;
+	if (Ultimate.busyDialogStack == 0) {
+		resetBusyDialog();
+	}
+}
+
+function resetBusyDialog() {
+	$.mobile.hidePageLoadingMsg();
 }
 
