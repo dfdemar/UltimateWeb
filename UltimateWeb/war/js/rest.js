@@ -197,7 +197,6 @@ function busyDialogStart() {
 	if (Ultimate.busyDialogStack == 1) {
 		$('.hideWhenBusy').addClass('hidden');
 		$('.spinner').removeClass('hidden');
-		console.log("busy on");
 	}
 }
 
@@ -212,6 +211,80 @@ function resetBusyDialog() {
 	$('.spinner').addClass('hidden');
 	$('.hideWhenBusy').removeClass('hidden');
 	Ultimate.busyDialogStack == 0;
-	console.log("busy off");
 }
 
+/*
+Creates a canonical string representation of the object which can be used for comparison or subsequent hash creation.  
+The object will be deeply recursed to find all objects. 
+Circular references are handled automatically (an object will not be re-visited once it has been handled).
+Thread-safe (designed to be a singleton)
+*/
+Ultimate.Canonicalizer = function () {
+    /*
+    Return a canonical string of the object.
+    Undefined properties are skipped.
+    options: {  
+    treatNullAsUndefined: boolean  By default NULL properties will be written.  To treat nulls like undefined specify treatNullAsUndefined
+    treatEmptyStringsAsUndefined: boolean  By default empty string properties will be written.  To treat empty strings like undefined specify treatEmptyStringsAsUndefined
+    <propertyName>: boolean   By default all other properties of an object are navigated.  To ignore a certain property add it to the options with value of true. 
+    */
+    this.toCanonicalString = function (object, options) {
+        var allProps = [];
+        var visitedObjects = [];
+        pushObject(object, allProps, options, 0, visitedObjects);
+        return allProps.join("");
+    };
+
+    function pushObject(obj, allProps, options, level, visitedObjects) {
+        if (typeof obj == 'object' && obj != null) {
+            var visitedReference = getVisitedReference(obj, visitedObjects);
+            if (visitedReference) {
+                allProps[allProps.length] = visitedReference;
+            } else {
+                visitedObjects.push(obj);
+                var props = [];
+                for (var prop in obj) {
+                    props.push(prop);
+                }
+                props = props.sort();
+                for (var i = 0; i < props.length; i++) {
+                    var childObj = obj[props[i]];
+                    if (shouldPush(childObj, options, props[i])) {
+                        allProps[allProps.length] = '\n';
+                        for (var j = 0; j < level; j++) {
+                            allProps[allProps.length] = '.';
+                        }
+                        allProps[allProps.length] = props[i];
+                        allProps[allProps.length] = ':';
+                        pushObject(childObj, allProps, options, level + 1, visitedObjects);
+                    }
+                }
+            }
+        } else {
+            allProps[allProps.length] = obj == null ? 'null' : obj;
+        }
+    }
+
+    function shouldPush(value, options, propName) {
+        if (propName && options[propName]) {
+            return false;
+        } else if (typeof value == 'function' || value === undefined) {
+            return false;
+        } else if (options.treatNullAsUndefined && value === null) {
+            return false;
+        } else if (options.treatEmptyStringsAsUndefined && value == '') {
+            return false;
+        }
+        return true;
+    }
+
+    function getVisitedReference(object, visitedObjects) {
+        for (var i = 0; i < visitedObjects.length; i++) {
+            if (visitedObjects[i] === object) {
+                return '@REF' + i;
+            }
+        }
+        return null;
+    }
+
+};
