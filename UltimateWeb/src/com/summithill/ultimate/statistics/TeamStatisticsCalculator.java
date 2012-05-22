@@ -15,24 +15,27 @@ import com.summithill.ultimate.service.TeamService;
 
 public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
-	private TeamStats teamStats;
+	private TeamStats teamStats = new TeamStats();
 	
 	public TeamStatisticsCalculator(TeamService service) {
 		super(service);
 	}
 	
 	public TeamStats calculateStats(Team team, List<String> gameIds) {
-		teamStats = new TeamStats();
 		
 		for (String gameId : gameIds) {
 			Game game = getGame(team, gameId);
 			updateStatsForGame(game);
 		}
 		
+		return getStats();
+	}
+	
+	public TeamStats getStats() {
 		return teamStats;
 	}
 	
-	private void updateStatsForGame(Game game) {
+	public void updateStatsForGame(Game game) {
 		TrendPoint gameTrendPoint = teamStats.addNewTrendPoint();
 		List<Point> points = game.getPoints();
 		Point lastPoint = null;

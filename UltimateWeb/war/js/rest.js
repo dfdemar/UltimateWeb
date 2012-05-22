@@ -44,6 +44,14 @@ function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFuncti
     sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
+function retrieveAllStatsForGames(teamId, gameIds, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/all';
+    if (gameIds != null && gameIds.length > 0) {
+    	url = url + '?gameIds=' + gameIds.join("_");
+    }
+    sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
 function retrieveTeams(successFunction, errorFunction) {
 	var url = Ultimate.baseRestUrl + '/teams'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});

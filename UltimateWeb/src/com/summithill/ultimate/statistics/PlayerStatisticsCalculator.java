@@ -19,15 +19,14 @@ import com.summithill.ultimate.service.TeamService;
 
 public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
-	private Map<String, PlayerStats> stats;
+	private Map<String, PlayerStats> stats = new HashMap<String, PlayerStats>();;
 	
 	public PlayerStatisticsCalculator(TeamService service) {
 		super(service);
 	}
 	
 	public Collection<PlayerStats> calculateStats(Team team, List<String> gameIds) {
-		stats = new HashMap<String, PlayerStats>();
-		
+
 		for (String gameId : gameIds) {
 			Game game = getGame(team, gameId);
 			updateStatsForGame(game);
@@ -36,7 +35,11 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 		return stats.values();
 	}
 	
-	private void updateStatsForGame(Game game) {
+	public Collection<PlayerStats> getStats() {
+		return stats.values();
+	}
+	
+	public void updateStatsForGame(Game game) {
 		Set<String> playedInGame = new HashSet<String>();
 		List<Point> points = game.getPoints();
 		for (Point point : points) {

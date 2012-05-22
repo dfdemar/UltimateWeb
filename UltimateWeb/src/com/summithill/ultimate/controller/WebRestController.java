@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
+import com.summithill.ultimate.statistics.AllStatisticsCalculator;
+import com.summithill.ultimate.statistics.AllStats;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
 import com.summithill.ultimate.statistics.TeamStatisticsCalculator;
@@ -137,6 +139,24 @@ public class WebRestController extends AbstractController {
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new TeamStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeamStats", e);
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/stats/all", method = RequestMethod.GET)
+	@ResponseBody
+	public AllStats getAllStats(@PathVariable String teamId, @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				return null;
+			} else {
+				this.addStandardExpireHeader(response);  
+				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
+				return new AllStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeamStats", e);

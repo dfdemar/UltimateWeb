@@ -161,8 +161,8 @@ function populateTeamPlayerStats() {
 	var gamesToIncludeSelection = $('#selectGamesForTeamPlayerStats option:selected').val();
 	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(gamesToIncludeSelection);
-	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
-		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
+	retrieveAllStatsForGames(Ultimate.teamId, games, function(allStats) {
+		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: allStats.playerStats});
 		$('#selectGamesForTeamPlayerStats').val(gamesToIncludeSelection).selectmenu('refresh');
 		Ultimate.statType = 'playerName';
 		populatePlayerStatsTable();
@@ -179,8 +179,8 @@ function populateTeamStats() {
 	var gamesToIncludeSelection = $('#selectGamesForTeamStats option:selected').val();
 	gamesToIncludeSelection = gamesToIncludeSelection == null ? 'AllGames' : gamesToIncludeSelection;
 	var games = getGamesForSelection(gamesToIncludeSelection);
-	retrieveTeamStatsForGames(Ultimate.teamId, games, function(teamStats) {
-		Ultimate.teamStatsHelper = new TeamStatsHelper({teamStats: teamStats});
+	retrieveAllStatsForGames(Ultimate.teamId, games, function(allStats) {
+		Ultimate.teamStatsHelper = new TeamStatsHelper({teamStats: allStats.teamStats});
 		$('#selectGamesForTeamStats').val(gamesToIncludeSelection).selectmenu('refresh');
 		populateTeamStatsGraphs();
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
