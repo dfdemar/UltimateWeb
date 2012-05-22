@@ -29,7 +29,8 @@ public class WebRestController extends AbstractController {
     
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request) {
+	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+		this.addStandardExpireHeader(response);
 		return getParameterTeam(id, request);
 	}
 	
@@ -62,7 +63,8 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request) {
+	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
+		this.addStandardExpireHeader(response);
 		return getParameterGames(teamId);
 	}
 	
