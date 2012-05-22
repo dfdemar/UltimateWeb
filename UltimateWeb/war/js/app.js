@@ -17,10 +17,14 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 	});
 }
 
+$(document).live('pagebeforeshow', function(event, prevPage) {
+	var currentPageId = $.mobile.activePage.attr('id');
+	$('.hideWhenBusy').addClass('hidden');  // shown when rest calls finish
+});
+
 $(document).live('pagechange', function(event, data) {
 	var currentPageId = data.toPage.attr("id");
 	Ultimate.currentPageId = currentPageId;
-	//console.log("pagechange: " + Ultimate.currentPageId);
 	switch (currentPageId) {
 		case 'gamespage':
 			renderGamesPage(data);

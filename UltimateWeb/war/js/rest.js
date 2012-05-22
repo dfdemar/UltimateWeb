@@ -209,7 +209,7 @@ function busyDialogEnd() {
 
 function resetBusyDialog() {
 	$('.spinner').addClass('hidden');
-	$('.hideWhenBusy').removeClass('hidden');
+	showHiddenWhenBusyElements();
 	Ultimate.busyDialogStack == 0;
 }
 
@@ -288,3 +288,12 @@ Ultimate.Canonicalizer = function () {
     }
 
 };
+
+function showHiddenWhenBusyElements()  {
+	$('.hideWhenBusy').removeClass('hidden');
+}
+
+function hideHiddenWhenBusyElements()  {
+	$('.hideWhenBusy').addClass('hidden');
+}
+
