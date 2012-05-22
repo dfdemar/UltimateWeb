@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -126,4 +127,13 @@ public class AbstractController {
 		String userQualifiedMessage = "User " + userIdentifier + " experienced error: " + message;
 		logErrorAndThrow(userQualifiedMessage, t);
 	}
+	
+	protected void addExpireHeader(HttpServletResponse response, long minutesBeforeExpire) {
+		response.setDateHeader("Expires", System.currentTimeMillis() + minutesBeforeExpire * 60 * 1000);
+	}
+	
+	protected void addStandardExpireHeader(HttpServletResponse response) {
+		this.addExpireHeader(response, 60);
+	}
+
 }

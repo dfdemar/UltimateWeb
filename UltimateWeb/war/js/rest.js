@@ -1,5 +1,6 @@
 Ultimate.busyDialogStack = 0;
 Ultimate.baseRestUrl = "/rest/view";
+Ultimate.sessionId = new Date().getTime() + '';
 
 function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
 	var url = Ultimate.baseRestUrl + '/team/' + id;
@@ -28,13 +29,19 @@ function deleteTeam(teamId, successFunction, errorFunction) {
 }
 
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
-	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player';   
-	sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player';
+    if (gameIds != null && gameIds.length > 0) {
+    	url = url + '?gameIds=' + gameIds.join("_");
+    }
+    sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFunction) {
-    var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/team';
-    sendRequest({url: url, dataType: 'json', isPost: true, data: JSON.stringify(gameIds), success: successFunction, error: errorFunction});
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/team';
+    if (gameIds != null && gameIds.length > 0) {
+    	url = url + '?gameIds=' + gameIds.join("_");
+    }
+    sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveTeams(successFunction, errorFunction) {
@@ -49,7 +56,6 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 
 function sendRequest(request) {
 	var options = {
-    	cache: false, 
 	  	success: function(data, textStatus, jqXHR){
 	  		busyDialogEnd();
 	  		var responseTypeReceived = jqXHR.getResponseHeader('Content-Type'); 
@@ -80,7 +86,8 @@ function sendRequest(request) {
 		options.data = request.data;
 	}
 	busyDialogStart();
-    $.ajax(request.url, options);
+	var url = addQueryStringParameter(request.url, 'cachebuster', Ultimate.sessionId);  // new session on every page load
+    $.ajax(url, options);
 }
 
 function isExpectedResponseType(request, responseTypeReceived) {
@@ -295,5 +302,9 @@ function showHiddenWhenBusyElements()  {
 
 function hideHiddenWhenBusyElements()  {
 	$('.hideWhenBusy').addClass('hidden');
+}
+
+function addQueryStringParameter(url, key, value) {
+	return url + (url.indexOf('?') > 0 ? '&' : '?') + key + '=' + value;
 }
 

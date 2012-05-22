@@ -1,16 +1,18 @@
 package com.summithill.ultimate.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.summithill.ultimate.model.Game;
@@ -104,15 +106,16 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
-	@RequestMapping(value = "/team/{teamId}/stats/player", method = RequestMethod.POST)
+	@RequestMapping(value = "/team/{teamId}/stats/player", method = RequestMethod.GET)
 	@ResponseBody
-	public Collection<PlayerStats> getPlayerStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
+	public Collection<PlayerStats> getPlayerStats(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				return null;
 			} else {
-				List<String> gameIdsToInclude = gameIds.size() == 0 ? service.getGameIDs(team) : gameIds;
+				this.addStandardExpireHeader(response);  
+				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
@@ -121,15 +124,16 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
-	@RequestMapping(value = "/team/{teamId}/stats/team", method = RequestMethod.POST)
+	@RequestMapping(value = "/team/{teamId}/stats/team", method = RequestMethod.GET)
 	@ResponseBody
-	public TeamStats getTeamStats(@PathVariable String teamId, @RequestBody List<String> gameIds, HttpServletRequest request) {
+	public TeamStats getTeamStats(@PathVariable String teamId, @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				return null;
 			} else {
-				List<String> gameIdsToInclude = gameIds.size() == 0 ? service.getGameIDs(team) : gameIds;
+				this.addStandardExpireHeader(response);  
+				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new TeamStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
