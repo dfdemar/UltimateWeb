@@ -146,16 +146,6 @@
 .gameSelect option {
 	font-size: medium;
 }
-.goalSummaryPie {
-	width: 340px;
-	height: 300px;
-}
-.sideBySideChartGap {
-	width: 100px;
-}
-.pieLabel {
-	font-size: large;
-}
 .chartTitle {
 	text-align: center;
 }
@@ -164,6 +154,21 @@
 	text-align: center;
 }
 .singleTeamGraph {
-	width: 780px;
+	width: 100%;
 	height: 300px;
 }
+.pieSideBySideChartTable {
+	width: 100%;
+	height: 300px;
+}
+.pieSideBySideChartCell {
+	width: 45%;
+	height: 300px;
+}
+.pieSideBySideChartSeparatorCell {
+	width: 10%;
+}
+.pieSideBySideChart {
+	height: 300px;
+}
+

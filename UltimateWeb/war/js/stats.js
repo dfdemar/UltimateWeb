@@ -30,16 +30,11 @@ TeamStatsHelper = function(stats, statsName) {
 		for ( var i = 0; i < teamStats.trendPoints.length; i++) {
 			p = teamStats.trendPoints[i];
 			x = i + 1;
-			touches.push([x, p.touches]);
-			drops.push([x, p.drops]);
-			throwaways.push([x, p.throwaways]);
-			turnovers.push([x, p.turnovers]);
-			turnoversPerTouch.push([x, p.touch ? p.turnovers / p.touch : 0]);
+			turnoversPerTouch.push([x, p.turnoversPerTouch]);
 		}
 		$.plot($('#trendLineGraph'), 
 				[
-				 	{label: 'Touches', data: touches, color: '#999900'}, 
-				 	{label: 'Turnovers', data: turnovers, color: '#334066'}
+				 	{label: 'Turnovers per Touch', data: turnoversPerTouch, color: '#334066'}, 
 				 ],
 			{
 				grid: {
@@ -53,8 +48,8 @@ TeamStatsHelper = function(stats, statsName) {
 	
 	function renderGoalsSummaryPieChart($container, oLineGoals, dLineGoals) {
 		var data = [];
-		data.push({label: 'O-line', data: oLineGoals, color: '#999900' });  
-		data.push({label: 'D-line', data: dLineGoals, color: '#334066'});
+		data.push({label: isNarrowDevice() ? 'O' : 'O-line', data: oLineGoals, color: '#999900' });  
+		data.push({label: isNarrowDevice() ? 'D' : 'D-line', data: dLineGoals, color: '#334066'});
 		$.plot($($container), data,
 			{
 	        	series: {
@@ -63,7 +58,9 @@ TeamStatsHelper = function(stats, statsName) {
 	        	        label: {
 	        	            show: true,
 	        	            formatter: function(label, series) {
-	        	                return '<div class="pieLabel">' + label + '<br/>'+Math.round(series.percent) + '%</div>';
+	        	                return isNarrowDevice() ? 
+	        	                		'<div class="pieLabel">' + label + '</div>' :
+	        	                		'<div class="pieLabel">' + label + '<br/>'+Math.round(series.percent) + '%</div>';
 	        	            }
 	        	        }
 	        		}

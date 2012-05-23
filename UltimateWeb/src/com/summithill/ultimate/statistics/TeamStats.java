@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TeamStats {
 	private WindEffect windEffect = new WindEffect();
-	private List<GameInterval> enduranceIntervals = new ArrayList<GameInterval>();
+	private List<TrendPoint> enduranceIntervals = new ArrayList<TrendPoint>();
 	private List<TrendPoint> trendPoints = new ArrayList<TrendPoint>();
 	private GoalsSummary goalSummary = new GoalsSummary();
 	
@@ -20,10 +20,10 @@ public class TeamStats {
 	public void setWindEffect(WindEffect windEffect) {
 		this.windEffect = windEffect;
 	}
-	public List<GameInterval> getEnduranceIntervals() {
+	public List<TrendPoint> getEnduranceIntervals() {
 		return enduranceIntervals;
 	}
-	public void setEnduranceIntervals(List<GameInterval> enduranceIntervals) {
+	public void setEnduranceIntervals(List<TrendPoint> enduranceIntervals) {
 		this.enduranceIntervals = enduranceIntervals;
 	}
 	public List<TrendPoint> getTrendPoints() {

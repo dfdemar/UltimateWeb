@@ -326,7 +326,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			</fieldset>
 			
 			<h3 class="chartTitle">O-line vs. D-line Goals</h3>
-			<table>
+			<table class="pieSideBySideChartTable">
 				<thead>
 					<tr>
 						<th><h2>${teamName}</h2></th>
@@ -336,14 +336,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</thead>
 				<tbody>
 					<tr>
-						<td><div id="ourGoalSummaryPie" class="goalSummaryPie"></div></td>
-						<td><div class="sideBySideChartGap"></div></td>
-						<td><div id="theirGoalSummaryPie" class="goalSummaryPie"></div></td>
+						<td class="pieSideBySideChartCell"><div id="ourGoalSummaryPie" class="pieSideBySideChart"></div></td>
+						<td class="pieSideBySideChartSeparatorCell"><div>&nbsp</div></td>
+						<td class="pieSideBySideChartCell"><div id="theirGoalSummaryPie" class="pieSideBySideChart"></div></td>
 					</tr>
 				</tbody>
 			</table>
 
-			<h3 class="chartTitle">Trend</h3>
+			<h3 class="chartTitle">Trend (by game): Turnovers per Touch</h3>
 			<div id="trendLineGraph" class="singleTeamGraph"></div>
 			<div class="xAxisLabel">Game</div>
 		</div>

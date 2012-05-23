@@ -50,6 +50,7 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 			}
 			lastPoint = point;
 		}
+		summarizeGame(gameTrendPoint);
 	}
 	
 	private void updateGoalSummary(GoalsSummary goalsSummary, Point currentPoint, Point lastPoint, Event event, Event lastEvent) {
@@ -75,9 +76,13 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 		if (event.getAction().equals(DROP)) {
 			gameTrendPoint.incrementDrops();
 		} else if (event.getAction().equals(THROWAWAY)) {
-			gameTrendPoint.incrementThroways();
+			gameTrendPoint.incrementThrowaways();
 		} 
 		
 		gameTrendPoint.setTouches(gameTrendPoint.getTouches() + touches);
+	}
+	
+	private void summarizeGame(TrendPoint gameTrendPoint) {
+		gameTrendPoint.calculateTurnoversPerTouch();
 	}
 }
