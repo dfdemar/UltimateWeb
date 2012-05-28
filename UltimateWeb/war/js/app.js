@@ -6,6 +6,8 @@ if (ieVersion > 5 && ieVersion < 9) {
 $('.pagediv').live('pageinit', function(event, data) {
 	registerPageSwipeHandler('mainpage', 'swipeleft', '#gamespage');
 	registerPageSwipeHandler('gamespage', 'swiperight', '#mainpage');
+	registerPageSwipeHandler('gamespage', 'swipeleft', '#teamstatspage');
+	registerPageSwipeHandler('teamstatspage', 'swiperight', '#gamespage');
 });
 
 function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
