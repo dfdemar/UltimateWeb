@@ -20,14 +20,11 @@ function registerPageSwipeHandler(pageSource, swipeEvent, pageTarget) {
 }
 
 $(document).live('pagebeforeshow', function(event, prevPage) {
-	var currentPageId = $.mobile.activePage.attr('id');
 	$('.hideWhenBusy').addClass('hidden');  // shown when rest calls finish
 });
 
 $(document).live('pagechange', function(event, data) {
-	var currentPageId = data.toPage.attr("id");
-	Ultimate.currentPageId = currentPageId;
-	switch (currentPageId) {
+	switch (getCurrentPageId()) {
 		case 'gamespage':
 			renderGamesPage(data);
 			break;
@@ -529,11 +526,15 @@ function createTeamStatsTableHtml(statsTable) {
 }
 
 function isAbsoluteDenominator() {
-	return $('#' + Ultimate.currentPageId + ' .statDenominatorRadioButtons input:checked').attr('value') == 'Absolute';	
+	return $('#' + getCurrentPageId() + ' .statDenominatorRadioButtons input:checked').attr('value') == 'Absolute';	
 }
 
 function isNarrowDevice() {
 	return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
 	//return true;
+}
+
+function getCurrentPageId() {
+	return $.mobile.activePage.attr('id');
 }
