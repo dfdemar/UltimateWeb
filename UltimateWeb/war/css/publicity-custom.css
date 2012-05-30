@@ -9,3 +9,7 @@
 #screenshot-carousel {
 	width: 470px;
 }
+#beta-tester-notice {
+	font-size: medium;
+	color: red;
+}
