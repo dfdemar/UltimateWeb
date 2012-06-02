@@ -15,9 +15,11 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<!--  ios offline meta stuff -->
     <meta name="apple-mobile-web-app-capable" content="yes" />  
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    
+        
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <link rel="shortcut icon" href="../../images/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icon.png">
+    <link rel="apple-touch-icon-precomposed" href="images/icon2x.png">
     <link rel="stylesheet" href="../../css/ultimate1.css" />
   	<link rel="stylesheet" href="../../css/jquery.mobile.structure-1.1.0.min.css" /> 
 	<link rel="stylesheet" href="../../css/custom.css" />
