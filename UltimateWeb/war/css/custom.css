@@ -9,17 +9,20 @@
 		 width: 900px !important;
 		 margin: 0 auto !important;
 		 position: relative !important;
-		 background-color: #E0E0E0  !important;
-	}
-	.ui-mobile-viewport {
-		background-color: #E0E0E0 !important;
-	}
-	.ui-body-b {
-		background: #E0E0E0 !important;
 	}
 	.statsTableDescriptionColumn {
 		width: 200px !important;
 	}
+}
+
+.ui-page {
+	 background-color: #E0E0E0  !important;
+}
+.ui-mobile-viewport {
+	background-color: #E0E0E0 !important;
+}
+.ui-body-b {
+	background: #E0E0E0 !important;
 }
 
 .spinner {

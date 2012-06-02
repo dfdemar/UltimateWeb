@@ -133,7 +133,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div id="teamStatsNarrow" class="hideWhenBusy">
 			<div class="insetlist">
 				<div><h4>Players</h4></div>
-				<ul id="players" data-role="listview" data-theme="d" data-inset="true" ></ul>
+				<ul id="players" data-role="listview" data-theme="c" data-inset="true" ></ul>
 			</div>
 		</div>
 		<div id="teamStatsWide" class="hideWhenBusy">
