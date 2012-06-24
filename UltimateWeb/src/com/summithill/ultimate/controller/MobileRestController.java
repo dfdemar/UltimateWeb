@@ -19,6 +19,7 @@ import com.summithill.ultimate.model.Team;
 @Controller
 @RequestMapping("/mobile")
 public class MobileRestController extends AbstractController {
+	private static final String MIN_ACCEPTABLE_APP_VERSION = "1.0.38";
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
@@ -27,6 +28,17 @@ public class MobileRestController extends AbstractController {
 		ParameterTeam testTeam = new ParameterTeam();
 		testTeam.setName("Test");
 		return testTeam;
+	}
+	
+	@RequestMapping(value = "/meta/{appVersion}", method = RequestMethod.GET, headers="Accept=*/*")
+	@ResponseBody
+	public ParameterMetaInfo getMetaInfo(@PathVariable String appVersion) {
+		ParameterMetaInfo metaInfo = new ParameterMetaInfo();
+		if (normalizedVersionString(appVersion).compareTo(normalizedVersionString(MIN_ACCEPTABLE_APP_VERSION)) < 0) {
+			metaInfo.setAppVersionAcceptable(false);
+			metaInfo.setMessageToUser("The version of the app you are running on your mobile device is no longer compatible with the cloud.  Please upgrade the app to the latest version.  \nDon't worry...you won't lose your data as a result of the upgrade!");
+		}
+		return metaInfo;
 	}
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
@@ -105,5 +117,20 @@ public class MobileRestController extends AbstractController {
 		service.savePlayers(userIdentifier, team, players);
 	}
 	
+	public String normalizedVersionString(String version) {
+		final String EMPTY_VERSION = "000000000000";
+		if (version == null || version.isEmpty()) {
+			return EMPTY_VERSION;
+		}
+		String[] parts = version.split("\\.");
+		if (parts.length != 3) {
+			return EMPTY_VERSION;
+		}
+		String normalizedString = "";
+		for (String part : parts) {
+			normalizedString += org.apache.commons.lang.StringUtils.leftPad(part, 4, '0');
+		}
+		return normalizedString;
+	}
 
 }
