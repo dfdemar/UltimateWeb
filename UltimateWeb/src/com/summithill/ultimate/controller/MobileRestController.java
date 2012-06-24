@@ -122,7 +122,7 @@ public class MobileRestController extends AbstractController {
 		if (version == null || version.isEmpty()) {
 			return EMPTY_VERSION;
 		}
-		String[] parts = version.split("\\.");
+		String[] parts = version.contains("_") ? version.split("_") : version.split("\\.");
 		if (parts.length != 3) {
 			return EMPTY_VERSION;
 		}
