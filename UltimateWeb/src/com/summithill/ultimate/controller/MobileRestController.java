@@ -19,7 +19,7 @@ import com.summithill.ultimate.model.Team;
 @Controller
 @RequestMapping("/mobile")
 public class MobileRestController extends AbstractController {
-	private static final String MIN_ACCEPTABLE_APP_VERSION = "1.0.38";
+	private static final String MIN_ACCEPTABLE_APP_VERSION = "1.0.29";
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
