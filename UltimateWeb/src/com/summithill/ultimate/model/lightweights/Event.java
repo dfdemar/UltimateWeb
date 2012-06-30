@@ -30,6 +30,26 @@ public class Event {
 		return type.equals(OFFENSE);
 	}
 	
+	public boolean isThrowaway() {
+		return action.equals(THROWAWAY);
+	}
+	
+	public boolean isD() {
+		return action.equals(D);
+	}
+	
+	public boolean isCatch() {
+		return action.equals(CATCH);
+	}
+	
+	public boolean isDrop() {
+		return action.equals(DROP);
+	}
+	
+	public boolean isPull() {
+		return action.equals(PULL);
+	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}

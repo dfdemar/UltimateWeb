@@ -75,7 +75,7 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 	private void updateTrend(TrendPoint gameTrendPoint, Point currentPoint, Point lastPoint, Event event, Event lastEvent, int touches) {
 		if (event.getAction().equals(DROP)) {
 			gameTrendPoint.incrementDrops();
-		} else if (event.getAction().equals(THROWAWAY)) {
+		} else if (event.isOffense() && event.getAction().equals(THROWAWAY)) {
 			gameTrendPoint.incrementThrowaways();
 		} 
 		

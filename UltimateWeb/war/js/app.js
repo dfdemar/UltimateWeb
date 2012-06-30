@@ -499,7 +499,8 @@ function eventDescription(event) {
 		case 'Drop' :
 			return {text: event.receiver + ' dropped from ' + event.passer, image: 'eyes_droped.png'};
 		case 'Throwaway':
-			return {text: event.passer + ' throwaway', image: 'shame.png'};
+			return {text: event.type == 'Offense' ? event.passer + ' throwaway' : 'Opponent throwaway', 
+					image: event.type == 'Offense' ? 'shame.png' : 'exciting.png'};
 		case 'D' :
 			return {text: 'D by ' + event.defender, image: 'electric_shock.png'};
 		case 'Pull' :

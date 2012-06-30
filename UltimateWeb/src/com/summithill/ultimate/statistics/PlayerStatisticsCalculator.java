@@ -47,23 +47,23 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 			List<Event> events = point.getEvents();
 			Event lastEvent = null;
 			for (Event event : events) {
-				if (event.getAction().equals("Catch")) {
+				if (event.isCatch()) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incCatches();
 					getStats(event.getReceiver()).incTouches();
-					if (lastEvent == null || (lastEvent.getAction().equals("D"))) {
+					if (lastEvent == null || (lastEvent.isD())) {
 						getStats(event.getPasser()).incTouches();
 					}
-				} else if (event.getAction().equals("Drop")) {
+				} else if (event.isDrop()) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incDrops();
-				} else if (event.getAction().equals("Throwaway")) {
+				} else if (event.isOffense() && event.isThrowaway()) {
 					getStats(event.getPasser()).incThrowaways();
-				} else if (event.getAction().equals("Pull")) {
+				} else if (event.isPull()) {
 					getStats(event.getDefender()).incPulls();					
-				} else if (event.getAction().equals("D")) {
+				} else if (event.isD()) {
 					getStats(event.getDefender()).incDs();
-				} else if (event.getAction().equals("Goal") && event.getType().equals("Offense")) {
+				} else if (event.isGoal() && event.isOffense()) {
 					getStats(event.getPasser()).incAssists();
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incTouches();
