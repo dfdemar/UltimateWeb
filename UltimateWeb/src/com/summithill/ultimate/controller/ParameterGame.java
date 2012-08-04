@@ -19,6 +19,7 @@ public class ParameterGame {
 	private long gamePoint;
 	private boolean isFirstPointOline;
 	private String pointsJson;
+	private Wind wind;
 	private String timestamp;
 	private String date;
 	private String time;
@@ -68,6 +69,7 @@ public class ParameterGame {
 		game.setTheirScore(theirs);
 		game.setFirstPointOline(isFirstPointOline);
 		game.setGamePoint(gamePoint);
+		game.setWind(wind);
 	}
 		
 	public void setGameId(String gameId) {
@@ -164,5 +166,12 @@ public class ParameterGame {
 		this.isFirstPointOline = isFirstPointOline;
 	}
 
+	public Wind getWind() {
+		return wind;
+	}
+
+	public void setWind(Wind wind) {
+		this.wind = wind;
+	}
 
 }

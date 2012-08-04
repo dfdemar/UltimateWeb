@@ -1,15 +1,10 @@
 package com.summithill.ultimate.statistics;
 
 public class WindEffect {
-	private int windSpeed;
+	private WindSpeedRange speedRange;
 	private WindStats ourStats = new WindStats();
 	private WindStats theirStats = new WindStats();
-	public int getWindSpeed() {
-		return windSpeed;
-	}
-	public void setWindSpeed(int windSpeed) {
-		this.windSpeed = windSpeed;
-	}
+
 	public WindStats getOurStats() {
 		return ourStats;
 	}
@@ -21,5 +16,11 @@ public class WindEffect {
 	}
 	public void setTheirStats(WindStats theirStats) {
 		this.theirStats = theirStats;
+	}
+	public WindSpeedRange getSpeedRange() {
+		return speedRange;
+	}
+	public void setSpeedRange(WindSpeedRange speedRange) {
+		this.speedRange = speedRange;
 	}
 }

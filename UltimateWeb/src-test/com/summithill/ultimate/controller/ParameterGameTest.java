@@ -18,4 +18,5 @@ public class ParameterGameTest {
 		ParameterGame unmarshalledGame = new ObjectMapper().readValue(json, ParameterGame.class);
 		assertNotNull(unmarshalledGame);
 	}
+	
 }

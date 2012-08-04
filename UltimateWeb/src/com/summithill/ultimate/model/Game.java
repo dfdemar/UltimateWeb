@@ -9,6 +9,7 @@ import org.codehaus.jackson.type.TypeReference;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
+import com.summithill.ultimate.controller.Wind;
 import com.summithill.ultimate.model.lightweights.Point;
 
 public class Game extends ModelObject {
@@ -22,7 +23,9 @@ public class Game extends ModelObject {
 	public static final String GAME_POINT_PROPERTY = "gamePoint";
 	public static final String IS_FIRST_POINT_OLINE_PROPERTY = "isFirstPointOline";
 	public static final String POINTS_JSON_PROPERTY = "pointsJson";
+	public static final String WIND_JSON_PROPERTY = "wind";
 	private List<Point> points; // transient
+	private Wind wind; // transient
 	
 	private Game(Entity entity) {
 		super();
@@ -133,6 +136,34 @@ public class Game extends ModelObject {
 	public void setFirstPointOline(boolean isFirstPointOline) {
 		entity.setProperty(IS_FIRST_POINT_OLINE_PROPERTY, Boolean.valueOf(isFirstPointOline));
 	}
+
+	public Wind getWind() {
+		if (wind == null) {
+			String json = this.getWindJson();
+			try {
+				wind = (Wind) (json == null ? null : new ObjectMapper().readValue(json, new TypeReference<Wind>() {} ));
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to parse points json",e);
+			}
+		}
+		return wind;
+	}
+	
+	public void setWind(Wind wind) {
+		this.wind = wind;
+		try {
+			entity.setProperty(WIND_JSON_PROPERTY, wind == null ? null : new ObjectMapper().writeValueAsString(wind));
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to convert Wind to json",e);
+		}
+	}
+	
+	public String getWindJson() {
+		Text text = (Text)entity.getProperty(WIND_JSON_PROPERTY);
+		return text == null ? null : text.getValue();
+	}
+
+
 }
 
 ;;
