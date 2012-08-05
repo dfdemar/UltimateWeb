@@ -83,9 +83,10 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 			} else {
 				windEffect.getOurStats().incrementGoalOpportunties();
 			}
-			
+		}
+		
 		// GOALS	
-		} else if (event.isGoal()) {
+		if (event.isGoal()) {
 			WindStats windStats = event.isOffense() ? windEffect.getOurStats() : windEffect.getTheirStats();
 			if (wind == null || wind.getMph() <= 0) {
 				windStats.incrementGoalsWindUnknown();
