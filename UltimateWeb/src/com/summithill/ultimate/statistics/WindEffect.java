@@ -5,6 +5,11 @@ public class WindEffect {
 	private WindStats ourStats = new WindStats();
 	private WindStats theirStats = new WindStats();
 
+	public WindEffect(WindSpeedRange speedRange) {
+		super();
+		this.speedRange = speedRange;
+	}
+	
 	public WindStats getOurStats() {
 		return ourStats;
 	}

@@ -159,10 +159,13 @@ public class Game extends ModelObject {
 	}
 	
 	public String getWindJson() {
-		Text text = (Text)entity.getProperty(WIND_JSON_PROPERTY);
-		return text == null ? null : text.getValue();
+		return (String)entity.getProperty(WIND_JSON_PROPERTY);
 	}
 
+	
+	public int halftimeHighestScore() {
+		return (int) Math.ceil(this.getGamePoint() / 2);
+	}
 
 }
 

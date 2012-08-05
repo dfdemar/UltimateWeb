@@ -15,4 +15,11 @@ public class Score {
 	public void setTheirs(int theirs) {
 		this.theirs = theirs;
 	}
+	public int combinedScore(){
+		return ours + theirs;
+	}
+	public int highestScore(){
+		return Math.max(ours, theirs);
+	}
+	
 }

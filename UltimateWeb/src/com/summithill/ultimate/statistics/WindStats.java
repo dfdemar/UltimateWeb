@@ -1,9 +1,11 @@
 package com.summithill.ultimate.statistics;
 
 public class WindStats {
-	private int goalsWithWind;
-	private int goalsAgainstWind;
-	private int goalsAcrossWind;
+	private int goalOpportunties = 0;
+	private int goalsWindUnknown = 0;
+	private int goalsWithWind = 0;
+	private int goalsAgainstWind = 0;
+	private int goalsAcrossWind = 0;
 	
 	public void incrementGoalsWithWind() {
 		goalsWithWind++;
@@ -14,6 +16,12 @@ public class WindStats {
 	public void incrementGoalsAcrossWind() {
 		goalsAcrossWind++;
 	}	
+	public void incrementGoalsWindUnknown() {
+		goalsWindUnknown++;
+	}	
+	public void incrementGoalOpportunties() {
+		goalOpportunties++;
+	}		
 	public int getGoalsWithWind() {
 		return goalsWithWind;
 	}
@@ -31,5 +39,17 @@ public class WindStats {
 	}
 	public void setGoalsAcrossWind(int goalsAcrossWind) {
 		this.goalsAcrossWind = goalsAcrossWind;
+	}
+	public int getGoalOpportunties() {
+		return goalOpportunties;
+	}
+	public void setGoalOpportunties(int goalOpportunties) {
+		this.goalOpportunties = goalOpportunties;
+	}
+	public int getGoalsWindUnknown() {
+		return goalsWindUnknown;
+	}
+	public void setGoalsWindUnknown(int goalsWindUnknown) {
+		this.goalsWindUnknown = goalsWindUnknown;
 	}
 }

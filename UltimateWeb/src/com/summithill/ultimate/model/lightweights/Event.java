@@ -30,6 +30,14 @@ public class Event {
 		return type.equals(OFFENSE);
 	}
 	
+	public boolean isDefense() {
+		return ! this.isOffense();
+	}
+	
+	public boolean isTurnover() {
+		return this.isThrowaway() || this.isD();
+	}
+	
 	public boolean isThrowaway() {
 		return action.equals(THROWAWAY);
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamStats {
-	private WindEffect windEffect = new WindEffect();
+	private WindSummary windSummary = new WindSummary();
 	private List<TrendPoint> enduranceIntervals = new ArrayList<TrendPoint>();
 	private List<TrendPoint> trendPoints = new ArrayList<TrendPoint>();
 	private GoalsSummary goalSummary = new GoalsSummary();
@@ -14,12 +14,7 @@ public class TeamStats {
 		trendPoints.add(point);
 		return point;
 	}
-	public WindEffect getWindEffect() {
-		return windEffect;
-	}
-	public void setWindEffect(WindEffect windEffect) {
-		this.windEffect = windEffect;
-	}
+
 	public List<TrendPoint> getEnduranceIntervals() {
 		return enduranceIntervals;
 	}
@@ -38,4 +33,13 @@ public class TeamStats {
 	public void setGoalSummary(GoalsSummary goalSummary) {
 		this.goalSummary = goalSummary;
 	}
+
+	public WindSummary getWindSummary() {
+		return windSummary;
+	}
+
+	public void setWindSummary(WindSummary windSummary) {
+		this.windSummary = windSummary;
+	}
+
 }
