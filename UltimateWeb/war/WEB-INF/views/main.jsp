@@ -348,6 +348,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<h3 class="chartTitle">Trend (by game): Turnovers per Touch</h3>
 			<div id="trendLineGraph" class="singleTeamGraph"></div>
 			<div class="xAxisLabel">Game</div>
+			
+			<h3 class="chartTitle">Goals per Opportunity</h3>
+			<div id="goalPerOpportunityGraph" class="singleTeamGraph"></div>
 		</div>
 	</div>
 	

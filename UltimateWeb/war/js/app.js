@@ -191,6 +191,7 @@ function populateTeamStats() {
 function populateTeamStatsGraphs() {
 	Ultimate.teamStatsHelper.renderGoalsSummaryPieCharts();
 	Ultimate.teamStatsHelper.renderTrendGraph();
+	Ultimate.teamStatsHelper.renderGoalPerOpportunityGraph();
 }
 
 function showDeviceBasedPlayerStats() {
