@@ -67,39 +67,44 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 	
 	
 	private void updateWindSummary(PointSummary pointSummary, Event event, Event lastEvent, Wind wind, WindSummary windSummary, WindDirection ourTeamWindDirectionForPoint) {
-		WindEffect windEffect = windSummary.findWindEffectBucket(wind);
 		
 		// OPPORTUNTIES
 		// first point on offense
 		if (lastEvent == null && pointSummary.isOline()) {
-			windEffect.getOurStats().incrementGoalOpportunties();
+			getGoalOpportunities(windSummary, true, ourTeamWindDirectionForPoint, wind).incrementOpportunties();
 		// first point on offense
 		} else if (event.isPull()) {
-			windEffect.getTheirStats().incrementGoalOpportunties();
+			getGoalOpportunities(windSummary, false, ourTeamWindDirectionForPoint, wind).incrementOpportunties();
 		// turnover	
 		} else if (event.isTurnover()) {
 			if (event.isOffense()) {
-				windEffect.getTheirStats().incrementGoalOpportunties();
+				getGoalOpportunities(windSummary, false, ourTeamWindDirectionForPoint, wind).incrementOpportunties();
 			} else {
-				windEffect.getOurStats().incrementGoalOpportunties();
+				getGoalOpportunities(windSummary, true, ourTeamWindDirectionForPoint, wind).incrementOpportunties();
 			}
 		}
 		
 		// GOALS	
 		if (event.isGoal()) {
-			WindStats windStats = event.isOffense() ? windEffect.getOurStats() : windEffect.getTheirStats();
-			if (wind == null || wind.getMph() <= 0) {
-				windStats.incrementGoalsWindUnknown();
+			getGoalOpportunities(windSummary, event.isOffense(), ourTeamWindDirectionForPoint, wind).incrementGoals();
+		}
+		
+	}
+	
+	private GoalOpportunties getGoalOpportunities(WindSummary windSummary, boolean isOurOpportunityOrGoal, WindDirection ourTeamWindDirectionForPoint, Wind wind) {
+		WindEffect windEffect = windSummary.findWindEffectBucket(wind);
+		WindStats windStats = isOurOpportunityOrGoal ? windEffect.getOurStats() : windEffect.getTheirStats();
+		if (wind == null || wind.getMph() <= 0) {
+			return windStats.getGoalsWindUnknown();
+		} else {
+			if (ourTeamWindDirectionForPoint == WindDirection.CROSSWIND) {
+				return windStats.getGoalsAcrossWind();
 			} else {
-				if (ourTeamWindDirectionForPoint == WindDirection.CROSSWIND) {
-					windStats.incrementGoalsAcrossWind();
+				WindDirection windDirection = isOurOpportunityOrGoal ? ourTeamWindDirectionForPoint : reverseWindDirection(ourTeamWindDirectionForPoint);
+				if (windDirection == WindDirection.DOWNWIND) {
+					return windStats.getGoalsWithWind();
 				} else {
-					WindDirection windDirection = event.isOffense() ? ourTeamWindDirectionForPoint : reverseWindDirection(ourTeamWindDirectionForPoint);
-					if (windDirection == WindDirection.DOWNWIND) {
-						windStats.incrementGoalsWithWind();
-					} else {
-						windStats.incrementGoalsAgainstWind();
-					}
+					return windStats.getGoalsAgainstWind();
 				}
 			}
 		}

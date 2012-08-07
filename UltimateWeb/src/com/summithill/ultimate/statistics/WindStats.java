@@ -1,55 +1,35 @@
 package com.summithill.ultimate.statistics;
 
 public class WindStats {
-	private int goalOpportunties = 0;
-	private int goalsWindUnknown = 0;
-	private int goalsWithWind = 0;
-	private int goalsAgainstWind = 0;
-	private int goalsAcrossWind = 0;
+	private GoalOpportunties goalsWindUnknown = new GoalOpportunties();
+	private GoalOpportunties goalsWithWind = new GoalOpportunties();
+	private GoalOpportunties goalsAgainstWind = new GoalOpportunties();
+	private GoalOpportunties goalsAcrossWind = new GoalOpportunties();
 	
-	public void incrementGoalsWithWind() {
-		goalsWithWind++;
-	}
-	public void incrementGoalsAgainstWind() {
-		goalsAgainstWind++;
-	}
-	public void incrementGoalsAcrossWind() {
-		goalsAcrossWind++;
-	}	
-	public void incrementGoalsWindUnknown() {
-		goalsWindUnknown++;
-	}	
-	public void incrementGoalOpportunties() {
-		goalOpportunties++;
-	}		
-	public int getGoalsWithWind() {
-		return goalsWithWind;
-	}
-	public void setGoalsWithWind(int goalsWithWind) {
-		this.goalsWithWind = goalsWithWind;
-	}
-	public int getGoalsAgainstWind() {
-		return goalsAgainstWind;
-	}
-	public void setGoalsAgainstWind(int goalsAgainstWind) {
-		this.goalsAgainstWind = goalsAgainstWind;
-	}
-	public int getGoalsAcrossWind() {
-		return goalsAcrossWind;
-	}
-	public void setGoalsAcrossWind(int goalsAcrossWind) {
-		this.goalsAcrossWind = goalsAcrossWind;
-	}
-	public int getGoalOpportunties() {
-		return goalOpportunties;
-	}
-	public void setGoalOpportunties(int goalOpportunties) {
-		this.goalOpportunties = goalOpportunties;
-	}
-	public int getGoalsWindUnknown() {
+	public GoalOpportunties getGoalsWindUnknown() {
 		return goalsWindUnknown;
 	}
-	public void setGoalsWindUnknown(int goalsWindUnknown) {
+	public void setGoalsWindUnknown(GoalOpportunties goalsWindUnknown) {
 		this.goalsWindUnknown = goalsWindUnknown;
 	}
+	public GoalOpportunties getGoalsWithWind() {
+		return goalsWithWind;
+	}
+	public void setGoalsWithWind(GoalOpportunties goalsWithWind) {
+		this.goalsWithWind = goalsWithWind;
+	}
+	public GoalOpportunties getGoalsAgainstWind() {
+		return goalsAgainstWind;
+	}
+	public void setGoalsAgainstWind(GoalOpportunties goalsAgainstWind) {
+		this.goalsAgainstWind = goalsAgainstWind;
+	}
+	public GoalOpportunties getGoalsAcrossWind() {
+		return goalsAcrossWind;
+	}
+	public void setGoalsAcrossWind(GoalOpportunties goalsAcrossWind) {
+		this.goalsAcrossWind = goalsAcrossWind;
+	}
+	
+
 }

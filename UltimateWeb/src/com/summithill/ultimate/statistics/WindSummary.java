@@ -3,7 +3,7 @@ package com.summithill.ultimate.statistics;
 import com.summithill.ultimate.controller.Wind;
 
 public class WindSummary {
-	private WindEffect windUnkown = new WindEffect(new WindSpeedRange(0, 0));
+	private WindEffect windUnknown = new WindEffect(new WindSpeedRange(0, 0));
 	private WindEffect lowWind = new WindEffect(new WindSpeedRange(1, 10));
 	private WindEffect strongWind = new WindEffect(new WindSpeedRange(11, 99));;
 	
@@ -22,14 +22,15 @@ public class WindSummary {
 	
 	public WindEffect findWindEffectBucket(Wind wind) {
 		if (wind == null || wind.getMph() <= 0) {
-			return windUnkown;
+			return windUnknown;
 		}
 		return wind.getMph() > lowWind.getSpeedRange().getTo() ? strongWind : lowWind;
 	}
-	public WindEffect getWindUnkown() {
-		return windUnkown;
+	public WindEffect getWindUnknown() {
+		return windUnknown;
 	}
-	public void setWindUnkown(WindEffect windUnkown) {
-		this.windUnkown = windUnkown;
+	public void setWindUnknown(WindEffect windUnknown) {
+		this.windUnknown = windUnknown;
 	}
+
 }
