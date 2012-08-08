@@ -39,10 +39,11 @@ TeamStatsHelper = function(stats, statsName) {
 	}
 	
 	this.goalsPerOpp = function(goals, opps) {
-		return opps > 0 ? goals / opps : 0;
+		return opps > 0 ? goals / opps * 100 : 0;
 	}
 	
 	this.renderGoalPerOpportunityGraph = function() {
+		
 		var windSummary = teamStats.windSummary;
 		var ourStats = self.goalOpportunitySummary(windSummary.windUnknown.ourStats, windSummary.lowWind.ourStats, windSummary.strongWind.ourStats);
 		var theirStats = self.goalOpportunitySummary(windSummary.windUnknown.theirStats, windSummary.lowWind.theirStats, windSummary.strongWind.theirStats);
@@ -56,83 +57,65 @@ TeamStatsHelper = function(stats, statsName) {
 				
 		}
 		var ourData = [
-		               [1, 0.8], [2, 0.6], [3, 0.2], 
-		               [4, 0.3],[5, 0.5], [6, 0.7]
+		               [1, 20.0], [2, 22.5], [3, 40.2], 
+		               [4, 5.0],[5, 0.0], [6, 20.5]
 		];
 		var theirData = [
-		               [1, 0.8], [2, 0.6], [3, 0.2], 
-		               [4, 0.3],[5, 0.5], [6, 0.7]
+		               [1, 13.2], [2, 0.0], [3, 12.9], 
+		               [4, 6.5],[5, 23.6], [6, 42.5]
 		];
-//		     "data": [[statHeadings.all, ourStats.all], [statHeadings.unknown, ourStats.unknown], [statHeadings.lowWind, ourStats.lowWind], 
-//		              [statHeadings.strongAgainstWind, ourStats.strongAgainstWind],[statHeadings.strongWithWind, ourStats.strongWithWind], [statHeadings.strongAcrossWind, ourStats.strongAcrossWind]]
-//		     "data": [[statHeadings.all, theirStats.all], [statHeadings.unknown, theirStats.unknown], [statHeadings.lowWind, theirStats.lowWind], 
-//		              [statHeadings.strongAgainstWind, theirStats.strongAgainstWind],[statHeadings.strongWithWind, theirStats.strongWithWind], [statHeadings.strongAcrossWind, theirStats.strongAcrossWind]]
+		var ourData = [
+		               [1, ourStats.all], [2, ourStats.unknown], [3, ourStats.lowWind], 
+		               [4, ourStats.strongAgainstWind],[5, ourStats.strongWithWind], [6, ourStats.strongAcrossWind]
+		];
+		var theirData = [
+		                 [1, theirStats.all], [2, theirStats.unknown], [3, theirStats.lowWind], 
+		                 [4, theirStats.strongAgainstWind],[5, theirStats.strongWithWind], [6, theirStats.strongAcrossWind]
+        ];
 		
+
 	    var data = [
              {
                  label: Ultimate.teamName,
                  data: ourData,
                  bars: {
                      show: true,
-                     barWidth: 12*24*60*60*300,
+                     barWidth: 0.3,
                      fill: true,
                      lineWidth: 1,
                      order: 1,
-                     fillColor:  "#AA4643"
+                     fillColor:  "#999900"
                  },
-                 color: "#AA4643"
+                 color: "#999900"
              },
              {
                  label: "Opponents",
                  data: theirData,
                  bars: {
                      show: true,
-                     barWidth: 12*24*60*60*300,
+                     barWidth: 0.3,
                      fill: true,
                      lineWidth: 1,
                      order: 2,
-                     fillColor:  "#89A54E"
+                     fillColor:  "#334066"
                  },
-                 color: "#89A54E"
+                 color: "#334066"
              }
 	     ];
 	    
 	    $.plot($("#goalPerOpportunityGraph"), data, {
-	        xaxis: {
-	            min: (new Date(2010, 11, 15)).getTime(),
-	            max: (new Date(2011, 04, 18)).getTime(),
-	            mode: "time",
-	            timeformat: "%b",
-	            tickSize: [1, "month"],
-	            monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-	            tickLength: 0, // hide gridlines
-	            axisLabel: 'Wind Strength/Direction',
-	            axisLabelUseCanvas: true,
-	            axisLabelFontSizePixels: 12,
-	            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-	            axisLabelPadding: 5
-	        },
-	        yaxis: {
-	            axisLabel: 'Value',
-	            axisLabelUseCanvas: true,
-	            axisLabelFontSizePixels: 12,
-	            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-	            axisLabelPadding: 5
-	        },
-	        grid: {
-	            hoverable: true,
-	            clickable: false,
-	            borderWidth: 1
-	        },
-	        legend: {
-	            labelBoxBorderColor: "none",
-	            position: "right"
-	        },
-	        series: {
-	            shadowSize: 1
-	        }
+            selection: { mode: "xy" },
+            grid: {  },
+             xaxis:{ 
+               	ticks:[0,1,2,3,4,5,6]
+             },
+             yaxis:{ 
+               	min:0,
+               	max:100,
+             },
+            multiplebars: true
 	    });
-	     
+
 	     
 	     /*
 		 *  "teamStats":{
