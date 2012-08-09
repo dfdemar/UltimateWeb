@@ -174,4 +174,6 @@
 .pieSideBySideChart {
 	height: 300px;
 }
-
+.notEnoughData {
+	color: red;
+}

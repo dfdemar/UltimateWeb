@@ -349,7 +349,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<div id="trendLineGraph" class="singleTeamGraph"></div>
 			<div class="xAxisLabel">Game</div>
 			
-			<h3 class="chartTitle">Goals per Opportunity</h3>
+			<h3 class="chartTitle">Goals Scored per Opportunity to Score (Percent)</h3>
 			<div id="goalPerOpportunityGraph" class="singleTeamGraph"></div>
 		</div>
 	</div>

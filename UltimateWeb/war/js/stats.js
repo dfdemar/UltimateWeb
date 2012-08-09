@@ -21,49 +21,41 @@ TeamStatsHelper = function(stats, statsName) {
 		renderGoalsSummaryPieChart($("#theirGoalSummaryPie"), teamStats.goalSummary.theirOlineGoals, teamStats.goalSummary.theirDlineGoals);
 	};
 	
-	this.goalOpportunitySummary = function(windUnknownStats, lowWindStats, strongWindStats) {
-		var lowWindGoals = lowWindStats.goalsWithWind.goals + lowWindStats.goalsAgainstWind.goals + lowWindStats.goalsAcrossWind.goals;
-		var lowWindOpps = lowWindStats.goalsWithWind.opportunties + lowWindStats.goalsAgainstWind.opportunties + lowWindStats.goalsAcrossWind.opportunties;
-		var strongWindGoals = strongWindStats.goalsWithWind.goals + strongWindStats.goalsAgainstWind.goals + strongWindStats.goalsAcrossWind.goals;
-		var strongWindOpps = strongWindStats.goalsWithWind.opportunties + strongWindStats.goalsAgainstWind.opportunties + strongWindStats.goalsAcrossWind.opportunties;		
-		var totalGoals = windUnknownStats.goalsWindUnknown.goals + lowWindGoals + strongWindGoals;
-		var totalOpps = windUnknownStats.goalsWindUnknown.opportunties + lowWindOpps + lowWindOpps;
-		return {
-			all: self.goalsPerOpp(totalGoals,totalOpps),
-			unknown: self.goalsPerOpp(windUnknownStats.goalsWindUnknown.goals,windUnknownStats.goalsWindUnknown.opportunties),
-			lowWind: self.goalsPerOpp(lowWindGoals,lowWindOpps),
-			strongAgainstWind: self.goalsPerOpp(strongWindStats.goalsAgainstWind.goals,strongWindStats.goalsAgainstWind.opportunties),
-			strongWithWind: self.goalsPerOpp(strongWindStats.goalsWithWind.goals,strongWindStats.goalsWithWind.opportunties),
-			strongAcrossWind: self.goalsPerOpp(strongWindStats.goalsAcrossWind.goals,strongWindStats.goalsAcrossWind.opportunties),
+	this.renderTrendGraph = function() {
+		if (teamStats.trendPoints.length > 1) {
+			var touches = [];
+			var drops = [];
+			var throwaways = [];
+			var turnovers = [];
+			var turnoversPerTouch = [];
+			for ( var i = 0; i < teamStats.trendPoints.length; i++) {
+				p = teamStats.trendPoints[i];
+				x = i + 1;
+				turnoversPerTouch.push([x, p.turnoversPerTouch]);
+			}
+			$.plot($('#trendLineGraph'), 
+					[
+					 	{label: 'Turnovers per Touch', data: turnoversPerTouch, color: '#334066'}, 
+					 ],
+				{
+					grid: {
+						backgroundColor: { colors: ["#fff", "#eee"] }
+					},
+					xaxis: {
+						tickFormatter: function(value) {return '';}  // hides x-axis numbers (but grid still shows)
+					}
+				});
+		} else {
+			$('#trendLineGraph').html('<br><br><br><h4 class="notEnoughData">Not Enough Data for this Graph</h4>');
 		}
-	}
-	
-	this.goalsPerOpp = function(goals, opps) {
-		return opps > 0 ? goals / opps * 100 : 0;
 	}
 	
 	this.renderGoalPerOpportunityGraph = function() {
 		
 		var windSummary = teamStats.windSummary;
-		var ourStats = self.goalOpportunitySummary(windSummary.windUnknown.ourStats, windSummary.lowWind.ourStats, windSummary.strongWind.ourStats);
-		var theirStats = self.goalOpportunitySummary(windSummary.windUnknown.theirStats, windSummary.lowWind.theirStats, windSummary.strongWind.theirStats);
-		var statHeadings = {
-				all: 'All',
-				unknown: 'Unknown Wind',
-				lowWind: 'Low Wind',
-				strongAgainstWind: 'Strong Upwind',
-				strongWithWind: 'Strong Downwind',
-				strongAcrossWind: 'Strong Crosswind',
-				
-		}
-		var ourData = [
-		               [1, 20.0], [2, 22.5], [3, 40.2], 
-		               [4, 5.0],[5, 0.0], [6, 20.5]
-		];
-		var theirData = [
-		               [1, 13.2], [2, 0.0], [3, 12.9], 
-		               [4, 6.5],[5, 23.6], [6, 42.5]
-		];
+		var ourStats = goalOpportunitySummary(windSummary.windUnknown.ourStats, windSummary.lowWind.ourStats, windSummary.strongWind.ourStats);
+		var theirStats = goalOpportunitySummary(windSummary.windUnknown.theirStats, windSummary.lowWind.theirStats, windSummary.strongWind.theirStats);
+
 		var ourData = [
 		               [1, ourStats.all], [2, ourStats.unknown], [3, ourStats.lowWind], 
 		               [4, ourStats.strongAgainstWind],[5, ourStats.strongWithWind], [6, ourStats.strongAcrossWind]
@@ -73,7 +65,6 @@ TeamStatsHelper = function(stats, statsName) {
 		                 [4, theirStats.strongAgainstWind],[5, theirStats.strongWithWind], [6, theirStats.strongAcrossWind]
         ];
 		
-
 	    var data = [
              {
                  label: Ultimate.teamName,
@@ -106,199 +97,37 @@ TeamStatsHelper = function(stats, statsName) {
 	    $.plot($("#goalPerOpportunityGraph"), data, {
             selection: { mode: "xy" },
             grid: {  },
-             xaxis:{ 
-               	ticks:[0,1,2,3,4,5,6]
+            xaxis:{ 
+               	ticks:[[1,'All'],[2,'Unknown Wind'],[3,'Low Wind'],[4,'Strong Upwind'],[5,'Strong Downwind'],[6,'Strong Crosswind']]
              },
-             yaxis:{ 
+            yaxis:{ 
                	min:0,
                	max:100,
-             },
+            },
+            valueLabels: { show: true },
             multiplebars: true
 	    });
-
-	     
-	     /*
-		 *  "teamStats":{
-      "windSummary":{
-         "windUnknown":{
-            "speedRange":{
-               "from":0,
-               "to":0
-            },
-            "ourStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAgainstWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            },
-            "theirStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAgainstWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            }
-         },
-         "lowWind":{
-            "speedRange":{
-               "from":1,
-               "to":10
-            },
-            "ourStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAgainstWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            },
-            "theirStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAgainstWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            }
-         },
-         "strongWind":{
-            "speedRange":{
-               "from":11,
-               "to":99
-            },
-            "ourStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":2,
-                  "opportunties":2,
-                  "goalsPerOpportunity":1.0
-               },
-               "goalsAgainstWind":{
-                  "goals":2,
-                  "opportunties":7,
-                  "goalsPerOpportunity":0.2857143
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            },
-            "theirStats":{
-               "goalsWindUnknown":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               },
-               "goalsWithWind":{
-                  "goals":1,
-                  "opportunties":4,
-                  "goalsPerOpportunity":0.25
-               },
-               "goalsAgainstWind":{
-                  "goals":1,
-                  "opportunties":2,
-                  "goalsPerOpportunity":0.5
-               },
-               "goalsAcrossWind":{
-                  "goals":0,
-                  "opportunties":0,
-                  "goalsPerOpportunity":0.0
-               }
-            }
-         }
-      },
-      */
-
 	}
 	
-	
-	this.renderTrendGraph = function() {
-		var touches = [];
-		var drops = [];
-		var throwaways = [];
-		var turnovers = [];
-		var turnoversPerTouch = [];
-		for ( var i = 0; i < teamStats.trendPoints.length; i++) {
-			p = teamStats.trendPoints[i];
-			x = i + 1;
-			turnoversPerTouch.push([x, p.turnoversPerTouch]);
+	function goalOpportunitySummary(windUnknownStats, lowWindStats, strongWindStats) {
+		var lowWindGoals = lowWindStats.goalsWithWind.goals + lowWindStats.goalsAgainstWind.goals + lowWindStats.goalsAcrossWind.goals;
+		var lowWindOpps = lowWindStats.goalsWithWind.opportunties + lowWindStats.goalsAgainstWind.opportunties + lowWindStats.goalsAcrossWind.opportunties;
+		var strongWindGoals = strongWindStats.goalsWithWind.goals + strongWindStats.goalsAgainstWind.goals + strongWindStats.goalsAcrossWind.goals;
+		var strongWindOpps = strongWindStats.goalsWithWind.opportunties + strongWindStats.goalsAgainstWind.opportunties + strongWindStats.goalsAcrossWind.opportunties;		
+		var totalGoals = windUnknownStats.goalsWindUnknown.goals + lowWindGoals + strongWindGoals;
+		var totalOpps = windUnknownStats.goalsWindUnknown.opportunties + lowWindOpps + strongWindOpps;
+		return {
+			all: goalsPerOpp(totalGoals,totalOpps),
+			unknown: goalsPerOpp(windUnknownStats.goalsWindUnknown.goals,windUnknownStats.goalsWindUnknown.opportunties),
+			lowWind: goalsPerOpp(lowWindGoals,lowWindOpps),
+			strongAgainstWind: goalsPerOpp(strongWindStats.goalsAgainstWind.goals,strongWindStats.goalsAgainstWind.opportunties),
+			strongWithWind: goalsPerOpp(strongWindStats.goalsWithWind.goals,strongWindStats.goalsWithWind.opportunties),
+			strongAcrossWind: goalsPerOpp(strongWindStats.goalsAcrossWind.goals,strongWindStats.goalsAcrossWind.opportunties),
 		}
-		$.plot($('#trendLineGraph'), 
-				[
-				 	{label: 'Turnovers per Touch', data: turnoversPerTouch, color: '#334066'}, 
-				 ],
-			{
-				grid: {
-					backgroundColor: { colors: ["#fff", "#eee"] }
-				},
-				xaxis: {
-					tickFormatter: function(value) {return '';}  // hides x-axis numbers (but grid still shows)
-				}
-			});
+	}
+	
+	function goalsPerOpp(goals, opps) {
+		return opps > 0 ? goals / opps * 100 : 0;
 	}
 	
 	function renderGoalsSummaryPieChart($container, oLineGoals, dLineGoals) {
