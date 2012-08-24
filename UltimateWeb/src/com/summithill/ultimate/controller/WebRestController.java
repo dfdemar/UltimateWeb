@@ -22,6 +22,7 @@ import com.summithill.ultimate.statistics.AllStatisticsCalculator;
 import com.summithill.ultimate.statistics.AllStats;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
+import com.summithill.ultimate.statistics.RawStatisticsExporter;
 import com.summithill.ultimate.statistics.TeamStatisticsCalculator;
 import com.summithill.ultimate.statistics.TeamStats;
 
@@ -161,6 +162,21 @@ public class WebRestController extends AbstractController {
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeamStats", e);
 			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/stats/export", method = RequestMethod.GET)
+	public void writeRawStatsExport(@PathVariable String teamId, @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team != null) {
+				this.addStandardExpireHeader(response);  
+				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
+				// TODO set mime type correctly
+				new RawStatisticsExporter(service).writeStats(response.getWriter(), team, gameIdsToInclude);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeamStats", e);
 		}
 	}
 
