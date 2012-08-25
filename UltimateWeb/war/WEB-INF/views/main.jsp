@@ -132,13 +132,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<img class="spinner hidden" src="/images/spinner.gif" />
 		<div id="teamStatsNarrow" class="hideWhenBusy">
 			<div class="insetlist">
-				<div><h4>Players</h4></div>
+				<div><br>Want to produce your own stats? <a class="downlaodRawStatsLink" href="javascript:void(0)">Download file of Raw Data</a></div>
 				<ul id="players" data-role="listview" data-theme="c" data-inset="true" ></ul>
 			</div>
 		</div>
 		<div id="teamStatsWide" class="hideWhenBusy">
 			<br>
-			
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
 					<select name="selectGamesForPlayerTeamStats" class="gameSelect" id="selectGamesForTeamPlayerStats" data-inline="true">
@@ -148,7 +147,6 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<div class="teamStatsDenominatorChooser">
 				</div>
 			</fieldset>
-
 			<table id="teamPlayerStats" class="playerStats"></table>
 		</div>
 	</div>

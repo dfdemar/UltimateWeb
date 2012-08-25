@@ -49,6 +49,13 @@ function renderMainPage(data) {
 	populateTeam(function() {
 		showDeviceBasedTeamPlayerStats();
 		isNarrowDevice() ? renderTeamByPlayerStats() : renderTeamPlayerStats();
+		enableStatsDownloadLink();
+	});
+}
+
+function enableStatsDownloadLink() {
+	$('.downlaodRawStatsLink').on('click', function(event, data) { 
+		location.href = urlForStatsExportFileDownload(Ultimate.teamId,Ultimate.games);
 	});
 }
 

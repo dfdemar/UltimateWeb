@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,17 +167,20 @@ public class WebRestController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/stats/export", method = RequestMethod.GET)
-	public void writeRawStatsExport(@PathVariable String teamId, @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
+	public void getRawStatsExport(@PathVariable String teamId, @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team != null) {
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
-				// TODO set mime type correctly
+				response.setContentType("application/x-download");
+				String safeName = StringUtils.deleteWhitespace(team.getName());
+				safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+				response.setHeader( "Content-Disposition", "attachment; filename=\"" + safeName + "-stats.csv\"" );
 				new RawStatisticsExporter(service).writeStats(response.getWriter(), team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeamStats", e);
+			logErrorAndThrow("Error on getRawStatsExport", e);
 		}
 	}
 

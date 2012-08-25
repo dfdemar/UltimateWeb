@@ -62,6 +62,16 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
+function urlForStatsExportFileDownload(teamId, games) {  
+	var sortedGames = sortGames(games);
+	var gameIds = collectGameIds(sortedGames);
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/export';
+    if (gameIds != null && gameIds.length > 0) {
+    	url = url + '?gameIds=' + gameIds.join("_");
+    }
+    return url;
+}
+
 function sendRequest(request) {
 	var options = {
 	  	success: function(data, textStatus, jqXHR){
@@ -154,6 +164,15 @@ function sortGames(games) {
 	});
 	return sortedGames;
 }
+
+function collectGameIds(games) {
+	var gameIds = [];
+	$.each(games, function() {
+		gameIds.push(this.gameId);
+	});
+	return gameIds;
+}
+
 
 //answer an array of object: {id: 'TOURNAMENT-Centex-2012', name: 'Centex', year: 2012, games:['game1234', 'game345']} in reverse chrono order
 function getTournaments(games) {
