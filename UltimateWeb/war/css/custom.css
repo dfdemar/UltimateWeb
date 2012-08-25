@@ -141,7 +141,7 @@
 	color:#000000; 
 }
 .selectedColumn {
-	color:#3F09DC !important; 
+	color:#0000FF !important; 
 }
 .tablePlayerName {
 	text-align: left !important;
@@ -178,5 +178,6 @@
 	color: red;
 }
 .downlaodRawStatsLink {
-	color: blue;
+	color:#0c5881 !important;
 }
+

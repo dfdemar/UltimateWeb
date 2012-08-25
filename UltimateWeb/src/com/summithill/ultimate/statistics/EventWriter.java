@@ -30,9 +30,9 @@ public class EventWriter {
 			writer.write(DELIMITER);
 			writer.write(pointSummary.getLineType());
 			writer.write(DELIMITER);
-			writer.write(pointSummary.getScore().getOurs());		
+			writer.write(asString(pointSummary.getScore().getOurs()));		
 			writer.write(DELIMITER);
-			writer.write(pointSummary.getScore().getTheirs());			
+			writer.write(asString(pointSummary.getScore().getTheirs()));			
 			writer.write(DELIMITER);
 			writer.write(event.getType());		
 			writer.write(DELIMITER);
