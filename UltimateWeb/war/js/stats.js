@@ -169,6 +169,8 @@ PlayerStatsHelper = function(stats, statsName) {
 	var self = this;
 	var name = statsName;
 	var playerStatsArray = stats.playerStats;  //  [{playerName : 'Joe', gamesPlayed : 5, ...}, {playerName : 'Sue', gamesPlayed : 3, ...}]
+	var formattedPlayerStatsAverages;  //  {gamesPlayed : 5, touches : 7}
+	var formattedPlayerStatsTotals;  //  {gamesPlayed : 5, touches : 7}
 	pointsPlayed : 'Points played',
 	
 	this.name = function() {
@@ -210,8 +212,14 @@ PlayerStatsHelper = function(stats, statsName) {
 	};
 	
 	this.playerStatsTable = function(isPerPoint, sortByStat) {
+		var formattedStats = formatPlayerStatsArray(isPerPoint, sortByStat);
+		if (!isPerPoint) {
+			formattedStats.push({});
+			formattedStats.push(formattedPlayerStatsAverages);
+			formattedStats.push(formattedPlayerStatsTotals);
+		}
 		return {
-			playerStats : formatPlayerStatsArray(isPerPoint, sortByStat),
+			playerStats : formattedStats,
 			headings : Ultimate.headingForProperty, /* hashtable of stattype/heading */
 			isPerPoint: isPerPoint
 		};
@@ -292,6 +300,46 @@ PlayerStatsHelper = function(stats, statsName) {
 			});
 		return sortedPlayerStats;
 	}
+	
+	function calcPlayerStatsTotals(playerStatsArray) {  // input [{playerName : 'Joe', gamesPlayed : 5, ...}, {playerName : 'Sue', gamesPlayed : 3, ...}]
+		var totals = {};
+		
+		// calc total all of the players
+		for ( var i = 0; i < playerStatsArray.length; i++) {
+			var playerStats = stats.playerStats[i];
+			for ( var prop in playerStats) {
+				if (prop != 'playerName') {
+					var currentTotal = totals[prop];
+					totals[prop] = currentTotal == null ? playerStats[prop] : currentTotal + playerStats[prop];
+				}
+			}
+		}
+		
+		// calc averages 
+		var averages = {};
+		for (var prop in totals) {
+			var total = totals[prop];
+			var avg = total / playerStatsArray.length;
+			averages[prop] = avg.toFixed(1);
+		}
+		
+		// format
+		totals = formatPlayerStats(totals, false);
+		
+		// drop games played, etc. from totals (these don't make sense as totals)
+		for (var prop in totals) {
+			if (prop.toLowerCase().indexOf('played') > -1) {
+				totals[prop] = "";
+			}
+		}
+
+		averages.playerName = "AVERAGE";
+		totals.playerName = "TOTAL";
+		formattedPlayerStatsAverages = averages; //   {gamesPlayed : 5, touches : 7}
+		formattedPlayerStatsTotals = totals; //   {gamesPlayed : 5, touches : 7}
+	}
+
+	calcPlayerStatsTotals(playerStatsArray);
 }
 
 Ultimate.headingForProperty = {
