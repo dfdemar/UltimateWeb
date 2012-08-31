@@ -8,6 +8,7 @@ public class Team extends ModelObject {
 	public static final String IS_MIXED_PROPERTY = "isMixed";
 	public static final String IS_DISPLAYING_NUMBER_PROPERTY = "isDispNumb";
 	public static final String MOBILE_TEAMID_PROPERTY = "teamId";
+	public static final String WEBSITE_PASSWORD_PROPERTY = "password";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -61,6 +62,13 @@ public class Team extends ModelObject {
 		entity.setProperty(IS_DISPLAYING_NUMBER_PROPERTY, Boolean.valueOf(isDisplayNumber));
 	}
 	
+	public String getPassword() {
+		return (String)entity.getProperty(WEBSITE_PASSWORD_PROPERTY);
+	}
+	
+	public void setPassword(String password) {
+		entity.setProperty(WEBSITE_PASSWORD_PROPERTY, password == null ? null : password.trim());
+	}
 }
 
 ;;

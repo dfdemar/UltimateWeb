@@ -14,6 +14,7 @@ public class ParameterTeam {
 	private boolean isMixed;
 	private boolean isDisplayPlayerNumber;
 	private List<ParameterPlayer> players;
+	private String password;
 	
 	public static ParameterTeam fromTeam(Team team) {
 		ParameterTeam pTeam = new ParameterTeam();
@@ -78,5 +79,13 @@ public class ParameterTeam {
 
 	public void setDisplayPlayerNumber(boolean isDisplayPlayerNumber) {
 		this.isDisplayPlayerNumber = isDisplayPlayerNumber;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

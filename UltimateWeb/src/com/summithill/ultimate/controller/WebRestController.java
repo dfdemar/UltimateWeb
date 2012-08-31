@@ -30,11 +30,14 @@ import com.summithill.ultimate.statistics.TeamStats;
 @Controller
 @RequestMapping("/view")
 public class WebRestController extends AbstractController {
-    
+
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+	public ParameterTeam getTeam(@PathVariable String id, @RequestParam(value = "includePassword", required = false) boolean includePassword, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
+		if (includePassword) {
+			this.verifyAdminUser(request);
+		}
 		return getParameterTeam(id, request);
 	}
 	
@@ -109,6 +112,23 @@ public class WebRestController extends AbstractController {
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/password/{teamId}", method = RequestMethod.POST)
+	@ResponseBody
+	public void setTeamPassword(@PathVariable String teamId, @PathVariable String password, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				team.setPassword(password);
+				service.saveTeam(userIdentifier, team);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on setTeamPassword", e);
 		}
 	}
 	

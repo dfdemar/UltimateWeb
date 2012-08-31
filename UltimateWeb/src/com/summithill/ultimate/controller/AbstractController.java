@@ -26,6 +26,10 @@ public class AbstractController {
 	protected TeamService service;
     
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) {
+		return this.getParameterTeam(id, request);
+	}
+	
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword) {
 		try {
 			Team team = service.getTeam(id);
 			if (team == null) {
@@ -39,6 +43,10 @@ public class AbstractController {
 						paramPlayers.add(ParameterPlayer.fromPlayer(player));
 					}
 					pTeam.setPlayers(paramPlayers);
+					
+				}
+				if (includePassword) {
+					pTeam.setPassword(team.getPassword());
 				}
 				return pTeam;
 			}
@@ -99,6 +107,10 @@ public class AbstractController {
 			logErrorAndThrow("Error on getGame", e);
 			return null;
 		}
+	}
+	
+	protected void verifyAdminUser(HttpServletRequest request) {
+		this.getUserIdentifier(request);
 	}
 	
 	protected String getUserIdentifier(HttpServletRequest request) {
