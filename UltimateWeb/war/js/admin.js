@@ -36,6 +36,9 @@ function renderMainPage(data) {
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
 	$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
+	$('.teamPassword').on('click', function() {
+		handleSetPasssordClicked();
+	});
 	populateTeam(function() {
 		populateGamesList();
 	});
@@ -162,4 +165,8 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 	} else {
 		throw errorDescription(jqXHR, textStatus, errorThrown);
 	}
+}
+
+function handleSetPasssordClicked() {
+	alert('set the password');
 }

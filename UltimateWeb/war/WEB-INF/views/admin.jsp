@@ -85,6 +85,15 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					<span class="teamTitle"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a rel="external" id="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
 				</div>
+				<div class="teamPasswordLabel">
+					Team Website Password:&nbsp;&nbsp;&nbsp;&nbsp;
+					<a class="teamPassword" href="#" data-inline="true">NONE (click to set)</a>   
+				</div>				
+				<div>
+					(visitors to your website will be asked to enter this password to see this team's statistics)
+				</div>			
+				
+				
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
 
 				</ul>
