@@ -87,7 +87,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</div>
 				<div class="teamPasswordLabel">
 					Team Website Password:&nbsp;&nbsp;&nbsp;&nbsp;
-					<a class="teamPassword" href="#" data-inline="true">NONE (click to set)</a>   
+					<a class="teamPassword" href="#" data-inline="true">NOT SET</a>   
 				</div>				
 				<div>
 					(visitors to your website will be asked to enter this password to see this team's statistics)

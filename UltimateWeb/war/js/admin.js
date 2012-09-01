@@ -169,11 +169,13 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 
 function handleSetPasssordClicked() {
 	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+	$('#passwordSaveErrorMessage').html("");
 	$('#teamPasswordInput').val(Ultimate.team.password);
 	$('#savePasswordButton').unbind().on('click', function() {
 		var newPwd = $('#teamPasswordInput').val();
-		savePassword(Ultimate.team.teamId, newPwd, function() {
+		savePassword(Ultimate.team.cloudId, newPwd, function() {
 			$.mobile.changePage('#gamespage', {transition: 'pop'});
+			$(".teamPassword").html(newPwd);
 		}, function() {
 			$('#passwordSaveErrorMessage').html("Error saving password");
 		});
