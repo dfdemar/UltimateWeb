@@ -168,5 +168,14 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 }
 
 function handleSetPasssordClicked() {
-	alert('set the password');
+	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+	$('#teamPasswordInput').val(Ultimate.team.password);
+	$('#savePasswordButton').unbind().on('click', function() {
+		var newPwd = $('#teamPasswordInput').val();
+		savePassword(Ultimate.team.teamId, newPwd, function() {
+			$.mobile.changePage('#gamespage', {transition: 'pop'});
+		}, function() {
+			$('#passwordSaveErrorMessage').html("Error saving password");
+		});
+	});
 }

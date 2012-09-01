@@ -185,4 +185,6 @@
 .downlaodRawStatsLink {
 	color:#0c5881 !important;
 }
-
+#passwordSaveErrorMessage {
+	color: red;
+}

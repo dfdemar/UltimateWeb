@@ -115,7 +115,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a href="#" data-role="button" data-inline="true" data-rel="back">No</a>
 		</div>
 	</div>
-
+	
+	<div id="teamPasswordDialog" class="pagediv" data-role="dialog"
+		data-theme="b">
+ 
+		<div data-role="header">
+			<h1>New Password</h1>
+		</div>
+ 
+		<div data-role="content" data-tem="c">
+			<div>
+				&nbsp;&nbsp;Enter New Password&nbsp;&nbsp;&nbsp;<span id="passwordSaveErrorMessage"></span>
+				<input id="teamPasswordInput" type="text" name="name" data-mini="true"/>
+			</div> 
+			<a id="savePasswordButton" href="#" data-role="button" data-inline="true" data-theme="a">Save</a> 
+			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
+		</div>
+	</div>
+	
 	<script type="text/javascript">
 
 		  var _gaq = _gaq || [];

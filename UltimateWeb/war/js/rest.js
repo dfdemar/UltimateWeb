@@ -62,6 +62,11 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
+function savePassword(teamId, password, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + password; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
 function urlForStatsExportFileDownload(teamId, games) {  
 	var sortedGames = sortGames(games);
 	var gameIds = collectGameIds(sortedGames);

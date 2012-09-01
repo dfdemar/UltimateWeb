@@ -115,7 +115,7 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
-	@RequestMapping(value = "/team/{teamId}/password/{teamId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/team/{teamId}/password/{password}", method = RequestMethod.POST)
 	@ResponseBody
 	public void setTeamPassword(@PathVariable String teamId, @PathVariable String password, HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);

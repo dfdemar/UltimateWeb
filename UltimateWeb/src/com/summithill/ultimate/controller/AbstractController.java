@@ -26,7 +26,7 @@ public class AbstractController {
 	protected TeamService service;
     
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) {
-		return this.getParameterTeam(id, request);
+		return this.getParameterTeam(id, request, false);
 	}
 	
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword) {
