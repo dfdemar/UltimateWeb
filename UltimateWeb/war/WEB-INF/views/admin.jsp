@@ -92,7 +92,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<div>
 					(visitors to your website will be asked to enter this password to see this team's statistics)
 				</div>			
-				
+				<div class="gamesTitle">
+				</div>					
 				
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
 

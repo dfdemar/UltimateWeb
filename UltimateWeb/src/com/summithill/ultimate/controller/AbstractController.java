@@ -25,7 +25,6 @@ import com.summithill.ultimate.service.TeamService;
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
-	private final static String PASSWORD_COOKIE_HASH_SEED = "foobar";
 	
 	@Autowired
 	protected TeamService service;
@@ -181,7 +180,7 @@ public class AbstractController {
 		if (team.hasPassword()) {
 			String userEnterdPasswordHash = this.getPasswordCookieValue(request);
 			if (userEnterdPasswordHash != null) {
-				String correctPasswordHash = this.hashPassword(team.getPassword());
+				String correctPasswordHash = this.hashPassword(team, team.getPassword());
 				if (correctPasswordHash.equals(userEnterdPasswordHash)) {
 					return;
 				}
@@ -192,14 +191,14 @@ public class AbstractController {
 	
 	protected boolean isPasswordCorrect(Team team, String password) {
 		if (team.hasPassword()) {
-			return team.getPassword().equals(password);
+			return team.getPassword().toLowerCase().equals(password == null ? null : password.toLowerCase());
 		}
 		return true;
 	}
 	
     protected void addPasswordHashCookie(HttpServletResponse response, Team team) {
     	if (team.hasPassword()) {
-        	Cookie cookie = new Cookie(PASSWORD_COOKIE_NAME, hashPassword(team.getPassword()));
+        	Cookie cookie = new Cookie(PASSWORD_COOKIE_NAME, hashPassword(team, team.getPassword()));
         	cookie.setPath("/");
         	response.addCookie(cookie);
     	}
@@ -232,7 +231,7 @@ public class AbstractController {
         return buf.toString();
     } 
 	 
-    private String hashPassword(String password)   { 
+    private String hashPassword(Team team, String password)   { 
     		String pwdToHash = password.toLowerCase();
 	        MessageDigest md;
 	        try {
@@ -241,7 +240,7 @@ public class AbstractController {
 				throw new RuntimeException("Can't get MD5", e);
 			}
 	        byte[] md5hash = new byte[32];
-	        md.update(PASSWORD_COOKIE_HASH_SEED.getBytes(), 0, PASSWORD_COOKIE_HASH_SEED.length());
+	        md.update(team.getTeamId().getBytes(), 0, team.getTeamId().length());
 	        md.update(pwdToHash.getBytes(), 0, pwdToHash.length());
 	        md5hash = md.digest();
 	        return convertToHex(md5hash);

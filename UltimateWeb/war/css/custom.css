@@ -188,3 +188,9 @@
 .errorMessage {
 	color: red;
 }
+.gamesTitle {
+	margin-top: .5em;
+	margin-bottom: .5em;
+	font-size:  medium;
+	font-weight: bold;
+}
