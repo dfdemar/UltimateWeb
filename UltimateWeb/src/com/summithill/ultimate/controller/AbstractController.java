@@ -2,10 +2,13 @@ package com.summithill.ultimate.controller;
 
 import static java.util.logging.Level.SEVERE;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +24,8 @@ import com.summithill.ultimate.service.TeamService;
 
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
+	private final static String PASSWORD_COOKIE_NAME = "iultimate";
+	private final static String PASSWORD_COOKIE_HASH_SEED = "foobar";
 	
 	@Autowired
 	protected TeamService service;
@@ -148,4 +153,74 @@ public class AbstractController {
 		this.addExpireHeader(response, 60);
 	}
 
+	protected void verifyAccess(Team team, HttpServletRequest request) {
+		if (team.hasPassword()) {
+			String userEnterdPasswordHash = this.getPasswordCookieValue(request);
+			if (userEnterdPasswordHash != null) {
+				String correctPasswordHash = this.hashPassword(team.getPassword());
+				if (correctPasswordHash.equals(userEnterdPasswordHash)) {
+					return;
+				}
+			}
+			throw new UnauthorizedException();
+		}
+	}
+	
+	protected boolean isPasswordCorrect(Team team, String password) {
+		if (team.hasPassword()) {
+			return team.getPassword().equals(password);
+		}
+		return true;
+	}
+	
+    protected void addPasswordHashCookie(HttpServletResponse response, Team team) {
+    	if (team.hasPassword()) {
+        	Cookie cookie = new Cookie(PASSWORD_COOKIE_NAME, hashPassword(team.getPassword()));
+        	response.addCookie(cookie);
+    	}
+    }
+	
+	private String getPasswordCookieValue(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		for(int i=0; i<cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			if (PASSWORD_COOKIE_NAME.equals(cookie.getName())) {
+					return(cookie.getValue());
+			}
+		}
+		return null;
+	}
+		 
+    private String convertToHex(byte[] data) { 
+        StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) { 
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do { 
+                if ((0 <= halfbyte) && (halfbyte <= 9)) 
+                    buf.append((char) ('0' + halfbyte));
+                else 
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                halfbyte = data[i] & 0x0F;
+            } while(two_halfs++ < 1);
+        } 
+        return buf.toString();
+    } 
+	 
+    private String hashPassword(String password)   { 
+    		String pwdToHash = password.toLowerCase();
+	        MessageDigest md;
+	        try {
+				md = MessageDigest.getInstance("MD5");
+			} catch (NoSuchAlgorithmException e) {
+				throw new RuntimeException("Can't get MD5", e);
+			}
+	        byte[] md5hash = new byte[32];
+	        md.update(PASSWORD_COOKIE_HASH_SEED.getBytes(), 0, PASSWORD_COOKIE_HASH_SEED.length());
+	        md.update(pwdToHash.getBytes(), 0, pwdToHash.length());
+	        md5hash = md.digest();
+	        return convertToHex(md5hash);
+	} 
+
+	
 }

@@ -69,6 +69,11 @@ public class Team extends ModelObject {
 	public void setPassword(String password) {
 		entity.setProperty(WEBSITE_PASSWORD_PROPERTY, password == null ? null : password.trim());
 	}
+	
+	public boolean hasPassword() {
+		String pwd = this.getPassword();
+		return pwd != null && !pwd.isEmpty();
+	}
 }
 
 ;;

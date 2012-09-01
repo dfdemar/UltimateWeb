@@ -139,7 +139,7 @@ function populateTeam(successFunction) {
 				if (successFunction) {
 					successFunction();
 				}
-			}) 
+			}, handleError);
 		} else {
 			$('.teamName').html(Ultimate.teamName);
 			if (successFunction) {
@@ -546,4 +546,21 @@ function isNarrowDevice() {
 
 function getCurrentPageId() {
 	return $.mobile.activePage.attr('id');
+}
+
+function handleError(jqXHR, textStatus, errorThrown) {
+	requestSignon();
+}
+
+function requestSignon() {
+	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+	$('#passwordErrorMessage').html("");
+	$('#savePasswordButton').unbind().on('click', function() {
+		var password = $('#teamPasswordInput').val();
+		signon(Ultimate.teamId, password, function() {
+			$.mobile.changePage('#gamespage', {transition: 'pop'});
+		}, function() {
+			$('#passwordErrorMessage').html("Password Not Accepted");
+		});
+	});
 }

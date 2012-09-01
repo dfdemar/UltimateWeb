@@ -41,6 +41,16 @@ public class WebRestController extends AbstractController {
 		return getParameterTeam(id, request);
 	}
 	
+	@RequestMapping(value = "/admin/team/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ParameterTeam getTeamForAdmin(@PathVariable String id, @RequestParam(value = "includePassword", required = false) boolean includePassword, HttpServletRequest request, HttpServletResponse response) {
+		this.addStandardExpireHeader(response);
+		if (includePassword) {
+			this.verifyAdminUser(request);
+		}
+		return getParameterTeam(id, request);
+	}
+	
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterTeam> getTeams(HttpServletRequest request) {
@@ -71,6 +81,13 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
+		this.addStandardExpireHeader(response);
+		return getParameterGames(teamId);
+	}
+	
+	@RequestMapping(value = "/admin/team/{teamId}/games", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterGame> getGamesForAdmin(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
 		return getParameterGames(teamId);
 	}
@@ -129,6 +146,25 @@ public class WebRestController extends AbstractController {
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on setTeamPassword", e);
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/authenticate/{password}", method = RequestMethod.POST)
+	@ResponseBody
+	public void signon(@PathVariable String teamId, @PathVariable String password, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				if (isPasswordCorrect(team, password)) {
+					addPasswordHashCookie(response, team);
+				} else {
+					throw new UnauthorizedException();
+				}
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on signon", e);
 		}
 	}
 	

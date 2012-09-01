@@ -8,8 +8,19 @@ function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
+function retrieveTeamForAdmin(id, includePlayers, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/admin/team/' + id;
+	url = includePlayers ? url + "?players=true" : url;
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
 function retrieveGames(teamId, successFunction, errorFunction) {
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/games'; 
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
+function retrieveGamesForAdmin(teamId, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/admin/team/' + teamId + '/games'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
@@ -64,6 +75,11 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 
 function savePassword(teamId, password, successFunction, errorFunction) {
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + password; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
+function signon(teamId, password, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/authenticate/' + password; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 

@@ -94,7 +94,7 @@ function updateTeamsList(teams) {
 }
 
 function populateTeam(successFunction) {
-	retrieveTeam(Ultimate.teamId, false, function(team) {
+	retrieveTeamForAdmin(Ultimate.teamId, false, function(team) {
 		Ultimate.team = team;
 		Ultimate.teamName = team.name;
 		if (successFunction) {
@@ -104,7 +104,7 @@ function populateTeam(successFunction) {
 }
 
 function populateGamesList() {
-	retrieveGames(Ultimate.teamId, function(games) {
+	retrieveGamesForAdmin(Ultimate.teamId, function(games) {
 		Ultimate.games = games;
 		updateGamesList(Ultimate.games);
 		$('.gameDeleteButton').unbind().on('click', function() {
