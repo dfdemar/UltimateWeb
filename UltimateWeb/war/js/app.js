@@ -40,6 +40,8 @@ $(document).live('pagechange', function(event, data) {
 		case 'teamstatspage' :
 			renderTeamStats(data);
 			break;			
+		case 'teamPasswordDialog' :
+			break;				
 		default:
 			renderMainPage(data);
 	}
@@ -121,7 +123,7 @@ function renderTeamByPlayerStats() {
 		retrieveTeam(Ultimate.teamId, true, function(team) {
 			Ultimate.team = team;
 			updateTeamByPlayerStats();
-		}) 
+		}, handleError) 
 	} else {
 		updateTeamByPlayerStats();
 	}
@@ -178,7 +180,7 @@ function populateTeamPlayerStats() {
 		$('.statDenominatorRadioButtons input').unbind('click').on('click', function() {
 			populateTeamPlayerStats();
 		});
-	}); 
+	}, handleError); 
 }
 
 function populateTeamStats() {
@@ -192,7 +194,7 @@ function populateTeamStats() {
 		$('#selectGamesForTeamStats').unbind('change').on('change', function() {
 			populateTeamStats();
 		});
-	}); 
+	}, handleError); 
 }
 
 function populateTeamStatsGraphs() {
@@ -220,7 +222,7 @@ function populateGamesList() {
 		retrieveGames(Ultimate.teamId, function(games) {
 			Ultimate.games = games;
 			updateGamesList(Ultimate.games);
-		}) 
+		}, handleError) 
 	} else {
 		updateGamesList(Ultimate.games);
 	}
@@ -266,7 +268,7 @@ function populateEventsList() {
 		Ultimate.game = game;
 		updateGamePointsList(Ultimate.game);
 		populateGameTitle();
-	}) 
+	}, handleError) 
 }
 
 function populateGamePlayerStats(data) {
@@ -285,7 +287,7 @@ function populateGamePlayerStats(data) {
 					populatePlayerStatsTable();
 				});
 			}
-		}) 
+		}, handleError) 
 	}) 
 }
 
@@ -321,7 +323,7 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 		$('#playerStats').show();
 		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
 			populatePlayerStats(data, $(this).val());
-		})
+		}, handleError)
 	}); 
 }
 
@@ -330,7 +332,7 @@ function populateSelectGamesControl() {
 		retrieveGames(Ultimate.teamId, function(games) {
 			Ultimate.games = games;
 			updateSelectGamesControl(Ultimate.games);
-		}) 
+		}, handleError) 
 	} else {
 		updateSelectGamesControl(Ultimate.games);
 	}
@@ -553,14 +555,15 @@ function handleError(jqXHR, textStatus, errorThrown) {
 }
 
 function requestSignon() {
-	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'});
+	$('#teamName').html(Ultimate.teamName);
 	$('#passwordErrorMessage').html("");
-	$('#savePasswordButton').unbind().on('click', function() {
+	$('#passwordSubmitButton').unbind().on('click', function() {
 		var password = $('#teamPasswordInput').val();
 		signon(Ultimate.teamId, password, function() {
 			$.mobile.changePage('#gamespage', {transition: 'pop'});
 		}, function() {
-			$('#passwordErrorMessage').html("Password Not Accepted");
+			$('#passwordErrorMessage').html("Incorrect Password");
 		});
 	});
 }

@@ -337,7 +337,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<tbody>
 					<tr>
 						<td class="pieSideBySideChartCell"><div id="ourGoalSummaryPie" class="pieSideBySideChart"></div></td>
-						<td class="pieSideBySideChartSeparatorCell"><div>&nbsp</div></td>
+						<td class="pieSideBySideChartSeparatorCell"><div>&nbsp;</div></td>
 						<td class="pieSideBySideChartCell"><div id="theirGoalSummaryPie" class="pieSideBySideChart"></div></td>
 					</tr>
 				</tbody>
@@ -351,24 +351,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<div id="goalPerOpportunityGraph" class="singleTeamGraph"></div>
 		</div>
 	</div>
-	
-	<div id="teamPasswordDialog" class="pagediv" data-role="dialog"
-		data-theme="b">
- 
-		<div data-role="header">
-			<h1>Enter Password</h1>
-		</div>
- 
-		<div data-role="content" data-tem="c">
-			<div>
-				&nbsp;&nbsp;Enter Password&nbsp;&nbsp;&nbsp;<span id="passwordErrorMessage"></span>
-				<input id="teamPasswordInput" type="text" name="name" data-mini="true"/>
-			</div> 
-			<a id="passwordSubmitButton" href="#" data-role="button" data-inline="true" data-theme="a">Submit</a> 
-			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
-		</div>
-	</div>
-	
 </div>
+
+<div id="teamPasswordDialog" class="pagediv" data-role="dialog"
+	data-theme="b">
+
+	<div data-role="header">
+		<h1>Enter Password</h1>
+	</div>
+
+	<div data-role="content" data-tem="c">
+		<div>
+			&nbsp;&nbsp;Enter <span id="teamName"></span> team password&nbsp;&nbsp;&nbsp;<span class="errorMessage" id="passwordErrorMessage"></span>
+			<input id="teamPasswordInput" type="text" name="name" data-mini="true"/>
+		</div> 
+		<a id="passwordSubmitButton" href="#" data-role="button" data-inline="true" data-theme="a">Submit</a> 
+		<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
+	</div>
+</div>
+
 </body>
 </html>

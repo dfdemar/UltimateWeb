@@ -125,7 +125,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
  
 		<div data-role="content" data-tem="c">
 			<div>
-				&nbsp;&nbsp;Enter New Password&nbsp;&nbsp;&nbsp;<span id="passwordSaveErrorMessage"></span>
+				&nbsp;&nbsp;Enter New Password&nbsp;&nbsp;&nbsp;<span class="errorMessage" id="passwordSaveErrorMessage"></span>
 				<input id="teamPasswordInput" type="text" name="name" data-mini="true"/>
 			</div> 
 			<a id="savePasswordButton" href="#" data-role="button" data-inline="true" data-theme="a">Save</a> 

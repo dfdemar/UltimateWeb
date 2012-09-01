@@ -31,15 +31,26 @@ public class AbstractController {
 	protected TeamService service;
     
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) {
-		return this.getParameterTeam(id, request, false);
+		return this.getParameterTeam(id, request, false, false);
 	}
 	
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword) {
+		return this.getParameterTeam(id, request, includePassword, false);
+	}
+	
+	protected ParameterTeam getParameterTeamAfterVerifyingWebsiteAccess(@PathVariable String id, HttpServletRequest request) {
+		return this.getParameterTeam(id, request, false, true);
+	}
+
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword, boolean verifyWebsitePassword) {
 		try {
 			Team team = service.getTeam(id);
 			if (team == null) {
 				return null;
 			} else {
+				if (verifyWebsitePassword) {
+					this.verifyAccess(team, request);
+				}
 				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
 				if ("true".equals(request.getParameter("players"))) {
 					List<Player> players = service.getPlayers(team);
@@ -68,6 +79,7 @@ public class AbstractController {
 			List<Team> teams = service.getTeams(userIdentifier);
 			for (Team team : teams) {
 				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+				pTeam.setPassword(team.getPassword());
 				teamsResponseList.add(pTeam);
 			}
 			return teamsResponseList;
@@ -77,12 +89,19 @@ public class AbstractController {
 		}
 	}
 	
-	protected List<ParameterGame> getParameterGames(String teamId) {
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request) {
+		return getParameterGames(teamId, request, false);
+	}
+	
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				return null;
 			} else {
+				if (verifyWebsitePassword) {
+					this.verifyAccess(team, request);
+				}
 				// note: assuming that Text objects are not pulled from the DB until referenced.  Therefore we aren't creating a memory burden by reading in a 100 games
 				List<Game> games = service.getGames(team);
 				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
@@ -98,13 +117,15 @@ public class AbstractController {
 		}
 	}
 	
-	
-	protected ParameterGame getParameterGame(String teamId, String gameId) {
+	protected ParameterGame getParameterGame(String teamId, String gameId, HttpServletRequest request, boolean verifyWebsiteAccess) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				return null;
 			} else {
+				if (verifyWebsiteAccess) {
+					verifyAccess(team, request);
+				}
 				Game game = service.getGame(team, gameId);
 				return ParameterGame.fromGame(game);
 			}
@@ -132,6 +153,9 @@ public class AbstractController {
 	}
 
 	protected void logErrorAndThrow(String message, Throwable t) {
+		if (t instanceof UnauthorizedException) {
+			throw (UnauthorizedException)t;
+		}
 		if (t == null) {
 			log.log(SEVERE, message);
 		} else {
@@ -176,6 +200,7 @@ public class AbstractController {
     protected void addPasswordHashCookie(HttpServletResponse response, Team team) {
     	if (team.hasPassword()) {
         	Cookie cookie = new Cookie(PASSWORD_COOKIE_NAME, hashPassword(team.getPassword()));
+        	cookie.setPath("/");
         	response.addCookie(cookie);
     	}
     }

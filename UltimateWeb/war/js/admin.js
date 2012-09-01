@@ -36,7 +36,9 @@ function renderMainPage(data) {
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
 	$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
-	$('.teamPassword').on('click', function() {
+	var team = teamWithId(Ultimate.teamId);
+	$('.teamPassword').html(team.password == null ? "NOT SET" : team.password);
+	$('.teamPassword').unbind().on('click', function() {
 		handleSetPasssordClicked();
 	});
 	populateTeam(function() {
@@ -152,7 +154,8 @@ function updateGamesList(games) {
 		html[html.length] = '</span>';
 		html[html.length] = '</li>';
 	}
-	var teamTitle = Ultimate.teamName + (sortedGames.length > 0 ? ' games' : ' (no games for this team)');
+	var teamTitle = Ultimate.teamName + ', team ID ' + Ultimate.teamId;
+	teamTitle = teamTitle + (sortedGames.length > 0 ? ' games' : ' (no games for this team)');
 	$('.teamTitle').html(teamTitle);
 	var $websiteLink = $('#teamWebsite');
 	$websiteLink.attr('href', $websiteLink.attr('href').replace('{TEAMID}', Ultimate.teamId));
@@ -180,4 +183,13 @@ function handleSetPasssordClicked() {
 			$('#passwordSaveErrorMessage').html("Error saving password");
 		});
 	});
+}
+
+function teamWithId(id) {
+	for ( var i = 0; i < Ultimate.teams.length; i++) {
+		if (Ultimate.teams[i].cloudId == id) {
+			return Ultimate.teams[i];
+		}
+	}
+	return null;
 }

@@ -58,14 +58,14 @@ public class MobileRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request) {
 		getUserIdentifier(request);
-		return getParameterGames(teamId);
+		return getParameterGames(teamId, request);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
 		getUserIdentifier(request);
-		return getParameterGame(teamId, gameId);
+		return getParameterGame(teamId, gameId, request, false);
 	}
 	
 	@RequestMapping(value = "/team", method = RequestMethod.POST)

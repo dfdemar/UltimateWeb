@@ -33,12 +33,9 @@ public class WebRestController extends AbstractController {
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeam(@PathVariable String id, @RequestParam(value = "includePassword", required = false) boolean includePassword, HttpServletRequest request, HttpServletResponse response) {
+	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
-		if (includePassword) {
-			this.verifyAdminUser(request);
-		}
-		return getParameterTeam(id, request);
+		return getParameterTeamAfterVerifyingWebsiteAccess(id, request);
 	}
 	
 	@RequestMapping(value = "/admin/team/{id}", method = RequestMethod.GET)
@@ -65,6 +62,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				return null;
 			} else {
+				verifyAccess(team, request);
 				List<Player> players = service.getPlayers(team);
 				List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
 				for (Player player : players) {
@@ -82,20 +80,20 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId);
+		return getParameterGames(teamId, request, true);
 	}
 	
 	@RequestMapping(value = "/admin/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterGame> getGamesForAdmin(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId);
+		return getParameterGames(teamId, request);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
-		return getParameterGame(teamId, gameId);
+		return getParameterGame(teamId, gameId, request, true);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/delete", method = RequestMethod.POST)
@@ -176,6 +174,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				return null;
 			} else {
+				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
@@ -194,6 +193,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				return null;
 			} else {
+				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new TeamStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
@@ -212,6 +212,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				return null;
 			} else {
+				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new AllStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
@@ -227,6 +228,7 @@ public class WebRestController extends AbstractController {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team != null) {
+				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				response.setContentType("application/x-download");
