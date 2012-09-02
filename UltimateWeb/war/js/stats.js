@@ -328,7 +328,7 @@ PlayerStatsHelper = function(stats, statsName) {
 		
 		// drop games played, etc. from totals (these don't make sense as totals)
 		for (var prop in totals) {
-			if (prop.toLowerCase().indexOf('played') > -1) {
+			if ((prop.toLowerCase().indexOf('played') > -1) || prop == 'plusMinusCount') {
 				totals[prop] = "";
 			}
 		}
@@ -344,6 +344,7 @@ PlayerStatsHelper = function(stats, statsName) {
 
 Ultimate.headingForProperty = {
 	playerName : 'Player',
+	plusMinusCount : '+/-',
 	gamesPlayed : 'Games played',
 	pointsPlayed : 'Points played',
 	opointsPlayed : 'O-line points played',
