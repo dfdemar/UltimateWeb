@@ -35,15 +35,17 @@ function renderMainPage(data) {
 
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
-	$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
-	var team = teamWithId(Ultimate.teamId);
-	$('.teamPassword').html(team.password == null ? "NOT SET" : team.password);
-	$('.teamPassword').unbind().on('click', function() {
-		handleSetPasssordClicked();
-	});
-	populateTeam(function() {
-		populateGamesList();
-	});
+	retrieveTeamForAdmin(Ultimate.teamId, false, function(team) {
+		Ultimate.team = team;
+		$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
+		$('.teamPassword').html(team.password == null ? "NOT SET" : team.password);
+		$('.teamPassword').unbind().on('click', function() {
+			handleSetPasswordClicked();
+		});
+		populateTeam(function() {
+			populateGamesList();
+		});
+	}, handleRestError);
 }
 
 function renderConfirmDeleteDialog(data) {
@@ -86,6 +88,7 @@ function updateTeamsList(teams) {
 			Ultimate.itemToDeleteId = $deleteButton.data('teamid');
 			Ultimate.deleteConfirmedFn = function() {
 				deleteTeam(Ultimate.itemToDeleteId, function() {
+					resetCacheBuster();
 					$.mobile.changePage('#mainpage', {transition: 'pop'});
 				},handleRestError);
 			};
@@ -171,26 +174,30 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 	}
 }
 
-function handleSetPasssordClicked() {
+function handleSetPasswordClicked() {
 	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+	var team = Ultimate.team;
 	$('#passwordSaveErrorMessage').html("");
-	$('#teamPasswordInput').val(Ultimate.team.password);
+	$('#teamPasswordInput').val(team.password);
+	if (isNullOrEmpty(team.password)) {
+		$('#removePasswordButton').css('display', 'none');		
+	} else {
+		$('#removePasswordButton').unbind().on('click', function() {
+			submitPassword(Ultimate.team.cloudId, null);
+		});
+	}
 	$('#savePasswordButton').unbind().on('click', function() {
 		var newPwd = $('#teamPasswordInput').val();
-		savePassword(Ultimate.team.cloudId, newPwd, function() {
-			$.mobile.changePage('#gamespage', {transition: 'pop'});
-			$(".teamPassword").html(newPwd);
-		}, function() {
-			$('#passwordSaveErrorMessage').html("Error saving password");
-		});
+		submitPassword(Ultimate.team.cloudId, newPwd);
 	});
 }
 
-function teamWithId(id) {
-	for ( var i = 0; i < Ultimate.teams.length; i++) {
-		if (Ultimate.teams[i].cloudId == id) {
-			return Ultimate.teams[i];
-		}
-	}
-	return null;
+function submitPassword(teamId, newPwd) {
+	savePassword(teamId, newPwd, function() {
+		resetCacheBuster();
+		$.mobile.changePage('#gamespage?team='+teamId, {transition: 'pop'});
+		$(".teamPassword").html(newPwd);
+	}, function() {
+		$('#passwordSaveErrorMessage').html("Error saving password");
+	});
 }

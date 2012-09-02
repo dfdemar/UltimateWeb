@@ -45,7 +45,7 @@ public class WebRestController extends AbstractController {
 		if (includePassword) {
 			this.verifyAdminUser(request);
 		}
-		return getParameterTeam(id, request);
+		return getParameterTeam(id, request, true);
 	}
 	
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
@@ -139,7 +139,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
-				team.setPassword(password);
+				team.setPassword("REMOVE-PASSWORD".equals(password) ? null : password);
 				service.saveTeam(userIdentifier, team);
 			}
 		} catch (Exception e) {

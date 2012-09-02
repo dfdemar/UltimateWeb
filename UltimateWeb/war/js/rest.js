@@ -74,7 +74,7 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 }
 
 function savePassword(teamId, password, successFunction, errorFunction) {
-	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + password; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password); 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
@@ -356,3 +356,6 @@ function addQueryStringParameter(url, key, value) {
 	return url + (url.indexOf('?') > 0 ? '&' : '?') + key + '=' + value;
 }
 
+function resetCacheBuster() {
+	Ultimate.sessionId = new Date().getTime() + '';
+}
