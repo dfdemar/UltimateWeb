@@ -194,3 +194,8 @@
 	font-size:  medium;
 	font-weight: bold;
 }
+.unauthorizedmessage {
+	margin-top: 3em;
+	font-size:  medium;
+	color: red;
+}

@@ -40,7 +40,9 @@ $(document).live('pagechange', function(event, data) {
 		case 'teamstatspage' :
 			renderTeamStats(data);
 			break;			
-		case 'teamPasswordDialog' :
+		case 'teamPasswordDialog' :   
+			break;	
+		case 'unauthorizedpage' :   
 			break;				
 		default:
 			renderMainPage(data);
@@ -561,9 +563,12 @@ function requestSignon() {
 	$('#passwordSubmitButton').unbind().on('click', function() {
 		var password = $('#teamPasswordInput').val();
 		signon(Ultimate.teamId, password, function() {
-			$.mobile.changePage('#gamespage', {transition: 'pop'});
+			$.mobile.changePage('#mainpage', {transition: 'pop'});
 		}, function() {
 			$('#passwordErrorMessage').html("Incorrect Password");
 		});
+	});
+	$('#passwordCancelButton').unbind().on('click', function() {
+		$.mobile.changePage('#unauthorizedpage', {transition: 'pop'});
 	});
 }

@@ -366,7 +366,21 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<input id="teamPasswordInput" type="text" name="name" data-mini="true"/>
 		</div> 
 		<a id="passwordSubmitButton" href="#" data-role="button" data-inline="true" data-theme="a">Submit</a> 
-		<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
+		<a id="passwordCancelButton" href="#" data-role="button" data-inline="true" data-theme="a">Cancel</a> 
+	</div>
+</div>
+
+
+<div id="unauthorizedpage" class="pagediv" data-role="page" data-theme="b">
+	<div class="top-section">
+		<img class="players-image" src="/images/ultimate-silhouette.png">
+		<div class="pageHeading">
+			<span class="teamName"></span><br> 
+			<span class="pageTitle">Ultimate Team Statistics</span> 
+		</div>
+	</div>
+	<div>
+		<span class="unauthorizedmessage">Sorry, this team requires a password to view their stats</span>
 	</div>
 </div>
 
