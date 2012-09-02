@@ -344,6 +344,7 @@ PlayerStatsHelper = function(stats, statsName) {
 
 Ultimate.headingForProperty = {
 	playerName : 'Player',
+	plusMinusCount : '+/-',
 	gamesPlayed : 'Games played',
 	pointsPlayed : 'Points played',
 	opointsPlayed : 'O-line points played',
