@@ -8,6 +8,7 @@ public class TeamStats {
 	private List<TrendPoint> enduranceIntervals = new ArrayList<TrendPoint>();
 	private List<TrendPoint> trendPoints = new ArrayList<TrendPoint>();
 	private GoalsSummary goalSummary = new GoalsSummary();
+	private BreakSummary breakSummary = new BreakSummary();
 	
 	public TrendPoint addNewTrendPoint() {
 		TrendPoint point = new TrendPoint();
@@ -40,6 +41,14 @@ public class TeamStats {
 
 	public void setWindSummary(WindSummary windSummary) {
 		this.windSummary = windSummary;
+	}
+
+	public BreakSummary getBreakSummary() {
+		return breakSummary;
+	}
+
+	public void setBreakSummary(BreakSummary breakSummary) {
+		this.breakSummary = breakSummary;
 	}
 
 }

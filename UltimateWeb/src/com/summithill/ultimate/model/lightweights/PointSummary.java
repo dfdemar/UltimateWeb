@@ -11,6 +11,8 @@ public class PointSummary {
 	private String lineType;
 	private boolean finished;
 	private long elapsedTime;
+	private boolean directionChanged;  // did at least one direction change during point?
+	private boolean isOurGoal;
 	
 	public boolean isOline() {
 		return lineType.equals(O_LINE);
@@ -39,5 +41,21 @@ public class PointSummary {
 	}
 	public void setElapsedTime(long elapsedTime) {
 		this.elapsedTime = elapsedTime;
+	}
+
+	public boolean didDirectionChange() {
+		return directionChanged;
+	}
+
+	public void setDirectionChanged(boolean directionChanged) {
+		this.directionChanged = directionChanged;
+	}
+
+	public boolean isOurGoal() {
+		return isOurGoal;
+	}
+
+	public void setOurGoal(boolean isOurGoal) {
+		this.isOurGoal = isOurGoal;
 	}
 }

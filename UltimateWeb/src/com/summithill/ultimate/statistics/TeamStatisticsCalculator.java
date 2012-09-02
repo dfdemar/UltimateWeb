@@ -54,6 +54,7 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 			List<Event> events = point.getEvents();
 			Event lastEvent = null;
 			for (Event event : events) {
+				updatePointSummary(point, event);
 				int touches = calculateTouches(event, lastEvent);
 				updateGoalSummary(teamStats.getGoalSummary(), point, lastPoint, event, lastEvent);
 				updateTrend(gameTrendPoint, point, lastPoint, event, lastEvent, touches);
@@ -61,10 +62,18 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 				lastEvent = event;
 			}
 			lastPoint = point;
+			updateBreakSummary(point.getSummary());
 		}
 		summarizeGame(gameTrendPoint);
 	}
-	
+
+	private void updatePointSummary(Point point, Event event) {
+		if (event.isTurnover()) {
+			point.getSummary().setDirectionChanged(true);
+		} else if (event.isGoal() && event.isOffense()) {
+			point.getSummary().setOurGoal(true);
+		}
+	}
 	
 	private void updateWindSummary(PointSummary pointSummary, Event event, Event lastEvent, Wind wind, WindSummary windSummary, WindDirection ourTeamWindDirectionForPoint) {
 		
@@ -91,6 +100,32 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 		
 	}
 	
+	private void updateBreakSummary(PointSummary pointSummary) {
+		BreakSummary breakSummary = teamStats.getBreakSummary();
+		if (pointSummary.didDirectionChange()) {
+			// We are OLine
+			if (pointSummary.isOline()) {
+				if (pointSummary.isOurGoal()) {
+					breakSummary.getOurBreakDetails().incOlineBrokenThenScores();
+					breakSummary.getTheirBreakDetails().incDlineBreaksThenScoredUpon();
+				} else {
+					breakSummary.getOurBreakDetails().incOlineBroken();
+					breakSummary.getTheirBreakDetails().incDlineBreaks();
+				}
+			// We are DLine
+			} else {
+				if (pointSummary.isOurGoal()) {
+					breakSummary.getOurBreakDetails().incDlineBreaks();
+					breakSummary.getTheirBreakDetails().incOlineBroken();
+				} else {
+					breakSummary.getOurBreakDetails().incDlineBreaksThenScoredUpon();
+					breakSummary.getTheirBreakDetails().incOlineBrokenThenScores();
+				}
+			}
+		}
+		
+	}
+	  
 	private GoalOpportunties getGoalOpportunities(WindSummary windSummary, boolean isOurOpportunityOrGoal, WindDirection ourTeamWindDirectionForPoint, Wind wind) {
 		WindEffect windEffect = windSummary.findWindEffectBucket(wind);
 		WindStats windStats = isOurOpportunityOrGoal ? windEffect.getOurStats() : windEffect.getTheirStats();
@@ -186,4 +221,6 @@ public class TeamStatisticsCalculator extends AbstractStatisticsCalculator {
 		}
 		return direction == WindDirection.DOWNWIND ? WindDirection.UPWIND : WindDirection.DOWNWIND;
 	}
+	
+	
 }
