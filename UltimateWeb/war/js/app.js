@@ -203,6 +203,7 @@ function populateTeamStatsGraphs() {
 	Ultimate.teamStatsHelper.renderGoalsSummaryPieCharts();
 	Ultimate.teamStatsHelper.renderTrendGraph();
 	Ultimate.teamStatsHelper.renderGoalPerOpportunityGraph();
+	Ultimate.teamStatsHelper.renderBreaksGraph();
 }
 
 function showDeviceBasedPlayerStats() {

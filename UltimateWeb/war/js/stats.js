@@ -109,6 +109,61 @@ TeamStatsHelper = function(stats, statsName) {
 	    });
 	}
 	
+	this.renderBreaksGraph = function() {
+		
+		var breakSummary = teamStats.breakSummary;
+		var ourStats = breakSummary.ourBreakDetails;
+		var theirStats = breakSummary.theirBreakDetails;
+
+		var ourData = [
+		               [1, ourStats.olineBroken], [2, ourStats.olineBrokenThenScores], [3, ourStats.dlineBreaks], 
+		               [4, ourStats.dlineBreaksThenScoredUpon]
+		];
+		var theirData = [
+		               [1, theirStats.olineBroken], [2, theirStats.olineBrokenThenScores], [3, theirStats.dlineBreaks], 
+		               [4, theirStats.dlineBreaksThenScoredUpon]
+        ];
+		
+	    var data = [
+             {
+                 label: Ultimate.teamName,
+                 data: ourData,
+                 bars: {
+                     show: true,
+                     barWidth: 0.3,
+                     fill: true,
+                     lineWidth: 1,
+                     order: 1,
+                     fillColor:  "#999900"
+                 },
+                 color: "#999900"
+             },
+             {
+                 label: "Opponents",
+                 data: theirData,
+                 bars: {
+                     show: true,
+                     barWidth: 0.3,
+                     fill: true,
+                     lineWidth: 1,
+                     order: 2,
+                     fillColor:  "#334066"
+                 },
+                 color: "#334066"
+             }
+	     ];
+	    
+	    $.plot($("#breaksGraph"), data, {
+            selection: { mode: "xy" },
+            grid: {  },
+            xaxis:{ 
+               	ticks:[[1,'O-line Broken'],[2,'O-Line turnover but scored'],[3,'D-Line Breaks'],[4,'D-Line causes turnover but then scored against']]
+             },
+            valueLabels: { show: true },
+            multiplebars: true
+	    });
+	}
+
 	function goalOpportunitySummary(windUnknownStats, lowWindStats, strongWindStats) {
 		var lowWindGoals = lowWindStats.goalsWithWind.goals + lowWindStats.goalsAgainstWind.goals + lowWindStats.goalsAcrossWind.goals;
 		var lowWindOpps = lowWindStats.goalsWithWind.opportunties + lowWindStats.goalsAgainstWind.opportunties + lowWindStats.goalsAcrossWind.opportunties;
