@@ -345,15 +345,16 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</tbody>
 			</table>
 
-			<h3 class="chartTitle">Trend (by game): Turnovers per Touch</h3>
-			<div id="trendLineGraph" class="singleTeamGraph"></div>
-			<div class="xAxisLabel">Game</div>
+			<h3 class="chartTitle">Breaks</h3>
+			<div id="breaksGraph" class="singleTeamGraph"></div>
 			
 			<h3 class="chartTitle">Goals Scored per Opportunity to Score (Percent)</h3>
 			<div id="goalPerOpportunityGraph" class="singleTeamGraph"></div>
+			
+			<h3 class="chartTitle">Trend (by game): Turnovers per Touch</h3>
+			<div id="trendLineGraph" class="singleTeamGraph"></div>
+			<div class="xAxisLabel">Game</div>
 
-			<h3 class="chartTitle">Breaks</h3>
-			<div id="breaksGraph" class="singleTeamGraph"></div>
 		</div>
 	</div>
 </div>

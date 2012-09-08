@@ -16,7 +16,10 @@ $(document).live('pagechange', function(event, data) {
 			break;	
 		case 'confirmDeleteDialog':
 			renderConfirmDeleteDialog(data);
-			break;				
+			break;	
+		case 'teamPasswordDialog':
+			renderTeamPasswordDialog(data);
+			break;					
 		default:
 			//
 	}
@@ -53,6 +56,23 @@ function renderConfirmDeleteDialog(data) {
 	$('#deleteConfirmedButton').unbind().on('click', function() {
 			Ultimate.deleteConfirmedFn();
 		});
+}
+
+function renderTeamPasswordDialog(data) {
+	var team = Ultimate.team;
+	$('#passwordSaveErrorMessage').html("");
+	$('#teamPasswordInput').val(team.password);
+	if (isNullOrEmpty(team.password)) {
+		$('#removePasswordButton').css('display', 'none');		
+	} else {
+		$('#removePasswordButton').css('display', '').unbind().on('click', function() {
+			submitPassword(Ultimate.team.cloudId, null);
+		});
+	}
+	$('#savePasswordButton').unbind().on('click', function() {
+		var newPwd = $('#teamPasswordInput').val();
+		submitPassword(Ultimate.team.cloudId, newPwd);
+	});
 }
 
 function populateTeamsList(successFunction) {
@@ -176,20 +196,6 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 
 function handleSetPasswordClicked() {
 	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
-	var team = Ultimate.team;
-	$('#passwordSaveErrorMessage').html("");
-	$('#teamPasswordInput').val(team.password);
-	if (isNullOrEmpty(team.password)) {
-		$('#removePasswordButton').css('display', 'none');		
-	} else {
-		$('#removePasswordButton').unbind().on('click', function() {
-			submitPassword(Ultimate.team.cloudId, null);
-		});
-	}
-	$('#savePasswordButton').unbind().on('click', function() {
-		var newPwd = $('#teamPasswordInput').val();
-		submitPassword(Ultimate.team.cloudId, newPwd);
-	});
 }
 
 function submitPassword(teamId, newPwd) {
