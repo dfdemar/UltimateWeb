@@ -106,6 +106,14 @@ public class Game extends ModelObject {
 		entity.setProperty(POINTS_JSON_PROPERTY, text);
 	}
 	
+	public String getLeaguevineJson() {
+		return (String)entity.getProperty(LEAGUEVINE_JSON_PROPERTY);
+	}
+	
+	public void setLeaguevineJson(String json) {
+		entity.setProperty(LEAGUEVINE_JSON_PROPERTY, json);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Point> getPoints() {
 		if (points == null) {

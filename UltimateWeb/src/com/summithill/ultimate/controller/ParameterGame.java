@@ -26,6 +26,7 @@ public class ParameterGame {
 	private long msSinceEpoch;
 	private long ours;
 	private long theirs;
+	private String leaguevineJson;
 	
 	public String getGameId() {
 		return gameId;
@@ -56,6 +57,7 @@ public class ParameterGame {
 		pGame.setPointsJson(game.getPointsJson());
 		pGame.setFirstPointOline(game.isFirstPointOline());
 		pGame.setGamePoint(game.getGamePoint());
+		pGame.setLeaguevineJson(game.getLeaguevineJson());
 		return pGame;
 	}
 
@@ -69,6 +71,7 @@ public class ParameterGame {
 		game.setTheirScore(theirs);
 		game.setFirstPointOline(isFirstPointOline);
 		game.setGamePoint(gamePoint);
+		game.setLeaguevineJson(leaguevineJson);
 		game.setWind(wind);
 	}
 		
@@ -172,6 +175,14 @@ public class ParameterGame {
 
 	public void setWind(Wind wind) {
 		this.wind = wind;
+	}
+
+	public String getLeaguevineJson() {
+		return leaguevineJson;
+	}
+
+	public void setLeaguevineJson(String leaguevineJson) {
+		this.leaguevineJson = leaguevineJson;
 	}
 
 }

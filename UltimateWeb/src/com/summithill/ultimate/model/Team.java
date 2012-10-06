@@ -70,6 +70,14 @@ public class Team extends ModelObject {
 		entity.setProperty(WEBSITE_PASSWORD_PROPERTY, password == null ? null : password.trim());
 	}
 	
+	public String getLeaguevineJson() {
+		return (String)entity.getProperty(LEAGUEVINE_JSON_PROPERTY);
+	}
+	
+	public void setLeaguevineJson(String json) {
+		entity.setProperty(LEAGUEVINE_JSON_PROPERTY, json);
+	}
+	
 	public boolean hasPassword() {
 		String pwd = this.getPassword();
 		return pwd != null && !pwd.isEmpty();

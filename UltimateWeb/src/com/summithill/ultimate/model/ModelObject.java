@@ -5,6 +5,8 @@ import com.google.appengine.api.datastore.Entity;
 public class ModelObject {
 	public static final String USER_ID_PROPERTY = "user";
 	
+	public static final String LEAGUEVINE_JSON_PROPERTY = "leaguevineJson";
+	
 	protected Entity entity;
 	
 	public String getUserIdentifier() {
