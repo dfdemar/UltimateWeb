@@ -58,6 +58,10 @@ public class Event {
 		return action.equals(PULL);
 	}
 	
+	public boolean isFirstOffenseEvent(Event previousEvent) {
+		return this.isOffense() && (previousEvent == null || (previousEvent.isDefense()));
+	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}

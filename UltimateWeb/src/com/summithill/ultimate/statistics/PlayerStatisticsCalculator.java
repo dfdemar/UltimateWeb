@@ -51,16 +51,23 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incCatches();
 					getStats(event.getReceiver()).incTouches();
-					if (lastEvent == null || (lastEvent.isD())) {
+					if (event.isFirstOffenseEvent(lastEvent)) {
 						getStats(event.getPasser()).incTouches();
 					}
 				} else if (event.isDrop()) {
 					getStats(event.getPasser()).incPasses();
 					getStats(event.getReceiver()).incDrops();
 					getStats(event.getReceiver()).decPlusMinusCount();
+					if (event.isFirstOffenseEvent(lastEvent)) {
+						getStats(event.getPasser()).incTouches();
+					}
 				} else if (event.isOffense() && event.isThrowaway()) {
+					getStats(event.getPasser()).incPasses();
 					getStats(event.getPasser()).incThrowaways();
 					getStats(event.getPasser()).decPlusMinusCount();
+					if (event.isFirstOffenseEvent(lastEvent)) {
+						getStats(event.getPasser()).incTouches();
+					}
 				} else if (event.isPull()) {
 					getStats(event.getDefender()).incPulls();					
 				} else if (event.isD()) {
@@ -73,6 +80,9 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					getStats(event.getReceiver()).incGoals();
 					getStats(event.getPasser()).incPlusMinusCount();
 					getStats(event.getReceiver()).incPlusMinusCount();
+					if (event.isFirstOffenseEvent(lastEvent)) {
+						getStats(event.getPasser()).incTouches();
+					}
 				}
 				lastEvent = event;
 			}
