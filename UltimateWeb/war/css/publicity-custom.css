@@ -13,3 +13,12 @@
 	font-size: medium;
 	color: red;
 }
+.stat-title span {
+	float: left;
+	width: 80px;
+	font-style: italic;
+	font-weight: bold; 
+}
+.stat-title li {
+	list-style: none;
+}
