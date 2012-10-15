@@ -3,8 +3,11 @@ package com.summithill.ultimate.statistics;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.lightweights.Event;
+import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.model.lightweights.PointSummary;
 
 public class EventWriter {
@@ -18,7 +21,9 @@ public class EventWriter {
 		this.writeHeader();
 	}
 
-	public void writeEvent(Event event, Game game, PointSummary pointSummary) {
+	public void writeEvent(Event event, Game game, Point point) {
+		PointSummary pointSummary = point.getSummary();
+		String line = point.getLine() == null ? "" : StringUtils.join(point.getLine(), " ");
 		try {
 			writer.write(game.getTimestamp());
 			writer.write(DELIMITER);
@@ -43,6 +48,8 @@ public class EventWriter {
 			writer.write(replaceDelims(event.getReceiver()));			
 			writer.write(DELIMITER);
 			writer.write(replaceDelims(event.getDefender()));	
+			writer.write(DELIMITER);
+			writer.write(replaceDelims(line));			
 			
 			writer.write("\n");
 		} catch (IOException e) {
@@ -75,6 +82,8 @@ public class EventWriter {
 			writer.write("Receiver");
 			writer.write(DELIMITER);
 			writer.write("Defender");
+			writer.write(DELIMITER);
+			writer.write("Line");			
 			
 			writer.write("\n");
 		} catch (IOException e) {
