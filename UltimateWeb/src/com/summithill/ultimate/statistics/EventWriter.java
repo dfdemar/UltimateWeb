@@ -23,7 +23,6 @@ public class EventWriter {
 
 	public void writeEvent(Event event, Game game, Point point) {
 		PointSummary pointSummary = point.getSummary();
-		String line = point.getLine() == null ? "" : StringUtils.join(point.getLine(), " ");
 		try {
 			writer.write(game.getTimestamp());
 			writer.write(DELIMITER);
@@ -47,10 +46,13 @@ public class EventWriter {
 			writer.write(DELIMITER);
 			writer.write(replaceDelims(event.getReceiver()));			
 			writer.write(DELIMITER);
-			writer.write(replaceDelims(event.getDefender()));	
-			writer.write(DELIMITER);
-			writer.write(replaceDelims(line));			
-			
+			writer.write(replaceDelims(event.getDefender()));
+			if (point.getLine() != null) {
+				for (String playerName : point.getLine()) {
+					writer.write(DELIMITER);
+					writer.write(replaceDelims(playerName));
+				}
+			}
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
@@ -82,8 +84,10 @@ public class EventWriter {
 			writer.write("Receiver");
 			writer.write(DELIMITER);
 			writer.write("Defender");
-			writer.write(DELIMITER);
-			writer.write("Line");			
+			for (int i = 0; i < 12; i++) {
+				writer.write(DELIMITER);
+				writer.write("Player " + Integer.toString(i));	
+			}
 			
 			writer.write("\n");
 		} catch (IOException e) {
