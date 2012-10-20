@@ -81,7 +81,11 @@ public class Game extends ModelObject {
 	}
 	
 	public Long getOurScore() {
-		return (Long)entity.getProperty(SCORE_OURS_PROPERTY);
+		Long score = (Long)entity.getProperty(SCORE_OURS_PROPERTY);
+		if (score != null && score.longValue() > 1000) { // fix bad data
+			score = new Long(0);
+		}
+		return score;
 	}
 	
 	public void setOurScore(Long score) {
@@ -89,7 +93,11 @@ public class Game extends ModelObject {
 	}
 	
 	public Long getTheirScore() {
-		return (Long)entity.getProperty(SCORE_THEIRS_PROPERTY);
+		Long score = (Long)entity.getProperty(SCORE_THEIRS_PROPERTY);
+		if (score != null && score.longValue() > 1000) { // fix bad data
+			score = new Long(0);
+		}
+		return score;
 	}
 	
 	public void setTheirScore(Long score) {
