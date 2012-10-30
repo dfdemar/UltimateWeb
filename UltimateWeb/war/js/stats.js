@@ -417,7 +417,7 @@ Ultimate.headingForProperty = {
 	throwaways : 'Throw aways',
 	ds : 'Ds',
 	pulls : 'Pulls',
-	pullsOB : 'Pulls-OB',
-	pullsAvgHangtimeMillis : 'Pulls Avg Hangtime'
+	pullsOB : 'OB Pulls',
+	pullsAvgHangtimeMillis : 'Avg Pull Hang Time'
 }
 
