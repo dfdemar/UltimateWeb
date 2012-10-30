@@ -60,7 +60,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="catchSuccess">{{catchSuccess}}</a></th>
 				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
 				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
-<!--  UNCOMMENT WITH PULL OB in Appstore
+<!--  UNCOMMENT WHEN PULL OB in Appstore
 				<th><a href="#" data-stattype="pullsAvgHangtimeMillis">{{pullsAvgHangtimeMillis}}</a></th>
 				<th><a href="#" data-stattype="pullsOB">{{pullsOB}}</a></th>
 -->
@@ -89,7 +89,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{catchSuccess}}</td>
 				<td>{{ds}}</td>
 				<td>{{pulls}}</td>
-<!--  UNCOMMENT WITH PULL OB in Appstore
+<!--  UNCOMMENT WHEN PULL OB in Appstore
 				<td>{{pullsAvgHangtimeMillis}}</td>
 				<td>{{pullsOB}}</td>
 -->
@@ -164,7 +164,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<table id="teamPlayerStats" class="playerStats"></table>
 		</div>
 	</div>
-	
+	<div><br><br>Wondering how a statistic is calculated? Check out our calcs: <a href="javascript:void(0)" onclick="window.open('/calcs.html');return false;">Calculations</a></div>
 </div>
 
 <div id="gamespage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
@@ -307,6 +307,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<tbody></tbody>
 		</table>
 	</div>
+	
+	<div>Wondering how a statistic is calculated? Check out our calcs >> <a>Calculations</a></div>
 </div>
 
 <div id="teamstatspage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">
