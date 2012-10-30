@@ -1,5 +1,7 @@
 package com.summithill.ultimate.statistics;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class PlayerStats {
 	private String playerName;
 	private int plusMinusCount;
@@ -15,8 +17,13 @@ public class PlayerStats {
 	private int throwaways;
 	private int ds;
 	private int pulls;
+	private int pullsWithHangtime;
+	private int pullsOB;
+	private int pullsAvgHangtimeMillis;
 	private int touches;
 	private int secondsPlayed;
+	@JsonIgnore
+	private int pullsTotalHangtime = 0;
 	
 	public PlayerStats(String playerName) {
 		super();
@@ -59,6 +66,19 @@ public class PlayerStats {
 	public void incPulls() {
 		this.pulls++;
 	}
+	public void incPulls(int hangtimeMilliseconds) {
+		this.pulls++;
+		if (hangtimeMilliseconds > 0) {
+			this.pullsWithHangtime++;
+			this.pullsTotalHangtime += hangtimeMilliseconds;
+			this.pullsAvgHangtimeMillis = this.pullsTotalHangtime / this.pullsWithHangtime;
+		} else {
+			this.incPulls();
+		}
+	}
+	public void incPullOBs() {
+		this.pullsOB++;
+	}	
 	public void incTouches() {
 		this.touches++;
 	}
@@ -176,5 +196,29 @@ public class PlayerStats {
 
 	public void setPlusMinusCount(int plusMinusCount) {
 		this.plusMinusCount = plusMinusCount;
+	}
+
+	public int getPullsOB() {
+		return pullsOB;
+	}
+
+	public void setPullsOB(int pullsOB) {
+		this.pullsOB = pullsOB;
+	}
+
+	public int getPullsAvgHangtimeMillis() {
+		return pullsAvgHangtimeMillis;
+	}
+
+	public void setPullsAvgHangtimeMillis(int avgHangtime) {
+		this.pullsAvgHangtimeMillis = avgHangtime;
+	}
+
+	public int getPullsWithHangtime() {
+		return pullsWithHangtime;
+	}
+
+	public void setPullsWithHangtime(int pullsWithHangtime) {
+		this.pullsWithHangtime = pullsWithHangtime;
 	}
 }

@@ -316,7 +316,9 @@ PlayerStatsHelper = function(stats, statsName) {
 		for ( var stat in playerStats) {
 			var value = (stat == 'secondsPlayed') ? self.secondsToMinutes(playerStats[stat], 1) : playerStats[stat];
 			var name = (stat == 'secondsPlayed') ? 'minutesPlayed' : stat;
-			if (typeof playerStats[stat] == 'number') {
+			if (stat == 'pullsAvgHangtimeMillis') {
+				formattedStats[name] = value == null ? '' : (value / 1000).toFixed(1); 
+			} else if (typeof playerStats[stat] == 'number') {
 				if (!isPerPoint || self.isPerPointStat(stat)) {
 					if (isPerPoint) {
 						value = perPointStat(value, playerStats.pointsPlayed);
@@ -375,7 +377,7 @@ PlayerStatsHelper = function(stats, statsName) {
 		for (var prop in totals) {
 			var total = totals[prop];
 			var avg = total / playerStatsArray.length;
-			averages[prop] = avg.toFixed(1);
+			averages[prop] = prop == 'pullsAvgHangtimeMillis' ? '' : avg.toFixed(1);
 		}
 		
 		// format
@@ -383,7 +385,7 @@ PlayerStatsHelper = function(stats, statsName) {
 		
 		// drop games played, etc. from totals (these don't make sense as totals)
 		for (var prop in totals) {
-			if ((prop.toLowerCase().indexOf('played') > -1) || prop == 'plusMinusCount') {
+			if ((prop.toLowerCase().indexOf('played') > -1) || prop == 'plusMinusCount' || prop == 'pullsAvgHangtimeMillis') {
 				totals[prop] = "";
 			}
 		}
@@ -414,6 +416,8 @@ Ultimate.headingForProperty = {
 	drops : 'Drops',
 	throwaways : 'Throw aways',
 	ds : 'Ds',
-	pulls : 'Pulls'
+	pulls : 'Pulls',
+	pullsOB : 'Pulls-OB',
+	pullsAvgHangtimeMillis : 'Pulls Avg Hangtime'
 }
 

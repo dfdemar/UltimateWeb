@@ -69,7 +69,10 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 						getStats(event.getPasser()).incTouches();
 					}
 				} else if (event.isPull()) {
-					getStats(event.getDefender()).incPulls();					
+					int hangtimeMilliseconds = event.getDetails() == null ? 0 : event.getDetails().getHangtime();
+					getStats(event.getDefender()).incPulls(hangtimeMilliseconds);		
+				} else if (event.isPullOb()) {
+					getStats(event.getDefender()).incPullOBs();		
 				} else if (event.isD()) {
 					getStats(event.getDefender()).incDs();
 					getStats(event.getDefender()).incPlusMinusCount();

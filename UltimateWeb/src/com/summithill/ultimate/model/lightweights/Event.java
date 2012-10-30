@@ -12,12 +12,16 @@ public class Event {
 	public static String DROP = "Drop";
 	public static String THROWAWAY = "Throwaway";
 	public static String PULL = "Pull";
+	public static String PULL_OB = "PullOb";
+	public static String DETAILS = "details";
 	
 	private String type;
 	private String action;
 	private String defender;
 	private String passer;
 	private String receiver;
+	private EventDetails details;
+	
 	public String getType() {
 		return type;
 	}
@@ -58,6 +62,10 @@ public class Event {
 		return action.equals(PULL);
 	}
 	
+	public boolean isPullOb() {
+		return action.equals(PULL_OB);
+	}
+	
 	public boolean isFirstOffenseEvent(Event previousEvent) {
 		return this.isOffense() && (previousEvent == null || (previousEvent.isDefense()));
 	}
@@ -88,5 +96,11 @@ public class Event {
 	}
 	public void setReceiver(String reciever) {
 		this.receiver = reciever;
+	}
+	public EventDetails getDetails() {
+		return details;
+	}
+	public void setDetails(EventDetails details) {
+		this.details = details;
 	}
 }

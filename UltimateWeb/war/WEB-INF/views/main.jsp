@@ -58,6 +58,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
 				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
 				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
+				<th><a href="#" data-stattype="pullsAvgHangtimeMillis">{{pullsAvgHangtimeMillis}}</a></th>
+				<th><a href="#" data-stattype="pullsOB">{{pullsOB}}</a></th>
 			{{/with}}
 		</thead>
 		<tbody>
@@ -81,6 +83,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{throwaways}}</td>
 				<td>{{ds}}</td>
 				<td>{{pulls}}</td>
+				<td>{{pullsAvgHangtimeMillis}}</td>
+				<td>{{pullsOB}}</td>
 			</tr>
 			{{/each}}
 		</tbody>
