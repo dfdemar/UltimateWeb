@@ -12,7 +12,9 @@ public class PlayerStats {
 	private int goals;
 	private int assists;
 	private int passes;
+	private int passSuccess;
 	private int catches;
+	private int catchSuccess;
 	private int drops;
 	private int throwaways;
 	private int ds;
@@ -220,5 +222,21 @@ public class PlayerStats {
 
 	public void setPullsWithHangtime(int pullsWithHangtime) {
 		this.pullsWithHangtime = pullsWithHangtime;
+	}
+
+	public int getPassSuccess() {
+		return passSuccess;
+	}
+
+	public void setPassSuccess(int passSuccess) {
+		this.passSuccess = passSuccess;
+	}
+
+	public int getCatchSuccess() {
+		return catchSuccess;
+	}
+
+	public void setCatchSuccess(int catchSuccess) {
+		this.catchSuccess = catchSuccess;
 	}
 }

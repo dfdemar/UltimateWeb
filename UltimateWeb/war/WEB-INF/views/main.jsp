@@ -53,13 +53,17 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="goals">{{goals}}</a></th>
 				<th><a href="#" data-stattype="assists">{{assists}}</a></th>
 				<th><a href="#" data-stattype="passes">{{passes}}</a></th>
+				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
+				<th><a href="#" data-stattype="passSuccess">{{passSuccess}}</a></th>
 				<th><a href="#" data-stattype="catches">{{catches}}</a></th>
 				<th><a href="#" data-stattype="drops">{{drops}}</a></th>
-				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
+				<th><a href="#" data-stattype="catchSuccess">{{catchSuccess}}</a></th>
 				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
 				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
+<!--  UNCOMMENT WITH PULL OB in Appstore
 				<th><a href="#" data-stattype="pullsAvgHangtimeMillis">{{pullsAvgHangtimeMillis}}</a></th>
 				<th><a href="#" data-stattype="pullsOB">{{pullsOB}}</a></th>
+-->
 			{{/with}}
 		</thead>
 		<tbody>
@@ -78,13 +82,17 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{goals}}</td>
 				<td>{{assists}}</td>
 				<td>{{passes}}</td>
+				<td>{{throwaways}}</td>
+				<td>{{passSuccess}}</td>
 				<td>{{catches}}</td>
 				<td>{{drops}}</td>
-				<td>{{throwaways}}</td>
+				<td>{{catchSuccess}}</td>
 				<td>{{ds}}</td>
 				<td>{{pulls}}</td>
+<!--  UNCOMMENT WITH PULL OB in Appstore
 				<td>{{pullsAvgHangtimeMillis}}</td>
 				<td>{{pullsOB}}</td>
+-->
 			</tr>
 			{{/each}}
 		</tbody>
@@ -184,7 +192,6 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				
 			</ul>
 		</div>
-	
 	</div>
 
 </div>

@@ -47,45 +47,56 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 			List<Event> events = point.getEvents();
 			Event lastEvent = null;
 			for (Event event : events) {
+				PlayerStats passer = event.isOffense() ? getStats(event.getPasser()) : null;
+				PlayerStats receiver = event.isOffense() ? getStats(event.getReceiver()) : null;
+				PlayerStats defender = event.isDefense() ? getStats(event.getDefender()) : null;
 				if (event.isCatch()) {
-					getStats(event.getPasser()).incPasses();
-					getStats(event.getReceiver()).incCatches();
-					getStats(event.getReceiver()).incTouches();
+					passer.incPasses();
+					receiver.incCatches();
+					receiver.incTouches();
 					if (event.isFirstOffenseEvent(lastEvent)) {
-						getStats(event.getPasser()).incTouches();
+						passer.incTouches();
 					}
 				} else if (event.isDrop()) {
-					getStats(event.getPasser()).incPasses();
-					getStats(event.getReceiver()).incDrops();
-					getStats(event.getReceiver()).decPlusMinusCount();
+					passer.incPasses();
+					receiver.incDrops();
+					receiver.decPlusMinusCount();
 					if (event.isFirstOffenseEvent(lastEvent)) {
-						getStats(event.getPasser()).incTouches();
+						passer.incTouches();
 					}
 				} else if (event.isOffense() && event.isThrowaway()) {
-					getStats(event.getPasser()).incPasses();
-					getStats(event.getPasser()).incThrowaways();
-					getStats(event.getPasser()).decPlusMinusCount();
+					passer.incPasses();
+					passer.incThrowaways();
+					passer.decPlusMinusCount();
 					if (event.isFirstOffenseEvent(lastEvent)) {
-						getStats(event.getPasser()).incTouches();
+						passer.incTouches();
 					}
 				} else if (event.isPull()) {
 					int hangtimeMilliseconds = event.getDetails() == null ? 0 : event.getDetails().getHangtime();
-					getStats(event.getDefender()).incPulls(hangtimeMilliseconds);		
+					defender.incPulls(hangtimeMilliseconds);		
 				} else if (event.isPullOb()) {
-					getStats(event.getDefender()).incPullOBs();		
+					defender.incPullOBs();		
 				} else if (event.isD()) {
-					getStats(event.getDefender()).incDs();
-					getStats(event.getDefender()).incPlusMinusCount();
+					defender.incDs();
+					defender.incPlusMinusCount();
 				} else if (event.isGoal() && event.isOffense()) {
-					getStats(event.getPasser()).incAssists();
-					getStats(event.getPasser()).incPasses();
-					getStats(event.getReceiver()).incTouches();
-					getStats(event.getReceiver()).incGoals();
-					getStats(event.getPasser()).incPlusMinusCount();
-					getStats(event.getReceiver()).incPlusMinusCount();
+					passer.incAssists();
+					passer.incPasses();
+					receiver.incTouches();
+					receiver.incGoals();
+					passer.incPlusMinusCount();
+					receiver.incPlusMinusCount();
 					if (event.isFirstOffenseEvent(lastEvent)) {
-						getStats(event.getPasser()).incTouches();
+						passer.incTouches();
 					}
+				}
+				if (event.isOffense() && passer.getPasses() > 0) {
+					float passPercent = ((float)passer.getPasses() - (float)passer.getThrowaways()) / (float)passer.getPasses() * 100f;
+					passer.setPassSuccess((int)(passPercent));
+				}
+				if (event.isOffense() && receiver.getCatches() > 0) {
+					float catchPercent = ((float)receiver.getCatches() - (float)receiver.getDrops()) / (float)receiver.getCatches() * 100f;
+					passer.setCatchSuccess((int)(catchPercent));	
 				}
 				lastEvent = event;
 			}
