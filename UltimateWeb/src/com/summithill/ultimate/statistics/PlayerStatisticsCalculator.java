@@ -47,9 +47,9 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 			List<Event> events = point.getEvents();
 			Event lastEvent = null;
 			for (Event event : events) {
-				PlayerStats passer = event.isOffense() ? getStats(event.getPasser()) : null;
-				PlayerStats receiver = event.isOffense() ? getStats(event.getReceiver()) : null;
-				PlayerStats defender = event.isDefense() ? getStats(event.getDefender()) : null;
+				PlayerStats passer = event.isOffense() && event.getPasser() != null ? getStats(event.getPasser()) : null;
+				PlayerStats receiver = event.isOffense() && event.getReceiver() != null ? getStats(event.getReceiver()) : null;
+				PlayerStats defender = event.isDefense() && event.getDefender() != null ? getStats(event.getDefender()) : null;
 				if (event.isCatch()) {
 					passer.incPasses();
 					receiver.incCatches();
@@ -90,11 +90,11 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 						passer.incTouches();
 					}
 				}
-				if (event.isOffense() && passer.getPasses() > 0) {
+				if (event.isOffense() && passer != null && passer.getPasses() > 0) {
 					float passPercent = ((float)passer.getPasses() - (float)passer.getThrowaways()) / (float)passer.getPasses() * 100f;
 					passer.setPassSuccess((int)(passPercent));
 				}
-				if (event.isOffense() && receiver.getCatches() > 0) {
+				if (event.isOffense() && receiver != null && receiver.getCatches() > 0) {
 					float catchPercent = ((float)receiver.getCatches() - (float)receiver.getDrops()) / (float)receiver.getCatches() * 100f;
 					receiver.setCatchSuccess((int)(catchPercent));	
 				}
