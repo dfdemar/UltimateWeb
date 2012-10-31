@@ -290,7 +290,7 @@ PlayerStatsHelper = function(stats, statsName) {
 	};
 	
 	this.isPerPointStat = function(statName) {
-		return statName.indexOf('Played') < 0;
+		return statName.indexOf('Played') < 0 && statName.indexOf('Success') < 0;
 	};
 	
 	/**** PRIVATE ****/
@@ -385,7 +385,7 @@ PlayerStatsHelper = function(stats, statsName) {
 		
 		// drop games played, etc. from totals (these don't make sense as totals)
 		for (var prop in totals) {
-			if ((prop.toLowerCase().indexOf('played') > -1) || prop == 'plusMinusCount' || prop == 'pullsAvgHangtimeMillis') {
+			if ((prop.toLowerCase().indexOf('played') > -1) || prop == 'plusMinusCount' || prop == 'pullsAvgHangtimeMillis' || prop == 'catchSuccess' || prop == 'passSuccess') {
 				totals[prop] = "";
 			}
 		}

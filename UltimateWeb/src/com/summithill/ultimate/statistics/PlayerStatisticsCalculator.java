@@ -96,7 +96,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				}
 				if (event.isOffense() && receiver.getCatches() > 0) {
 					float catchPercent = ((float)receiver.getCatches() - (float)receiver.getDrops()) / (float)receiver.getCatches() * 100f;
-					passer.setCatchSuccess((int)(catchPercent));	
+					receiver.setCatchSuccess((int)(catchPercent));	
 				}
 				lastEvent = event;
 			}

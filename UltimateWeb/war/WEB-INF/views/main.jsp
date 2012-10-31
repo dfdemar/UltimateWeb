@@ -54,10 +54,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="assists">{{assists}}</a></th>
 				<th><a href="#" data-stattype="passes">{{passes}}</a></th>
 				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
-				<th><a href="#" data-stattype="passSuccess">{{passSuccess}}</a></th>
+  				{{#unless ../isPerPoint}}
+					<th><a href="#" data-stattype="passSuccess">{{passSuccess}}</a></th>
+  				{{/unless}}
 				<th><a href="#" data-stattype="catches">{{catches}}</a></th>
 				<th><a href="#" data-stattype="drops">{{drops}}</a></th>
-				<th><a href="#" data-stattype="catchSuccess">{{catchSuccess}}</a></th>
+  				{{#unless ../isPerPoint}}
+					<th><a href="#" data-stattype="catchSuccess">{{catchSuccess}}</a></th>
+  				{{/unless}}
 				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
 				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
 <!--  UNCOMMENT WHEN PULL OB in Appstore
@@ -83,10 +87,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{assists}}</td>
 				<td>{{passes}}</td>
 				<td>{{throwaways}}</td>
-				<td>{{passSuccess}}</td>
+  				{{#unless ../isPerPoint}}
+					<td>{{passSuccess}}</td>
+  				{{/unless}}
 				<td>{{catches}}</td>
 				<td>{{drops}}</td>
-				<td>{{catchSuccess}}</td>
+  				{{#unless ../isPerPoint}}
+					<td>{{catchSuccess}}</td>
+  				{{/unless}}
 				<td>{{ds}}</td>
 				<td>{{pulls}}</td>
 <!--  UNCOMMENT WHEN PULL OB in Appstore
