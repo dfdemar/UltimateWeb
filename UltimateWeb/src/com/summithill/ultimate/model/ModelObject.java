@@ -20,4 +20,9 @@ public class ModelObject {
 	public String getPersistenceId() {
 		return entity == null || entity.getKey() == null ? null : Long.toString(entity.getKey().getId());
 	}
+	
+	protected void copyProperties(Entity fromEntity, Entity toEntity, String userIdentifier) {
+		toEntity.setPropertiesFrom(fromEntity);
+		toEntity.setProperty(USER_ID_PROPERTY, userIdentifier);
+	}
 }

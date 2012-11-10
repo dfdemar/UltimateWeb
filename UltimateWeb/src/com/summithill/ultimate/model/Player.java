@@ -61,6 +61,11 @@ public class Player extends ModelObject {
 		entity.setProperty(IS_MALE_PROPERTY, Boolean.valueOf(isMale));
 	}
 	
+	public Player clone(String userIdentifier, Team team) {
+		Player playerClone = new Player(team, getName());
+		copyProperties(entity, playerClone.entity, userIdentifier);
+		return playerClone;
+	}
 }
 
 ;;

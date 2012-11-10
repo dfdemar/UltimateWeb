@@ -113,6 +113,25 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	// this is a master admin method (allows site admin to copy a team for support purposes)
+	// only master admin has security rights for this
+	@RequestMapping(value = "/team/{teamId}/supportcopy", method = RequestMethod.POST)
+	@ResponseBody
+	public void copyTeamToSupportUser(@PathVariable String teamId, HttpServletRequest request) {
+		//if (true) {throw new UnauthorizedException();} 
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				service.copyTeam(userIdentifier, teamId);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on copyTeamToSupportUser", e);
+		}
+	}
+	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {

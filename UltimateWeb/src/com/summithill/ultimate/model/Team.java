@@ -82,6 +82,12 @@ public class Team extends ModelObject {
 		String pwd = this.getPassword();
 		return pwd != null && !pwd.isEmpty();
 	}
+	
+	public Team clone(String userIdentifier) {
+		Entity entityClone = new Entity(ENTITY_TYPE_NAME);
+		copyProperties(entity, entityClone, userIdentifier);
+		return Team.fromEntity(entityClone);
+	}
 }
 
 ;;

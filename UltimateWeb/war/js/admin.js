@@ -187,7 +187,7 @@ function updateGamesList(games) {
 }
 
 function handleRestError(jqXHR, textStatus, errorThrown) {
-	if (jqXHR.status = 401) {
+	if (jqXHR.status == 401) {
 		location.href = Ultimate.logonUrl;
 	} else {
 		throw errorDescription(jqXHR, textStatus, errorThrown);

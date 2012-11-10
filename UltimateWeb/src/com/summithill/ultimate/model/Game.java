@@ -182,6 +182,12 @@ public class Game extends ModelObject {
 	public int halftimeHighestScore() {
 		return (int) Math.ceil(this.getGamePoint() / 2);
 	}
+	
+	public Game clone(String userIdentifier, Team team) {
+		Game gameClone = new Game(team);
+		copyProperties(entity, gameClone.entity, userIdentifier);
+		return gameClone;
+	}
 
 }
 

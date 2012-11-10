@@ -151,6 +151,32 @@ public class TeamService {
 		}
    	}
 	
+	public long copyTeam(String userIdentifier, String id) {
+		// copy team
+		Team team = getTeam(id);
+		Team teamCopy = team.clone(userIdentifier);
+		teamCopy.setName(team.getName() + " COPY");
+		long newTeamId = saveTeam(userIdentifier, teamCopy);
+		
+		// copy players
+		List<Player> players = getPlayers(team); 
+		List<Player> copiedPlayers = getPlayers(team); 
+		for (Player player : players) {
+			Player playerCopy = player.clone(userIdentifier, teamCopy);
+			copiedPlayers.add(playerCopy);
+		}
+		savePlayers(userIdentifier, teamCopy, copiedPlayers);
+		
+		// copy games
+		List<String> gameIds = getGameIDs(team);
+		for (String gameId : gameIds) {
+			Game game = getGame(team, gameId);
+			Game gameCopy = game.clone(userIdentifier, teamCopy);
+			saveGame(userIdentifier, gameCopy);
+		}
+		
+		return newTeamId;
+   	}
 	
 	private DatastoreService getDatastore() {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
