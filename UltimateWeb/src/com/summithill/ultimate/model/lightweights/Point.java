@@ -5,6 +5,7 @@ import java.util.List;
 public class Point {
 	private List<Event> events;
 	private List<String> line;
+	private List<PlayerSubstitution> substitutions;
 	private long startSeconds;
 	private long endSeconds;
 	private PointSummary summary;
@@ -51,5 +52,13 @@ public class Point {
 	}
 	public void setEndSeconds(long endSeconds) {
 		this.endSeconds = endSeconds;
+	}
+
+	public List<PlayerSubstitution> getSubstitutions() {
+		return substitutions;
+	}
+
+	public void setSubstitutions(List<PlayerSubstitution> substitutions) {
+		this.substitutions = substitutions;
 	}
 }

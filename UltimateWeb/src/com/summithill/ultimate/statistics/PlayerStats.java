@@ -69,14 +69,12 @@ public class PlayerStats {
 		this.pulls++;
 	}
 	public void incPulls(int hangtimeMilliseconds) {
-		this.pulls++;
+		this.incPulls();
 		if (hangtimeMilliseconds > 0) {
 			this.pullsWithHangtime++;
 			this.pullsTotalHangtime += hangtimeMilliseconds;
 			this.pullsAvgHangtimeMillis = this.pullsTotalHangtime / this.pullsWithHangtime;
-		} else {
-			this.incPulls();
-		}
+		} 
 	}
 	public void incPullOBs() {
 		this.pullsOB++;
