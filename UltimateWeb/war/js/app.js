@@ -413,6 +413,9 @@ function updateGamePointsList(game) {
 		html[html.length] = point.summary.lineType == 'O' ? 'O-line' : 'D-line';
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = point.summary.finished ? elapsedTime : ' (unfinished point)';
+		html[html.length] = '&nbsp;&nbsp;<span class="lineDescription">';
+		html[html.length] = playersInPointDescription(point.line, point.substitutions);
+		html[html.length] = '</span>';
 		html[html.length] = '</h3><ul data-role="listview" data-inset="true" data-theme="a"></div>';
 	}
 	$('#points').empty().append(html.join('')).trigger('create');
@@ -574,3 +577,38 @@ function requestSignon() {
 		$.mobile.changePage('#unauthorizedpage', {transition: 'pop'});
 	});
 }
+
+function playersInPointDescription(line, substitutions) {
+	var players = playersInPoint(line, substitutions);
+	var desc = '';
+	for ( var playerName in players) {
+		if (desc != '') {
+			desc += ', ';
+		}
+		desc += playerName;
+		if (!players[playerName]) {
+			desc += ' (partial)';
+		}
+	}
+	return desc;
+}
+
+function playersInPoint(line, substitutions) {
+	// answer an object where property name is player name and property value is true if 
+	// played all of point and false if played part of point
+	var players = {};
+	// start with players one the line at the end of the point
+	for ( var i = 0; i < line.length; i++) {
+		players[line[i]] = true;
+	}
+	// adjust for subs
+	if (substitutions) {
+		for ( var i = 0; i < substitutions.length; i++) {
+			players[substitutions[i].fromPlayer] = false;
+			players[substitutions[i].toPlayer] = false;
+		}
+	}
+	
+	return players;
+}
+
