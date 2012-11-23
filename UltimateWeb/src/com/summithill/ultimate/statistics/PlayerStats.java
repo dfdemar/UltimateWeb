@@ -6,9 +6,9 @@ public class PlayerStats {
 	private String playerName;
 	private int plusMinusCount;
 	private int gamesPlayed;
-	private int pointsPlayed;
-	private int oPointsPlayed;
-	private int dPointsPlayed;
+	private float pointsPlayed;
+	private float oPointsPlayed;
+	private float dPointsPlayed;
 	private int goals;
 	private int assists;
 	private int passes;
@@ -38,11 +38,20 @@ public class PlayerStats {
 	public void incPointsPlayed() {
 		this.pointsPlayed++;
 	}	
+	public void incPointsPlayedPartial() {
+		this.pointsPlayed = this.pointsPlayed + .5f;
+	}	
 	public void incOPointsPlayed() {
 		this.oPointsPlayed++;
 	}
+	public void incOPointsPlayedPartial() {
+		this.oPointsPlayed = this.oPointsPlayed + .5f;
+	}
 	public void incDPointsPlayed() {
 		this.dPointsPlayed++;
+	}
+	public void incDPointsPlayedPartial() {
+		this.dPointsPlayed = this.dPointsPlayed + .5f;
 	}
 	public void incGoals() {
 		this.goals++;
@@ -91,22 +100,22 @@ public class PlayerStats {
 	public void addSecondsPlayed(long seconds) {
 		this.secondsPlayed += seconds;
 	}
-	public int getPointsPlayed() {
+	public float getPointsPlayed() {
 		return pointsPlayed;
 	}
-	public void setPointsPlayed(int pointsPlayed) {
+	public void setPointsPlayed(float pointsPlayed) {
 		this.pointsPlayed = pointsPlayed;
 	}
-	public int getOPointsPlayed() {
+	public float getOPointsPlayed() {
 		return oPointsPlayed;
 	}
-	public void setOPointsPlayed(int oPointsPlayed) {
+	public void setOPointsPlayed(float oPointsPlayed) {
 		this.oPointsPlayed = oPointsPlayed;
 	}
-	public int getDPointsPlayed() {
+	public float getDPointsPlayed() {
 		return dPointsPlayed;
 	}
-	public void setDPointsPlayed(int dPointsPlayed) {
+	public void setDPointsPlayed(float dPointsPlayed) {
 		this.dPointsPlayed = dPointsPlayed;
 	}
 	public int getGoals() {

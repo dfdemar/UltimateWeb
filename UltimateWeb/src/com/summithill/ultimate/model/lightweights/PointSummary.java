@@ -6,11 +6,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class PointSummary {
 	public static final String O_LINE = "O";
 	public static final String D_LINE = "D";
+	private static final long UNREASONABLY_LONG_ELAPSED_TIME_MINUTES = 60; 
+	private static final long DEFAULT_POINT_ELAPSED_MINUTES = 5; 
 	
 	private Score score;
 	private String lineType;
 	private boolean finished;
-	private long elapsedTime;
+	private long elapsedTime;  // seconds
 	private boolean directionChanged;  // did at least one direction change during point?
 	private boolean isOurGoal;
 	
@@ -38,6 +40,11 @@ public class PointSummary {
 	}
 	public long getElapsedTime() {
 		return elapsedTime;
+	}
+	// answer actual elapsed time unless the time is unreasonably long (suggesting game not started at correct time) in which case
+	// return an estimate
+	public long getAdjustedElapsedTime() {
+		return elapsedTime > UNREASONABLY_LONG_ELAPSED_TIME_MINUTES * 60 ? DEFAULT_POINT_ELAPSED_MINUTES * 60 : elapsedTime; 
 	}
 	public void setElapsedTime(long elapsedTime) {
 		this.elapsedTime = elapsedTime;

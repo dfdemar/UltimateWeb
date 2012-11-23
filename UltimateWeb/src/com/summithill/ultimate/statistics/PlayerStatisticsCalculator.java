@@ -100,12 +100,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				}
 				lastEvent = event;
 			}
-			if (point.getLine() != null) {
-				for (String name : point.getLine()) {
-					PlayerStats playerStats = getStats(name);
-					playerStats.addSecondsPlayed(point.getSummary().getElapsedTime());
-				}
-			}
+			updateTimePlayedStats(point, playedInGame);
 		}
 		for (String name : playedInGame) {
 			PlayerStats playerStats = getStats(name);
@@ -114,8 +109,28 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	}
 
 	private void updatePointsPlayedStats(Point point, Set<String> playedInGame ) {
+		Set<String> playersInEntirePoint = point.playersInEntirePoint();
+		Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
 		if (point.getLine() != null) {
-			for (String name : point.getLine()) {
+			// players who played all of point
+			for (String name : playersInEntirePoint) {
+				PlayerStats playerStats = getStats(name);
+				playerStats.addSecondsPlayed(point.getSummary().getAdjustedElapsedTime());
+			}
+			// players that were subbed in/out (.5 points each)
+			for (String name : playersInPartOfPoint) {
+				PlayerStats playerStats = getStats(name);
+				playerStats.addSecondsPlayed(point.getSummary().getAdjustedElapsedTime() / 2);
+			}
+		}
+	}
+
+	private void updateTimePlayedStats(Point point, Set<String> playedInGame ) {
+		Set<String> playersInEntirePoint = point.playersInEntirePoint();
+		Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
+		if (point.getLine() != null) {
+			// players who played all of point
+			for (String name : playersInEntirePoint) {
 				playedInGame.add(name);
 				PlayerStats playerStats = getStats(name);
 				playerStats.incPointsPlayed();
@@ -125,9 +140,20 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					playerStats.incDPointsPlayed();
 				}
 			}
+			// players that were subbed in/out (.5 points each)
+			for (String name : playersInPartOfPoint) {
+				playedInGame.add(name);
+				PlayerStats playerStats = getStats(name);
+				playerStats.incPointsPlayedPartial();
+				if (O_LINE.equals(point.getSummary().getLineType())) {
+					playerStats.incOPointsPlayedPartial();
+				} else {
+					playerStats.incDPointsPlayedPartial();
+				}
+			}
 		}
 	}
-
+	
 	private PlayerStats getStats(String playerName) {
 		PlayerStats playerStats = stats.get(playerName) ;
 		if (playerStats == null) {

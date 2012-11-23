@@ -3,8 +3,6 @@ package com.summithill.ultimate.statistics;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.Point;
