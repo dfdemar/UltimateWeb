@@ -79,16 +79,19 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				} else if (event.isD()) {
 					defender.incDs();
 					defender.incPlusMinusCount();
-				} else if (event.isGoal() && event.isOffense()) {
-					passer.incAssists();
-					passer.incPasses();
-					receiver.incTouches();
-					receiver.incGoals();
-					passer.incPlusMinusCount();
-					receiver.incPlusMinusCount();
-					if (event.isFirstOffenseEvent(lastEvent)) {
-						passer.incTouches();
+				} else if (event.isGoal()) {
+					if (event.isOffense()) {
+						passer.incAssists();
+						passer.incPasses();
+						receiver.incTouches();
+						receiver.incGoals();
+						passer.incPlusMinusCount();
+						receiver.incPlusMinusCount();
+						if (event.isFirstOffenseEvent(lastEvent)) {
+							passer.incTouches();
+						}
 					}
+					updatePlusMinusLine(point, event.isOffense(), point.isOline());
 				}
 				if (event.isOffense() && passer != null && passer.getPasses() > 0) {
 					float passPercent = ((float)passer.getPasses() - (float)passer.getThrowaways()) / (float)passer.getPasses() * 100f;
@@ -149,6 +152,27 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					playerStats.incOPointsPlayedPartial();
 				} else {
 					playerStats.incDPointsPlayedPartial();
+				}
+			}
+		}
+	}
+	
+	private void updatePlusMinusLine(Point point, boolean isOurGoal, boolean isOline) {
+		if (point.getLine() != null) {
+			for (String name : point.playersInPoint()) {
+				PlayerStats playerStats = getStats(name);
+				if (isOurGoal) {
+					if (isOline) {
+						playerStats.incPlusMinusOLine();
+					} else {
+						playerStats.incPlusMinusDLine();
+					}
+				} else {
+					if (isOline) {
+						playerStats.decPlusMinusOLine();
+					} else {
+						playerStats.decPlusMinusDLine();
+					}
 				}
 			}
 		}

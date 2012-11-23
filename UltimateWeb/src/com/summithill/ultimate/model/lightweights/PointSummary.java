@@ -20,6 +20,10 @@ public class PointSummary {
 		return lineType.equals(O_LINE);
 	}
 	
+	public boolean isDline() {
+		return ! isOline();
+	}
+	
 	public Score getScore() {
 		return score;
 	}

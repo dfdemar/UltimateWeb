@@ -5,6 +5,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class PlayerStats {
 	private String playerName;
 	private int plusMinusCount;
+	private int plusMinusOLine;
+	private int plusMinusDLine;
 	private int gamesPlayed;
 	private float pointsPlayed;
 	private float oPointsPlayed;
@@ -245,5 +247,37 @@ public class PlayerStats {
 
 	public void setCatchSuccess(int catchSuccess) {
 		this.catchSuccess = catchSuccess;
+	}
+
+	public int getPlusMinusOLine() {
+		return plusMinusOLine;
+	}
+	
+	public void incPlusMinusOLine() {
+		plusMinusOLine++;
+	}
+
+	public void decPlusMinusOLine() {
+		plusMinusOLine--;
+	}
+	
+	public void setPlusMinusOLine(int plusMinusOLine) {
+		this.plusMinusOLine = plusMinusOLine;
+	}
+
+	public int getPlusMinusDLine() {
+		return plusMinusDLine;
+	}
+
+	public void incPlusMinusDLine() {
+		plusMinusDLine++;
+	}
+	
+	public void decPlusMinusDLine() {
+		plusMinusDLine--;
+	}
+	
+	public void setPlusMinusDLine(int plusMinusDLine) {
+		this.plusMinusDLine = plusMinusDLine;
 	}
 }

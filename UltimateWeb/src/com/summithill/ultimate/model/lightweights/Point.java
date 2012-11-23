@@ -92,6 +92,19 @@ public class Point {
 		}
 		return players;
 	}
+	
+	// answer the players that played during any or all of the point
+	public Set<String> playersInPoint() {
+		HashSet<String>players = new HashSet<String>();
+		players.addAll(getLine());
+		if (substitutions != null && substitutions.size() > 0) {
+			for (PlayerSubstitution sub : substitutions) {
+				players.add(sub.getFromPlayer());
+				players.add(sub.getToPlayer());
+			}
+		}
+		return players;
+	}
 
 	// answer a description of all of the players (including substitutions) that played in the point
 	public String playersInPointDescription() {
