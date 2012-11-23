@@ -112,9 +112,9 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	}
 
 	private void updatePointsPlayedStats(Point point, Set<String> playedInGame ) {
-		Set<String> playersInEntirePoint = point.playersInEntirePoint();
-		Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
 		if (point.getLine() != null) {
+			Set<String> playersInEntirePoint = point.playersInEntirePoint();
+			Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
 			// players who played all of point
 			for (String name : playersInEntirePoint) {
 				PlayerStats playerStats = getStats(name);
@@ -129,9 +129,9 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	}
 
 	private void updateTimePlayedStats(Point point, Set<String> playedInGame ) {
-		Set<String> playersInEntirePoint = point.playersInEntirePoint();
-		Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
 		if (point.getLine() != null) {
+			Set<String> playersInEntirePoint = point.playersInEntirePoint();
+			Set<String> playersInPartOfPoint = point.playersInPartOfPoint();
 			// players who played all of point
 			for (String name : playersInEntirePoint) {
 				playedInGame.add(name);
