@@ -14,6 +14,9 @@ $(document).live('pagechange', function(event, data) {
 		case 'gamespage':
 			renderGamesPage(data);
 			break;	
+		case 'playerspage':
+			renderPlayersPage(data);
+			break;			
 		case 'confirmDeleteDialog':
 			renderConfirmDeleteDialog(data);
 			break;	
@@ -38,16 +41,26 @@ function renderMainPage(data) {
 
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
-	retrieveTeamForAdmin(Ultimate.teamId, false, function(team) {
+	retrieveTeamForAdmin(Ultimate.teamId, true, function(team) {
 		Ultimate.team = team;
 		$('#teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');
 		$('.teamPassword').html(team.password == null ? "NOT SET" : team.password);
 		$('.teamPassword').unbind().on('click', function() {
 			handleSetPasswordClicked();
 		});
+		$('.playersLink').attr('href', '#playerspage?team=' + team.cloudId);
 		populateTeam(function() {
 			populateGamesList();
 		});
+	}, handleRestError);
+}
+
+function renderPlayersPage(data) {
+	Ultimate.teamId = data.options.pageData.team;
+	$('.gamespageBackLink').attr('href', '#gamespage?team=' + Ultimate.teamId);
+	retrieveTeamForAdmin(Ultimate.teamId, true, function(team) {
+		Ultimate.team = team;
+		$('#playersList').html(createPlayerListHtml(team));
 	}, handleRestError);
 }
 
@@ -119,7 +132,7 @@ function updateTeamsList(teams) {
 }
 
 function populateTeam(successFunction) {
-	retrieveTeamForAdmin(Ultimate.teamId, false, function(team) {
+	retrieveTeamForAdmin(Ultimate.teamId, true, function(team) {
 		Ultimate.team = team;
 		Ultimate.teamName = team.name;
 		if (successFunction) {
@@ -206,4 +219,11 @@ function submitPassword(teamId, newPwd) {
 	}, function() {
 		$('#passwordSaveErrorMessage').html("Error saving password");
 	});
+}
+
+function createPlayerListHtml(team) {
+	if (Ultimate.playersTemplate == null) {
+		Ultimate.playersTemplate = Handlebars.compile($("#playersListTemplate").html());
+	}
+	return Ultimate.playersTemplate(team);
 }

@@ -23,6 +23,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/jquery-1.7.1.min.js"></script>
 	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
+	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>	
 	<script type="text/javascript">
 	Ultimate = {};
 	Ultimate.userName = "${userName}";
@@ -31,6 +32,16 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</script>
 	<script src="../../js/rest.js"></script>
 	<script src="../../js/admin.js"></script>
+	
+	<script id="playersListTemplate" type="text/x-handlebars-template">
+			{{#each players}}
+			<fieldset class="ui-grid-d">
+				<div class="ui-block-a"><h3>{{name}}</h3></div>
+				<div class="ui-block-b"><button type="submit" data-theme="a">Rename</button></div>	 
+				<div class="ui-block-c"><button type="submit" data-theme="b">Delete</button></div>  
+			</fieldset>
+			{{/each}}
+	</script>
 
 </head>
 <body>
@@ -76,7 +87,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 		<div data-role="header" data-position="inline">
 			<a href="#mainpage" data-icon="back">Teams</a>
-			<h1>Games</h1>
+			<h1>Team</h1>
 		</div>
 
 		<div class="content">
@@ -91,7 +102,11 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</div>				
 				<div>
 					(visitors to your website will be asked to enter this password to see this team's statistics)
-				</div>			
+				</div>
+				<br/>	
+				<div>
+					<a class="playersLink" href="#playerspage" data-inline="true">Players</a>   
+				</div>		
 				<div class="gamesTitle">
 				</div>					
 				
@@ -103,6 +118,29 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
+	<div id="playerspage" class="pagediv" data-role="page" data-theme="b">
+		<div class="top-section">
+			<img class="players-image" src="/images/ultimate-silhouette.png">
+			<div class="pageHeading">
+				<span class="teamName">Admin Tool</span><br>
+				<span class="adminUser"></span><br><br>
+				<span class="pageTitle">Ultimate Team Statistics</span>
+			</div>
+			<a href="#" class="logout" rel=external>logout</a>
+		</div>
+
+		<div data-role="header" data-position="inline">
+			<a class="gamespageBackLink" href="#gamespage" data-icon="back">Team</a>
+			<h1>Players</h1>
+		</div>
+
+		<div class="content">
+			<div id="playersList" class="insetlist">
+			</div>
+		</div>
+		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
+	</div>
+	
 	<div id="confirmDeleteDialog" class="pagediv" data-role="dialog"
 		data-theme="b">
 
