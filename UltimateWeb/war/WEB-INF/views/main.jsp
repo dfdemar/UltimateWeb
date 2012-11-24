@@ -43,13 +43,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
   				{{#unless ../isPerPoint}}
 					<th><a href="#" data-stattype="plusMinusCount">{{plusMinusCount}}</a></th>
-					<th><a href="#" data-stattype="plusMinusOLine">{{plusMinusOLine}}</a></th>
-					<th><a href="#" data-stattype="plusMinusDLine">{{plusMinusDLine}}</a></th>
 					<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
 					<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
 					<th><a href="#" data-stattype="minutesPlayed">{{minutesPlayed}}</a></th>
 					<th><a href="#" data-stattype="opointsPlayed">{{opointsPlayed}}</a></th>
+					<th><a href="#" data-stattype="plusMinusOLine">{{plusMinusOLine}}</a></th>
 					<th><a href="#" data-stattype="dpointsPlayed">{{dpointsPlayed}}</a></th>
+					<th><a href="#" data-stattype="plusMinusDLine">{{plusMinusDLine}}</a></th>
   				{{/unless}}
 				<th><a href="#" data-stattype="touches">{{touches}}</a></th>
 				<th><a href="#" data-stattype="goals">{{goals}}</a></th>
@@ -80,13 +80,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td class="tablePlayerName">{{playerName}}</td>
   				{{#unless ../isPerPoint}}
 					<td>{{plusMinusCount}}</td>
-					<td>{{plusMinusOLine}}</td>
-					<td>{{plusMinusDLine}}</td>
 					<td>{{gamesPlayed}}</td>
 					<td>{{pointsPlayed}}</td>
 					<td>{{minutesPlayed}}</td>
 					<td>{{opointsPlayed}}</td>
+					<td>{{plusMinusOLine}}</td>
 					<td>{{dpointsPlayed}}</td>
+					<td>{{plusMinusDLine}}</td>
   				{{/unless}}
 				<td>{{touches}}</td>
 				<td>{{goals}}</td>

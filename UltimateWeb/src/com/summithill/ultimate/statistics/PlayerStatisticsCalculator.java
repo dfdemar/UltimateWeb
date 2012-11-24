@@ -159,7 +159,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 	
 	private void updatePlusMinusLine(Point point, boolean isOurGoal, boolean isOline) {
 		if (point.getLine() != null) {
-			for (String name : point.playersInPoint()) {
+			for (String name : point.getLine()) {
 				PlayerStats playerStats = getStats(name);
 				if (isOurGoal) {
 					if (isOline) {

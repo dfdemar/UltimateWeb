@@ -94,18 +94,6 @@
                   			<li>-1 for a throwaway.</li>
                   		</ul>
 				  </li>
-                  <li class="stat-title"><span>+/- O-line</span><br>
-                        <ul>
-                  			<li>+1 for an O-line goal for a point in which the player was on the field.</li>
-							<li>-1 for an opponent score against the O-line (a break) in which the player was on the field.</li>
-                  		</ul>
-				  </li>	
-				  <li class="stat-title"><span>+/- D-line</span><br>
-                        <ul>
-                  			<li>+1 for a D-line goal (a break) for a point in which the player was on the field.</li>
-							<li>-1 for an opponent score against the D-line for a point in which the player was on the field.</li>
-                  		</ul>
-				  </li>	
 				  <li class="stat-title"><span>points played</span><br>
 				      <ul>
 						<li>total number of points played.  A player that subs in/out is credited half a point.</li>
@@ -116,9 +104,21 @@
 							<li>total number of o-line or d-line points the player played.  A player that subs in/out is credited a half point.</li>
 						</ul>
 				  </li>
+                  <li class="stat-title"><span>+/- O-line</span><br>
+                        <ul>
+                  			<li>+1 for an O-line goal for a point in which the player was on the field<sup>1</sup>.</li>
+							<li>-1 for an opponent score against the O-line (a break) in which the player was on the field<sup>1</sup>.</li>
+                  		</ul>
+				  </li>	
+				  <li class="stat-title"><span>+/- D-line</span><br>
+                        <ul>
+                  			<li>+1 for a D-line goal (a break) for a point in which the player was on the field<sup>1</sup>.</li>
+							<li>-1 for an opponent score against the D-line for a point in which the player was on the field<sup>1</sup>.</li>
+                  		</ul>
+				  </li>					  
 				  <li class="stat-title"><span>minutes played</span><br>
 				      <ul>
-							<li>total number of minutes played by the player.  A player that subs in/out is credited a half the point time.  <br> NOTE: If the elapsed time for a point appears amiss (> 1 hour) then it is assumed the game was adjusted outside of actual bounds and the default time per point (5 minutes) is credited.</li>				      
+							<li>total number of minutes played by the player.  A player that subs in/out is credited half the point time.  <br> NOTE: If the elapsed time for a point appears amiss (> 1 hour) then it is assumed the game was adjusted outside of actual bounds and the default time per point (5 minutes) is credited.</li>				      
    					  </ul>
 				  </li>				  
                   <li class="stat-title"><span>touches</span><br>
@@ -150,6 +150,7 @@
 				  </li> 
                   </ul>
                 </div>
+                <sup>1</sup>Players substituted out before the goal are not affected.
               </div>
             
 
