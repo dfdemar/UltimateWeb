@@ -18,10 +18,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
     
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 	<link rel="shortcut icon" href="../../images/favicon.ico">
-	<link rel="stylesheet" href="../../css/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="../../css/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="../../css/ultimate1.css" />
+  	<link rel="stylesheet" href="../../css/jquery.mobile.structure-1.1.0.min.css" /> 
 	<link rel="stylesheet" href="../../css/custom.css" />
-	<script src="../../js/jquery-1.7.1.min.js"></script>
-	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
+	<script src="../../js/jquery-1.8.3.min.js"></script>
+	<script src="../../js/jquery.mobile-1.2.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
 	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>	
 	<script type="text/javascript">
@@ -35,11 +37,15 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	
 	<script id="playersListTemplate" type="text/x-handlebars-template">
 			{{#each players}}
-			<fieldset class="ui-grid-d">
-				<div class="ui-block-a"><h3>{{name}}</h3></div>
-				<div class="ui-block-b"><button type="submit" data-theme="a">Rename</button></div>	 
-				<div class="ui-block-c"><button type="submit" data-theme="b">Delete</button></div>  
-			</fieldset>
+				<li>
+					<div data-role="controlgroup" data-type="horizontal">
+						<span class="playerListName">{{name}}</span>
+<!--  UNCOMMENT WHEN READY TO IMPLEMENT RENAME AND DELETE
+						<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#" data-role="button">Delete</a>
+-->
+					</div>
+				</li>
 			{{/each}}
 	</script>
 
@@ -74,7 +80,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div><br>&nbsp;<a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
-	<div id="gamespage" class="pagediv" data-role="page" data-theme="b">
+	<div id="teamsettingspage" class="pagediv" data-role="page" data-theme="b">
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
@@ -86,7 +92,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 
 		<div data-role="header" data-position="inline">
-			<a href="#mainpage" data-icon="back">Teams</a>
+			<a href="#mainpage" data-icon="back" data-theme="d">Teams</a>
 			<h1>Team</h1>
 		</div>
 
@@ -94,8 +100,25 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<div id="admin-games" class="insetlist">
 				<div id="adminTeamHeading">
 					<span class="teamTitle"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a rel="external" id="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
+					<a rel="external" class="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
 				</div>
+				
+				<div>
+				
+					<fieldset class="team-view-choice-selector-teamsettingspage" data-role="controlgroup" data-type="horizontal">
+			         	<input type="radio" name="team-view-choice1" id="team-view-choice-teamsettingspage-teamsettingspage" value="teamsettingspage"/>
+			         	<label for="team-view-choice-teamsettingspage-teamsettingspage">Settings</label>
+			
+			         	<input type="radio" name="team-view-choice1" id="team-view-choice-teamsettingspage-teamgamespage" value="teamgamespage"  />
+			         	<label for="team-view-choice-teamsettingspage-teamgamespage">Games</label>
+			
+			         	<input type="radio" name="team-view-choice1" id="team-view-choice-teamsettingspage-teamplayerspage" value="teamplayerspage" />
+			         	<label for="team-view-choice-teamsettingspage-teamplayerspage">Players</label>
+				    </fieldset>
+					
+				</div>
+				
+			<br><br>
 				<div class="teamPasswordLabel">
 					Team Website Password:&nbsp;&nbsp;&nbsp;&nbsp;
 					<a class="teamPassword" href="#" data-inline="true"></a>   
@@ -104,10 +127,46 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					(visitors to your website will be asked to enter this password to see this team's statistics)
 				</div>
 				<br/>	
-				<div>
-					<a class="playersLink" href="#playerspage" data-inline="true">Players</a>   
-				</div>		
-				<div class="gamesTitle">
+			</div>
+		</div>
+		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
+	</div>
+
+	<div id="teamgamespage" class="pagediv" data-role="page" data-theme="b">
+		<div class="top-section">
+			<img class="players-image" src="/images/ultimate-silhouette.png">
+			<div class="pageHeading">
+				<span class="teamName">Admin Tool</span><br>
+				<span class="adminUser"></span><br><br>
+				<span class="pageTitle">Ultimate Team Statistics</span>
+			</div>
+			<a href="#" class="logout" rel=external>logout</a>
+		</div>
+
+		<div data-role="header" data-position="inline">
+			<a href="#mainpage" data-icon="back" data-theme="d">Teams</a>
+			<h1>Team</h1>
+		</div>
+
+		<div class="content">
+			<div id="admin-games" class="insetlist">
+				<div id="adminTeamHeading">
+					<span class="teamTitle"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a rel="external" class="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
+				</div>
+				
+					<fieldset class="team-view-choice-selector-teamgamespage" data-role="controlgroup" data-type="horizontal">
+			         	<input type="radio" name="team-view-choice2" id="team-view-choice-teamgamespage-teamsettingspage" value="teamsettingspage"/>
+			         	<label for="team-view-choice-teamgamespage-teamsettingspage">Settings</label>
+			
+			         	<input type="radio" name="team-view-choice2" id="team-view-choice-teamgamespage-teamgamespage" value="teamgamespage" />
+			         	<label for="team-view-choice-teamgamespage-teamgamespage">Games</label>
+			
+			         	<input type="radio" name="team-view-choice2" id="team-view-choice-teamgamespage-teamplayerspage" value="teamplayerspage" />
+			         	<label for="team-view-choice-teamgamespage-teamplayerspage">Players</label>
+				    </fieldset>
+				
+ 				<div class="gamesTitle">
 				</div>					
 				
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
@@ -118,7 +177,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
-	<div id="playerspage" class="pagediv" data-role="page" data-theme="b">
+
+	<div id="teamplayerspage" class="pagediv" data-role="page" data-theme="b">
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
@@ -130,17 +190,40 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 
 		<div data-role="header" data-position="inline">
-			<a class="gamespageBackLink" href="#gamespage" data-icon="back">Team</a>
-			<h1>Players</h1>
+			<a href="#mainpage" data-icon="back" data-theme="d">Teams</a>
+			<h1>Team</h1>
 		</div>
 
 		<div class="content">
-			<div id="playersList" class="insetlist">
+			<div id="admin-games" class="insetlist">
+				<div id="adminTeamHeading">
+					<span class="teamTitle"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a rel="external" class="teamWebsite" href="/team/{TEAMID}/main">Team Website</a>
+				</div>
+
+				<div>
+					<fieldset class="team-view-choice-selector-teamplayerspage" data-role="controlgroup" data-type="horizontal">
+			         	<input type="radio" name="team-view-choice3" id="team-view-choice-teamplayerspage-teamsettingspage" value="teamsettingspage"/>
+			         	<label for="team-view-choice-teamplayerspage-teamsettingspage">Settings</label>
+			
+			         	<input type="radio" name="team-view-choice3" id="team-view-choice-teamplayerspage-teamgamespage" value="teamgamespage" />
+			         	<label for="team-view-choice-teamplayerspage-teamgamespage">Games</label>
+			
+			         	<input type="radio" name="team-view-choice3" id="team-view-choice-teamplayerspage-teamplayerspage" value="teamplayerspage" />
+			         	<label for="team-view-choice-teamplayerspage-teamplayerspage">Players</label>
+				    </fieldset>
+				</div>
+				
+				<div>
+					<ul id="playersList" data-role="listview" data-inset="true">
+					</ul>
+				</div>
+					
 			</div>
 		</div>
 		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
-	
+
 	<div id="confirmDeleteDialog" class="pagediv" data-role="dialog"
 		data-theme="b">
 
