@@ -36,17 +36,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	<script src="../../js/admin.js"></script>
 	
 	<script id="playersListTemplate" type="text/x-handlebars-template">
-			{{#each players}}
-				<li>
-					<div data-role="controlgroup" data-type="horizontal">
-						<span class="playerListName">{{name}}</span>
-<!--  UNCOMMENT WHEN READY TO IMPLEMENT RENAME AND DELETE
-						<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="#" data-role="button">Delete</a>
+		{{#each players}}
+			<li>
+				<div data-role="controlgroup" data-type="horizontal">
+					<span class="playerListName">{{name}}</span>
+<!-- UNCOMMENT WHEN READY TO RELEASE PLAYER RENAME/DELETE
+					<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#playerDeleteDialog?team={{teamId}}&player={{name}}" data-role="button">Delete</a>
 -->
-					</div>
-				</li>
-			{{/each}}
+				</div>
+			</li>
+		{{/each}}
+	</script>
+	
+	<script id="moveToPlayerListTemplate" type="text/x-handlebars-template">
+		<option value="Anonymous">Anonymous</option>
+		{{#each players}}
+		<option value="{{name}}">{{name}}</option>
+		{{/each}}
 	</script>
 
 </head>
@@ -252,6 +259,31 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			</div> 
 			<a id="savePasswordButton" href="#" data-role="button" data-inline="true" data-theme="a">Save</a> 
 			<a id="removePasswordButton" href="#" data-role="button" data-inline="true" data-theme="a">Remove Password</a> 
+			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
+		</div>
+	</div>
+	
+	<div id="playerDeleteDialog" class="pagediv" data-role="dialog"
+		data-theme="b">
+ 
+		<div data-role="header">
+			<h1>Delete Player</h1>
+		</div>
+ 
+		<div data-role="content" data-tem="c">
+			<div class="dialogInstructions">
+				<div>Delete player: <strong><span id="deletePlayerName"></span></strong></div><br>
+				<div>
+				When you delete this player the events associated with him/her must be moved to another player (or Anonymous).  Choose the other
+				player to whom the events should be moved and then click Delete.
+				</div><br>
+				<div>		
+					<label for="moveToPlayerList" class="select">Select player to receive deleted player's events: </label>
+					<select name="moveToPlayerList" id="moveToPlayerList">
+					</select>
+				</div><br>
+			</div> 
+			<a id="deletePlayerButton" href="#" data-role="button" data-inline="true" data-theme="a">Delete</a> 
 			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
 		</div>
 	</div>

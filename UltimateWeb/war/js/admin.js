@@ -25,7 +25,10 @@ $(document).live('pagechange', function(event, data) {
 			break;	
 		case 'teamPasswordDialog':
 			renderTeamPasswordDialog(data);
-			break;					
+			break;		
+		case 'playerDeleteDialog':
+			renderPlayerDeleteDialog(data);
+			break;			
 		default:
 			//
 	}
@@ -90,6 +93,18 @@ function renderTeamPasswordDialog(data) {
 	$('#savePasswordButton').unbind().on('click', function() {
 		var newPwd = $('#teamPasswordInput').val();
 		submitPassword(Ultimate.team.cloudId, newPwd);
+	});
+}
+
+function renderPlayerDeleteDialog(data) {
+	var team = Ultimate.team;
+	var player = data.options.pageData.player;
+	$('#deletePlayerName').html(player);
+	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
+	$('#deletePlayerButton').unbind().on('click', function() {
+		var toPlayer = $('#moveToPlayerList option:selected').val();
+		alert('Player ' + player + ' deleted.  Associated events moved to player ' + toPlayer + ' (well...not really yet)');
+		$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
 	});
 }
 
@@ -232,6 +247,13 @@ function createPlayerListHtml(team) {
 		Ultimate.playersTemplate = Handlebars.compile($("#playersListTemplate").html());
 	}
 	return Ultimate.playersTemplate(team);
+}
+
+function createMoveToPlayerListHtml(team) {
+	if (Ultimate.moveToPlayersTemplate == null) {
+		Ultimate.moveToPlayersTemplate = Handlebars.compile($("#moveToPlayerListTemplate").html());
+	}
+	return Ultimate.moveToPlayersTemplate(team);
 }
 
 function registerTeamPageRadioButtonHandler(page) {
