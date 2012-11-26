@@ -36,5 +36,12 @@ public class PlayerSubstitution {
 	public void setTimestamp(double timestamp) {
 		this.timestamp = timestamp;
 	}
-
+	public void renamePlayer(String oldPlayerName, String newPlayerName) {
+		if (this.fromPlayer.equals(oldPlayerName)) {
+			this.fromPlayer = newPlayerName;
+		}
+		if (this.toPlayer.equals(oldPlayerName)) {
+			this.toPlayer = newPlayerName;
+		}
+	}
 }

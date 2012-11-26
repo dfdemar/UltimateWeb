@@ -103,4 +103,15 @@ public class Event {
 	public void setDetails(EventDetails details) {
 		this.details = details;
 	}
+	public void renamePlayer(String oldPlayerName, String newPlayerName) {
+		if (this.defender.equals(oldPlayerName)) {
+			this.defender = newPlayerName;
+		}
+		if (this.passer.equals(oldPlayerName)) {
+			this.passer = newPlayerName;
+		}
+		if (this.receiver.equals(oldPlayerName)) {
+			this.receiver = newPlayerName;
+		}
+	}
 }

@@ -131,4 +131,12 @@ public class Point {
 		return StringUtils.join(names, ", ");
 	}
 	
+	public void renamePlayer(String oldPlayerName, String newPlayerName) {
+		if (getLine() != null) {
+			boolean found = getLine().remove(oldPlayerName);
+			if (found) {
+				getLine().add(newPlayerName);
+			}
+		}
+	}
 }
