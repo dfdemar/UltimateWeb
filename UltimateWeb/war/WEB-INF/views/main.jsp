@@ -67,10 +67,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="ds">{{ds}}</a></th>
 				<th><a href="#" data-stattype="pulls">{{pulls}}</a></th>
   				{{#unless ../isPerPoint}}
-					<!--
 					<th><a href="#" data-stattype="pullsAvgHangtimeMillis">{{pullsAvgHangtimeMillis}}</a></th>
 					<th><a href="#" data-stattype="pullsOB">{{pullsOB}}</a></th>
-					-->
   				{{/unless}}
 			{{/with}}
 		</thead>
@@ -104,10 +102,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{ds}}</td>
 				<td>{{pulls}}</td>
  				{{#unless ../isPerPoint}}
-					<!--
 					<td>{{pullsAvgHangtimeMillis}}</td>
 					<td>{{pullsOB}}</td>
-					-->
 				{{/unless}}
 			</tr>
 			{{/each}}
