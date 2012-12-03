@@ -522,6 +522,8 @@ function eventDescription(event) {
 			return {text: 'D by ' + event.defender, image: 'electric_shock.png'};
 		case 'Pull' :
 			return {text: 'Pull by ' + event.defender, image: 'nothing.png'};		
+		case 'PullOb' :
+			return {text: 'Pull (Out of Bounds) by ' + event.defender, image: 'what.png'};				
 		case 'Goal':
 			return {text: event.type == 'Offense' ? 
 					'Our Goal (' + event.passer + ' to ' + event.receiver + ')' :
