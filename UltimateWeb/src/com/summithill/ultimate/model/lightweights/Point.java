@@ -133,10 +133,34 @@ public class Point {
 	
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
 		if (getLine() != null) {
-			boolean found = getLine().remove(oldPlayerName);
+			boolean found = removePlayer(oldPlayerName);
 			if (found) {
 				getLine().add(newPlayerName);
 			}
 		}
+		if (getEvents() != null) {
+			for (Event event : getEvents()) {
+				event.renamePlayer(oldPlayerName, newPlayerName);
+			}
+		}
+		if (getSubstitutions() != null) {
+			for (PlayerSubstitution substitution : getSubstitutions()) {
+				substitution.renamePlayer(oldPlayerName, newPlayerName);
+			}
+		}
+	}
+	
+	private boolean removePlayer(String playerName) {
+		boolean found = false;
+		List<String> newLine = new ArrayList<String>();
+		for (String player : getLine()) {
+			if (player.equalsIgnoreCase(playerName)) {
+				found = true;
+			} else {
+				newLine.add(player);
+			}
+		}
+		setLine(newLine);
+		return found;
 	}
 }

@@ -39,6 +39,22 @@ function deleteTeam(teamId, successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
+function deletePlayer(teamId, playerToDelete, replacementPlayer, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/delete?player=' + playerToDelete + '&replacement='+replacementPlayer; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
+function renamePlayer(teamId, playerToRename, replacementPlayer, successFunction, errorFunction) {
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename + '&replacement='+replacementPlayer; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
+function mergePlayers(teamId, playerToMerge, targetPlayer, successFunction, errorFunction) {
+	// NOTE: same endpoint as rename
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToMerge + '&replacement='+targetPlayer; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player';
     if (gameIds != null && gameIds.length > 0) {

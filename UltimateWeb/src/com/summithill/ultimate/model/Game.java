@@ -135,6 +135,15 @@ public class Game extends ModelObject {
 		return points;
 	}
 	
+	public void setPoints(List<Point> points) {
+		try {
+			String json = new String(new ObjectMapper().writeValueAsBytes(points));
+			setPointsJson(json);
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to convert points to json",e);
+		} 
+	}
+	
 	public int getGamePoint() {
 		Long gamePoint = (Long)entity.getProperty(GAME_POINT_PROPERTY);
 		return gamePoint == null ? 0 : gamePoint.intValue();
@@ -187,6 +196,14 @@ public class Game extends ModelObject {
 		Game gameClone = new Game(team);
 		copyProperties(entity, gameClone.entity, userIdentifier);
 		return gameClone;
+	}
+	
+	public void renamePlayer(String oldPlayerName, String newPlayerName) {
+		List<Point> points = getPoints();
+		for (Point point : points) {
+			point.renamePlayer(oldPlayerName, newPlayerName);
+		}
+		setPoints(points);
 	}
 
 }

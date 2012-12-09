@@ -113,6 +113,64 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	@RequestMapping(value = "/team/{teamId}/player/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public void deletePlayer(@PathVariable String teamId, @RequestParam(value = "player", required = true) String playerToDelete, 
+			@RequestParam(value = "replacement", required = true) String replacement, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				renamePlayerForTeam(userIdentifier, team, playerToDelete, replacement);
+				service.deletePlayer(team, playerToDelete);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on deletePlayer", e);
+		}
+	}
+	
+	// NOTE: a rename and a merge are equivalent!
+	@RequestMapping(value = "/team/{teamId}/player/rename", method = RequestMethod.POST)
+	@ResponseBody
+	public void renamePlayer(@PathVariable String teamId, @RequestParam(value = "player", required = true) String playerToRename, 
+			@RequestParam(value = "replacement", required = true) String replacement, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				// fix the name in game data
+				renamePlayerForTeam(userIdentifier, team, playerToRename, replacement);
+				
+				// fix the name in the team players list
+				boolean alreadyHasReplacement = false;
+				List<Player> players = service.getPlayers(team);
+				for (Player player : players) {
+					if (player.getName().equals(replacement)) {
+						alreadyHasReplacement = true;
+						break;
+					}
+				}
+				if (alreadyHasReplacement) {
+					service.deletePlayer(team, playerToRename);
+				} else {
+					for (Player player : players) {
+						if (player.getName().equals(playerToRename)) {
+							player.setName(replacement);
+							break;
+						}
+					}
+					service.savePlayers(userIdentifier, team, players);
+				}
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on renamePlayer", e);
+		}
+	}
+	
 	// this is a master admin method (allows site admin to copy a team for support purposes)
 	// only master admin has security rights for this
 	@RequestMapping(value = "/team/{teamId}/supportcopy", method = RequestMethod.POST)
@@ -261,4 +319,12 @@ public class WebRestController extends AbstractController {
 		}
 	}
 
+	private void renamePlayerForTeam(String userIdentifier, Team team, String oldPlayerName, String newPlayerName) {
+		List<String> gameIds = service.getGameIDs(team);
+		for (String gameId : gameIds) {
+			Game game = service.getGame(team, gameId);
+			game.renamePlayer(oldPlayerName, newPlayerName);
+			service.saveGame(userIdentifier, game);
+		}
+	}
 }

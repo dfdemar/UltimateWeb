@@ -104,13 +104,13 @@ public class Event {
 		this.details = details;
 	}
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
-		if (this.defender.equals(oldPlayerName)) {
+		if (this.defender != null && this.defender.equalsIgnoreCase(oldPlayerName)) {
 			this.defender = newPlayerName;
 		}
-		if (this.passer.equals(oldPlayerName)) {
+		if (this.passer != null && this.passer.equalsIgnoreCase(oldPlayerName)) {
 			this.passer = newPlayerName;
 		}
-		if (this.receiver.equals(oldPlayerName)) {
+		if (this.receiver != null && this.receiver.equalsIgnoreCase(oldPlayerName)) {
 			this.receiver = newPlayerName;
 		}
 	}

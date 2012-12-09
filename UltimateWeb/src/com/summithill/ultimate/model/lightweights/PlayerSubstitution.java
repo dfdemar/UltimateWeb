@@ -37,10 +37,10 @@ public class PlayerSubstitution {
 		this.timestamp = timestamp;
 	}
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
-		if (this.fromPlayer.equals(oldPlayerName)) {
+		if (this.fromPlayer != null && this.fromPlayer.equalsIgnoreCase(oldPlayerName)) {
 			this.fromPlayer = newPlayerName;
 		}
-		if (this.toPlayer.equals(oldPlayerName)) {
+		if (this.toPlayer != null && this.toPlayer.equalsIgnoreCase(oldPlayerName)) {
 			this.toPlayer = newPlayerName;
 		}
 	}

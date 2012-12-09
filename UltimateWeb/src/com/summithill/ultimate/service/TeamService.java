@@ -56,6 +56,17 @@ public class TeamService {
 	    return playerList;
 	}
 	
+	public boolean deletePlayer(Team team, String playerName) {
+		List<Player> playerList = getPlayers(team);
+		for (Player player : playerList) {
+			if (player.getName().equals(playerName)) {
+				getDatastore().delete(player.asEntity().getKey());
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public List<Game> getGames(Team team) {
 		long beginTime = System.currentTimeMillis();
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null); //.addSort("timestamp", Query.SortDirection.DESCENDING);
