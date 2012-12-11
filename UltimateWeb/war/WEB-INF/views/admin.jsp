@@ -40,7 +40,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<li>
 				<div data-role="controlgroup" data-type="horizontal">
 					<span class="playerListName">{{name}}</span>
-<!-- UNCOMMENT WHEN READY TO RELEASE PLAYER RENAME/DELETE
+
+<!-- UNCOMMENT WHEN READY TO RELEASE PLAYER RENAME
 					<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerDeleteDialog?team={{teamId}}&player={{name}}" data-role="button">Delete</a>
 -->

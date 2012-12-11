@@ -105,7 +105,10 @@ function renderPlayerDeleteDialog(data) {
 		var toPlayer = $('#moveToPlayerList option:selected').val();
 		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
 			alert('Player ' + player + ' deleted.  Associated events moved to player ' + toPlayer);
-			$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+			resetCacheBuster();
+			populateTeam(function() {
+				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+			}, handleRestError);
 		})
 	});
 }
