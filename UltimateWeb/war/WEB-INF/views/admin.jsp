@@ -40,11 +40,11 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<li>
 				<div data-role="controlgroup" data-type="horizontal">
 					<span class="playerListName">{{name}}</span>
-
 					<a href="#playerChangeDialog?change=merge&team={{teamId}}&player={{name}}" data-role="button">Merge</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=delete&team={{teamId}}&player={{name}}" data-role="button">Delete</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=rename&team={{teamId}}&player={{name}}" data-role="button">Rename</a>
-
 				</div>
 			</li>
 		{{/each}}
@@ -280,6 +280,10 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					<select name="moveToPlayerList" id="moveToPlayerList">
 					</select>
 				</div><br>
+				<div id="player-change-dialog-player-new-name">
+					<label for="basic">New Name:</label>
+    				<input type="text" name="name" id="player-change-dialog-player-new-name-field" value=""/>
+				</div>
 			</div> 
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 
 			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>

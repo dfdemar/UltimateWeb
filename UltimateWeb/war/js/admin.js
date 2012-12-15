@@ -134,14 +134,19 @@ function renderRenamePlayerDialog(team, player) {
 	$('.player-change-dialog-player').html(player);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
-		var toPlayer = $('#moveToPlayerList option:selected').val();
-		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
-			alert('Player ' + player + ' renamed to ' + toPlayer);
-			resetCacheBuster();
-			populateTeam(function() {
-				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
-			}, handleRestError);
-		})
+		var newName = $('#player-change-dialog-player-new-name-field').val();
+		newName = newName == null ? '' : jQuery.trim(newName);
+		if (newName == '' || newName.toLowerCase() == 'anonymous' || newName.toLowerCase() == 'anon' || newName.toLowerCase() == 'unknown' ) {
+			alert('Invalid player name');
+		} else {
+			renamePlayer(Ultimate.teamId, player, newName, function() {
+				alert('Player ' + player + ' renamed to ' + newName);
+				resetCacheBuster();
+				populateTeam(function() {
+					$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+				}, handleRestError);
+			})
+		}
 	});
 }
 
@@ -310,6 +315,9 @@ function configurePlayerMoveDialogForDelete(player) {
 			"another player (or Anonymous).  Choose the other player to whom the events should be moved and then click Delete.");
 	$('#player-change-dialog-target-select-label').html("Select player to receive deleted player's events: ");
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Delete");
+	$('#player-change-dialog-instructions').show();
+	$('#player-change-dialog-target-select').show();
+	$('#player-change-dialog-player-new-name').hide();
 }
 
 function configurePlayerMoveDialogForMerge(player) {
@@ -319,11 +327,16 @@ function configurePlayerMoveDialogForMerge(player) {
 			player + ' will be deleted when complete.  Choose the other player to whom the data should be moved and then click Merge.');
 	$('#player-change-dialog-target-select-label').html('Select player to receive ' + player + '&apos;s data: ');
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Merge");
+	$('#player-change-dialog-instructions').show();
+	$('#player-change-dialog-target-select').show();
+	$('#player-change-dialog-player-new-name').hide();
 }
 
 function configurePlayerMoveDialogForRename(player) {
 	$('#player-change-dialog-title').html("Rename Player");
 	$('#player-change-dialog-action-description').html("Rename");
-	$('#player-change-dialog-instructions').attr('display', 'none');
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Rename");
+	$('#player-change-dialog-instructions').hide();
+	$('#player-change-dialog-target-select').hide();
+	$('#player-change-dialog-player-new-name').show();
 }
