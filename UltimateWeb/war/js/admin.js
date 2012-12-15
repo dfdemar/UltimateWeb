@@ -26,8 +26,8 @@ $(document).live('pagechange', function(event, data) {
 		case 'teamPasswordDialog':
 			renderTeamPasswordDialog(data);
 			break;		
-		case 'playerDeleteDialog':
-			renderPlayerDeleteDialog(data);
+		case 'playerChangeDialog':
+			renderPlayerChangeDialog(data);
 			break;			
 		default:
 			//
@@ -96,12 +96,14 @@ function renderTeamPasswordDialog(data) {
 	});
 }
 
-function renderPlayerDeleteDialog(data) {
+function renderPlayerChangeDialog(data) {
 	var team = Ultimate.team;
 	var player = data.options.pageData.player;
-	$('#deletePlayerName').html(player);
+	configurePlayerMoveDialogForDelete(player);
+//	configurePlayerMoveDialogForMerge(player);
+	$('.player-change-dialog-player').html(player);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
-	$('#deletePlayerButton').unbind().on('click', function() {
+	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var toPlayer = $('#moveToPlayerList option:selected').val();
 		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
 			alert('Player ' + player + ' deleted.  Associated events moved to player ' + toPlayer);
@@ -269,4 +271,22 @@ function registerTeamPageRadioButtonHandler(page) {
 		teamPageUrl = '#' + teamPageUrl + '?team=' + Ultimate.teamId;
 		$.mobile.changePage(teamPageUrl);
 	});
+}
+
+function configurePlayerMoveDialogForDelete(player) {
+	$('#player-change-dialog-action-description').html("Delete");
+	$('#player-change-dialog-title').html("Delete Player");
+	$('#player-change-dialog-instructions').html("When you delete this player the events associated with him/her must be moved to " +
+			"another player (or Anonymous).  Choose the other player to whom the events should be moved and then click Delete.");
+	$('#player-change-dialog-target-select-label').html("Select player to receive deleted player's events: ");
+	$('#player-change-dialog-doit-button .ui-btn-text').html("Delete");
+}
+
+function configurePlayerMoveDialogForMerge(player) {
+	$('#player-change-dialog-title').html("Merge");
+	$('#player-change-dialog-action-description').html("Merge player data from");
+	$('#player-change-dialog-instructions').html('You are choosing to move all of ' + player + '&apos;s data to another player. ' +
+			player + ' will be deleted when complete.  Choose the other player to whom the data should be moved and then click Merge.');
+	$('#player-change-dialog-target-select-label').html('Select player to receive ' + player + '&apos;s data: ');
+	$('#player-change-dialog-doit-button .ui-btn-text').html("Merge");
 }

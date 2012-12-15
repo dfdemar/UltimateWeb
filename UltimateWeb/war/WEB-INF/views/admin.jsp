@@ -43,8 +43,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 
 <!-- UNCOMMENT WHEN READY TO RELEASE PLAYER RENAME
 					<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="#playerDeleteDialog?team={{teamId}}&player={{name}}" data-role="button">Delete</a>
 -->
+					<a href="#playerChangeDialog?team={{teamId}}&player={{name}}" data-role="button">Delete</a>
+
 				</div>
 			</li>
 		{{/each}}
@@ -264,27 +265,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 	</div>
 	
-	<div id="playerDeleteDialog" class="pagediv" data-role="dialog"
+	<div id="playerChangeDialog" class="pagediv" data-role="dialog"
 		data-theme="b">
  
 		<div data-role="header">
-			<h1>Delete Player</h1>
+			<h1 id="player-change-dialog-title"></h1>
 		</div>
  
 		<div data-role="content" data-tem="c">
 			<div class="dialogInstructions">
-				<div>Delete player: <strong><span id="deletePlayerName"></span></strong></div><br>
-				<div>
-				When you delete this player the events associated with him/her must be moved to another player (or Anonymous).  Choose the other
-				player to whom the events should be moved and then click Delete.
-				</div><br>
-				<div>		
-					<label for="moveToPlayerList" class="select">Select player to receive deleted player's events: </label>
+				<div><span id="player-change-dialog-action-description"></span> player: <strong><span class="player-change-dialog-player"></span></strong></div><br>
+				<div id="player-change-dialog-instructions"></div><br>
+				<div id="player-change-dialog-target-select">		
+					<label for="moveToPlayerList" class="select" id="player-change-dialog-target-select-label"></label>
 					<select name="moveToPlayerList" id="moveToPlayerList">
 					</select>
 				</div><br>
 			</div> 
-			<a id="deletePlayerButton" href="#" data-role="button" data-inline="true" data-theme="a">Delete</a> 
+			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 
 			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
 		</div>
 	</div>
