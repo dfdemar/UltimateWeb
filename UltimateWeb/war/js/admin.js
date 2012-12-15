@@ -99,14 +99,44 @@ function renderTeamPasswordDialog(data) {
 function renderPlayerChangeDialog(data) {
 	var team = Ultimate.team;
 	var player = data.options.pageData.player;
-	configurePlayerMoveDialogForDelete(player);
-//	configurePlayerMoveDialogForMerge(player);
+	var change = data.options.pageData.change;
+	if (change == 'merge') {
+		renderDeletePlayerDialog(team, player, true);
+	} else if (change == 'delete') {
+		renderDeletePlayerDialog(team, player, false);
+	} else if (change == 'rename') {
+		renderRenamePlayerDialog(team, player);
+	}
+}
+
+function renderDeletePlayerDialog(team, player, isMerge) {
+	if (isMerge) {
+		configurePlayerMoveDialogForMerge(player);
+	} else {
+		configurePlayerMoveDialogForDelete(player);
+	}
 	$('.player-change-dialog-player').html(player);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var toPlayer = $('#moveToPlayerList option:selected').val();
 		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
-			alert('Player ' + player + ' deleted.  Associated events moved to player ' + toPlayer);
+			alert('Player ' + player + ' deleted.  Associated data moved to player ' + toPlayer);
+			resetCacheBuster();
+			populateTeam(function() {
+				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+			}, handleRestError);
+		})
+	});
+}
+
+function renderRenamePlayerDialog(team, player) {
+	configurePlayerMoveDialogForRename(player);
+	$('.player-change-dialog-player').html(player);
+	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
+	$('#player-change-dialog-doit-button').unbind().on('click', function() {
+		var toPlayer = $('#moveToPlayerList option:selected').val();
+		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
+			alert('Player ' + player + ' renamed to ' + toPlayer);
 			resetCacheBuster();
 			populateTeam(function() {
 				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
@@ -274,8 +304,8 @@ function registerTeamPageRadioButtonHandler(page) {
 }
 
 function configurePlayerMoveDialogForDelete(player) {
-	$('#player-change-dialog-action-description').html("Delete");
 	$('#player-change-dialog-title').html("Delete Player");
+	$('#player-change-dialog-action-description').html("Delete");
 	$('#player-change-dialog-instructions').html("When you delete this player the events associated with him/her must be moved to " +
 			"another player (or Anonymous).  Choose the other player to whom the events should be moved and then click Delete.");
 	$('#player-change-dialog-target-select-label').html("Select player to receive deleted player's events: ");
@@ -283,10 +313,17 @@ function configurePlayerMoveDialogForDelete(player) {
 }
 
 function configurePlayerMoveDialogForMerge(player) {
-	$('#player-change-dialog-title').html("Merge");
+	$('#player-change-dialog-title').html("Merge Player");
 	$('#player-change-dialog-action-description').html("Merge player data from");
 	$('#player-change-dialog-instructions').html('You are choosing to move all of ' + player + '&apos;s data to another player. ' +
 			player + ' will be deleted when complete.  Choose the other player to whom the data should be moved and then click Merge.');
 	$('#player-change-dialog-target-select-label').html('Select player to receive ' + player + '&apos;s data: ');
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Merge");
+}
+
+function configurePlayerMoveDialogForRename(player) {
+	$('#player-change-dialog-title').html("Rename Player");
+	$('#player-change-dialog-action-description').html("Rename");
+	$('#player-change-dialog-instructions').attr('display', 'none');
+	$('#player-change-dialog-doit-button .ui-btn-text').html("Rename");
 }

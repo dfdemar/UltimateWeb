@@ -41,10 +41,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<div data-role="controlgroup" data-type="horizontal">
 					<span class="playerListName">{{name}}</span>
 
-<!-- UNCOMMENT WHEN READY TO RELEASE PLAYER RENAME
-					<a href="#" data-role="button">Rename</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
--->
-					<a href="#playerChangeDialog?team={{teamId}}&player={{name}}" data-role="button">Delete</a>
+					<a href="#playerChangeDialog?change=merge&team={{teamId}}&player={{name}}" data-role="button">Merge</a>
+					<a href="#playerChangeDialog?change=delete&team={{teamId}}&player={{name}}" data-role="button">Delete</a>
+					<a href="#playerChangeDialog?change=rename&team={{teamId}}&player={{name}}" data-role="button">Rename</a>
 
 				</div>
 			</li>
