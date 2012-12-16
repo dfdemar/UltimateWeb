@@ -17,6 +17,8 @@ public class Score {
 	public void setTheirs(int theirs) {
 		this.theirs = theirs;
 	}
+	
+	@JsonIgnore
 	public int combinedScore(){
 		return ours + theirs;
 	}

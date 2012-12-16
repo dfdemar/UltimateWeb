@@ -27,46 +27,57 @@ public class Event {
 		return type;
 	}
 	
+	@JsonIgnore
 	public boolean isGoal() {
 		return action.equals(GOAL);
 	}
 	
+	@JsonIgnore
 	public boolean isOffense() {
 		return type.equals(OFFENSE);
 	}
 	
+	@JsonIgnore
 	public boolean isDefense() {
 		return ! this.isOffense();
 	}
 	
+	@JsonIgnore
 	public boolean isTurnover() {
 		return this.isThrowaway() || this.isD();
 	}
 	
+	@JsonIgnore
 	public boolean isThrowaway() {
 		return action.equals(THROWAWAY);
 	}
 	
+	@JsonIgnore
 	public boolean isD() {
 		return action.equals(D);
 	}
 	
+	@JsonIgnore
 	public boolean isCatch() {
 		return action.equals(CATCH);
 	}
 	
+	@JsonIgnore
 	public boolean isDrop() {
 		return action.equals(DROP);
 	}
 	
+	@JsonIgnore
 	public boolean isPull() {
 		return action.equals(PULL);
 	}
 	
+	@JsonIgnore
 	public boolean isPullOb() {
 		return action.equals(PULL_OB);
 	}
 	
+	@JsonIgnore
 	public boolean isFirstOffenseEvent(Event previousEvent) {
 		return this.isOffense() && (previousEvent == null || (previousEvent.isDefense()));
 	}
