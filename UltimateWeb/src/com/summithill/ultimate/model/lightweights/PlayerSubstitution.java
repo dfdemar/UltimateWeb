@@ -1,5 +1,6 @@
 package com.summithill.ultimate.model.lightweights;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -36,6 +37,7 @@ public class PlayerSubstitution {
 	public void setTimestamp(double timestamp) {
 		this.timestamp = timestamp;
 	}
+	@JsonIgnore
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
 		if (this.fromPlayer != null && this.fromPlayer.equalsIgnoreCase(oldPlayerName)) {
 			this.fromPlayer = newPlayerName;

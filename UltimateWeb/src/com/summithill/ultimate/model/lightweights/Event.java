@@ -1,5 +1,6 @@
 package com.summithill.ultimate.model.lightweights;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -103,6 +104,8 @@ public class Event {
 	public void setDetails(EventDetails details) {
 		this.details = details;
 	}
+	
+	@JsonIgnore
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
 		if (this.defender != null && this.defender.equalsIgnoreCase(oldPlayerName)) {
 			this.defender = newPlayerName;

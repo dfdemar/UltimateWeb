@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Point {
 	private List<Event> events;
 	private List<String> line;
@@ -15,47 +18,59 @@ public class Point {
 	private long startSeconds;
 	private long endSeconds;
 	private PointSummary summary;
-	
+
+	@JsonIgnore
 	public boolean isOurPoint(Point lastPoint) {
 		Score currentScore = this.getSummary().getScore();
 		if (lastPoint == null) {
 			return currentScore.getOurs() > currentScore.getTheirs();
 		} else {
-			return currentScore.getOurs() > lastPoint.getSummary().getScore().getOurs();
+			return currentScore.getOurs() > lastPoint.getSummary().getScore()
+					.getOurs();
 		}
 	}
-	
+
+	@JsonIgnore
 	public boolean isOline() {
 		return this.summary.isOline();
 	}
-	
+
 	public List<Event> getEvents() {
 		return events;
 	}
+
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
+
 	public List<String> getLine() {
 		return line;
 	}
+
 	public void setLine(List<String> line) {
 		this.line = line;
 	}
+
 	public PointSummary getSummary() {
 		return summary;
 	}
+
 	public void setSummary(PointSummary summary) {
 		this.summary = summary;
 	}
+
 	public long getStartSeconds() {
 		return startSeconds;
 	}
+
 	public void setStartSeconds(long startSeconds) {
 		this.startSeconds = startSeconds;
 	}
+
 	public long getEndSeconds() {
 		return endSeconds;
 	}
+
 	public void setEndSeconds(long endSeconds) {
 		this.endSeconds = endSeconds;
 	}
@@ -67,10 +82,12 @@ public class Point {
 	public void setSubstitutions(List<PlayerSubstitution> substitutions) {
 		this.substitutions = substitutions;
 	}
-	
-	// answer the players that played during the entire point (were not subsitutited in or out)
+
+	// answer the players that played during the entire point (were not
+	// subsitutited in or out)
+	@JsonIgnore
 	public Set<String> playersInEntirePoint() {
-		HashSet<String>players = new HashSet<String>();
+		HashSet<String> players = new HashSet<String>();
 		players.addAll(getLine());
 		if (substitutions != null && substitutions.size() > 0) {
 			for (PlayerSubstitution sub : substitutions) {
@@ -80,10 +97,11 @@ public class Point {
 		}
 		return players;
 	}
-	
+
 	// answer the players that were substituted in or out during the point
+	@JsonIgnore
 	public Set<String> playersInPartOfPoint() {
-		HashSet<String>players = new HashSet<String>();
+		HashSet<String> players = new HashSet<String>();
 		if (substitutions != null && substitutions.size() > 0) {
 			for (PlayerSubstitution sub : substitutions) {
 				players.add(sub.getFromPlayer());
@@ -92,10 +110,11 @@ public class Point {
 		}
 		return players;
 	}
-	
+
 	// answer the players that played during any or all of the point
+	@JsonIgnore
 	public Set<String> playersInPoint() {
-		HashSet<String>players = new HashSet<String>();
+		HashSet<String> players = new HashSet<String>();
 		players.addAll(getLine());
 		if (substitutions != null && substitutions.size() > 0) {
 			for (PlayerSubstitution sub : substitutions) {
@@ -106,7 +125,9 @@ public class Point {
 		return players;
 	}
 
-	// answer a description of all of the players (including substitutions) that played in the point
+	// answer a description of all of the players (including substitutions) that
+	// played in the point
+	@JsonIgnore
 	public String playersInPointDescription() {
 		HashSet<String> allPlayerNames = new HashSet<String>();
 		allPlayerNames.addAll(getLine());
@@ -126,11 +147,12 @@ public class Point {
 				}
 			}
 		}
-		List<String>names = new ArrayList<String>(allPlayerNames);
+		List<String> names = new ArrayList<String>(allPlayerNames);
 		Collections.sort(names);
 		return StringUtils.join(names, ", ");
 	}
-	
+
+	@JsonIgnore
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
 		if (getLine() != null) {
 			boolean found = removePlayer(oldPlayerName);
@@ -149,7 +171,8 @@ public class Point {
 			}
 		}
 	}
-	
+
+	@JsonIgnore
 	private boolean removePlayer(String playerName) {
 		boolean found = false;
 		List<String> newLine = new ArrayList<String>();

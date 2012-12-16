@@ -560,7 +560,12 @@ function getCurrentPageId() {
 }
 
 function handleError(jqXHR, textStatus, errorThrown) {
-	requestSignon();
+	if (jqXHR.status == 401) {
+		requestSignon();
+	} else {
+		alert("Whoops! Sorry, we seemed to be having some problems on our server.  Please try again soon but let us know if this happens again.");
+	}
+
 }
 
 function requestSignon() {

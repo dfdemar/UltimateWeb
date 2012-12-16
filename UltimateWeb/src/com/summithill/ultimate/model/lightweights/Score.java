@@ -1,5 +1,7 @@
 package com.summithill.ultimate.model.lightweights;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class Score {
 	private int ours;
 	private int theirs;
@@ -18,6 +20,7 @@ public class Score {
 	public int combinedScore(){
 		return ours + theirs;
 	}
+	@JsonIgnore
 	public int highestScore(){
 		return Math.max(ours, theirs);
 	}

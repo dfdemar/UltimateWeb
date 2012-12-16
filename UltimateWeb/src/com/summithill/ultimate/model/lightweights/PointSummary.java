@@ -1,5 +1,6 @@
 package com.summithill.ultimate.model.lightweights;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -16,10 +17,12 @@ public class PointSummary {
 	private boolean directionChanged;  // did at least one direction change during point?
 	private boolean isOurGoal;
 	
+	@JsonIgnore
 	public boolean isOline() {
 		return lineType.equals(O_LINE);
 	}
 	
+	@JsonIgnore
 	public boolean isDline() {
 		return ! isOline();
 	}
@@ -47,6 +50,7 @@ public class PointSummary {
 	}
 	// answer actual elapsed time unless the time is unreasonably long (suggesting game not started at correct time) in which case
 	// return an estimate
+	@JsonIgnore
 	public long getAdjustedElapsedTime() {
 		return elapsedTime > UNREASONABLY_LONG_ELAPSED_TIME_MINUTES * 60 ? DEFAULT_POINT_ELAPSED_MINUTES * 60 : elapsedTime; 
 	}
@@ -54,7 +58,12 @@ public class PointSummary {
 		this.elapsedTime = elapsedTime;
 	}
 
+	@JsonIgnore
 	public boolean didDirectionChange() {
+		return directionChanged;
+	}
+	
+	public boolean getDirectionChanged() {
 		return directionChanged;
 	}
 
