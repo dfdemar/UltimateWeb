@@ -2,7 +2,9 @@ package com.summithill.ultimate.model.lightweights;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PointSummary {
 	public static final String O_LINE = "O";
@@ -14,7 +16,9 @@ public class PointSummary {
 	private String lineType;
 	private boolean finished;
 	private long elapsedTime;  // seconds
+	@JsonIgnore
 	private boolean directionChanged;  // did at least one direction change during point?
+	@JsonIgnore
 	private boolean isOurGoal;
 	
 	@JsonIgnore
@@ -71,10 +75,12 @@ public class PointSummary {
 		this.directionChanged = directionChanged;
 	}
 
+	@JsonIgnore
 	public boolean isOurGoal() {
 		return isOurGoal;
 	}
 
+	@JsonIgnore
 	public void setOurGoal(boolean isOurGoal) {
 		this.isOurGoal = isOurGoal;
 	}

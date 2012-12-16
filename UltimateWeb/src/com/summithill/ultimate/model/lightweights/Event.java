@@ -2,7 +2,9 @@ package com.summithill.ultimate.model.lightweights;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Event {
 	public static String OFFENSE = "Offense";
@@ -21,6 +23,7 @@ public class Event {
 	private String defender;
 	private String passer;
 	private String receiver;
+	private double	timestamp; 
 	private EventDetails details;
 	
 	public String getType() {
@@ -109,6 +112,12 @@ public class Event {
 	public void setReceiver(String reciever) {
 		this.receiver = reciever;
 	}
+	public double getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(double timestamp) {
+		this.timestamp = timestamp;
+	}
 	public EventDetails getDetails() {
 		return details;
 	}
@@ -128,4 +137,5 @@ public class Event {
 			this.receiver = newPlayerName;
 		}
 	}
+
 }
