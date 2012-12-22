@@ -1,5 +1,6 @@
 package com.summithill.ultimate.model;
 
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
 
@@ -137,7 +138,9 @@ public class Game extends ModelObject {
 	
 	public void setPoints(List<Point> points) {
 		try {
-			String json = new String(new ObjectMapper().writeValueAsBytes(points));
+			StringWriter writer = new StringWriter();
+			new ObjectMapper().writeValue(writer, points);
+			String json = writer.toString();
 			setPointsJson(json);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to convert points to json",e);
