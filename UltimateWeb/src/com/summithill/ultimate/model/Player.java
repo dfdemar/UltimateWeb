@@ -3,7 +3,7 @@ package com.summithill.ultimate.model;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
-public class Player extends ModelObject {
+public class Player extends ModelObject implements Comparable<Player> {
 	public static final String ENTITY_TYPE_NAME = "Player";
 	public static final String NAME_PROPERTY = "name";
 	public static final String NUMBER_PROPERTY = "number";
@@ -65,6 +65,11 @@ public class Player extends ModelObject {
 		Player playerClone = new Player(team, getName());
 		copyProperties(entity, playerClone.entity, userIdentifier);
 		return playerClone;
+	}
+
+	@Override
+	public int compareTo(Player otherPlayer) {
+		return this.getName().compareToIgnoreCase(otherPlayer.getName());
 	}
 }
 

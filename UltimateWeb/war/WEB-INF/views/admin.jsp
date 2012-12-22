@@ -288,6 +288,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 
 			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
 		</div>
+		<img class="spinner hidden" src="/images/spinner.gif" />
 	</div>
 	
 	<script type="text/javascript">
