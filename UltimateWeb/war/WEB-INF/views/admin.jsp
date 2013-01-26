@@ -86,7 +86,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			</div>
 		</div>
 		<div><br>&nbsp;<a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
+		
+		<div class="footer">
+		<a href="http://www.ultimate-numbers.com/">About</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="http://www.ultimate-numbers.com/privacy.html">Privacy</a>
+		</div>
+		<br><br>
 	</div>
+	
 
 	<div id="teamsettingspage" class="pagediv" data-role="page" data-theme="b">
 		<div class="top-section">

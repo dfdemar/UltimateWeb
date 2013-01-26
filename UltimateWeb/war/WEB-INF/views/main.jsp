@@ -41,8 +41,9 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		<thead>
 			{{#with headings}}
 				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
+				<th><a href="#" data-stattype="plusMinusCount">{{plusMinusCount}}</a></th>
   				{{#unless ../isPerPoint}}
-					<th><a href="#" data-stattype="plusMinusCount">{{plusMinusCount}}</a></th>
+
 					<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
 					<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
 					<th><a href="#" data-stattype="minutesPlayed">{{minutesPlayed}}</a></th>
@@ -76,8 +77,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			{{#each playerStats}}
 			<tr>
 				<td class="tablePlayerName">{{playerName}}</td>
+				<td>{{plusMinusCount}}</td>
   				{{#unless ../isPerPoint}}
-					<td>{{plusMinusCount}}</td>
 					<td>{{gamesPlayed}}</td>
 					<td>{{pointsPlayed}}</td>
 					<td>{{minutesPlayed}}</td>
