@@ -86,7 +86,7 @@ public class Point {
 	}
 
 	// answer the players that played during the entire point (were not
-	// subsitutited in or out)
+	// substituted in or out)
 	@JsonIgnore
 	public Set<String> playersInEntirePoint() {
 		HashSet<String> players = new HashSet<String>();

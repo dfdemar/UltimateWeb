@@ -46,7 +46,7 @@ public class EventWriter {
 			writer.write(DELIMITER);
 			writer.write(replaceDelims(event.getDefender()));
 			if (point.getLine() != null) {
-				for (String playerName : point.getLine()) {
+				for (String playerName : point.playersInPoint()) {
 					writer.write(DELIMITER);
 					writer.write(replaceDelims(playerName));
 				}
