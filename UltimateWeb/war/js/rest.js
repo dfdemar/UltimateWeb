@@ -3,53 +3,63 @@ Ultimate.baseRestUrl = "/rest/view";
 Ultimate.sessionId = new Date().getTime() + '';
 
 function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveTeam");
 	var url = Ultimate.baseRestUrl + '/team/' + id;
 	url = includePlayers ? url + "?players=true" : url;
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveTeamForAdmin(id, includePlayers, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveTeamForAdmin");
 	var url = Ultimate.baseRestUrl + '/admin/team/' + id;
 	url = includePlayers ? url + "?players=true" : url;
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGames(teamId, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveGames");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/games'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGamesForAdmin(teamId, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveGamesForAdmin");
 	var url = Ultimate.baseRestUrl + '/admin/team/' + teamId + '/games'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrieveGame(teamId, gameId, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveGame");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function deleteGame(teamId, gameId, successFunction, errorFunction) {
+	sendAnalyticsEvent("deleteGame");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/delete'; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function deleteTeam(teamId, successFunction, errorFunction) {
+	sendAnalyticsEvent("deleteTeam");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/delete'; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function deletePlayer(teamId, playerToDelete, replacementPlayer, successFunction, errorFunction) {
+	sendAnalyticsEvent("deletePlayer");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/delete?player=' + playerToDelete + '&replacement='+replacementPlayer; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function renamePlayer(teamId, playerToRename, replacementPlayer, successFunction, errorFunction) {
+	sendAnalyticsEvent("renamePlayer");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename + '&replacement='+replacementPlayer; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrievePlayerStatsForGames");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player';
     if (gameIds != null && gameIds.length > 0) {
     	url = url + '?gameIds=' + gameIds.join("_");
@@ -58,6 +68,7 @@ function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunc
 }
 
 function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveTeamStatsForGames");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/team';
     if (gameIds != null && gameIds.length > 0) {
     	url = url + '?gameIds=' + gameIds.join("_");
@@ -66,6 +77,7 @@ function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFuncti
 }
 
 function retrieveAllStatsForGames(teamId, gameIds, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveAllStatsForGames");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/all';
     if (gameIds != null && gameIds.length > 0) {
     	url = url + '?gameIds=' + gameIds.join("_");
@@ -74,21 +86,25 @@ function retrieveAllStatsForGames(teamId, gameIds, successFunction, errorFunctio
 }
 
 function retrieveTeams(successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveTeams");
 	var url = Ultimate.baseRestUrl + '/teams'; 
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
 function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrievePlayerStatsForGame");
 	var teamId = options.teamId;
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
 function savePassword(teamId, password, successFunction, errorFunction) {
+	sendAnalyticsEvent("savePassword");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password); 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
 function signon(teamId, password, successFunction, errorFunction) {
+	sendAnalyticsEvent("signon");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/authenticate/' + password; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
@@ -368,4 +384,9 @@ function addQueryStringParameter(url, key, value) {
 
 function resetCacheBuster() {
 	Ultimate.sessionId = new Date().getTime() + '';
+}
+
+function sendAnalyticsEvent(restEndpointName) {
+	// NOTE: You can add another property for more detail
+	_gaq.push(['_trackEvent', Ultimate.isAdminSite ? 'WebRestRequest-Admin' : 'WebRestRequest', restEndpointName]);
 }

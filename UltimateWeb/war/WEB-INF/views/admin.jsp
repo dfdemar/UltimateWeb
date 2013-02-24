@@ -31,6 +31,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	Ultimate.userName = "${userName}";
 	Ultimate.logonUrl = "${logonUrl}";
 	Ultimate.logoutUrl =" ${logoutUrl}";
+	Ultimate.isAdminSite = true;
 	</script>
 	<script src="../../js/rest.js"></script>
 	<script src="../../js/admin.js"></script>
