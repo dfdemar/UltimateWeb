@@ -316,7 +316,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 		<div>&nbsp;</div>
 		<label for="selectGamesForPlayerStats" class="select">Games to include:</label>
-		<select name="selectGamesForPlayerStats" class="gameSelect" id="selectGamesForTeamPlayerStats">
+		<select id="selectGamesForSinglePlayerStats" name="selectGamesForPlayerStats" class="gameSelect">
 			<option value="AllGames">All Games</option>
 		</select>
 		<table class="statsTable hideWhenBusy" id="playerStats">  
@@ -324,7 +324,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</table>
 	</div>
 	
-	<div>Wondering how a statistic is calculated? Check out our calcs >> <a>Calculations</a></div>
+	<div><br><br>Wondering how a statistic is calculated? Check out our calcs: <a href="javascript:void(0)" onclick="window.open('/calcs.html');return false;">Calculations</a></div>
 </div>
 
 <div id="teamstatspage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">

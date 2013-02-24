@@ -321,14 +321,14 @@ function populatePlayerStats(data, gamesToIncludeSelection) {
 	var games = getGamesForSelection(selection);
 	retrievePlayerStatsForGames(Ultimate.teamId, games, function(playerStatsArray) {
 		Ultimate.playerStatsHelper = new PlayerStatsHelper({playerStats: playerStatsArray});
-		$('#selectGamesForTeamPlayerStats').val(selection).selectmenu('refresh');
+		$('#selectGamesForSinglePlayerStats').val(selection).selectmenu('refresh');
 		$('#statsPlayerNameHeading').html(Ultimate.playerName);
 		updateSinglePlayerStatsTable(Ultimate.playerName);
 		$('#playerStats').show();
-		$('#selectGamesForTeamPlayerStats').unbind('change').on('change', function() {
+		$('#selectGamesForSinglePlayerStats').unbind('change').on('change', function() {
 			populatePlayerStats(data, $(this).val());
-		}, handleError)
-	}); 
+		});
+	}, handleError); 
 }
 
 function populateSelectGamesControl() {
@@ -552,7 +552,7 @@ function isAbsoluteDenominator() {
 function isNarrowDevice() {
 	return screen.width < 500; // equivalent to media query device-width 
 	//return document.documentElement.clientWidth < 500;  // equivalent to media query width 
-	//return true;
+//	return true;
 }
 
 function getCurrentPageId() {
