@@ -470,6 +470,9 @@ function updateSinglePlayerStatsTable(playerName) {
 		var perPointPlayerStats = Ultimate.playerStatsHelper.statsForPlayer(playerName, true);
 		addRowToStatsTable(html,'<strong>Statistic</strong>','<strong>Value</strong>','<strong>Per Point Played</strong>');
 		addRowToStatsTable(html,'&nbsp;','&nbsp;');
+		addRowToStatsTable(html,headings.plusMinusCount,absolutePlayerStats.plusMinusCount, perPointPlayerStats.plusMinusCount);
+		addRowToStatsTable(html,headings.plusMinusOLine,absolutePlayerStats.plusMinusOLine);
+		addRowToStatsTable(html,headings.plusMinusDLine,absolutePlayerStats.plusMinusDLine);
 		addRowToStatsTable(html,headings.gamesPlayed,absolutePlayerStats.gamesPlayed);
 		addRowToStatsTable(html,headings.pointsPlayed,absolutePlayerStats.pointsPlayed);
 		addRowToStatsTable(html,headings.opointsPlayed,absolutePlayerStats.opointsPlayed);
@@ -482,8 +485,12 @@ function updateSinglePlayerStatsTable(playerName) {
 		addRowToStatsTable(html,headings.catches,absolutePlayerStats.catches, perPointPlayerStats.catches);
 		addRowToStatsTable(html,headings.drops,absolutePlayerStats.drops, perPointPlayerStats.drops);
 		addRowToStatsTable(html,headings.throwaways,absolutePlayerStats.throwaways, perPointPlayerStats.throwaways);
+		addRowToStatsTable(html,headings.passSuccess,absolutePlayerStats.passSuccess);
+		addRowToStatsTable(html,headings.catchSuccess,absolutePlayerStats.catchSuccess);
 		addRowToStatsTable(html,headings.ds,absolutePlayerStats.ds, perPointPlayerStats.ds);
 		addRowToStatsTable(html,headings.pulls,absolutePlayerStats.pulls, perPointPlayerStats.pulls);
+		addRowToStatsTable(html,headings.pullsAvgHangtimeMillis,absolutePlayerStats.pullsAvgHangtimeMillis);
+		addRowToStatsTable(html,headings.pullsOB,absolutePlayerStats.pullsOB);
 	} else {
 		addRowToStatsTable(html,'No Data','');
 	}
