@@ -98,7 +98,7 @@ TeamStatsHelper = function(stats, statsName) {
             selection: { mode: "xy" },
             grid: {  },
             xaxis:{ 
-               	ticks:[[1,'All'],[2,'Unknown Wind'],[3,'Low Wind'],[4,'Strong Upwind'],[5,'Strong Downwind'],[6,'Strong Crosswind']]
+               	ticks:[[1,'All'],[2,'Unknown Wind'],[3,'Low Wind'],[4,'Strong Up Wind'],[5,'Strong Down Wind'],[6,'Strong Cross Wind']]
              },
             yaxis:{ 
                	min:0,
@@ -157,7 +157,7 @@ TeamStatsHelper = function(stats, statsName) {
             selection: { mode: "xy" },
             grid: {  },
             xaxis:{ 
-               	ticks:[[1,'O-line Broken'],[2,'O-Line turnover but scored'],[3,'D-Line Breaks'],[4,'D-Line causes turnover but then scored against']]
+               	ticks:[[1,'O-line Broken'],[2,'O-Line turnover but then scored'],[3,'D-Line Breaks'],[4,'D-Line causes turnover but then scored against']]
              },
             valueLabels: { show: true },
             multiplebars: true

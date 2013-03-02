@@ -380,7 +380,8 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<h3 class="chartTitle">Goals Scored per Opportunity to Score (Percent)</h3>
 			<div id="goalPerOpportunityGraph" class="singleTeamGraph"></div>
 			
-			<h3 class="chartTitle">Trend (by game): Turnovers per Touch</h3>
+			<h3 class="chartTitle">Seasonal Turnovers Trend (Turnovers per Touch)<br>
+			(as the season progresses is the team experiencing more or less turns each game?)</h3>
 			<div id="trendLineGraph" class="singleTeamGraph"></div>
 			<div class="xAxisLabel">Game</div>
 
