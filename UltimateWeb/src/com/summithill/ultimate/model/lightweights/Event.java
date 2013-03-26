@@ -9,13 +9,18 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 public class Event {
 	public static String OFFENSE = "Offense";
 	public static String DEFENSE = "Defense";
+	
 	public static String GOAL = "Goal";
+	public static String CALLAHAN = "Callahan";
 	public static String CATCH = "Catch";
 	public static String D = "D";
 	public static String DROP = "Drop";
 	public static String THROWAWAY = "Throwaway";
+	public static String STALL = "Stall";
+	public static String MISC_PENALTY = "MiscPenalty";
 	public static String PULL = "Pull";
 	public static String PULL_OB = "PullOb";
+	
 	public static String DETAILS = "details";
 	
 	private String type;
@@ -36,6 +41,11 @@ public class Event {
 	}
 	
 	@JsonIgnore
+	public boolean isCallahan() {
+		return action.equals(CALLAHAN);
+	}
+	
+	@JsonIgnore
 	public boolean isOffense() {
 		return type.equals(OFFENSE);
 	}
@@ -47,12 +57,22 @@ public class Event {
 	
 	@JsonIgnore
 	public boolean isTurnover() {
-		return this.isThrowaway() || this.isD();
+		return this.isThrowaway() ||  this.isStall() || this.isMiscPenalty() || this.isD();
 	}
 	
 	@JsonIgnore
 	public boolean isThrowaway() {
 		return action.equals(THROWAWAY);
+	}
+	
+	@JsonIgnore
+	public boolean isStall() {
+		return action.equals(STALL);
+	}
+	
+	@JsonIgnore
+	public boolean isMiscPenalty() {
+		return action.equals(MISC_PENALTY);
 	}
 	
 	@JsonIgnore

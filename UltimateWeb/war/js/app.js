@@ -480,11 +480,14 @@ function updateSinglePlayerStatsTable(playerName) {
 		addRowToStatsTable(html,headings.minutesPlayed,absolutePlayerStats.minutesPlayed);
 		addRowToStatsTable(html,headings.touches,absolutePlayerStats.touches, perPointPlayerStats.touches);
 		addRowToStatsTable(html,headings.goals,absolutePlayerStats.goals, perPointPlayerStats.goals);
+		addRowToStatsTable(html,headings.callahans,absolutePlayerStats.callahans, perPointPlayerStats.callahans);
 		addRowToStatsTable(html,headings.assists,absolutePlayerStats.assists, perPointPlayerStats.assists);
 		addRowToStatsTable(html,headings.passes,absolutePlayerStats.passes, perPointPlayerStats.passes);
 		addRowToStatsTable(html,headings.catches,absolutePlayerStats.catches, perPointPlayerStats.catches);
 		addRowToStatsTable(html,headings.drops,absolutePlayerStats.drops, perPointPlayerStats.drops);
 		addRowToStatsTable(html,headings.throwaways,absolutePlayerStats.throwaways, perPointPlayerStats.throwaways);
+		addRowToStatsTable(html,headings.stalls,absolutePlayerStats.stalls, perPointPlayerStats.stalls);
+		addRowToStatsTable(html,headings.miscPenalties,absolutePlayerStats.miscPenalties, perPointPlayerStats.miscPenalties);
 		addRowToStatsTable(html,headings.passSuccess,absolutePlayerStats.passSuccess);
 		addRowToStatsTable(html,headings.catchSuccess,absolutePlayerStats.catchSuccess);
 		addRowToStatsTable(html,headings.ds,absolutePlayerStats.ds, perPointPlayerStats.ds);
@@ -525,6 +528,10 @@ function eventDescription(event) {
 		case 'Throwaway':
 			return {text: event.type == 'Offense' ? event.passer + ' throwaway' : 'Opponent throwaway', 
 					image: event.type == 'Offense' ? 'shame.png' : 'exciting.png'};
+		case 'Stall':
+			return {text: event.passer + ' stalled', image: 'shame.png'};
+		case 'MiscPenalty':
+			return {text: event.passer + ' penalized (caused turnover)', image: 'shame.png'};			
 		case 'D' :
 			return {text: 'D by ' + event.defender, image: 'electric_shock.png'};
 		case 'Pull' :
@@ -535,6 +542,8 @@ function eventDescription(event) {
 			return {text: event.type == 'Offense' ? 
 					'Our Goal (' + event.passer + ' to ' + event.receiver + ')' :
 					'Their Goal', image: event.type == 'Offense' ? 'super_man.png' : 'cry.png'};		
+		case 'Callahan':
+			return {text: 'Our Callahan (' + event.defender + ')', image: 'victory.png'};				
 		default:
 			return {text: event.action, image: 'hearts.png'};
 	}

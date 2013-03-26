@@ -1,6 +1,4 @@
 package com.summithill.ultimate.statistics;
-import static com.summithill.ultimate.model.lightweights.Event.CATCH;
-import static com.summithill.ultimate.model.lightweights.Event.D;
 
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Team;
@@ -20,9 +18,11 @@ public abstract class AbstractStatisticsCalculator {
 	}
 	
 	protected int calculateTouches(Event event, Event lastEvent) {
-		if (event.getAction().equals(CATCH) || (event.isGoal() && event.isOffense())) {
+		if (event.isCatch() || (event.isGoal() && event.isOffense())) {
 			// add a touch if we just picked up the disc for this event
-			return  lastEvent == null || (lastEvent.getAction().equals(D)) ? 2 : 1;
+			return  lastEvent == null || (lastEvent.isD()) ? 2 : 1;
+		} else if (event.isCallahan()) {
+			return 1;
 		}
 		return 0;
 	}

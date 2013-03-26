@@ -43,7 +43,6 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th class="tablePlayerName"><a href="#" data-stattype="playerName">{{playerName}}</a></th>
 				<th><a href="#" data-stattype="plusMinusCount">{{plusMinusCount}}</a></th>
   				{{#unless ../isPerPoint}}
-
 					<th><a href="#" data-stattype="gamesPlayed">{{gamesPlayed}}</a></th>
 					<th><a href="#" data-stattype="pointsPlayed">{{pointsPlayed}}</a></th>
 					<th><a href="#" data-stattype="minutesPlayed">{{minutesPlayed}}</a></th>
@@ -54,9 +53,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
   				{{/unless}}
 				<th><a href="#" data-stattype="touches">{{touches}}</a></th>
 				<th><a href="#" data-stattype="goals">{{goals}}</a></th>
+				<th><a href="#" data-stattype="callahans">{{callahans}}</a></th>
 				<th><a href="#" data-stattype="assists">{{assists}}</a></th>
 				<th><a href="#" data-stattype="passes">{{passes}}</a></th>
 				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
+				<th><a href="#" data-stattype="stalls">{{stalls}}</a></th>
+				<th><a href="#" data-stattype="miscPenalties">{{miscPenalties}}</a></th>
   				{{#unless ../isPerPoint}}
 					<th><a href="#" data-stattype="passSuccess">{{passSuccess}}</a></th>
   				{{/unless}}
@@ -89,9 +91,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
   				{{/unless}}
 				<td>{{touches}}</td>
 				<td>{{goals}}</td>
+				<td>{{callahans}}</td>
 				<td>{{assists}}</td>
 				<td>{{passes}}</td>
 				<td>{{throwaways}}</td>
+				<td>{{stalls}}</td>
+				<td>{{miscPenalties}}</td>
   				{{#unless ../isPerPoint}}
 					<td>{{passSuccess}}</td>
   				{{/unless}}
@@ -276,11 +281,14 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<option value="dpointsPlayed">D Points Played</option>
 				<option value="touches">Touches</option>
 				<option value="goals">Goals</option>
+				<option value="callahans">Callahans</option>
 				<option value="assists">Assists</option>
 				<option value="passes">Throws</option>
 				<option value="catches">Catches</option>
 				<option value="drops">Drops</option>
 				<option value="throwaways">Throwaways</option>
+				<option value="stalls">Stalled&apos;s</option>
+				<option value="miscPenalties">Passer penalties (turnovers)</option>
 				<option value="ds">Ds</option>
 				<option value="pulls">Pulls</option>
 			</select>

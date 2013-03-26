@@ -12,6 +12,7 @@ public class PlayerStats {
 	private float oPointsPlayed;
 	private float dPointsPlayed;
 	private int goals;
+	private int callahans;
 	private int assists;
 	private int passes;
 	private int passSuccess;
@@ -19,6 +20,8 @@ public class PlayerStats {
 	private int catchSuccess;
 	private int drops;
 	private int throwaways;
+	private int stalls;
+	private int miscPenalties;
 	private int ds;
 	private int pulls;
 	private int pullsWithHangtime;
@@ -93,6 +96,15 @@ public class PlayerStats {
 	public void incTouches() {
 		this.touches++;
 	}
+	public void incCallahans() {
+		this.callahans++;
+	}
+	public void incStalls() {
+		this.stalls++;
+	}
+	public void incMiscPenalties() {
+		this.miscPenalties++;
+	}
 	public void incPlusMinusCount() {
 		this.plusMinusCount++;
 	}
@@ -146,6 +158,9 @@ public class PlayerStats {
 	}
 	public int getThrowaways() {
 		return throwaways;
+	}
+	public int getPasserTurnovers() {
+		return this.getThrowaways() + this.getStalls() + this.getMiscPenalties();
 	}
 	public void setThrowaways(int throwaways) {
 		this.throwaways = throwaways;
@@ -279,5 +294,29 @@ public class PlayerStats {
 	
 	public void setPlusMinusDLine(int plusMinusDLine) {
 		this.plusMinusDLine = plusMinusDLine;
+	}
+
+	public int getStalls() {
+		return stalls;
+	}
+
+	public void setStalls(int stalls) {
+		this.stalls = stalls;
+	}
+
+	public int getMiscPenalties() {
+		return miscPenalties;
+	}
+
+	public void setMiscPenalties(int miscPenalties) {
+		this.miscPenalties = miscPenalties;
+	}
+
+	public int getCallahans() {
+		return callahans;
+	}
+
+	public void setCallahans(int callahans) {
+		this.callahans = callahans;
 	}
 }

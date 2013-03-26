@@ -64,9 +64,15 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					if (event.isFirstOffenseEvent(lastEvent)) {
 						passer.incTouches();
 					}
-				} else if (event.isOffense() && event.isThrowaway()) {
+				} else if (event.isOffense() && (event.isThrowaway() || event.isStall() || event.isMiscPenalty())) {
 					passer.incPasses();
-					passer.incThrowaways();
+					if (event.isThrowaway()) {
+						passer.incThrowaways();
+					} else if (event.isStall()) {
+						passer.incStalls();
+					} else if (event.isMiscPenalty()) {
+						passer.incMiscPenalties();
+					}
 					passer.decPlusMinusCount();
 					if (event.isFirstOffenseEvent(lastEvent)) {
 						passer.incTouches();
@@ -79,6 +85,14 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				} else if (event.isD()) {
 					defender.incDs();
 					defender.incPlusMinusCount();
+				} else if (event.isCallahan()) {
+					defender.incCallahans();
+					defender.incGoals();					
+					defender.incDs();
+					defender.incTouches();
+					defender.incPlusMinusCount();
+					defender.incPlusMinusCount();
+					updatePlusMinusLine(point, event.isOffense(), point.isOline());
 				} else if (event.isGoal()) {
 					if (event.isOffense()) {
 						passer.incAssists();
@@ -94,7 +108,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					updatePlusMinusLine(point, event.isOffense(), point.isOline());
 				}
 				if (event.isOffense() && passer != null && passer.getPasses() > 0) {
-					float passPercent = ((float)passer.getPasses() - (float)passer.getThrowaways()) / (float)passer.getPasses() * 100f;
+					float passPercent = ((float)passer.getPasses() - (float)passer.getPasserTurnovers()) / (float)passer.getPasses() * 100f;
 					passer.setPassSuccess((int)(passPercent));
 				}
 				if (event.isOffense() && receiver != null && receiver.getCatches() > 0) {
