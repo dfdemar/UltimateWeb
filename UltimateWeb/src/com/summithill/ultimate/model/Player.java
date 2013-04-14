@@ -9,6 +9,7 @@ public class Player extends ModelObject implements Comparable<Player> {
 	public static final String NUMBER_PROPERTY = "number";
 	public static final String IS_MALE_PROPERTY = "isMale";
 	public static final String POSITION_PROPERTY = "position";
+	public static final String LEAGUEVINE_JSON = "leaguevinePlayer";
 	
 	private Player(Entity entity) {
 		super();
@@ -60,6 +61,15 @@ public class Player extends ModelObject implements Comparable<Player> {
 	public void setIsMale(boolean isMale) {
 		entity.setProperty(IS_MALE_PROPERTY, Boolean.valueOf(isMale));
 	}
+	
+	public String getLeaguevinePlayerJson() {
+		return (String)entity.getProperty(LEAGUEVINE_JSON);
+	}
+	
+	public void setLeaguevinePlayerJson(String json) {
+		entity.setProperty(LEAGUEVINE_JSON, json);
+	}
+
 	
 	public Player clone(String userIdentifier, Team team) {
 		Player playerClone = new Player(team, getName());

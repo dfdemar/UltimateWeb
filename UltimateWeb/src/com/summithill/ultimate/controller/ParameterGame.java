@@ -27,6 +27,7 @@ public class ParameterGame {
 	private long ours;
 	private long theirs;
 	private String leaguevineJson;
+	private String timeoutDetailsJson;
 	
 	public String getGameId() {
 		return gameId;
@@ -58,6 +59,7 @@ public class ParameterGame {
 		pGame.setFirstPointOline(game.isFirstPointOline());
 		pGame.setGamePoint(game.getGamePoint());
 		pGame.setLeaguevineJson(game.getLeaguevineJson());
+		pGame.setTimeoutDetailsJson(game.getTimeoutDetailsJson());
 		return pGame;
 	}
 
@@ -72,6 +74,7 @@ public class ParameterGame {
 		game.setFirstPointOline(isFirstPointOline);
 		game.setGamePoint(gamePoint);
 		game.setLeaguevineJson(leaguevineJson);
+		game.setTimeoutDetailsJson(timeoutDetailsJson);
 		game.setWind(wind);
 	}
 		
@@ -183,6 +186,14 @@ public class ParameterGame {
 
 	public void setLeaguevineJson(String leaguevineJson) {
 		this.leaguevineJson = leaguevineJson;
+	}
+
+	public String getTimeoutDetailsJson() {
+		return timeoutDetailsJson;
+	}
+
+	public void setTimeoutDetailsJson(String timeoutDetailsJson) {
+		this.timeoutDetailsJson = timeoutDetailsJson;
 	}
 
 }

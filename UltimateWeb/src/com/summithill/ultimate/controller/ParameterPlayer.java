@@ -10,6 +10,7 @@ public class ParameterPlayer {
 	private String number;
 	private String position;
 	private boolean isMale;
+	private String leaguevinePlayer;
 	
 	public static ParameterPlayer fromPlayer(Player player) {
 		ParameterPlayer pPlayer = new ParameterPlayer();
@@ -17,6 +18,7 @@ public class ParameterPlayer {
 		pPlayer.setName(player.getName());
 		pPlayer.setNumber(player.getNumber());
 		pPlayer.setPosition(player.getPosition());
+		pPlayer.setLeaguevinePlayer(player.getLeaguevinePlayerJson());
 		return pPlayer;
 	}
 	
@@ -25,6 +27,7 @@ public class ParameterPlayer {
 		modelPlayer.setNumber(number);
 		modelPlayer.setPosition(position);
 		modelPlayer.setIsMale(isMale);
+		modelPlayer.setLeaguevinePlayerJson(leaguevinePlayer);
 	}
 
 	public String getName() {
@@ -57,5 +60,13 @@ public class ParameterPlayer {
 
 	public void setMale(boolean isMale) {
 		this.isMale = isMale;
+	}
+
+	public String getLeaguevinePlayer() {
+		return leaguevinePlayer;
+	}
+
+	public void setLeaguevinePlayer(String leaguevinePlayer) {
+		this.leaguevinePlayer = leaguevinePlayer;
 	}
 }

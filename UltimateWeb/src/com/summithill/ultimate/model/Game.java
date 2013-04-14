@@ -25,6 +25,7 @@ public class Game extends ModelObject {
 	public static final String IS_FIRST_POINT_OLINE_PROPERTY = "isFirstPointOline";
 	public static final String POINTS_JSON_PROPERTY = "pointsJson";
 	public static final String WIND_JSON_PROPERTY = "wind";
+	public static final String TIMEOUT_DETAILS_JSON_PROPERTY = "timeoutDetailsJson";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -189,7 +190,16 @@ public class Game extends ModelObject {
 	public String getWindJson() {
 		return (String)entity.getProperty(WIND_JSON_PROPERTY);
 	}
-
+	
+	public String getTimeoutDetailsJson() {
+		Text text = (Text)entity.getProperty(TIMEOUT_DETAILS_JSON_PROPERTY);
+		return text == null ? null : text.getValue();
+	}
+	
+	public void setTimeoutDetailsJson(String json) {
+		Text text = json == null ? null : new Text(json);
+		entity.setProperty(TIMEOUT_DETAILS_JSON_PROPERTY, text);
+	}
 	
 	public int halftimeHighestScore() {
 		return (int) Math.ceil(this.getGamePoint() / 2);
@@ -208,7 +218,6 @@ public class Game extends ModelObject {
 		}
 		setPoints(points);
 	}
-
 }
 
 ;;

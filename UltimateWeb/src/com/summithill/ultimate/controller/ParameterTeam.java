@@ -16,6 +16,7 @@ public class ParameterTeam {
 	private List<ParameterPlayer> players;
 	private String password;
 	private String leaguevineJson;
+	private boolean isPlayersAreLeaguevine;
 	
 	public static ParameterTeam fromTeam(Team team) {
 		ParameterTeam pTeam = new ParameterTeam();
@@ -25,6 +26,7 @@ public class ParameterTeam {
 		pTeam.setMixed(team.isMixed());
 		pTeam.setDisplayPlayerNumber(team.isDisplayingPlayerNumber());
 		pTeam.setLeaguevineJson(team.getLeaguevineJson());
+		pTeam.setPlayersAreLeaguevine(team.arePlayersFromLeaguevine());
 		return pTeam;
 	}
 	
@@ -34,6 +36,7 @@ public class ParameterTeam {
 		team.setIsMale(isMixed);
 		team.setIsDisplayingPlayerNumber(isDisplayPlayerNumber);
 		team.setLeaguevineJson(leaguevineJson);
+		team.setArePlayersFromLeaguevine(isPlayersAreLeaguevine);
 	}
 
 	public String getName() {
@@ -98,5 +101,13 @@ public class ParameterTeam {
 
 	public void setLeaguevineJson(String leaguevineJson) {
 		this.leaguevineJson = leaguevineJson;
+	}
+
+	public boolean isPlayersAreLeaguevine() {
+		return isPlayersAreLeaguevine;
+	}
+
+	public void setPlayersAreLeaguevine(boolean isPlayersAreLeaguevine) {
+		this.isPlayersAreLeaguevine = isPlayersAreLeaguevine;
 	}
 }

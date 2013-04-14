@@ -9,6 +9,7 @@ public class Team extends ModelObject {
 	public static final String IS_DISPLAYING_NUMBER_PROPERTY = "isDispNumb";
 	public static final String MOBILE_TEAMID_PROPERTY = "teamId";
 	public static final String WEBSITE_PASSWORD_PROPERTY = "password";
+	public static final String ARE_PLAYERS_FROM_LEAGUEVINE = "playersAreLeaguevine";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -83,11 +84,21 @@ public class Team extends ModelObject {
 		return pwd != null && !pwd.isEmpty();
 	}
 	
+	public boolean arePlayersFromLeaguevine() {
+		Boolean answer = (Boolean)entity.getProperty(ARE_PLAYERS_FROM_LEAGUEVINE);
+		return answer == null ? false : answer.booleanValue();
+	}
+
+	public void setArePlayersFromLeaguevine(boolean arePlayersFromLeaguevine) {
+		entity.setProperty(ARE_PLAYERS_FROM_LEAGUEVINE, Boolean.valueOf(arePlayersFromLeaguevine));
+	}
+	
 	public Team clone(String userIdentifier) {
 		Entity entityClone = new Entity(ENTITY_TYPE_NAME);
 		copyProperties(entity, entityClone, userIdentifier);
 		return Team.fromEntity(entityClone);
 	}
+
 }
 
 ;;
