@@ -543,7 +543,18 @@ function eventDescription(event) {
 					'Our Goal (' + event.passer + ' to ' + event.receiver + ')' :
 					'Their Goal', image: event.type == 'Offense' ? 'super_man.png' : 'cry.png'};		
 		case 'Callahan':
-			return {text: 'Our Callahan (' + event.defender + ')', image: 'victory.png'};				
+			return {text: 'Our Callahan (' + event.defender + ')', image: 'victory.png'};		
+		case 'EndOfFirstQuarter':
+			return {text: 'End of 1st Quarter', image: 'stopwatch1.png'};		
+		case 'EndOfThirdQuarter':
+			return {text: 'End of 3rd Quarter', image: 'stopwatch1.png'};		
+		case 'Halftime':
+			return {text: 'Halftime', image: 'stopwatch1.png'};		
+		case 'GameOver':
+			return {text: 'Game Over', image: 'finishflag.png'};		
+		case 'Timeout':
+			return {text: 'Timeout', image: 'stopwatch1.png'};		
+			
 		default:
 			return {text: event.action, image: 'hearts.png'};
 	}

@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 public class Event {
 	public static String OFFENSE = "Offense";
 	public static String DEFENSE = "Defense";
+	public static String CESSATION = "Cessation";
 	
 	public static String GOAL = "Goal";
 	public static String CALLAHAN = "Callahan";
@@ -20,6 +21,12 @@ public class Event {
 	public static String MISC_PENALTY = "MiscPenalty";
 	public static String PULL = "Pull";
 	public static String PULL_OB = "PullOb";
+	
+	public static String EO_1Q = "EndOfFirstQuarter";
+	public static String EO_3Q = "EndOfThirdQuarter";
+	public static String HALFTIME = "Halftime";
+	public static String GAME_OVER = "GameOver";
+	public static String TIMEOUT = "Timeout";
 	
 	public static String DETAILS = "details";
 	
@@ -33,6 +40,11 @@ public class Event {
 	
 	public String getType() {
 		return type;
+	}
+	
+	@JsonIgnore
+	public boolean isPlayEvent() {
+		return this.isOffense() || this.isDefense();
 	}
 	
 	@JsonIgnore
@@ -52,7 +64,7 @@ public class Event {
 	
 	@JsonIgnore
 	public boolean isDefense() {
-		return ! this.isOffense();
+		return type.equals(DEFENSE);
 	}
 	
 	@JsonIgnore
@@ -101,8 +113,33 @@ public class Event {
 	}
 	
 	@JsonIgnore
+	public boolean isEndOfFirstQuarter() {
+		return action.equals(EO_1Q);
+	}
+	
+	@JsonIgnore
+	public boolean isHalftime() {
+		return action.equals(HALFTIME);
+	}
+	
+	@JsonIgnore
+	public boolean isEndOfThirdQuarter() {
+		return action.equals(EO_3Q);
+	}
+	
+	@JsonIgnore
+	public boolean isGameOver() {
+		return action.equals(GAME_OVER);
+	}
+	
+	@JsonIgnore
+	public boolean isTimeout() {
+		return action.equals(TIMEOUT);
+	}
+	
+	@JsonIgnore
 	public boolean isFirstOffenseEvent(Event previousEvent) {
-		return this.isOffense() && (previousEvent == null || (previousEvent.isDefense()));
+		return this.isOffense() && (previousEvent == null || !(previousEvent.isOffense()));
 	}
 	
 	public void setType(String type) {
