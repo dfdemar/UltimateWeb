@@ -548,6 +548,10 @@ function eventDescription(event) {
 			return {text: 'End of 1st Quarter', image: 'stopwatch1.png'};		
 		case 'EndOfThirdQuarter':
 			return {text: 'End of 3rd Quarter', image: 'stopwatch1.png'};		
+		case 'EndOfFourthQuarter':
+			return {text: 'End of 4th Quarter', image: 'stopwatch1.png'};	
+		case 'EndOfOvertime':
+			return {text: 'End of an Overtime', image: 'stopwatch1.png'};				
 		case 'Halftime':
 			return {text: 'Halftime', image: 'stopwatch1.png'};		
 		case 'GameOver':

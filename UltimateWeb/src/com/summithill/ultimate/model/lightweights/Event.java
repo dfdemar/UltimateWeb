@@ -24,6 +24,8 @@ public class Event {
 	
 	public static String EO_1Q = "EndOfFirstQuarter";
 	public static String EO_3Q = "EndOfThirdQuarter";
+	public static String EO_4Q = "EndOfFourthQuarter";
+	public static String EO_OVERTIME = "EndOfOvertime";
 	public static String HALFTIME = "Halftime";
 	public static String GAME_OVER = "GameOver";
 	public static String TIMEOUT = "Timeout";
