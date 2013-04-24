@@ -635,15 +635,17 @@ function playersInPoint(line, substitutions) {
 	// answer an object where property name is player name and property value is true if 
 	// played all of point and false if played part of point
 	var players = {};
-	// start with players one the line at the end of the point
-	for ( var i = 0; i < line.length; i++) {
-		players[line[i]] = true;
-	}
-	// adjust for subs
-	if (substitutions) {
-		for ( var i = 0; i < substitutions.length; i++) {
-			players[substitutions[i].fromPlayer] = false;
-			players[substitutions[i].toPlayer] = false;
+	if (line) {
+		// start with players one the line at the end of the point
+		for ( var i = 0; i < line.length; i++) {
+			players[line[i]] = true;
+		}
+		// adjust for subs
+		if (substitutions) {
+			for ( var i = 0; i < substitutions.length; i++) {
+				players[substitutions[i].fromPlayer] = false;
+				players[substitutions[i].toPlayer] = false;
+			}
 		}
 	}
 	
