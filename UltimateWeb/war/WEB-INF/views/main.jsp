@@ -162,15 +162,18 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 	</div>
 	<div class="content">
 		<img class="spinner hidden" src="/images/spinner.gif" />
+		<div class="hideWhenBusy">
+			<div class="wideOnly"><br>Want to produce your own stats? <a class="downlaodRawStatsLink" href="javascript:void(0)">Download file of Raw Data</a></div>
+		</div>		
 		<div id="teamStatsNarrow" class="hideWhenBusy">
-			<div class="insetlist">
-				<div><br>Want to produce your own stats? <a class="downlaodRawStatsLink" href="javascript:void(0)">Download file of Raw Data</a></div>
+			<br>
+			<div class="insetlist narrowOnly">
 				<ul id="players" data-role="listview" data-theme="c" data-inset="true" ></ul>
 			</div>
 		</div>
 		<div id="teamStatsWide" class="hideWhenBusy">
 			<br>
-			<fieldset class="ui-grid-a">
+			<fieldset class="ui-grid-a wideOnly">
 				<div class="ui-block-a">
 					<select name="selectGamesForPlayerTeamStats" class="gameSelect" id="selectGamesForTeamPlayerStats" data-inline="true">
 						<option value="AllGames">All Games</option>
@@ -182,10 +185,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<table id="teamPlayerStats" class="playerStats"></table>
 		</div>
 	</div>
-	<div><br><br>Wondering how a statistic is calculated? Check out our calcs: <a href="javascript:void(0)" onclick="window.open('/calcs.html');return false;">Calculations</a></div>
-	<div>&nbsp;</div>
-	<div><br><br>Problem or suggestion?  <a href="http://www.ultimate-numbers.com/support.html" rel="external">Let us know</a></div>
-	<div>&nbsp;</div>	
+	<div class="footer hideWhenBusy">
+		<div class="narrowOnly"><br>Want to produce your own stats? <a class="downlaodRawStatsLink" href="javascript:void(0)">Download file of Raw Data</a></div>	
+		<div><br><br>Wondering how a statistic is calculated? Check out our calcs: <a href="javascript:void(0)" onclick="window.open('/calcs.html');return false;">Calculations</a></div>
+		<div>&nbsp;</div>
+		<div><br>Problem or suggestion?  <a href="http://www.ultimate-numbers.com/support.html" rel="external">Let us know</a></div>
+		<div>&nbsp;</div>	
+	</div>
 </div>
 
 <div id="gamespage" class="pagediv" data-role="page" data-theme="b" data-title="Ultimate Team - ${teamName}">

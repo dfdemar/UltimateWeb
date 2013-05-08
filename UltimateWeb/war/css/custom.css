@@ -14,16 +14,32 @@
 	.statsTableDescriptionColumn {
 		width: 200px !important;
 	}
-}
+	.narrowOnly {
+		display: none !important;
+	}
+	.wideOnly {
+		display: block !important;
+	} 
+} 
 
 .ui-page {
 	 background-color: #E0E0E0  !important;
 }
+
 .ui-mobile-viewport {
 	background-color: #E0E0E0 !important;
 }
+
 .ui-body-b {
 	background: #E0E0E0 !important;
+}
+
+.narrowOnly {
+	display: block;
+}
+
+.wideOnly {
+	display: none;
 }
 
 .spinner {
@@ -212,4 +228,7 @@
 }
 .dialogInstructions {
 	font-size:  medium;
+}
+.footer {
+	margin: 1em;
 }
