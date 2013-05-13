@@ -22,33 +22,21 @@ public class EventWriter {
 	public void writeEvent(Event event, Game game, Point point) {
 		PointSummary pointSummary = point.getSummary();
 		try {
-			writer.write(game.getTimestamp());
-			writer.write(DELIMITER);
-			writer.write(this.replaceDelims(game.getTournamentName()));
-			writer.write(DELIMITER);			
-			writer.write(this.replaceDelims(game.getOpponentName()));
-			writer.write(DELIMITER);
-			writer.write(asString(pointSummary.getElapsedTime()));
-			writer.write(DELIMITER);
-			writer.write(pointSummary.getLineType());
-			writer.write(DELIMITER);
-			writer.write(asString(pointSummary.getScore().getOurs()));		
-			writer.write(DELIMITER);
-			writer.write(asString(pointSummary.getScore().getTheirs()));			
-			writer.write(DELIMITER);
-			writer.write(event.getType());		
-			writer.write(DELIMITER);
-			writer.write(event.getAction());
-			writer.write(DELIMITER);
-			writer.write(replaceDelims(event.getPasser()));			
-			writer.write(DELIMITER);
-			writer.write(replaceDelims(event.getReceiver()));			
-			writer.write(DELIMITER);
-			writer.write(replaceDelims(event.getDefender()));
+			this.writeWithDelimiterAfter(game.getTimestamp());
+			this.writeWithDelimiterAfter(this.replaceDelims(game.getTournamentName()));
+			this.writeWithDelimiterAfter(this.replaceDelims(game.getOpponentName()));
+			this.writeWithDelimiterAfter(asString(pointSummary.getElapsedTime()));
+			this.writeWithDelimiterAfter(pointSummary.getLineType());
+			this.writeWithDelimiterAfter(asString(pointSummary.getScore().getOurs()));
+			this.writeWithDelimiterAfter(asString(pointSummary.getScore().getTheirs()));
+			this.writeWithDelimiterAfter(event.getType());
+			this.writeWithDelimiterAfter(event.getAction());
+			this.writeWithDelimiterAfter(replaceDelims(event.getPasser()));
+			this.writeWithDelimiterAfter(replaceDelims(event.getReceiver()));
+			this.writeWithoutDelimiter(replaceDelims(event.getDefender()));
 			if (point.getLine() != null) {
 				for (String playerName : point.playersInPoint()) {
-					writer.write(DELIMITER);
-					writer.write(replaceDelims(playerName));
+					this.writeWithDelimiterBefore(replaceDelims(playerName));
 				}
 			}
 			writer.write("\n");
@@ -91,6 +79,20 @@ public class EventWriter {
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
 		}
+	}
+	
+	private void writeWithDelimiterBefore(String field) throws IOException {
+		writer.write(DELIMITER);
+		writer.write(field == null ? "" : field); 
+	}
+	
+	private void writeWithDelimiterAfter(String field) throws IOException {
+		writer.write(field == null ? "" : field); 
+		writer.write(DELIMITER);
+	}
+	
+	private void writeWithoutDelimiter(String field) throws IOException {
+		writer.write(field == null ? "" : field); 
 	}
 	
 	private String replaceDelims(String s) {
