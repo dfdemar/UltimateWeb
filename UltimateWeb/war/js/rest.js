@@ -119,6 +119,11 @@ function urlForStatsExportFileDownload(teamId, games) {
     return url;
 }
 
+function urlForGameExportFileDownload(teamId, gameId) {  
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/export/game/' + gameId + '?players=true';
+    return url;
+}
+
 function sendRequest(request) {
 	var options = {
 	  	success: function(data, textStatus, jqXHR){

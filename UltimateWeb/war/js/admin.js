@@ -235,7 +235,11 @@ function updateGamesList(games) {
         html[html.length] =  game.gameId;
 		html[html.length] = '" data-description="';
         html[html.length] = encodeURIComponent(shortGameDesc);       
-		html[html.length] = '"><span class="game-date">';
+		html[html.length] = '">';
+		html[html.length] = '<span class="gameActionLink"><a class="gameExportLink" href="javascript:void(0)" data-role="button" data-game="';
+        html[html.length] =  game.gameId;
+		html[html.length] = '">Export</a></span>';		
+		html[html.length] = '<span class="game-date">';
 		html[html.length] = game.date;
 		html[html.length] = '&nbsp;&nbsp;';
 		html[html.length] = game.time;
@@ -260,6 +264,10 @@ function updateGamesList(games) {
 	var $websiteLink = $('.teamWebsite');
 	$websiteLink.attr('href', $websiteLink.attr('href').replace('{TEAMID}', Ultimate.teamId));
 	$("#games").empty().append(html.join('')).listview("refresh");
+	$(".gameExportLink").on('click', function() {
+		var gameId = $(this).data('game');
+		location.href = urlForGameExportFileDownload(Ultimate.teamId,gameId);
+	});
 }
 
 function handleRestError(jqXHR, textStatus, errorThrown) {

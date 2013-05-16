@@ -226,6 +226,12 @@
 	float: left;
 	width: 120px;
 }
+.gameActionLink {
+	font-size: small;
+	font-weight: bold;
+	float: left;
+	width: 120px;
+}
 .dialogInstructions {
 	font-size:  medium;
 }

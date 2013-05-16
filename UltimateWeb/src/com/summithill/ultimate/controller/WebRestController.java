@@ -318,6 +318,25 @@ public class WebRestController extends AbstractController {
 			logErrorAndThrow("Error on getRawStatsExport", e);
 		}
 	}
+	
+	@RequestMapping(value = "/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
+	public void getGameExport(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, final HttpServletResponse response) {
+		try {
+			ParameterTeam team = getParameterTeamAfterVerifyingWebsiteAccess(teamId, request);
+			ParameterGame game = getParameterGame(teamId, gameId, request, true);
+			GameExport export = GameExport.from(team, game); 
+			
+			this.addStandardExpireHeader(response);  
+			response.setContentType("application/x-download");
+			String name = "iUltimateGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
+			String safeName = StringUtils.deleteWhitespace(name);
+			safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+			response.setHeader( "Content-Disposition", "attachment; filename=\"" + safeName + ".iexport\"" );
+			export.writeJsonString(response.getWriter());
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGameExport", e);
+		}
+	}
 
 	private void renamePlayerForTeam(String userIdentifier, Team team, String oldPlayerName, String newPlayerName) {
 		List<String> gameIds = service.getGameIDs(team);
