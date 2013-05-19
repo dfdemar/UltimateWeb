@@ -109,11 +109,11 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 				}
 				if (event.isOffense() && passer != null && passer.getPasses() > 0) {
 					float passPercent = ((float)passer.getPasses() - (float)passer.getPasserTurnovers()) / (float)passer.getPasses() * 100f;
-					passer.setPassSuccess((int)(passPercent));
+					passer.setPassSuccess(Math.round(passPercent));
 				}
 				if (event.isOffense() && receiver != null && receiver.getCatches() > 0) {
 					float catchPercent = (float)receiver.getCatches() / ((float)receiver.getCatches() + (float)receiver.getDrops()) * 100f;
-					receiver.setCatchSuccess((int)(catchPercent));	
+					receiver.setCatchSuccess(Math.round(catchPercent));	
 				}
 				lastEvent = event;
 			}
