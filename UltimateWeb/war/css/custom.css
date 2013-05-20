@@ -245,6 +245,12 @@
 .dialogInstructions {
 	font-size:  medium;
 }
+.gameFileUploadInput {
+
+}
+.importGameInstructions {
+	font-size:  large;
+}
 .footer {
 	margin: 1em;
 }

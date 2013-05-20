@@ -186,8 +186,13 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				</div>					
 				
 				<ul id="games" data-role="listview" data-theme="c" data-inset="true">
-
 				</ul>
+			
+				<div>
+					<br>
+					<a class="importGameLink" href="#" data-inline="true">Import Game</a>   
+				</div>	
+				
 			</div>
 		</div>
 		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
@@ -297,6 +302,24 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
 		</div>
 		<img class="spinner hidden" src="/images/spinner.gif" />
+	</div>
+	
+	<div id="importGameDialog" class="pagediv" data-role="dialog"
+		data-theme="b">
+
+		<div data-role="header">
+			<h1>Import Game</h1>
+		</div>
+
+		<div data-role="content" data-tem="c">
+			<form action="upload" method="post" enctype="multipart/form-data" class="importGameInstructions">
+				<div>Browse to the <i>.iexport</i> file on your file system and then press <strong>Import</strong>.</div>
+				<br>
+				<div><span>File to import: </span><input class="gameFileUploadInput" type="file" name="file" /></div>
+				<br>
+			    <input type="submit" value="Import"/>
+			</form>
+		</div>
 	</div>
 	
 	<script type="text/javascript">

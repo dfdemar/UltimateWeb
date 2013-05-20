@@ -23,6 +23,9 @@ $(document).live('pagechange', function(event, data) {
 		case 'confirmDeleteDialog':
 			renderConfirmDeleteDialog(data);
 			break;	
+		case 'importGameDialog':
+			renderImportGameDialog(data);
+			break;			
 		case 'teamPasswordDialog':
 			renderTeamPasswordDialog(data);
 			break;		
@@ -58,6 +61,9 @@ function renderSettingsPage(data) {
 
 function renderGamesPage(data) {
 	Ultimate.teamId = data.options.pageData.team;
+	$('.importGameLink').unbind().on('click', function() {
+		handleImportGameClicked();
+	});
 	populateTeam(function() {
 		populateGamesList();
 		registerTeamPageRadioButtonHandler('teamgamespage');
@@ -77,6 +83,10 @@ function renderConfirmDeleteDialog(data) {
 	$('#deleteConfirmedButton').unbind().on('click', function() {
 			Ultimate.deleteConfirmedFn();
 		});
+}
+
+function renderImportGameDialog(data) {
+
 }
 
 function renderTeamPasswordDialog(data) {
@@ -280,6 +290,10 @@ function handleRestError(jqXHR, textStatus, errorThrown) {
 
 function handleSetPasswordClicked() {
 	$.mobile.changePage('#teamPasswordDialog', {transition: 'pop', role: 'dialog'}); 
+}
+
+function handleImportGameClicked() {
+	$.mobile.changePage('#importGameDialog', {transition: 'pop', role: 'dialog'}); 
 }
 
 function submitPassword(teamId, newPwd) {
