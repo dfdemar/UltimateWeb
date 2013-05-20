@@ -76,8 +76,12 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			{{/with}}
 		</thead>
 		<tbody>
-			{{#each playerStats}}
-			<tr>
+			{{#stripeRows playerStats}}
+			{{#if even}}
+				<tr class="evenStatsRow">
+			{{else}}
+				<tr class="oddStasRow">
+			{{/if}}
 				<td class="tablePlayerName">{{playerName}}</td>
 				<td>{{plusMinusCount}}</td>
   				{{#unless ../isPerPoint}}
@@ -112,7 +116,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 					<td>{{pullsOB}}</td>
 				{{/unless}}
 			</tr>
-			{{/each}}
+			{{/stripeRows}}
 		</tbody>
 	</script>
 	

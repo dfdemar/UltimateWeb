@@ -269,7 +269,6 @@ PlayerStatsHelper = function(stats, statsName) {
 	this.playerStatsTable = function(isPerPoint, sortByStat) {
 		var formattedStats = formatPlayerStatsArray(isPerPoint, sortByStat);
 		if (!isPerPoint) {
-			formattedStats.push({});
 			formattedStats.push(formattedPlayerStatsAverages);
 			formattedStats.push(formattedPlayerStatsTotals);
 		}

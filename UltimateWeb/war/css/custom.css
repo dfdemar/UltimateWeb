@@ -121,6 +121,16 @@
 	width: 100px;
 	text-align: right;
 }
+.evenStatsRow {
+	background-color: white;	
+}
+.oddStatsRow {
+		
+}
+.playerStats { 
+  border-spacing:0;
+  border-collapse:collapse;
+}
 .players-image {
 	float: right;
 	margin-right: 20px;

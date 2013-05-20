@@ -572,6 +572,20 @@ function secondsToMinutes(seconds, decimalPositions) {
 function createTeamStatsTableHtml(statsTable) {
 	if (Ultimate.teamStatsTemplate == null) {
 		Ultimate.teamStatsTemplate = Handlebars.compile($("#playerStatsTableTemplate").html());
+	    Handlebars.registerHelper('stripeRows', function (rows, fn) {
+	        var buffer = [],
+	            i, len;
+	        
+	        for (i = 0, len = rows.length; i < len; ++i) {
+	            var row = rows[i];
+	            row.even = (i + 1) % 2 === 0 ? true : false;
+	            
+	            // Render the block once for each row.
+	            buffer.push(fn(row));
+	        }
+	        
+	        return buffer.join('');
+	    });
 	}
 	return Ultimate.teamStatsTemplate(statsTable);
 }
