@@ -1,5 +1,7 @@
 package com.summithill.ultimate.controller;
 
+import static java.util.logging.Level.SEVERE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
@@ -337,6 +341,36 @@ public class WebRestController extends AbstractController {
 			logErrorAndThrow("Error on getGameExport", e);
 		}
 	}
+	
+	@RequestMapping(value = "/team/{teamId}/import/game", method = RequestMethod.POST)
+	public @ResponseBody RequestStatus uploadGameExport(@PathVariable String teamId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+		Team team = service.getTeam(teamId);
+		
+		// get team and verify access
+		try {
+			team = service.getTeam(teamId);
+			if (team != null) {
+				verifyAccess(team, request);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGameExport", e);
+		}
+		
+		
+		// import the game found in the file
+		try {
+	        if (!file.isEmpty()) {
+	           GameExport gameExport = new ObjectMapper().readValue(file.getBytes(), GameExport.class);
+	           importGame(gameExport);
+	       } else {
+	    	   return new RequestStatus("FAILED", "No file included in request for import");
+	       }
+			return new RequestStatus("OK", "File Uploaded");
+		} catch (Exception e) {
+			log.log(SEVERE, "Error on game import", e);
+			return new RequestStatus("FAILED", "Attempting to import a file which is corrupt or not originally exported from iUltimate");
+		}
+	}
 
 	private void renamePlayerForTeam(String userIdentifier, Team team, String oldPlayerName, String newPlayerName) {
 		List<String> gameIds = service.getGameIDs(team);
@@ -345,5 +379,9 @@ public class WebRestController extends AbstractController {
 			game.renamePlayer(oldPlayerName, newPlayerName);
 			service.saveGame(userIdentifier, game);
 		}
+	}
+	
+	private void importGame(GameExport gameExport) {
+		
 	}
 }

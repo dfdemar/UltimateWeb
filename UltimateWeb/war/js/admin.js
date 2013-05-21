@@ -86,7 +86,7 @@ function renderConfirmDeleteDialog(data) {
 }
 
 function renderImportGameDialog(data) {
-
+	$('.importGameForm').attr('action', urlForGameExportFileUpload(Ultimate.team.cloudId));
 }
 
 function renderTeamPasswordDialog(data) {

@@ -312,7 +312,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 
 		<div data-role="content" data-tem="c">
-			<form action="upload" method="post" enctype="multipart/form-data" class="importGameInstructions">
+			<form action="/team/{teamId}/import/game" method="post" enctype="multipart/form-data" class="importGameForm">
 				<div>Browse to the <i>.iexport</i> file on your file system and then press <strong>Import</strong>.</div>
 				<br>
 				<div><span>File to import: </span><input class="gameFileUploadInput" type="file" name="file" /></div>

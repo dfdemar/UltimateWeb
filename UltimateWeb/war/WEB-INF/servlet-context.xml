@@ -40,4 +40,9 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
+	<!-- File upload handler -->
+	<bean id="multipartResolver"
+    	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+	
 </beans>

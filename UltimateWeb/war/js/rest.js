@@ -124,6 +124,11 @@ function urlForGameExportFileDownload(teamId, gameId) {
     return url;
 }
 
+function urlForGameExportFileUpload(teamId) {  
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/import/game';
+    return url;
+}
+
 function sendRequest(request) {
 	var options = {
 	  	success: function(data, textStatus, jqXHR){
