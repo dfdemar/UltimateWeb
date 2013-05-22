@@ -312,12 +312,11 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 		</div>
 
 		<div data-role="content" data-tem="c">
-			<form action="/team/{teamId}/import/game" method="post" enctype="multipart/form-data" class="importGameForm">
-				<div>Browse to the <i>.iexport</i> file on your file system and then press <strong>Import</strong>.</div>
-				<br>
-				<div><span>File to import: </span><input class="gameFileUploadInput" type="file" name="file" /></div>
-				<br>
-			    <input type="submit" value="Import"/>
+			<form action="/team/{teamId}/import/game" method="post" enctype="multipart/form-data" class="importGameForm" data-ajax="false">
+				<div>Browse to the game export file (<i>.iexport</i> file extension) on your computer and then press <strong>Import</strong>.</div><br>
+				<div><span>File to import: </span><input class="gameFileUploadInput" type="file" name="file" /></div><br>
+				<input type="submit" value="Import" data-inline="true"/>
+				<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
 			</form>
 		</div>
 	</div>

@@ -343,7 +343,8 @@ public class WebRestController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/import/game", method = RequestMethod.POST)
-	public @ResponseBody RequestStatus uploadGameExport(@PathVariable String teamId, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+	@ResponseBody
+	public String uploadGameExport(@PathVariable String teamId, @RequestParam("file") MultipartFile file, @RequestParam(value = "return", required = true) String returnUrl, HttpServletRequest request) {
 		Team team = service.getTeam(teamId);
 		
 		// get team and verify access
@@ -363,12 +364,12 @@ public class WebRestController extends AbstractController {
 	           GameExport gameExport = new ObjectMapper().readValue(file.getBytes(), GameExport.class);
 	           importGame(gameExport);
 	       } else {
-	    	   return new RequestStatus("FAILED", "No file included in request for import");
+	    	   return fileUploadResponseHtml("Game import FAILED...No file included in request for import", returnUrl);
 	       }
-			return new RequestStatus("OK", "File Uploaded");
+			return fileUploadResponseHtml("Game imported successsfully", returnUrl);
 		} catch (Exception e) {
 			log.log(SEVERE, "Error on game import", e);
-			return new RequestStatus("FAILED", "Attempting to import a file which is corrupt or not originally exported from iUltimate");
+			return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from iUltimate", returnUrl);
 		}
 	}
 
@@ -383,5 +384,10 @@ public class WebRestController extends AbstractController {
 	
 	private void importGame(GameExport gameExport) {
 		
+	}
+	
+	private String fileUploadResponseHtml(String message, String returnUrl) {
+		String html = "<html><body><br>&nbsp;" + message + "<br><br>&nbsp;<a href=\"" + returnUrl + "\">Return to iUltimate Admin</a></body></html>";
+		return html;
 	}
 }

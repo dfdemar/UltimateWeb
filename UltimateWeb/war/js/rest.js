@@ -125,7 +125,8 @@ function urlForGameExportFileDownload(teamId, gameId) {
 }
 
 function urlForGameExportFileUpload(teamId) {  
-	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/import/game';
+	var returnUrl = encodeURIComponent('/team/admin#teamgamespage?team=' + teamId);
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/import/game?return=' + returnUrl;
     return url;
 }
 
