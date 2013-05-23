@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.Team;
@@ -328,7 +330,8 @@ public class WebRestController extends AbstractController {
 		try {
 			ParameterTeam team = getParameterTeamAfterVerifyingWebsiteAccess(teamId, request);
 			ParameterGame game = getParameterGame(teamId, gameId, request, true);
-			GameExport export = GameExport.from(team, game); 
+			String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
+			GameExport export = GameExport.from(team, game, email); 
 			
 			this.addStandardExpireHeader(response);  
 			response.setContentType("application/x-download");
@@ -361,8 +364,13 @@ public class WebRestController extends AbstractController {
 		// import the game found in the file
 		try {
 	        if (!file.isEmpty()) {
+	           String userIdentifier = getUserIdentifier(request);
 	           GameExport gameExport = new ObjectMapper().readValue(file.getBytes(), GameExport.class);
-	           importGame(gameExport);
+	           if (!gameExport.verifyHash()) {
+	        	   return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or altered since export", returnUrl);
+	           }
+	           importGame(userIdentifier, team, gameExport);
+	           importPlayers(userIdentifier, team, gameExport);
 	       } else {
 	    	   return fileUploadResponseHtml("Game import FAILED...No file included in request for import", returnUrl);
 	       }
@@ -382,8 +390,36 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
-	private void importGame(GameExport gameExport) {
-		
+	private void importGame(String userIdentifier, Team toTeam, GameExport gameExport) throws Exception {
+		ParameterGame parameterGame = new ObjectMapper().readValue(gameExport.getGameJson(), ParameterGame.class);
+		Game game = new Game(toTeam);
+		parameterGame.copyToGame(game);
+		game.setGameId("game-" + UUID.randomUUID());  // give it a unique ID
+		service.saveGame(userIdentifier, game);
+	}
+	
+	private void importPlayers(String userIdentifier, Team toTeam, GameExport gameExport) throws Exception {
+		ParameterTeam parameterTeam = new ObjectMapper().readValue(gameExport.getTeamJson(), ParameterTeam.class);
+		List<ParameterPlayer> importedParameterPlayers = parameterTeam.getPlayers();
+		List<Player> existingPlayers = service.getPlayers(toTeam);
+		List<Player> newPlayers = new ArrayList<Player>(existingPlayers);
+		for (ParameterPlayer importedParameterPlayer : importedParameterPlayers) {
+			Player importedPlayer = new Player(toTeam, importedParameterPlayer.getName());
+			importedParameterPlayer.copyToPlayer(importedPlayer);
+			if (!containsPlayer(existingPlayers, importedPlayer)) {
+				newPlayers.add(importedPlayer);
+			}
+		}
+		service.savePlayers(userIdentifier, toTeam, newPlayers);
+	}
+	
+	private boolean containsPlayer(List<Player> players, Player player) {
+		for (Player listPlayer : players) {
+			if (listPlayer.compareTo(player) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private String fileUploadResponseHtml(String message, String returnUrl) {

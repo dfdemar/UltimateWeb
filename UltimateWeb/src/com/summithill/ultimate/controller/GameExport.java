@@ -3,6 +3,7 @@ package com.summithill.ultimate.controller;
 import java.io.Reader;
 import java.io.Writer;
 import java.security.MessageDigest;
+import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -16,6 +17,8 @@ public class GameExport {
 	private String teamJson;
 	private String gameJson;
 	private String hash;
+	private String dateExported;
+	private String userThatExported;
 	
 	public String getTeamJson() {
 		return teamJson;
@@ -29,6 +32,18 @@ public class GameExport {
 	public void setGameJson(String gameJson) {
 		this.gameJson = gameJson;
 	}
+	public String getDateExported() {
+		return dateExported;
+	}
+	public void setDateExported(String dateExported) {
+		this.dateExported = dateExported;
+	}
+	public String getUserThatExported() {
+		return userThatExported;
+	}
+	public void setUserThatExported(String userThatExported) {
+		this.userThatExported = userThatExported;
+	}
 	public String getHash() {
 		return hash;
 	}
@@ -36,13 +51,14 @@ public class GameExport {
 		this.hash = hash;
 	}
 	
-	
 	@JsonIgnore
-	public static GameExport from(ParameterTeam team, ParameterGame game) {
+	public static GameExport from(ParameterTeam team, ParameterGame game, String userEmail) {
 	    try {
 			GameExport export = new GameExport();
 			export.setTeamJson(new ObjectMapper().writeValueAsString(team));
 			export.setGameJson(new ObjectMapper().writeValueAsString(game));
+			export.setDateExported(new Date().toString());
+			export.setUserThatExported(userEmail);
 			export.updateHash();
 			return export;
 		} catch (Exception e) {
@@ -108,6 +124,12 @@ public class GameExport {
 			if (gameJson != null) {
 				md.update(gameJson.getBytes());
 			}
+			if (dateExported != null) {
+				md.update(dateExported.getBytes());
+			}
+			if (userThatExported != null) {
+				md.update(userThatExported.getBytes());
+			}
 			byte[] mdbytes = md.digest();
 			
 			//convert the digest bytes to hex format 
@@ -121,5 +143,4 @@ public class GameExport {
 			throw new RuntimeException("Error calculating hash of export", e);
 		}
 	}
-
 }
