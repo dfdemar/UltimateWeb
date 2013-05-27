@@ -190,7 +190,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 			
 				<div>
 					<br>
-					<a class="importGameLink" href="#" data-inline="true">Import Game</a>   
+					<a class="importGameLink" href="#" data-inline="true" data-role="button">Import Game</a>   
 				</div>	
 				
 			</div>

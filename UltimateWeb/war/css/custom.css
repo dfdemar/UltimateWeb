@@ -254,3 +254,6 @@
 .footer {
 	margin: 1em;
 }
+.underline {
+  text-decoration: underline; /* Makes underline */
+}
