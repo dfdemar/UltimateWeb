@@ -6,8 +6,7 @@ if (ieVersion > 5 && ieVersion < 9) {
 $(document).live('pagechange', function(event, data) {
 	renderAppLink();
 	$('.logout').attr('href', Ultimate.logoutUrl);
-	var toPageId = data.toPage.attr("id");
-	switch (toPageId) {
+	switch (getCurrentPageId()) {
 		case 'mainpage':
 			renderMainPage(data);
 			break;
@@ -36,6 +35,10 @@ $(document).live('pagechange', function(event, data) {
 			//
 	}
 });
+
+function getCurrentPageId() {
+	return $.mobile.activePage.attr('id');
+}
 
 function renderAppLink() {
 	var isIOS = (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/iPad/i));
