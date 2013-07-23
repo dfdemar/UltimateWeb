@@ -35,10 +35,24 @@ public class EventWriter {
 			this.writeWithDelimiterAfter(replaceDelims(event.getReceiver()));
 			this.writeWithoutDelimiter(replaceDelims(event.getDefender()));
 			if (point.getLine() != null) {
+				int i = 0;
 				for (String playerName : point.playersInPoint()) {
-					this.writeWithDelimiterBefore(replaceDelims(playerName));
+					i++;
+					if (i < 12) {
+						this.writeWithDelimiterBefore(replaceDelims(playerName));
+					}
+				}
+				while (i < 12) {
+					this.writeWithDelimiterBefore("");
+					i++;
 				}
 			}
+			String hangTime = "";
+			if (event.getDetails() != null && event.getDetails().getHangtime() > 0) {
+				float hangTimeSeconds = (float)event.getDetails().getHangtime()  / 1000f;
+				hangTime = this.asString(hangTimeSeconds);
+			} 
+			this.writeWithDelimiterBefore(hangTime);
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
@@ -74,6 +88,8 @@ public class EventWriter {
 				writer.write(DELIMITER);
 				writer.write("Player " + Integer.toString(i));	
 			}
+			writer.write(DELIMITER);
+			writer.write("Hang Time (secs)");
 			
 			writer.write("\n");
 		} catch (IOException e) {
@@ -105,5 +121,10 @@ public class EventWriter {
 	private String asString(long i) {
 		return Long.toString(i);
 	}
+	
+	private String asString(float f) {
+		return Float.toString(f);
+	}
+
 
 }
