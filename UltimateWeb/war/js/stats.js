@@ -421,6 +421,7 @@ Ultimate.headingForProperty = {
 	throwaways : 'Throw aways',
 	stalls : 'Stalled&apos;s',
 	miscPenalties : 'Passer Penalties (turnovers)',
+	callahaneds : 'Callahaned&apos;s (other team scored)',
 	ds : 'Ds',
 	pulls : 'Pulls',
 	pullsOB : 'OB Pulls',

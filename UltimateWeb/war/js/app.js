@@ -488,6 +488,7 @@ function updateSinglePlayerStatsTable(playerName) {
 		addRowToStatsTable(html,headings.throwaways,absolutePlayerStats.throwaways, perPointPlayerStats.throwaways);
 		addRowToStatsTable(html,headings.stalls,absolutePlayerStats.stalls, perPointPlayerStats.stalls);
 		addRowToStatsTable(html,headings.miscPenalties,absolutePlayerStats.miscPenalties, perPointPlayerStats.miscPenalties);
+		addRowToStatsTable(html,headings.callahaneds,absolutePlayerStats.callahaneds, perPointPlayerStats.callahaneds);
 		addRowToStatsTable(html,headings.passSuccess,absolutePlayerStats.passSuccess);
 		addRowToStatsTable(html,headings.catchSuccess,absolutePlayerStats.catchSuccess);
 		addRowToStatsTable(html,headings.ds,absolutePlayerStats.ds, perPointPlayerStats.ds);

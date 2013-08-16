@@ -59,6 +59,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<th><a href="#" data-stattype="throwaways">{{throwaways}}</a></th>
 				<th><a href="#" data-stattype="stalls">{{stalls}}</a></th>
 				<th><a href="#" data-stattype="miscPenalties">{{miscPenalties}}</a></th>
+				<th><a href="#" data-stattype="callahaneds">{{callahaneds}}</a></th>
   				{{#unless ../isPerPoint}}
 					<th><a href="#" data-stattype="passSuccess">{{passSuccess}}</a></th>
   				{{/unless}}
@@ -101,6 +102,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<td>{{throwaways}}</td>
 				<td>{{stalls}}</td>
 				<td>{{miscPenalties}}</td>
+				<td>{{callahaneds}}</td>
   				{{#unless ../isPerPoint}}
 					<td>{{passSuccess}}</td>
   				{{/unless}}
@@ -299,6 +301,7 @@ import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*"
 				<option value="throwaways">Throwaways</option>
 				<option value="stalls">Stalled&apos;s</option>
 				<option value="miscPenalties">Passer penalties (turnovers)</option>
+				<option value="callahaneds">Callahaned&apos;s (other team scored)</option>
 				<option value="ds">Ds</option>
 				<option value="pulls">Pulls</option>
 			</select>

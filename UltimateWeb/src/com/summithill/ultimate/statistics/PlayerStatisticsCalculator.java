@@ -86,13 +86,21 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 					defender.incDs();
 					defender.incPlusMinusCount();
 				} else if (event.isCallahan()) {
-					defender.incCallahans();
-					defender.incGoals();					
-					defender.incDs();
-					defender.incTouches();
-					defender.incPlusMinusCount();
-					defender.incPlusMinusCount();
-					updatePlusMinusLine(point, event.isOffense(), point.isOline());
+					if (event.isDefense()) {
+						defender.incCallahans();
+						defender.incGoals();					
+						defender.incDs();
+						defender.incTouches();
+						defender.incPlusMinusCount();
+						defender.incPlusMinusCount();
+						updatePlusMinusLine(point, true, point.isOline());
+					} else {
+						passer.incPasses();
+						passer.incThrowaways();
+						passer.incCallahaneds();
+						passer.decPlusMinusCount(); 
+						updatePlusMinusLine(point, false, point.isOline());						
+					}
 				} else if (event.isGoal()) {
 					if (event.isOffense()) {
 						passer.incAssists();

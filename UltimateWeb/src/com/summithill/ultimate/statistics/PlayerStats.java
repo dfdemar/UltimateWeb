@@ -13,6 +13,7 @@ public class PlayerStats {
 	private float dPointsPlayed;
 	private int goals;
 	private int callahans;
+	private int callahaneds;
 	private int assists;
 	private int passes;
 	private int passSuccess;
@@ -99,6 +100,9 @@ public class PlayerStats {
 	public void incCallahans() {
 		this.callahans++;
 	}
+	public void incCallahaneds() {
+		this.callahaneds++;
+	}	
 	public void incStalls() {
 		this.stalls++;
 	}
@@ -318,5 +322,13 @@ public class PlayerStats {
 
 	public void setCallahans(int callahans) {
 		this.callahans = callahans;
+	}
+	
+	public int getCallahaneds() {
+		return callahaneds;
+	}
+
+	public void setCallahaneds(int callahaneds) {
+		this.callahaneds = callahaneds;
 	}
 }
