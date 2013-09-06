@@ -36,6 +36,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- Insert CORS (cross-domain ajax) response headers -->
+	<filter>
+		<filter-name>corsResponseHeaderFilter</filter-name>
+		<filter-class>com.summithill.ultimate.controller.CrossDomainAjaxResponseFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>corsResponseHeaderFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
 	<!-- Handles all requests into the application -->
 	<servlet>
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
