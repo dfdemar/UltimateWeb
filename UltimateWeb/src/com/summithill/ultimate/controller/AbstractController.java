@@ -206,10 +206,12 @@ public class AbstractController {
 	
 	private String getPasswordCookieValue(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		for(int i=0; i<cookies.length; i++) {
-			Cookie cookie = cookies[i];
-			if (PASSWORD_COOKIE_NAME.equals(cookie.getName())) {
-					return(cookie.getValue());
+		if (cookies != null) {
+			for(int i=0; i<cookies.length; i++) {
+				Cookie cookie = cookies[i];
+				if (PASSWORD_COOKIE_NAME.equals(cookie.getName())) {
+						return(cookie.getValue());
+				}
 			}
 		}
 		return null;

@@ -21,9 +21,9 @@ public class CrossDomainAjaxResponseFilter implements Filter {
 		// insert the CORS response headers
 		String corsOrigin = httpRequest.getHeader("Origin");
 		if (corsOrigin != null) {
-			httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+			httpResponse.setHeader("Access-Control-Allow-Origin", corsOrigin);
 			httpResponse.setHeader("Access-Control-Request-Method", "*");
-			httpResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+			httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 			if (!"xdr".equals(req.getParameter("xdomain-protocol"))) {
 				httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 			}

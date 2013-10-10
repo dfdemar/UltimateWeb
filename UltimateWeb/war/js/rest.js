@@ -161,6 +161,7 @@ function sendRequest(request) {
 	if (request.data) {
 		options.data = request.data;
 	}
+	options.xhrFields = {withCredentials: true};
 	busyDialogStart();
 	var url = addQueryStringParameter(request.url, 'cachebuster', Ultimate.sessionId);  // new session on every page load
     $.ajax(url, options);
