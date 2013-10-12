@@ -60,6 +60,7 @@ public class ParameterGame {
 		pGame.setGamePoint(game.getGamePoint());
 		pGame.setLeaguevineJson(game.getLeaguevineJson());
 		pGame.setTimeoutDetailsJson(game.getTimeoutDetailsJson());
+		pGame.setWind(game.getWind());
 		return pGame;
 	}
 
