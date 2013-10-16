@@ -60,7 +60,8 @@ function renderMainPage(data) {
 
 function enableStatsDownloadLink() {
 	$('.downlaodRawStatsLink').on('click', function(event, data) { 
-		location.href = urlForStatsExportFileDownload(Ultimate.teamId,Ultimate.games);
+//		location.href = urlForStatsExportFileDownload(Ultimate.teamId,Ultimate.games);
+		location.href = urlForStatsExportFileDownload(Ultimate.teamId); // get all games
 	});
 }
 

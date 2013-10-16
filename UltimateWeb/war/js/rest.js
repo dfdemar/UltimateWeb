@@ -110,12 +110,14 @@ function signon(teamId, password, successFunction, errorFunction) {
 }
 
 function urlForStatsExportFileDownload(teamId, games) {  
-	var sortedGames = sortGames(games);
-	var gameIds = collectGameIds(sortedGames);
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/export';
-    if (gameIds != null && gameIds.length > 0) {
-    	url = url + '?gameIds=' + gameIds.join("_");
-    }
+	if (games) {
+		var sortedGames = sortGames(games);
+		var gameIds = collectGameIds(sortedGames);
+	    if (gameIds != null && gameIds.length > 0) {
+	    	url = url + '?gameIds=' + gameIds.join("_");
+	    }
+	}
     return url;
 }
 
