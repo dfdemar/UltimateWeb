@@ -22,6 +22,12 @@ function retrieveGames(teamId, successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
+function retrieveGamesData(teamId, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveGames");
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/gamesdata'; 
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
 function retrieveGamesForAdmin(teamId, successFunction, errorFunction) {
 	sendAnalyticsEvent("retrieveGamesForAdmin");
 	var url = Ultimate.baseRestUrl + '/admin/team/' + teamId + '/games'; 

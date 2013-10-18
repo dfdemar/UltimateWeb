@@ -89,10 +89,10 @@ public class AbstractController {
 	}
 	
 	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request) {
-		return getParameterGames(teamId, request, false);
+		return getParameterGames(teamId, request, false, false);
 	}
 	
-	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword) {
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword, boolean includePoints) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
@@ -104,10 +104,12 @@ public class AbstractController {
 				// note: assuming that Text objects are not pulled from the DB until referenced.  Therefore we aren't creating a memory burden by reading in a 100 games
 				List<Game> games = service.getGames(team);
 				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
-				for (Game game : games) {
-					game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
-					pGames.add(ParameterGame.fromGame(game));
-				}
+					for (Game game : games) {
+						if (!includePoints) {
+							game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
+						}
+						pGames.add(ParameterGame.fromGame(game));
+					}
 				return pGames;
 			}
 		} catch (Exception e) {

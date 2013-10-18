@@ -2,6 +2,9 @@ package com.summithill.ultimate.controller;
 
 import static java.util.logging.Level.SEVERE;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -86,7 +89,28 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId, request, true);
+		return getParameterGames(teamId, request, true, false);
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/gamesdata", method = RequestMethod.GET)
+	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response, Writer responseWriter) throws IOException {
+		this.addStandardExpireHeader(response);
+		List<ParameterGame> games = getParameterGames(teamId, request, true, true);
+		ObjectMapper jsonMapper = new ObjectMapper();
+		StringWriter writer = new StringWriter();
+//		responseWriter.write("[");
+		writer.write("[");
+		String separator = "";
+		for (ParameterGame parameterGame : games) {
+//			responseWriter.write(separator);
+			writer.write(separator);
+//			jsonMapper.writeValue(responseWriter, parameterGame);
+			jsonMapper.writeValue(writer, parameterGame);
+			separator = ",";
+		}
+//		responseWriter.write("]");
+		writer.write("]");
+		responseWriter.write(writer.toString());
 	}
 	
 	@RequestMapping(value = "/admin/team/{teamId}/games", method = RequestMethod.GET)
