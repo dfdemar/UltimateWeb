@@ -2,8 +2,7 @@ package com.summithill.ultimate.controller;
 
 import java.util.List;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.summithill.ultimate.model.Team;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)

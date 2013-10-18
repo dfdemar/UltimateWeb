@@ -2,9 +2,10 @@ package com.summithill.ultimate.controller;
 
 import static org.junit.Assert.assertEquals;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ParameterPlayerTest {
 	private ParameterPlayer player;

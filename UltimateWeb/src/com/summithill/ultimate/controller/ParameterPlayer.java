@@ -1,7 +1,6 @@
 package com.summithill.ultimate.controller;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.summithill.ultimate.model.Player;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)

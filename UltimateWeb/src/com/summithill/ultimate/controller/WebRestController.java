@@ -3,7 +3,6 @@ package com.summithill.ultimate.controller;
 import static java.util.logging.Level.SEVERE;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
@@ -93,24 +93,21 @@ public class WebRestController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/gamesdata", method = RequestMethod.GET)
-	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response, Writer responseWriter) throws IOException {
+	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		this.addStandardExpireHeader(response);
+		response.setContentType("application/json");
 		List<ParameterGame> games = getParameterGames(teamId, request, true, true);
 		ObjectMapper jsonMapper = new ObjectMapper();
-		StringWriter writer = new StringWriter();
-//		responseWriter.write("[");
-		writer.write("[");
+		jsonMapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+		Writer responseWriter = response.getWriter();
+		responseWriter.write("[");
 		String separator = "";
 		for (ParameterGame parameterGame : games) {
-//			responseWriter.write(separator);
-			writer.write(separator);
-//			jsonMapper.writeValue(responseWriter, parameterGame);
-			jsonMapper.writeValue(writer, parameterGame);
+			responseWriter.write(separator);
+			jsonMapper.writeValue(responseWriter, parameterGame);
 			separator = ",";
 		}
-//		responseWriter.write("]");
-		writer.write("]");
-		responseWriter.write(writer.toString());
+		responseWriter.write("]");
 	}
 	
 	@RequestMapping(value = "/admin/team/{teamId}/games", method = RequestMethod.GET)

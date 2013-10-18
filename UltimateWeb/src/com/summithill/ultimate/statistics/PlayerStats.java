@@ -1,6 +1,6 @@
 package com.summithill.ultimate.statistics;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PlayerStats {
 	private String playerName;
