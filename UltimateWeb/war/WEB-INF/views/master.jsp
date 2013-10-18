@@ -2,7 +2,7 @@
 language="java" 
 contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"
-import="com.google.appengine.api.users.*,org.codehaus.jackson.map.*" 
+import="com.google.appengine.api.users.*" 
 %>
 <!DOCTYPE HTML>
 <!-- use the HTML tag with the manifest attribute to test offline app --> 
