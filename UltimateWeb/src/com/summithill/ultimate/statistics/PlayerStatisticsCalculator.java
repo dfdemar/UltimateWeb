@@ -107,6 +107,7 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 						passer.incPasses();
 						receiver.incTouches();
 						receiver.incGoals();
+						receiver.incCatches();
 						passer.incPlusMinusCount();
 						receiver.incPlusMinusCount();
 						if (event.isFirstOffenseEvent(lastEvent)) {
