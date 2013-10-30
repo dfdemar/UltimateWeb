@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
@@ -43,7 +44,7 @@ public class MobileRestController extends AbstractController {
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request) {
+	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		getUserIdentifier(request);
 		return getParameterTeam(id, request);
 	}
@@ -56,14 +57,14 @@ public class MobileRestController extends AbstractController {
 	
 	@RequestMapping(value = "/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request) {
+	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		getUserIdentifier(request);
 		return getParameterGames(teamId, request);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
+	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException{
 		getUserIdentifier(request);
 		return getParameterGame(teamId, gameId, request, false);
 	}

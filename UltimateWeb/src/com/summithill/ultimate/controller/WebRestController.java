@@ -15,12 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,14 +45,14 @@ public class WebRestController extends AbstractController {
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+	public ParameterTeam getTeam(@PathVariable String id, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
 		return getParameterTeamAfterVerifyingWebsiteAccess(id, request);
 	}
 	
 	@RequestMapping(value = "/admin/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterTeam getTeamForAdmin(@PathVariable String id, @RequestParam(value = "includePassword", required = false) boolean includePassword, HttpServletRequest request, HttpServletResponse response) {
+	public ParameterTeam getTeamForAdmin(@PathVariable String id, @RequestParam(value = "includePassword", required = false) boolean includePassword, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
 		if (includePassword) {
 			this.verifyAdminUser(request);
@@ -87,13 +90,13 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
+	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
 		return getParameterGames(teamId, request, true, false);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/gamesdata", method = RequestMethod.GET)
-	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
 		response.setContentType("application/json");
 		List<ParameterGame> games = getParameterGames(teamId, request, true, true);
@@ -112,14 +115,14 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/admin/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGamesForAdmin(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) {
+	public List<ParameterGame> getGamesForAdmin(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException{
 		this.addStandardExpireHeader(response);
 		return getParameterGames(teamId, request);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
+	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		return getParameterGame(teamId, gameId, request, true);
 	}
 	

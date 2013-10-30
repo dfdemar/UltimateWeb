@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -29,23 +30,23 @@ public class AbstractController {
 	@Autowired
 	protected TeamService service;
     
-	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) {
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
 		return this.getParameterTeam(id, request, false, false);
 	}
 	
-	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword) {
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword)  throws NoSuchRequestHandlingMethodException {
 		return this.getParameterTeam(id, request, includePassword, false);
 	}
 	
-	protected ParameterTeam getParameterTeamAfterVerifyingWebsiteAccess(@PathVariable String id, HttpServletRequest request) {
+	protected ParameterTeam getParameterTeamAfterVerifyingWebsiteAccess(@PathVariable String id, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		return this.getParameterTeam(id, request, false, true);
 	}
 
-	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword, boolean verifyWebsitePassword) {
+	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword, boolean verifyWebsitePassword) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(id);
 			if (team == null) {
-				return null;
+				throw new NoSuchRequestHandlingMethodException(request);
 			} else {
 				if (verifyWebsitePassword) {
 					this.verifyAccess(team, request);
@@ -65,6 +66,8 @@ public class AbstractController {
 				}
 				return pTeam;
 			}
+		} catch (NoSuchRequestHandlingMethodException e) {  
+			throw e;	// 404	
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getTeam", e);
 			return null;
@@ -88,15 +91,15 @@ public class AbstractController {
 		}
 	}
 	
-	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request) {
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		return getParameterGames(teamId, request, false, false);
 	}
 	
-	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword, boolean includePoints) {
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword, boolean includePoints) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
-				return null;
+				throw new NoSuchRequestHandlingMethodException(request);
 			} else {
 				if (verifyWebsitePassword) {
 					this.verifyAccess(team, request);
@@ -112,17 +115,19 @@ public class AbstractController {
 					}
 				return pGames;
 			}
+		} catch (NoSuchRequestHandlingMethodException e) {  
+			throw e;  // 404						
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getGames", e);
 			return null;
 		}
 	}
 	
-	protected ParameterGame getParameterGame(String teamId, String gameId, HttpServletRequest request, boolean verifyWebsiteAccess) {
+	protected ParameterGame getParameterGame(String teamId, String gameId, HttpServletRequest request, boolean verifyWebsiteAccess) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
-				return null;
+				throw new NoSuchRequestHandlingMethodException(request);
 			} else {
 				if (verifyWebsiteAccess) {
 					verifyAccess(team, request);
@@ -130,6 +135,8 @@ public class AbstractController {
 				Game game = service.getGame(team, gameId);
 				return ParameterGame.fromGame(game);
 			}
+		} catch (NoSuchRequestHandlingMethodException e) {  // 404
+			throw e;  // 404
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getGame", e);
 			return null;
