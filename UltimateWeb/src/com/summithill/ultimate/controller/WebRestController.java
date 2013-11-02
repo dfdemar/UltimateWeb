@@ -15,14 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -273,21 +271,55 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	// returns the aggregated stats for each game
 	@RequestMapping(value = "/team/{teamId}/stats/player", method = RequestMethod.GET)
 	@ResponseBody
-	public Collection<PlayerStats> getPlayerStats(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) {
+	public Collection<PlayerStats> getPlayerStats(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
-				return null;
+				throw new NoSuchRequestHandlingMethodException(request);
 			} else {
 				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
 				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				return new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
+		} catch (NoSuchRequestHandlingMethodException e) {
+			throw e;
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getPlayerStats", e);
+			return null;
+		}
+	}
+	
+	// returns the stats for each game
+	@RequestMapping(value = "/team/{teamId}/stats/player/games", method = RequestMethod.GET)
+	@ResponseBody
+	public Collection<ParameterGamePlayerStats> getPlayerStatsForEachGame(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = true) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) throws NoSuchRequestHandlingMethodException {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new NoSuchRequestHandlingMethodException(request);
+			} else {
+				verifyAccess(team, request);
+				this.addStandardExpireHeader(response);  
+				List<String> gameIdsToInclude = Arrays.asList(gameIdsAsString.split("_"));
+				List<ParameterGamePlayerStats> gamePlayerStats = new ArrayList<ParameterGamePlayerStats>();
+				ObjectMapper mapper = new ObjectMapper();
+				for (String gameId : gameIdsToInclude) {
+					List<String> singleGameIdList = new ArrayList<String>();
+					singleGameIdList.add(gameId);
+					Collection<PlayerStats> playerStats = new PlayerStatisticsCalculator(service).calculateStats(team, singleGameIdList);
+					String playerStatsJson = mapper.writeValueAsString(playerStats);
+					gamePlayerStats.add(new ParameterGamePlayerStats(gameId, playerStatsJson));
+				}
+				return gamePlayerStats;
+			}
+		} catch (NoSuchRequestHandlingMethodException e) {
+			throw e;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getPlayerStatsForEachGame", e);
 			return null;
 		}
 	}

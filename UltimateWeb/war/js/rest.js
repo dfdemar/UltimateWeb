@@ -73,6 +73,15 @@ function retrievePlayerStatsForGames(teamId, gameIds, successFunction, errorFunc
     sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
+function retrievePlayerStatsForEachGame(teamId, gameIds, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrievePlayerStatsForGames");
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player/games';
+    if (gameIds != null && gameIds.length > 0) {
+    	url = url + '?gameIds=' + gameIds.join("_");
+    }
+    sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
 function retrieveTeamStatsForGames(teamId, gameIds, successFunction, errorFunction) {
 	sendAnalyticsEvent("retrieveTeamStatsForGames");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/team';
