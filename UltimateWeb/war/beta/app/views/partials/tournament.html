@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th class="filter-thead"></th>
+      <th class="filter-thead">{{tournament[0].tournamentName}}</th>
+      <th class="button-cell" style="border-top: 2px solid #ddd"><a ng-click="checkAll(true)">all </a><a ng-click="checkAll(false)"> none</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="game in tournament">
+      <td class="button-cell">
+        <button type="button" class="btn btn-mini check-button" ng-click="toggle(game)" ng-class="{'btn-primary': game.isConsidered, 'btn-default': !game.isConsidered}">
+          <span class="icon check-icon" ng-class="{'icon-ok': game.isConsidered, '': !game.isConsidered}"></span>
+        </button>
+      </td>
+      <td ng-click="toggle(game)">vs. {{game.opponentName}}</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

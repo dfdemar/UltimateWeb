@@ -1,0 +1,26 @@
+<div>
+  <ul class="nav nav-pills stat-pills">
+    <li ng-class="{active: statFocus=='passing'}"><a ng-click="focus('passing')">Passing</a></li>
+    <li ng-class="{active: statFocus=='receiving'}"><a ng-click="focus('receiving')">Receiving</a></li>
+    <li ng-class="{active: statFocus=='playingTime'}"><a ng-click="focus('playingTime')">Playing Time</a></li>
+    <li ng-class="{active: statFocus=='defense'}"><a ng-click="focus('defense')">Defense</a></li>
+    <li ng-class="{active: statFocus=='perPoint'}"><a ng-click="focus('perPoint')">Per Point</a></li>
+  </ul>
+</div>
+<div class="stats-tables" ng-switch on="statFocus">
+  <div ng-switch-when="passing">
+    <div stat-table team="consideredStats" stats="passingStats" callback="selectPlayer"></div>
+  </div>
+  <div ng-switch-when="receiving">
+    <div stat-table team="consideredStats" stats="receivingStats" callback="selectPlayer"></div>
+  </div>
+  <div ng-switch-when="playingTime">
+    <div stat-table team="consideredStats" stats="pTStats" callback="selectPlayer"></div>
+  </div>
+  <div ng-switch-when="defense">
+    <div stat-table team="consideredStats" stats="defenseStats" callback="selectPlayer"></div>
+  </div>
+  <div ng-switch-when="perPoint">
+    <div stat-table team="consideredStats" stats="perPointStats" callback="selectPlayer"></div>
+  </div>
+</div>
