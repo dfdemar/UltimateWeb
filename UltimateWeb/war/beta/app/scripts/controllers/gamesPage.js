@@ -21,6 +21,15 @@ angular.module('iUtltimateApp')
         turnovers: {}
       }
     };
+    $scope.derivePlayerFromName = function(name){
+      var player;
+      _.each($scope.playerStats, function(value){
+        if (value.playerName === name){
+          player = value;
+        }
+      });
+      return player;
+    }
     $scope.contentFocus = 'Stats';
     var teamSide = function(side){
       if ($scope.selectedPoint){

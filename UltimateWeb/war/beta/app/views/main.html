@@ -14,7 +14,7 @@
       <div ng-show="pageFocus('line')" ng-include="'views/linePage.html'"></div>
       <div ng-show="pageFocus('download')" ng-include="'views/downloadPage.html'"></div>
       <div ng-show="pageFocus('specificPlayer')" ng-include="'views/specificPlayerPage.html'"></div>
-      <div class="loading-page" ng-show="!statsLoaded">
+      <div class="loading-page" ng-show="!basicStatsLoaded || (!allStatsLoaded && !pageFocus('players'))">
         <img class="loading-icon" src="images/ajax-loader.gif">
       </div>
     </div>

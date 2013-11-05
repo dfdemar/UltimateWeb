@@ -28,17 +28,7 @@ return {
                 el.bind("drop", function(e) {
                   scope.dropped(scope.line);
                 });
- 
-                $rootScope.$on("LVL-DRAG-START", function() {
-                  var el = document.getElementById(id);
-                  angular.element(el).addClass("lvl-target");
-                });
-                 
-                $rootScope.$on("LVL-DRAG-END", function() {
-                  var el = document.getElementById(id);
-                  angular.element(el).removeClass("lvl-target");
-                  angular.element(el).removeClass("lvl-over");
-                });
+
             }
         }
   });

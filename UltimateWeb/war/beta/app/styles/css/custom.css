@@ -444,3 +444,13 @@ Assigned to:	You
   width:70px;
   display: inline-block;
 }
+.carousel-container {
+  width: 100%;
+  padding: 10px; 
+  height: 800px;
+  position: absolute;
+  overflow-x: scroll;
+}
+.fake-link:hover {
+  text-decoration: underline;
+}

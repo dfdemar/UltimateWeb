@@ -91,7 +91,14 @@ angular.module('iUtltimateApp')
         }
         sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
     }
-
+    exports.retrievePlayerStatsForEachGame = function(teamId, gameIds, successFunction, errorFunction) {
+      sendAnalyticsEvent("retrievePlayerStatsForGames");
+      var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/player/games';
+       if (gameIds != null && gameIds.length > 0) {
+        url = url + '?gameIds=' + gameIds.join("_");
+       }
+       sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+    }
     exports.retrieveAllStatsForGames = function(teamId, gameIds, successFunction, errorFunction) {
       sendAnalyticsEvent("retrieveAllStatsForGames");
       var url = Ultimate.baseRestUrl + '/team/' + teamId + '/stats/all';

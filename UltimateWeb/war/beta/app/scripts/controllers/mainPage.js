@@ -6,7 +6,8 @@ angular.module('iUtltimateApp')
     var playerName = unHash($routeParams.playerName);
     $scope.selectedPlayerName = (playerName && playerName !== 'home') ? playerName : undefined;
     $scope.teamName = '';
-    $scope.statsLoaded = false;
+    $scope.basicStatsLoaded = false;
+    $scope.allStatsLoaded = false;
     $scope.minWindowHeight = window.innerHeight - 200 + 23;
     $scope.focused = 'players';
     $scope.navState = 'collapse';
@@ -26,7 +27,7 @@ angular.module('iUtltimateApp')
     $scope.changePageFocus = function(value) {
       if (value !== 'specificPlayer') {
         $location.url('/' + $scope.teamId + '/home');
-        $scope.$apply($scope.selectedPlayer = undefined);
+        $scope.selectedPlayer = undefined;
         $scope.selectedPlayerName = '';
       }
       $scope.focused = value;

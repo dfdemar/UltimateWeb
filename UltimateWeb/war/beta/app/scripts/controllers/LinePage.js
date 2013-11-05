@@ -37,7 +37,6 @@ angular.module('iUtltimateApp')
       $scope.$apply(this.deriveStats());
     };
     Line.prototype.deriveStats = function() {
-      console.log('called');
       var considerablePoints = [];
       _.each($scope.allGames, function(game) {
         _.each(game.points, function(point) {
