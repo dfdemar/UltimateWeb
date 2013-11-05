@@ -51,7 +51,7 @@ angular.module('iUtltimateApp')
             node.append("text")
                 .attr("dy", ".5em")
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.receiver.substring(0, d.r / 3); });
+                .text(function(d) {return d.receiver.substring(0, d.r / 3); });
 
             d3.select(self.frameElement).style("height", diameter + "px");
           }
@@ -83,7 +83,7 @@ angular.module('iUtltimateApp')
               return '#298020';
               break;
             default:
-              throw new Error();
+              return '#c75aba';
               break;
           }
         }
@@ -117,7 +117,9 @@ angular.module('iUtltimateApp')
                 return data.value + ' dropped pass to ' + data.receiver;
               }
               break;
-              return 'WTF?';
+            default: 
+              return data.actionType + ', ' + data.receiver;
+              break;
           }
         }
       }

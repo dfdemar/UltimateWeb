@@ -1,7 +1,22 @@
 'use strict';
 
 angular.module('iUtltimateApp')
-  .controller('SpecificplayerpageCtrl', function ($scope) {
+  .controller('SpecificplayerpageCtrl', function ($scope, $routeParams, $location) {
+    $scope.$watch('selectedPlayerName', function(){
+      if ($scope.selectedPlayerName) {
+        $scope.$watch('playerStats', function(){
+          if ($scope.playerStats){
+            _.each($scope.playerStats, function(player){
+              if (player.playerName === $scope.selectedPlayerName){
+                $scope.selectPlayer(player);
+              }
+            });
+            console.log($scope.selectedPlayer);
+            !$scope.selectedPlayer && $location.url('/' + $scope.teamId + '/home');
+          }
+        });
+      }
+    });
     $scope.targetMapHeight = Math.min($scope.windowHeight, 1100)
     $scope.targetData;
     $scope.key = {

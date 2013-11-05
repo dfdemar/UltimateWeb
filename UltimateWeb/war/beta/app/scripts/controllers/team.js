@@ -110,17 +110,6 @@ angular.module('iUtltimateApp')
           return value;
         }
       });
-      if ($scope.selectedPlayerName && !_.reduce(playerStats, function(memo, player){
-        if (player.playerName === $scope.selectedPlayerName){
-          $scope.selectedPlayer = player;
-          $scope.changePageFocus('specificPlayer');
-          return true;
-        } else {
-          return memo;
-        }
-      }, false)) {
-        $location.url('/' + $scope.teamId + '/home');
-      }
       $scope.mostRecentTournament = $scope.mostRecentGame.tournamentName;
       $scope.flowMap = deriveAssistFlowChart();
       $scope.playerStats = playerStats;

@@ -1,12 +1,10 @@
 'use strict';
 
 angular.module('iUtltimateApp')
-  .controller('MainpageCtrl', function($scope, Rest, $location) {
-    $scope.teamId = $location.url().match(/\d+/)[0] || 61004; // change for production.
-    var playerName = $location.url().match(/\d+/g)[1];
-    playerName = unHash(playerName);
-    $scope.selectedPlayerName = (playerName && playerName !== 'home') ? playerName : '';
-    $scope.selectedPlayer;
+  .controller('MainpageCtrl', function($scope, Rest, $location, $routeParams) {
+    $scope.teamId = $routeParams.teamId; // change for production.
+    var playerName = unHash($routeParams.playerName);
+    $scope.selectedPlayerName = (playerName && playerName !== 'home') ? playerName : undefined;
     $scope.teamName = '';
     $scope.statsLoaded = false;
     $scope.minWindowHeight = window.innerHeight - 200 + 23;
@@ -33,6 +31,7 @@ angular.module('iUtltimateApp')
       }
       $scope.focused = value;
     }
+    $scope.selectedPlayerName && $scope.changePageFocus('specificPlayer');
     $scope.toggleNav = function() {
       $scope.navState = $scope.navState ? '' : 'collapse'
     }
@@ -67,7 +66,11 @@ angular.module('iUtltimateApp')
       if (str) {
         var result = '';
         for (var i = 0; i < str.length; i += 3) {
-          result += window.String.fromCharCode(str.substring(i, i + 3));
+          if(str.match(/[\d]+/)){
+            result += window.String.fromCharCode(str.substring(i, i + 3));
+          } else {
+            result = undefined;
+          }
         }
         return result;
       }

@@ -45,7 +45,7 @@
               <!-- Wind --> 
               <div class="wind-indicator">
                 <div style="margin-bottom: 7px;">
-                  <img src="images/wind-large.png">
+                  <img src="/images/wind-large.png">
                   <span style="margin-left: 10px; verticle-align:bottom;"> {{selectedGame.wind.mph}} mph</span>
                 </div>
                 <div class="playing-field">
@@ -82,7 +82,7 @@
                             <span class="point-score">{{point.summary.score.ours}}-{{point.summary.score.theirs}}</span>&nbsp;&nbsp;
                             <span>{{point.summary.lineType}}-Line</span>&nbsp;&nbsp;
                             <span class="point-minutes">{{(point.summary.elapsedTime / 60 ).toString().slice(0,3)}} min.</span>&nbsp;&nbsp;
-                            <span ng-repeat="player in point.line">{{player}}{{{true: '', false: ', '}[$last]}}</span>
+                            <span ng-repeat="player in point.line"><a ng-click="selectPlayer(player)">{{player}}</a>{{{true: '', false: ', '}[$last]}}</span>
                           </a>
                         </h4>
                       </div>

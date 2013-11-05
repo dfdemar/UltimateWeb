@@ -26,22 +26,22 @@
               <span>Game</span>
             </a>              
           </li>
-          <li ng-class="{active: pageFocus('line')}" ng-click="changePageFocus('line')">
+          <li ng-class="{active: pageFocus('line')}" ng-show="notMobile" ng-click="changePageFocus('line')">
             <a>
               <i class="icon-puzzle-piece"></i>
               <span>Line Builder</span>
             </a>              
           </li>
-          <li ng-class="{active: pageFocus('download')}" ng-click="changePageFocus('download')">
+          <li ng-class="{active: pageFocus('download')}" ng-show="notMobile" ng-click="changePageFocus('download')">
             <a>
               <i class="icon-cloud-download"></i>
               <span>Download</span>
             </a>              
           </li>
-          <li ng-show="selectedPlayer" ng-class="{active: pageFocus('specificPlayer')}">
+          <li ng-show="pageFocus('specificPlayer')" ng-class="{active: pageFocus('specificPlayer')}">
             <a>
               <i class="icon-user"></i>
-              <span>{{selectedPlayerName}}</span>
+              <span>{{selectedPlayer.playerName}}</span>
             </a>              
           </li>
         </ul>

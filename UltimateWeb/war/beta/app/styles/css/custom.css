@@ -173,8 +173,7 @@ Assigned to:	You
   width: 50px;
 }
 .breaks-svg {
-  width: 50%;
-  float: right;
+  display: inline-block;
   min-width: 211px;
 }
 .points-per-break{
