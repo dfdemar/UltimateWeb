@@ -11,9 +11,9 @@
             <ul class="nav nav-pills nav-stacked">
               <li ng-repeat="game in allGames" ng-click="lookAt(game)" ng-class="isSelected(game.gameId)">
                 <a href="javascript:;">
-                  <span style="display:inline-block; width:35px">{{game.date.slice(5)}}</span>
+                  <span style="display:inline-block; width:35px;">{{game.date.slice(5)}}</span>
                   v {{game.opponentName}}
-                  <span style="float:right">{{game.ours}}-{{game.theirs}}</span>
+                  <span style="float:right;">{{game.ours}}-{{game.theirs}}</span>
                 </a>
               </li>
             </ul>
@@ -31,26 +31,26 @@
           </div>
           <div class="widget-content">
             <div ng-show="selectedGame">
-              <div style="text-align:center; color:initial; margin-bottom:30px">
+              <div  style="text-align:center; color:initial; margin-bottom:30px;">
                 <h2>{{teamName}} ({{selectedGame.ours}}) - {{selectedGame.opponentName}} ({{selectedGame.theirs}}) </h2>
                 <h5>{{teamName}} are {{record}} against the {{selectedGame.opponentName}}.</h5>  
               </div>
               <div class="game-leaders">
-                <b style="font-size:1.5em">Game Leaders:</b><br>
-                <p style="margin:0" ng-repeat="(type, leader) in stats.leaders">
+                <b style="font-size:1.5em;">Game Leaders:</b><br>
+                <p style="margin:0;" ng-repeat="(type, leader) in stats.leaders">
                   {{prettifyText(type)}} : {{leader.playerName}} ({{leader[type]}})
                 </p>
               </div>
 
               <!-- Wind --> 
               <div class="wind-indicator">
-                <div style="margin-bottom: 7px">
+                <div style="margin-bottom: 7px;">
                   <img src="images/wind-large.png">
-                  <span style="margin-left: 10px; verticle-align:bottom"> {{selectedGame.wind.mph}} mph</span>
+                  <span style="margin-left: 10px; verticle-align:bottom;"> {{selectedGame.wind.mph}} mph</span>
                 </div>
                 <div class="playing-field">
                   <div class="playing-field-proper">
-                    <div style="-webkit-transform:rotate({{selectedGame.wind.degrees}}deg)" class="arrow-container">
+                    <div style="-webkit-transform:rotate({{selectedGame.wind.degrees}}deg)"class="arrow-container">
                       <img src="images/wind-arrow-large.png">
                     </div>
                   </div>
@@ -73,10 +73,10 @@
 
                   <!-- Points -->
                   <div class="panel-group accordion" ng-switch-when="Points">
-                    <a ng-click="toggleAll(true)" style="margin-right: 15px">Expand All</a>
+                    <a ng-click="toggleAll(true)" style="margin-right: 15px;">Expand All</a>
                     <a ng-click="toggleAll(false)">Collapse All</a>
                     <div class="panel panel-default" ng-repeat="point in selectedGame.points" ng-class="isOpenPoint(point.startSeconds)">
-                      <div class="panel-heading" style="cursor:pointer" ng-click="selectPoint(point); toggleOpen(point.startSeconds);">
+                      <div class="panel-heading" style="cursor:pointer;" ng-click="selectPoint(point); toggleOpen(point.startSeconds);">
                         <h4 class="panel-title">
                           <a class="accordion-toggle">
                             <span class="point-score">{{point.summary.score.ours}}-{{point.summary.score.theirs}}</span>&nbsp;&nbsp;
@@ -90,9 +90,9 @@
                         </h4>
                       </div>
                       <div class="panel-body" ng-show="isOpenPoint(point.startSeconds)">
-                        <ul style="list-style:none">
+                        <ul style="list-style:none;">
                           <li class="well well-small" ng-repeat="event in point.events">
-                            <img ng-src="images/cuties/{{getEventDescription(event).image}}" style="height:40px; width:40px">
+                            <img ng-src="images/cuties/{{getEventDescription(event).image}}" style="height:40px; width:40px;"></span>
                             <span>{{getEventDescription(event).text}}</span>
                           </li>
                         </ul>

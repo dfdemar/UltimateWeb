@@ -1,0 +1,36 @@
+<div class="col-md-10">
+  <div class="widget big-stats-container stacked">
+    <div id="leader-widget" class="widget-content">
+      <div id="big_stats" class="cf">
+        <div class="stat">
+          <div class="leader-category">Playing Time</div>   
+          <div class="leader-name">{{pTLeader.playerName}}</div>
+          <div class="leader-stat">Points: {{pTLeader.pointsPlayed}}</div>
+          <div class="leader-stat">Minutes: {{pTLeader.minutesPlayed}}</div>     
+          <div class="leader-stat">Games: {{pTLeader.gamesPlayed}}</div>          
+        </div> <!-- .stat -->          
+        <div class="stat">
+          <div class="leader-category">Offense</div>   
+          <div class="leader-name">{{oLeader.playerName}}</div>
+          <div class="leader-stat">Goals: {{oLeader.goals}}</div>
+          <div class="leader-stat">Assists: {{oLeader.assists}}</div>     
+          <div class="leader-stat">Touches: {{oLeader.touches}}</div>          
+        </div> <!-- .stat -->          
+        <div class="stat">
+          <div class="leader-category">Defense</div>   
+          <div class="leader-name">{{dLeader.playerName}}</div>
+          <div class="leader-stat">D's: {{dLeader.ds}}</div>
+          <div class="leader-stat">Defensive Points: {{dLeader.dpointsPlayed}}</div>     
+          <div class="leader-stat">Pulls: {{dLeader.pulls}}</div>          
+        </div> <!-- .stat -->          
+        <div class="stat">
+          <div class="leader-category">Plus Minus</div>   
+          <div class="leader-name">{{pMLeader.playerName}}</div>
+          <div class="leader-stat">+/-: {{pMLeader.plusMinusCount}}</div>
+          <div class="leader-stat">On Defense: {{pMLeader.plusMinusDLine}}</div>     
+          <div class="leader-stat">On Offense: {{pMLeader.plusMinusOLine}}</div>          
+        </div> <!-- .stat -->              
+      </div>
+    </div> <!-- /widget-content -->
+  </div> <!-- /widget -->
+</div> <!-- /span12 --> 

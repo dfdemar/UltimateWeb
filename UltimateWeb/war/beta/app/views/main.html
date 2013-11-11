@@ -1,7 +1,7 @@
 <div ng-include="'views/partials/main-nav-bar.html'"></div>
-<div ng-switch="signedIn" style="min-height:{{minWindowHeight}}px">
-  <div ng-switch-when="yellow" style="min-height:500px">
-    <div class="loading-page" ng-show="!statsLoaded">
+<div ng-switch="signedIn" style="min-height:{{minWindowHeight}}px;">
+  <div ng-switch-when="yellow" style="min-height:500px;">
+    <div class="loading-page" ng-show="!statsLoaded" >
       <img class="loading-icon" src="images/ajax-loader.gif">
     </div>
   </div>
@@ -10,7 +10,7 @@
     <div class="main">
       <div ng-switch="basicStatsLoaded">
         <div>
-        </div>
+        </div ng-switch-when="true">
         <div ng-show="pageFocus('players')" ng-include="'views/playerPage/playerPage.html'"></div>
       </div>
       <div ng-switch="allStatsLoaded">

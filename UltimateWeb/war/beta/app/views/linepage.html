@@ -6,20 +6,20 @@
           <span class="icon-list-alt"></span>
           <h3>Players</h3>
         </div>
-        <div class="widget-content" style="text-align:center;padding: 2px">
+        <div class="widget-content" style="text-align:center;padding: 2px;">
 <!--           <button ng-repeat="player in players" class="btn btn-default" ng-mousedown="drag(player.name)">{{player.name}}</button>
           <button class="btn btn-default active draggable" ng-mouseup="stopDrag()" ng-class="{transparent: !dragging}" style="top:{{mousePosition.clientY - middleY}}px; left:{{mousePosition.clientX - middleX}}px;">{{dragging}}</button> -->
           <button id="{{Math.random().toString()}}" ng-repeat="player in players" class="btn btn-default player-token" draggable-thing="true">{{player.name}}</button>
         </div>
       </div>
-      <div class="widget stacked widget-table" style="height:840px">
+      <div class="widget stacked widget-table" style="height:840px;">
         <div class="widget-header">
           <span class="icon-list-alt"></span>
           <h3>Lines</h3>
         </div>
         <div class="widget-content carousel-container">
-          <div class="line-carousel" style="min-width:{{(lines.length + 2) * 270}}px">
-            <div class="line-container" style="border:0; box-shadow:0 0; width:200px">
+          <div class="line-carousel" style="min-width:{{(lines.length + 2) * 270}}px;">
+            <div class="line-container" style="border:0; box-shadow:0 0; width:200px;">
               <div class="new-line-button" ng-click="makeLine()">
                 <span class="new-line-button-contents">
                   <i class="icon icon-plus new-line-button-icon"></i>
@@ -29,18 +29,18 @@
             </div>
             <div class="line-container" ng-repeat="line in lines">
               <div class="line-header">
-                <h3 unbindable="">Line {{lineCount}}</h3> 
+                <h3 unbindable>Line {{lineCount}}</h3> 
                 <i class="icon icon-remove line-close-button" ng-click="deleteLine($index)"></i>
               </div>
               <div class="line-players-list">
                 <div id="{{Math.random().toString()}}" class="line-drop-box" droppable-area="true">
                   <div class="shadowy">
-                    <div class="player-in-line" ng-repeat="token in line.players">
+                    <div class="player-in-line"ng-repeat="token in line.players">
                       <span>{{token.name}}</span>    
                       &nbsp;&nbsp;
                       <span class="icon-trash line-close-button" ng-click="line.removePlayer(token)"></span>
                     </div>
-                    <div ng-show="!line.players.length" style="text-align:center">
+                    <div ng-show="!line.players.length" style="text-align:center;">
                       <span class="drag-line-text">Drag a player onto the line!</span>
                     </div>
                   </div>
@@ -69,7 +69,7 @@
                     <td>{{type}}</td><td>{{val}}</td>
                   </tr>
                 </table>
-                <h3 ng-show="!line.players.length" style="text-align:center"><b>No Data</b></h3>
+                <h3 ng-show="!line.players.length" style="text-align:center;"><b>No Data</b></h3>
               </div>
             </div>
           </div>
@@ -78,3 +78,5 @@
     </div>
   </div>
 </div>
+
+
