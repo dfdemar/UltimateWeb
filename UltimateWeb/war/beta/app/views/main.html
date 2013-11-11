@@ -1,19 +1,27 @@
 <div ng-include="'views/partials/main-nav-bar.html'"></div>
-<div ng-switch="signedIn" style="min-height:{{minWindowHeight}}px;">
-  <div ng-switch-when="yellow" style="min-height:500px;">
-    <div class="loading-page" ng-show="!statsLoaded" >
+<div ng-switch="signedIn" style="min-height:{{minWindowHeight}}px">
+  <div ng-switch-when="yellow" style="min-height:500px">
+    <div class="loading-page" ng-show="!statsLoaded">
       <img class="loading-icon" src="images/ajax-loader.gif">
     </div>
   </div>
   <div ng-switch-when="green" ng-controller="TeamCtrl">
     <div ng-include="'views/partials/sub-nav-bar.html'"></div>
     <div class="main">
-      <div ng-show="pageFocus('players')" ng-include="'views/playerPage/playerPage.html'"></div>
-      <div ng-show="pageFocus('team')" ng-include="'views/teamPage/teamPage.html'"></div>
-      <div ng-show="pageFocus('games')" ng-include="'views/gamesPage.html'"></div>
-      <div ng-show="pageFocus('line')" ng-include="'views/linePage.html'"></div>
-      <div ng-show="pageFocus('download')" ng-include="'views/downloadPage.html'"></div>
-      <div ng-show="pageFocus('specificPlayer')" ng-include="'views/specificPlayerPage.html'"></div>
+      <div ng-switch="basicStatsLoaded">
+        <div>
+        </div>
+        <div ng-show="pageFocus('players')" ng-include="'views/playerPage/playerPage.html'"></div>
+      </div>
+      <div ng-switch="allStatsLoaded">
+        <div ng-switch-when="true">
+          <div ng-show="pageFocus('specificPlayer')" ng-include="'views/specificPlayerPage.html'"></div>
+          <div ng-show="pageFocus('team')" ng-include="'views/teamPage/teamPage.html'"></div>
+          <div ng-show="pageFocus('games')" ng-include="'views/gamesPage.html'"></div>
+          <div ng-show="pageFocus('line')" ng-include="'views/linePage.html'"></div>
+          <div ng-show="pageFocus('download')" ng-include="'views/downloadPage.html'"></div>
+        </div>
+      </div>
       <div class="loading-page" ng-show="!basicStatsLoaded || (!allStatsLoaded && !pageFocus('players'))">
         <img class="loading-icon" src="images/ajax-loader.gif">
       </div>

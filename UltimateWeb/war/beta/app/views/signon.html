@@ -1,13 +1,13 @@
-<div class="account-container stacked" style="margin-bottom: 6%;">
+<div class="account-container stacked" style="margin-bottom: 6%">
   <div class="content clearfix">
       <h1>Password Required</h1>    
       <div class="login-fields">
         <p>The administrator of this team has protected the stats, please enter the password:</p>
         <div class="field">
           <label>Password:</label>
-          <input  type="password" class="form-control input-lg password-field" ng-model="password.input" onkeydown="if (event.keyCode == 13) document.getElementById('tryPass').click()">
+          <input type="password" class="form-control input-lg password-field" ng-model="password.input" onkeydown="if (event.keyCode == 13) document.getElementById('tryPass').click()">
         </div> <!-- /password -->
-        <div style="color:red;" ng-show="badInput">Incorrect Password.</div>
+        <div style="color:red" ng-show="badInput">Incorrect Password.</div>
       </div> <!-- /login-fields -->
       <div class="login-actions">
         <button id="tryPass" ng-click="signin(password)" class="login-action btn btn-primary">Submit</button>

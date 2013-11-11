@@ -28,7 +28,10 @@
               <tr ng-repeat="(statType, statVal) in selectedPlayer" ng-switch="isInt(statVal)">
                 <td>{{prettify(statType, statType)}}</td>
                 <td ng-switch-when="true">{{fixNum(statVal, statType)}}</td>
-                <td ng-switch-when="false">{{statVal | number:2}}</td>
+                <td ng-switch-when="false">
+                  <span ng-show="!containsWord(statType, 'Success')">{{statVal | number:2}}</span>
+                  <span ng-show="containsWord(statType, 'Success')">{{statVal | percent}}</span>
+                </td>
               </tr>
             </table>
           </div>
@@ -43,33 +46,33 @@
           <div class="widget-content">
             <div class="target-map-key">
               <span ng-show="hasPositions">
-                <span class="key-description">Handlers</span><div class="key-element" ng-repeat="color in key.handlerColors" style="background:{{color}};"></div>
+                <span class="key-description">Handlers</span><div class="key-element" ng-repeat="color in key.handlerColors" style="background:{{color}}"></div>
               </span>
               <br>
               <span ng-show="hasPositions">
-                <span class="key-description">Cutters</span><div class="key-element" ng-repeat="color in key.cutterColors" style="background:{{color}};"></div>
+                <span class="key-description">Cutters</span><div class="key-element" ng-repeat="color in key.cutterColors" style="background:{{color}}"></div>
               </span>
               <br>
               <span>
                 <span class="key-description">Assists</span>
-                <div class="key-element" style="background:{{key.goalColors[0]}};"></div>
-                <div class="key-element" ng-show="hasPositions" style="background:{{key.goalColors[1]}};"></div>
+                <div class="key-element" style="background:{{key.goalColors[0]}}"></div>
+                <div class="key-element" ng-show="hasPositions" style="background:{{key.goalColors[1]}}"></div>
               </span>
               <br>
               <span> 
                <span class="key-description">Caught</span>
-               <div class="key-element" style="background:{{key.catchColors[0]}};"></div>
-               <div class="key-element" ng-show="hasPositions" style="background:{{key.catchColors[1]}};"></div>
+               <div class="key-element" style="background:{{key.catchColors[0]}}"></div>
+               <div class="key-element" ng-show="hasPositions" style="background:{{key.catchColors[1]}}"></div>
               </span>
               <br>
               <span>
                 <span class="key-description">Dropped</span>
-                <div class="key-element" style="background:{{key.dropColors[0]}};"></div>
-                <div class="key-element" ng-show="hasPositions" style="background:{{key.dropColors[1]}};"></div>
+                <div class="key-element" style="background:{{key.dropColors[0]}}"></div>
+                <div class="key-element" ng-show="hasPositions" style="background:{{key.dropColors[1]}}"></div>
               </span>
               <br>
               <span class="key-description">Throwaway</span>
-              <div class="key-element" style="background:{{key.throwawayColor}};"></div>
+              <div class="key-element" style="background:{{key.throwawayColor}}"></div>
             </div>
             <target-map id="target-map" bubbles="targetData" players="players" height="targetMapHeight"></target-map>
           </div>
@@ -78,4 +81,3 @@
     </div>
     </div>
   </div>
-</div>
