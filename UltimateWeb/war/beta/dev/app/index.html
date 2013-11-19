@@ -1,0 +1,107 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iUltimate</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    
+    <link href="./styles/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./styles/css/bootstrap-responsive.min.css" rel="stylesheet">
+    
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="./styles/css/font-awesome.min.css" rel="stylesheet">        
+    
+    <link href="./styles/css/ui-lightness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet">
+    
+    <link href="./styles/css/base-admin-3.css" rel="stylesheet">
+    <link href="./styles/css/base-admin-3-responsive.css" rel="stylesheet">
+    
+    <link href="./styles/css/pages/signin.css" rel="stylesheet" type="text/css">
+    <link href="./styles/css/pages/dashboard.css" rel="stylesheet">   
+    <link href="./styles/css/pages/plans.css" rel="stylesheet"> 
+    <link href="./styles/css/pages/pricing.css" rel="stylesheet"> 
+    <link href="./styles/css/pages/reports.css" rel="stylesheet">
+    <link href="./styles/css/custom.css" rel="stylesheet">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css(.tmp) styles/main.css -->
+        <!-- endbuild -->
+</head>
+  <body ng-app="iUtltimateApp">
+
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-view=""></div>
+    <!-- page footer -->
+     <!-- /extra -->
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+
+        <!-- endbuild -->
+
+        <!-- build:js scripts/modules.js -->
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/lib/ui-bootstrap.js"></script>
+        <script src="scripts/lib/lodash.js"></script>
+        <script src="scripts/filters/percent.js"></script>
+        <script src="scripts/services/d3.js"></script>
+        <script src="scripts/services/rest.js"></script>
+        <script src="scripts/services/statHelpers.js"></script>
+        <script src="scripts/directives/playerPage/statTable.js"></script>
+        <script src="scripts/directives/d3/pieChart.js"></script>
+        <script src="scripts/directives/d3/barGraph.js"></script>
+        <script src="scripts/directives/d3/flowChart.js"></script>
+        <script src="scripts/directives/dragFunction.js"></script>
+        <script src="scripts/directives/dropFunction.js"></script>
+        <script src="scripts/directives/bindonce.js"></script>
+        <script src="scripts/directives/d3/targetMap.js"></script>
+        <script src="scripts/controllers/mainPage.js"></script>
+        <script src="scripts/controllers/signon.js"></script>
+        <script src="scripts/controllers/playerPage/leaders.js"></script>
+        <script src="scripts/controllers/playerPage/playerPage.js"></script>
+        <script src="scripts/controllers/playerPage/statTables.js"></script>
+        <script src="scripts/controllers/playerPage/filter.js"></script>
+        <script src="scripts/directives/playerPage/tournament.js"></script>
+        <script src="scripts/controllers/teamPage.js"></script>
+        <script src="scripts/controllers/team.js"></script>
+        <script src="scripts/controllers/gamesPage.js"></script>
+        <script src="scripts/controllers/downloadPage.js"></script>
+        <script src="scripts/controllers/LinePage.js"></script>
+        <script src="scripts/controllers/specificPlayerPage.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

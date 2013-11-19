@@ -1,0 +1,16 @@
+<div class="modal-content">
+  <div class="widget stacked widget-table">
+    <div class="widget-header filter-modal-header">
+      <span class="icon-list-alt"></span>
+      <h3>Considered Games</h3>
+      <span class="icon icon-remove filter-close-icon" ng-click="closeModal()" ng-class="{'icon-hovered': hovered}"></span>
+    </div> <!-- .widget-header -->
+    <div class="widget-content filter-modal-content">
+      <div class="filter-modal-button-header">
+        <button class="button btn-primary filter-modal-select-button" ng-click="considerAll()">Select All</button>
+        <button class="button btn-primary filter-modal-select-button" ng-click="considerOnly(0)">Deselect All</button>
+      </div>
+      <tournament tournament="tournament" ng-repeat="tournament in tournaments"></tournament>
+    </div>
+  </div>
+</div>

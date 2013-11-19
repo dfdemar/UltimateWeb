@@ -1,0 +1,6 @@
+<div ng-controller="DownloadpageCtrl">
+  <div ng-show="notMobile">
+    <a href="{{downloadUrl}}" class="btn btn-large btn-success download-button">Feel free to download all of your stats in CSV format.</a>
+  </div>
+  <div ng-show="!notMobile">You can't download stats silly, you're on a phone.</div>
+</div>

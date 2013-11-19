@@ -1,0 +1,59 @@
+<div ng-include="'views/partials/main-nav-bar.html'"></div>
+<div ng-switch="signedIn" style="min-height:{{minWindowHeight}}px;">
+  <div ng-switch-when="yellow" style="min-height:500px;">
+    <div class="loading-page" ng-show="!statsLoaded" >
+      <img class="loading-icon" src="images/ajax-loader.gif">
+    </div>
+  </div>
+  <div ng-switch-when="green" ng-controller="TeamCtrl">
+    <div ng-include="'views/partials/sub-nav-bar.html'"></div>
+    <div class="main">
+      <div ng-switch="basicStatsLoaded">
+        <div>
+        </div ng-switch-when="true">
+        <div ng-show="pageFocus('players')" ng-include="'views/playerPage/playerPage.html'"></div>
+      </div>
+      <div ng-switch="allStatsLoaded">
+        <div ng-switch-when="true">
+          <div ng-show="pageFocus('specificPlayer')" ng-include="'views/specificPlayerPage.html'"></div>
+          <div ng-show="pageFocus('team')" ng-include="'views/teamPage/teamPage.html'"></div>
+          <div ng-show="pageFocus('games')" ng-include="'views/gamesPage.html'"></div>
+          <div ng-show="pageFocus('line')" ng-include="'views/linePage.html'"></div>
+          <div ng-show="pageFocus('download')" ng-include="'views/downloadPage.html'"></div>
+        </div>
+      </div>
+      <div class="loading-page" ng-show="!basicStatsLoaded || (!allStatsLoaded && !pageFocus('players'))">
+        <img class="loading-icon" src="images/ajax-loader.gif">
+      </div>
+    </div>
+  </div>
+  <div ng-switch-when="red" ng-controller="SignonCtrl">
+    <div ng-include="'views/signon.html'"></div>
+  </div>
+</div>
+<div class="extra">
+       <div class="container">
+           <div class="row">
+               <div class="col-md-4">
+                   <h4>General</h4>
+                   <ul>
+                       <li><a href="http://www.ultimate-numbers.com/calcs.html">iUltimate Calculations</a></li>
+                       <li><a href="http://www.ultimate-numbers.com/">About iUltimate</a></li>
+                   </ul>
+               </div> <!-- /span3 -->
+               <div class="col-md-4">
+                   <h4>Support</h4>
+                   <ul>
+                       <li><a href="mailto:support@ultimate-numbers.com">Send a suggestion</a></li>
+                       <li><a href="mailto:support@ultimate-numbers.com">Report a problem</a></li>
+                   </ul>
+               </div> <!-- /span3 -->
+               <div class="col-md-4">
+                   <h4>Personal</h4>
+                   <ul>
+                        <li><a href="http://www.ultimate-numbers.com/privacy.html">Privacy Policy</a></li>
+                   </ul>
+               </div> <!-- /span3 -->
+           </div> <!-- /row -->
+       </div> <!-- /container -->
+    </div>
