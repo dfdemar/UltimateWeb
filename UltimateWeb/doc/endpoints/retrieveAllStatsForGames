@@ -11,7 +11,7 @@ There are 2 high level properties:
 
 For player stats there is ONE stats object per player.  See property "playerName"
 
-If the gameIds query string paramter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting paramter is included then only the games listed will be summarized.  the gameIds in the query string should be separated by an underscore.
+If the gameIds query string parameter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting parameter is included then only the games listed will be summarized.  the gameIds in the query string should be separated by an underscore.
 
 SAMPLE RESPONSE:
 

@@ -4,7 +4,7 @@ Retrieve summarized team stats for a team
 http://www.ultimate-numbers.com/rest/view/team/{teamid}/stats/team
 http://www.ultimate-numbers.com/rest/view/team/{teamid}/stats/team?gameIds={gameid_1}_{gameid_n}
 
-If the gameIds query string paramter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting paramter is included then only the games listed will be summarized.  The gameIds in the query string should be separated by an underscore.
+If the gameIds query string parameter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting parameter is included then only the games listed will be summarized.  The gameIds in the query string should be separated by an underscore.
 
 SAMPLE RESPONSE:
 
