@@ -1,0 +1,150 @@
+
+Retrieve summarized team stats for a team
+
+http://www.ultimate-numbers.com/rest/view/team/{teamid}/stats/team
+http://www.ultimate-numbers.com/rest/view/team/{teamid}/stats/team?gameIds={gameid_1}_{gameid_n}
+
+If the gameIds query string paramter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting paramter is included then only the games listed will be summarized.  The gameIds in the query string should be separated by an underscore.
+
+SAMPLE RESPONSE:
+
+{ "breakSummary" : { "ourBreakDetails" : { "dlineBreaks" : 9,
+          "dlineBreaksThenScoredUpon" : 3,
+          "olineBroken" : 1,
+          "olineBrokenThenScores" : 1
+        },
+      "theirBreakDetails" : { "dlineBreaks" : 1,
+          "dlineBreaksThenScoredUpon" : 1,
+          "olineBroken" : 9,
+          "olineBrokenThenScores" : 3
+        }
+    },
+  "enduranceIntervals" : [  ],
+  "goalSummary" : { "ourDlineGoals" : 9,
+      "ourOlineGoals" : 6,
+      "theirDlineGoals" : 1,
+      "theirOlineGoals" : 5
+    },
+  "trendPoints" : [ { "drops" : 4.0,
+        "gameDescription" : null,
+        "throwaways" : 13.0,
+        "touches" : 40.0,
+        "turnovers" : 17.0,
+        "turnoversPerTouch" : 0.42499999999999999
+      } ],
+  "windSummary" : { "lowWind" : { "ourStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 6,
+                  "goalsPerOpportunity" : 0.42857142999999998,
+                  "opportunties" : 14
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 9,
+                  "goalsPerOpportunity" : 0.5,
+                  "opportunties" : 18
+                }
+            },
+          "speedRange" : { "from" : 1,
+              "to" : 10
+            },
+          "theirStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 2,
+                  "goalsPerOpportunity" : 0.15384616000000001,
+                  "opportunties" : 13
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 4,
+                  "goalsPerOpportunity" : 0.30769232000000002,
+                  "opportunties" : 13
+                }
+            }
+        },
+      "strongWind" : { "ourStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                }
+            },
+          "speedRange" : { "from" : 11,
+              "to" : 99
+            },
+          "theirStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                }
+            }
+        },
+      "windUnknown" : { "ourStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                }
+            },
+          "speedRange" : { "from" : 0,
+              "to" : 0
+            },
+          "theirStats" : { "goalsAcrossWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsAgainstWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWindUnknown" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                },
+              "goalsWithWind" : { "goals" : 0,
+                  "goalsPerOpportunity" : 0.0,
+                  "opportunties" : 0
+                }
+            }
+        }
+    }
+}

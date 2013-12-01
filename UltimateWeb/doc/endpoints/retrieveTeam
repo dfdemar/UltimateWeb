@@ -1,0 +1,188 @@
+
+Retrieve the team meta data (optionally with players)
+
+http://www.ultimate-numbers.com/rest/view/team/{teamid}
+http://www.ultimate-numbers.com/rest/view/team/{teamid}?players=true
+
+SAMPLE RESPONSES:
+
+Without players:
+
+{ "cloudId" : "61004",
+  "displayPlayerNumber" : false,
+  "mixed" : false,
+  "name" : "Disc Divers",
+  "playersAreLeaguevine" : false,
+  "teamId" : "team-F574EC04-9F1C-40F9-A6D4-EFD099C72563"
+}
+
+With players:
+
+{ "cloudId" : "61004",
+  "displayPlayerNumber" : false,
+  "mixed" : false,
+  "name" : "Disc Divers",
+  "players" : [ { "male" : true,
+        "name" : "Alex",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Amby",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Arty",
+        "number" : "",
+        "position" : "Any"
+      },
+      { "male" : true,
+        "name" : "Bret",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Bubba",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Chatterbox",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Doc",
+        "number" : "",
+        "position" : "Any"
+      },
+      { "male" : true,
+        "name" : "Fasta",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Finster",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Forest",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Fryman",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Goliath",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Gordon",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Greg",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Jack",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Jester",
+        "number" : "",
+        "position" : "Any"
+      },
+      { "male" : true,
+        "name" : "Kip",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Laser",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Loren",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Lowslinger",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Mr D",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Norten",
+        "number" : "",
+        "position" : "Any"
+      },
+      { "male" : true,
+        "name" : "Ortho",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Phineas",
+        "number" : "",
+        "position" : "Any"
+      },
+      { "male" : true,
+        "name" : "Rockstar",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Slim",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Spidy",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Tim",
+        "number" : "",
+        "position" : "Handler"
+      },
+      { "male" : true,
+        "name" : "Tippy",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Tracker",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Trippy",
+        "number" : "",
+        "position" : "Cutter"
+      },
+      { "male" : true,
+        "name" : "Xman",
+        "number" : "",
+        "position" : "Cutter"
+      }
+    ],
+  "playersAreLeaguevine" : false,
+  "teamId" : "team-F574EC04-9F1C-40F9-A6D4-EFD099C72563"
+}

@@ -1,0 +1,680 @@
+Retrieve all of the game data for a particular game. 
+
+
+http://www.ultimate-numbers.com/rest/view/team/{teamid}/game/{gameid}
+
+NOTE: the event data (an array of points) is the response but is in a single string (escaped json), i.e., to get the event data 
+var points = JSON.parse(responseData.pointsJson) OR jQuery.parseJSON(responseData.pointsJson)   OR   eval("(" + responseData.pointsJson + ')')
+
+The bottom of this doc includes the unescaped json pointsJson property.
+
+SAMPLE RESPONSE:
+
+{ "date" : "Mon, 5/09",
+  "firstPointOline" : true,
+  "gameId" : "game-E39791E7-2293-461D-99E0-E5B2AE61ED61",
+  "gamePoint" : 15,
+  "msSinceEpoch" : 1304945880000,
+  "opponentName" : "Rooters",
+  "ours" : 15,
+  "pointsJson" : "[{\"summary\":{\"elapsedTime\":5,\"score\":{\"ours\":1,\"theirs\":0},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Tracker\",\"passer\":\"Fryman\"}],\"startSeconds\":357415197,\"line\":[\"Tracker\",\"Trippy\",\"Amby\",\"Spidy\",\"Mr D\",\"Fryman\",\"Tim\"],\"endSeconds\":357415202},{\"summary\":{\"elapsedTime\":62,\"score\":{\"ours\":2,\"theirs\":0},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Xman\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Alex\",\"passer\":\"Fryman\"}],\"startSeconds\":357415260,\"line\":[\"Xman\",\"Forest\",\"Chatterbox\",\"Alex\",\"Fryman\",\"Bubba\",\"Tippy\"],\"endSeconds\":357415322},{\"summary\":{\"elapsedTime\":81,\"score\":{\"ours\":3,\"theirs\":0},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Xman\",\"passer\":\"Jack\"}],\"startSeconds\":357415375,\"line\":[\"Xman\",\"Tracker\",\"Lowslinger\",\"Chatterbox\",\"Jack\",\"Kip\",\"Bubba\"],\"endSeconds\":357415456},{\"summary\":{\"elapsedTime\":74,\"score\":{\"ours\":4,\"theirs\":0},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Forest\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Tippy\",\"passer\":\"Chatterbox\"}],\"startSeconds\":357415591,\"line\":[\"Forest\",\"Chatterbox\",\"Jack\",\"Rockstar\",\"Bret\",\"Bubba\",\"Tippy\"],\"endSeconds\":357415665},{\"summary\":{\"elapsedTime\":40,\"score\":{\"ours\":4,\"theirs\":1},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Fryman\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"type\":\"Defense\",\"action\":\"Goal\"}],\"startSeconds\":357415743,\"line\":[\"Xman\",\"Greg\",\"Lowslinger\",\"Alex\",\"Ortho\",\"Fryman\",\"Kip\"],\"endSeconds\":357415783},{\"summary\":{\"elapsedTime\":5,\"score\":{\"ours\":5,\"theirs\":1},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Spidy\",\"passer\":\"Tim\"}],\"startSeconds\":357415892,\"line\":[\"Tracker\",\"Trippy\",\"Amby\",\"Spidy\",\"Mr D\",\"Fryman\",\"Tim\"],\"endSeconds\":357415897},{\"summary\":{\"elapsedTime\":76,\"score\":{\"ours\":6,\"theirs\":1},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Finster\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Bubba\",\"passer\":\"Chatterbox\"}],\"startSeconds\":357415970,\"line\":[\"Xman\",\"Chatterbox\",\"Jack\",\"Finster\",\"Bret\",\"Fasta\",\"Bubba\"],\"endSeconds\":357416046},{\"summary\":{\"elapsedTime\":46,\"score\":{\"ours\":7,\"theirs\":1},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Alex\",\"passer\":\"Goliath\"}],\"startSeconds\":357416199,\"line\":[\"Xman\",\"Goliath\",\"Forest\",\"Chatterbox\",\"Alex\",\"Fryman\",\"Bubba\"],\"endSeconds\":357416245},{\"summary\":{\"elapsedTime\":275,\"score\":{\"ours\":8,\"theirs\":1},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Chatterbox\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Slim\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Trippy\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Chatterbox\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Drop\",\"receiver\":\"Kip\",\"passer\":\"Trippy\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Trippy\",\"passer\":\"Chatterbox\"}],\"startSeconds\":357416339,\"line\":[\"Tracker\",\"Lowslinger\",\"Chatterbox\",\"Jack\",\"Slim\",\"Kip\",\"Tippy\"],\"endSeconds\":357416614},{\"summary\":{\"elapsedTime\":81,\"score\":{\"ours\":9,\"theirs\":1},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Forest\",\"passer\":\"Chatterbox\"}],\"startSeconds\":357417177,\"line\":[\"Xman\",\"Forest\",\"Chatterbox\",\"Bret\",\"Fryman\",\"Kip\",\"Bubba\"],\"endSeconds\":357417258},{\"summary\":{\"elapsedTime\":103,\"score\":{\"ours\":9,\"theirs\":2},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Rockstar\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"type\":\"Defense\",\"action\":\"Goal\"}],\"startSeconds\":357417340,\"line\":[\"Laser\",\"Lowslinger\",\"Alex\",\"Jack\",\"Rockstar\",\"Ortho\",\"Tippy\"],\"endSeconds\":357417443},{\"summary\":{\"elapsedTime\":5,\"score\":{\"ours\":10,\"theirs\":2},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Spidy\",\"passer\":\"Mr D\"}],\"startSeconds\":357417570,\"line\":[\"Laser\",\"Trippy\",\"Amby\",\"Spidy\",\"Mr D\",\"Fryman\",\"Tim\"],\"endSeconds\":357417575},{\"summary\":{\"elapsedTime\":109,\"score\":{\"ours\":10,\"theirs\":3},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"type\":\"Defense\",\"action\":\"Goal\"}],\"startSeconds\":357417655,\"line\":[\"Forest\",\"Alex\",\"Jack\",\"Slim\",\"Fryman\",\"Fasta\",\"Bubba\"],\"endSeconds\":357417764},{\"summary\":{\"elapsedTime\":100,\"score\":{\"ours\":11,\"theirs\":3},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"passer\":\"Trippy\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Tracker\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Fryman\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Spidy\",\"passer\":\"Amby\"}],\"startSeconds\":357417872,\"line\":[\"Laser\",\"Tracker\",\"Trippy\",\"Amby\",\"Spidy\",\"Fryman\",\"Tim\"],\"endSeconds\":357417972},{\"summary\":{\"elapsedTime\":226,\"score\":{\"ours\":12,\"theirs\":3},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Xman\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Alex\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Alex\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Xman\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Forest\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Jack\",\"passer\":\"Greg\"}],\"startSeconds\":357418053,\"line\":[\"Xman\",\"Forest\",\"Greg\",\"Lowslinger\",\"Alex\",\"Jack\",\"Ortho\"],\"endSeconds\":357418279},{\"summary\":{\"elapsedTime\":164,\"score\":{\"ours\":13,\"theirs\":3},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Bubba\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Fryman\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Tippy\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Tippy\",\"passer\":\"Fryman\"}],\"startSeconds\":357418447,\"line\":[\"Rockstar\",\"Finster\",\"Bret\",\"Fryman\",\"Fasta\",\"Bubba\",\"Tippy\"],\"endSeconds\":357418611},{\"summary\":{\"elapsedTime\":147,\"score\":{\"ours\":13,\"theirs\":4},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Xman\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"passer\":\"Xman\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"type\":\"Defense\",\"action\":\"Goal\"}],\"startSeconds\":357418685,\"line\":[\"Xman\",\"Lowslinger\",\"Alex\",\"Jack\",\"Rockstar\",\"Ortho\",\"Kip\"],\"endSeconds\":357418832},{\"summary\":{\"elapsedTime\":61,\"score\":{\"ours\":13,\"theirs\":5},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"passer\":\"Amby\",\"type\":\"Offense\",\"action\":\"Throwaway\"},{\"type\":\"Defense\",\"action\":\"Goal\"}],\"startSeconds\":357418942,\"line\":[\"Laser\",\"Tracker\",\"Trippy\",\"Amby\",\"Mr D\",\"Fryman\",\"Tim\"],\"endSeconds\":357419003},{\"summary\":{\"elapsedTime\":5,\"score\":{\"ours\":14,\"theirs\":5},\"lineType\":\"O\",\"finished\":true},\"events\":[{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Mr D\",\"passer\":\"Amby\"}],\"startSeconds\":357419110,\"line\":[\"Trippy\",\"Amby\",\"Spidy\",\"Jack\",\"Mr D\",\"Tim\",\"Bubba\"],\"endSeconds\":357419115},{\"summary\":{\"elapsedTime\":91,\"score\":{\"ours\":15,\"theirs\":5},\"lineType\":\"D\",\"finished\":true},\"events\":[{\"defender\":\"Fryman\",\"type\":\"Defense\",\"action\":\"Pull\"},{\"defender\":\"Norten\",\"type\":\"Defense\",\"action\":\"D\"},{\"type\":\"Offense\",\"action\":\"Goal\",\"receiver\":\"Slim\",\"passer\":\"Tippy\"}],\"startSeconds\":357419206,\"line\":[\"Lowslinger\",\"Rockstar\",\"Slim\",\"Finster\",\"Bret\",\"Fryman\",\"Tippy\"],\"endSeconds\":357419297}]",
+  "teamId" : "61004",
+  "theirs" : 5,
+  "time" : "12:58",
+  "timestamp" : "2011-05-09 12:58",
+  "tournamentName" : "Disc Mania",
+  "wind" : { "degrees" : 93,
+      "leftToRight" : true,
+      "mph" : 16
+    }
+}
+
+####################################################################################################################################
+
+	SAMPLE pointsJson.
+	This is an array of point objects in descending order (last point of the game is first)
+
+####################################################################################################################################
+
+
+[ { "endSeconds" : 357419297,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Fryman",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Tippy",
+          "receiver" : "Slim",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Lowslinger",
+        "Rockstar",
+        "Slim",
+        "Finster",
+        "Bret",
+        "Fryman",
+        "Tippy"
+      ],
+    "startSeconds" : 357419206,
+    "summary" : { "elapsedTime" : 91,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 15,
+            "theirs" : 5
+          }
+      }
+  },
+  { "endSeconds" : 357419115,
+    "events" : [ { "action" : "Goal",
+          "passer" : "Amby",
+          "receiver" : "Mr D",
+          "type" : "Offense"
+        } ],
+    "line" : [ "Trippy",
+        "Amby",
+        "Spidy",
+        "Jack",
+        "Mr D",
+        "Tim",
+        "Bubba"
+      ],
+    "startSeconds" : 357419110,
+    "summary" : { "elapsedTime" : 5,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 14,
+            "theirs" : 5
+          }
+      }
+  },
+  { "endSeconds" : 357419003,
+    "events" : [ { "action" : "Throwaway",
+          "passer" : "Amby",
+          "type" : "Offense"
+        },
+        { "action" : "Goal",
+          "type" : "Defense"
+        }
+      ],
+    "line" : [ "Laser",
+        "Tracker",
+        "Trippy",
+        "Amby",
+        "Mr D",
+        "Fryman",
+        "Tim"
+      ],
+    "startSeconds" : 357418942,
+    "summary" : { "elapsedTime" : 61,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 13,
+            "theirs" : 5
+          }
+      }
+  },
+  { "endSeconds" : 357418832,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Xman",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Xman",
+          "type" : "Offense"
+        },
+        { "action" : "Goal",
+          "type" : "Defense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Lowslinger",
+        "Alex",
+        "Jack",
+        "Rockstar",
+        "Ortho",
+        "Kip"
+      ],
+    "startSeconds" : 357418685,
+    "summary" : { "elapsedTime" : 147,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 13,
+            "theirs" : 4
+          }
+      }
+  },
+  { "endSeconds" : 357418611,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Fryman",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Tippy",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Fryman",
+          "receiver" : "Tippy",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Rockstar",
+        "Finster",
+        "Bret",
+        "Fryman",
+        "Fasta",
+        "Bubba",
+        "Tippy"
+      ],
+    "startSeconds" : 357418447,
+    "summary" : { "elapsedTime" : 164,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 13,
+            "theirs" : 3
+          }
+      }
+  },
+  { "endSeconds" : 357418279,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Xman",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Alex",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Alex",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Xman",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Forest",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Greg",
+          "receiver" : "Jack",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Forest",
+        "Greg",
+        "Lowslinger",
+        "Alex",
+        "Jack",
+        "Ortho"
+      ],
+    "startSeconds" : 357418053,
+    "summary" : { "elapsedTime" : 226,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 12,
+            "theirs" : 3
+          }
+      }
+  },
+  { "endSeconds" : 357417972,
+    "events" : [ { "action" : "Throwaway",
+          "passer" : "Trippy",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Tracker",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Fryman",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Amby",
+          "receiver" : "Spidy",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Laser",
+        "Tracker",
+        "Trippy",
+        "Amby",
+        "Spidy",
+        "Fryman",
+        "Tim"
+      ],
+    "startSeconds" : 357417872,
+    "summary" : { "elapsedTime" : 100,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 11,
+            "theirs" : 3
+          }
+      }
+  },
+  { "endSeconds" : 357417764,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "type" : "Defense"
+        }
+      ],
+    "line" : [ "Forest",
+        "Alex",
+        "Jack",
+        "Slim",
+        "Fryman",
+        "Fasta",
+        "Bubba"
+      ],
+    "startSeconds" : 357417655,
+    "summary" : { "elapsedTime" : 109,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 10,
+            "theirs" : 3
+          }
+      }
+  },
+  { "endSeconds" : 357417575,
+    "events" : [ { "action" : "Goal",
+          "passer" : "Mr D",
+          "receiver" : "Spidy",
+          "type" : "Offense"
+        } ],
+    "line" : [ "Laser",
+        "Trippy",
+        "Amby",
+        "Spidy",
+        "Mr D",
+        "Fryman",
+        "Tim"
+      ],
+    "startSeconds" : 357417570,
+    "summary" : { "elapsedTime" : 5,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 10,
+            "theirs" : 2
+          }
+      }
+  },
+  { "endSeconds" : 357417443,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Rockstar",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "type" : "Defense"
+        }
+      ],
+    "line" : [ "Laser",
+        "Lowslinger",
+        "Alex",
+        "Jack",
+        "Rockstar",
+        "Ortho",
+        "Tippy"
+      ],
+    "startSeconds" : 357417340,
+    "summary" : { "elapsedTime" : 103,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 9,
+            "theirs" : 2
+          }
+      }
+  },
+  { "endSeconds" : 357417258,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Chatterbox",
+          "receiver" : "Forest",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Forest",
+        "Chatterbox",
+        "Bret",
+        "Fryman",
+        "Kip",
+        "Bubba"
+      ],
+    "startSeconds" : 357417177,
+    "summary" : { "elapsedTime" : 81,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 9,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357416614,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Chatterbox",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Slim",
+          "type" : "Defense"
+        },
+        { "action" : "Throwaway",
+          "passer" : "Trippy",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Chatterbox",
+          "type" : "Defense"
+        },
+        { "action" : "Drop",
+          "passer" : "Trippy",
+          "receiver" : "Kip",
+          "type" : "Offense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Chatterbox",
+          "receiver" : "Trippy",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Tracker",
+        "Lowslinger",
+        "Chatterbox",
+        "Jack",
+        "Slim",
+        "Kip",
+        "Tippy"
+      ],
+    "startSeconds" : 357416339,
+    "summary" : { "elapsedTime" : 275,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 8,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357416245,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Goliath",
+          "receiver" : "Alex",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Goliath",
+        "Forest",
+        "Chatterbox",
+        "Alex",
+        "Fryman",
+        "Bubba"
+      ],
+    "startSeconds" : 357416199,
+    "summary" : { "elapsedTime" : 46,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 7,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357416046,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Finster",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Chatterbox",
+          "receiver" : "Bubba",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Chatterbox",
+        "Jack",
+        "Finster",
+        "Bret",
+        "Fasta",
+        "Bubba"
+      ],
+    "startSeconds" : 357415970,
+    "summary" : { "elapsedTime" : 76,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 6,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357415897,
+    "events" : [ { "action" : "Goal",
+          "passer" : "Tim",
+          "receiver" : "Spidy",
+          "type" : "Offense"
+        } ],
+    "line" : [ "Tracker",
+        "Trippy",
+        "Amby",
+        "Spidy",
+        "Mr D",
+        "Fryman",
+        "Tim"
+      ],
+    "startSeconds" : 357415892,
+    "summary" : { "elapsedTime" : 5,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 5,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357415783,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Fryman",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "type" : "Defense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Greg",
+        "Lowslinger",
+        "Alex",
+        "Ortho",
+        "Fryman",
+        "Kip"
+      ],
+    "startSeconds" : 357415743,
+    "summary" : { "elapsedTime" : 40,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 4,
+            "theirs" : 1
+          }
+      }
+  },
+  { "endSeconds" : 357415665,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Forest",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Chatterbox",
+          "receiver" : "Tippy",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Forest",
+        "Chatterbox",
+        "Jack",
+        "Rockstar",
+        "Bret",
+        "Bubba",
+        "Tippy"
+      ],
+    "startSeconds" : 357415591,
+    "summary" : { "elapsedTime" : 74,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 4,
+            "theirs" : 0
+          }
+      }
+  },
+  { "endSeconds" : 357415456,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Norten",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Jack",
+          "receiver" : "Xman",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Tracker",
+        "Lowslinger",
+        "Chatterbox",
+        "Jack",
+        "Kip",
+        "Bubba"
+      ],
+    "startSeconds" : 357415375,
+    "summary" : { "elapsedTime" : 81,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 3,
+            "theirs" : 0
+          }
+      }
+  },
+  { "endSeconds" : 357415322,
+    "events" : [ { "action" : "Pull",
+          "defender" : "Bubba",
+          "type" : "Defense"
+        },
+        { "action" : "D",
+          "defender" : "Xman",
+          "type" : "Defense"
+        },
+        { "action" : "Goal",
+          "passer" : "Fryman",
+          "receiver" : "Alex",
+          "type" : "Offense"
+        }
+      ],
+    "line" : [ "Xman",
+        "Forest",
+        "Chatterbox",
+        "Alex",
+        "Fryman",
+        "Bubba",
+        "Tippy"
+      ],
+    "startSeconds" : 357415260,
+    "summary" : { "elapsedTime" : 62,
+        "finished" : true,
+        "lineType" : "D",
+        "score" : { "ours" : 2,
+            "theirs" : 0
+          }
+      }
+  },
+  { "endSeconds" : 357415202,
+    "events" : [ { "action" : "Goal",
+          "passer" : "Fryman",
+          "receiver" : "Tracker",
+          "type" : "Offense"
+        } ],
+    "line" : [ "Tracker",
+        "Trippy",
+        "Amby",
+        "Spidy",
+        "Mr D",
+        "Fryman",
+        "Tim"
+      ],
+    "startSeconds" : 357415197,
+    "summary" : { "elapsedTime" : 5,
+        "finished" : true,
+        "lineType" : "O",
+        "score" : { "ours" : 1,
+            "theirs" : 0
+          }
+      }
+  }
+]
+
