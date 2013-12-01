@@ -1,0 +1,37 @@
+
+Retrieve the detailed game data (including events) for all games for the team
+
+http://www.ultimate-numbers.com/rest/view/team/{teamId}/gamesdata
+
+NOTE: the event data (an array of points) for each game is in a single string (escaped json).  See the retrieveGame for details.
+
+SAMPLE RESPONSE:
+
+[ 
+	{ "date" : "Mon, 5/09",
+    "firstPointOline" : false,
+    "gameId" : "game-A4DBD577-C3E8-4CC8-B1F2-601545F3AFA6",
+    "gamePoint" : 15,
+    "msSinceEpoch" : 1304938920000,
+    "opponentName" : "Tramway",
+    "ours" : 15,
+    "teamId" : "61004",
+    "theirs" : 6,
+    "time" : "11:02",
+    "timestamp" : "2011-05-09 11:02",
+    "pointsJson" : "[{\"summary\"............nds\":357419297}]",
+    "tournamentName" : "Disc Mania",
+    "wind" : { "degrees" : 86,
+        "leftToRight" : true,
+        "mph" : 7
+      }
+  },
+  { "date" : "Sun, 3/27",
+    "firstPointOline" : true,
+    "gameId" : "game-67473DBA-452F-4003-8877-7EBD2AB18616",
+    "gamePoint" : 13,
+    "msSinceEpoch" : 1301216400000,
+    "opponentName" : "Northerners"
+    .......
+
+]
