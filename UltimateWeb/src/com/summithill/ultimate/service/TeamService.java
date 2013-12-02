@@ -70,7 +70,6 @@ public class TeamService {
 	}
 	
 	public List<Game> getGames(Team team) {
-		long beginTime = System.currentTimeMillis();
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null); //.addSort("timestamp", Query.SortDirection.DESCENDING);
 		query.setAncestor(team.asEntity().getKey());
 	    Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
@@ -78,7 +77,6 @@ public class TeamService {
 	    for (Entity gameEntity : gameEntities) {
 	    	gameList.add(Game.fromEntity(gameEntity));
 		}
-	    log.info("GetGames took " + (System.currentTimeMillis() - beginTime) + "ms");
 	    return gameList;
 	}
 	
