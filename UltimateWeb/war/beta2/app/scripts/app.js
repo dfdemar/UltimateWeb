@@ -5,6 +5,10 @@ angular.module('beta2App', [
 ])
   .config(function ($routeProvider) {
     $routeProvider
+      .when('/', {
+        templateUrl: 'views/splash.html',
+        controller: 'SplashCtrl'
+      })
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
@@ -25,11 +29,19 @@ angular.module('beta2App', [
         templateUrl: 'views/download.html',
         controller: 'DownloadCtrl'
       })
-      .when('/', {
-        templateUrl: 'views/splash.html',
-        controller: 'SplashCtrl'
+      .when('/404', {
+        templateUrl: 'views/404.html',
+        controller: '404Ctrl'
+      })
+      .when('/line', {
+        templateUrl: 'views/line.html',
+        controller: 'LineCtrl'
+      })
+      .when('/games', {
+        templateUrl: 'views/games.html',
+        controller: 'GamesCtrl'
       })
       .otherwise({
-        redirectTo: '/404.html'
+        redirectTo: '/404'
       });
   });
