@@ -15,7 +15,8 @@ angular.module('beta2App')
           return option === scope.page ? 'active' : '';
         };
         scope.navTo = function(page){
-          $location.path(page);
+          var path = '/' + page + '/' + $routeParams.teamId;
+          page !== scope.page && $location.path(path);
         };
       }
     };
