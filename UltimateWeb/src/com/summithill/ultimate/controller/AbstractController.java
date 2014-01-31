@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.google.appengine.api.users.UserService;
@@ -29,6 +32,12 @@ public class AbstractController {
 	
 	@Autowired
 	protected TeamService service;
+	
+	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler({ UnauthorizedException.class })
+	public void handleUnathorizedException(HttpServletResponse response) {
+		response.setHeader("WWW-Authenticate","Basic realm=\"iUltimate Protected API\"");
+	}
     
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
 		return this.getParameterTeam(id, request, false, false);
