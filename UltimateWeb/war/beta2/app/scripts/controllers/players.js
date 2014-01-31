@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('beta2App')
-  .controller('PlayersCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('PlayersCtrl', function ($scope,team) {
+    team.then(function(results){
+      console.log(results);
+    })
   });
