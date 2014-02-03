@@ -1,9 +1,10 @@
 /* global $, angular, jQuery */
+// written by Jim Geppert
 
 'use strict';
 
 angular.module('newBetaApp')
-  .service('Ultimatewebrestapi', function Rest() {
+  .service('api', function Rest() {
     var exports = {};
     // init the global app object
     var Ultimate = {};
@@ -48,7 +49,7 @@ angular.module('newBetaApp')
       });
     };
 
-    function retrieveGamesData(teamId, successFunction, errorFunction) {
+    exports.retrieveGamesData = function(teamId, successFunction, errorFunction) {
       sendAnalyticsEvent('retrieveGames');
       var url = Ultimate.baseRestUrl + '/team/' + teamId + '/gamesdata';
       sendRequest({
