@@ -2,11 +2,11 @@
 
 angular.module('newBetaApp')
   .controller('PlayersCtrl', function ($scope, stats, allGames) {
-    var foo;
+    var games;
     allGames.then(function(stuff){
-      foo = stuff;
+      games = stuff;
     });
     stats.then(function(statApi){
-      statApi.playerStats.include(foo);
+      console.log(statApi.playerStats.getFrom(games));
     });
   });

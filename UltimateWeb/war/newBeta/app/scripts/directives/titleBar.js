@@ -1,14 +1,14 @@
-  'use strict';
+'use strict';
 
 angular.module('newBetaApp')
   .directive('titleBar', function (teamName) {
     return {
       templateUrl: 'includes/partials/title-bar.html',
       restrict: 'EA',
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         teamName.then(function(name){
-          var teamName = name;
-          window.document.title = teamName || 'iUltimate';
+          scope.teamName = name;
+          window.document.title = name || 'iUltimate';
         });
       }
     };

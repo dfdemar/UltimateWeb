@@ -9,14 +9,14 @@ angular.module('newBetaApp')
         page: '=',
         tabName: '='
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.isMobile = viewer.isMobile();
         scope.isActive = function(option){
           return option === scope.page ? 'active' : '';
         };
         scope.navTo = function(page){
-          var path = '/' + page + '/' + $routeParams.teamId;
-          page !== scope.page && $location.path(path);
+          var path = '/' + $routeParams.teamId + '/' + page;
+          if (page !== scope.page){ $location.path(path); }
         };
       }
     };
