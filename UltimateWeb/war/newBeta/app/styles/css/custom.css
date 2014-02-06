@@ -42,6 +42,7 @@ Assigned to:	You
   margin-bottom: 10px;
 }
 .filter-button-main{
+  white-space: normal;
   height: 160px;
   width:78%;
 }
@@ -179,21 +180,11 @@ Assigned to:	You
 .filter-popover-arrow {
   top:70px !important;
 }
-.loading-page {
-  background: #e9e9e9 url(../img/tiny_grid.png) repeat 0 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.loading-icon {
-  opacity: 1000;
-  position: fixed;
+.my-loading-icon {
+  position: absolute;
   top: 45%;
-  left:45%;
-  right: 45%;
-  width: 50px;
+  left: 45%;
+  text-align: center;
 }
 .breaks-svg {
   display: inline-block;
@@ -488,4 +479,7 @@ Assigned to:	You
   width: 100%;
   height: 100%; 
   background: transparent;
+}
+.dropdown-menu {
+  display: inline-block;
 }

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('stats', function($q, allGames, team, filter) {
+  .factory('playerStats', function($q, allGames, team) {
     function recordEvent(event, players) {
       switch (event.action) {
       case 'Catch':
@@ -116,7 +116,7 @@ angular.module('newBetaApp')
         _.each([
             ['catchingPercentage', 'catches', 'drops'],
             ['passingPercentage', 'completions', 'throwaways'],
-            ['iBPullingPercentage', 'iBPulls', 'oBPulls'],
+            ['iBPullingPercentage', 'iBPulls', 'oBPulls']
           ], function(average){
             if (player.stats[average[1]] + player.stats[average[2]]){
               player.stats[average[0]] = Math.round(player.stats[average[1]] / (player.stats[average[1]] + player.stats[average[2]]) * 100);
@@ -135,16 +135,15 @@ angular.module('newBetaApp')
         delete game.pointsJson;
       });
       deferred.resolve({
-        playerStats: {
-          getFrom: derive
-        },
-        teamStats: {
-
-        }
+        getFrom: derive,
       });
     }
     return deferred.promise;
   });
 
-
+// Assists Passes  Throwaways  Stalls  Percent Completed
+// Goals Catches Touches Drops Percent Caught
+// Games Played  PointsPlayed  Minutes Played  Offensive Points  Defensive Points
+// D's Callahans Pulls Average Hang Time Out of Bounds Pulls
+// Goals Assists Ds  Throwaways  Drops
 

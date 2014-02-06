@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 
 angular.module('newBetaApp')
@@ -5,11 +7,7 @@ angular.module('newBetaApp')
     var deferred = $q.defer();
     api.retrieveGamesData($routeParams.teamId,
       function success(response) {
-        var map = {};
-        _.each(response, function(game){
-          map[game.gameId] = game;
-        });
-        deferred.resolve(map);
+        deferred.resolve(_(response).indexBy('gameId'));
       },
       function failure(e) {
         deferred.reject(e);

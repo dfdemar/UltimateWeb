@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('PlayersCtrl', function ($scope, stats, allGames) {
+  .controller('PlayersCtrl', function ($scope, playerStats, allGames, filter) {
+    $scope.loading = true;
     var games;
     allGames.then(function(stuff){
       games = stuff;
     });
-    stats.then(function(statApi){
-      console.log(statApi.playerStats.getFrom(games));
+    playerStats.then(function(statApi){
+      $scope.loading = false;
+      $scope.playerStats = statApi.getFrom(games);
+      $scope.statTypes = statApi.statTypes;
+      $scope.numberOfGames = Object.keys(games).length;
+      filter.include(games);
     });
+    $scope.console = console;
   });
