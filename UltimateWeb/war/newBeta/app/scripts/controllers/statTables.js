@@ -41,9 +41,9 @@ angular.module('newBetaApp')
       $scope.sorter = '-name';
       $scope.sort = function(obj, prop){
         var name;
-        prop ? name = obj +'.' + prop : name = obj;
+        prop ? name = obj + '.' + prop : name = obj;
         ($scope.sorter === name) ? $scope.sorter = '-' + $scope.sorter : $scope.sorter = name;
-      }
+      };
     });
   });
   

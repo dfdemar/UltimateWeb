@@ -483,3 +483,7 @@ Assigned to:	You
 .dropdown-menu {
   display: inline-block;
 }
+.stat-header {
+  max-width: 17%;
+  word-wrap:break-word;
+}

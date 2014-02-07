@@ -41,7 +41,7 @@ angular.module('newBetaApp')
     $scope.isIncluded = function(game){
       return _(filter.included).contains(game);
     };
-    $scope.toggleSelect = function(game, value){
-      (value) ? filter.include(game) : filter.exclude(game);
+    $scope.toggleSelect = function(game){
+      !$scope.isIncluded(game) ? filter.include(game) : filter.exclude(game);
     };
   });
