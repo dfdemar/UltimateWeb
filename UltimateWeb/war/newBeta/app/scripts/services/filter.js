@@ -8,14 +8,15 @@ angular.module('newBetaApp')
     function exclude(game){
       var index = includedGames.indexOf(game);
       if (index > -1){
-        console.log('excluded', game);
         includedGames.splice(index);
       }
     }
     return {
       included: includedGames,
       include: function(games){
-        if (games.gameId) includedGames.push(games);
+        if (games.gameId) {
+          includedGames.push(games);
+        }
         else {
           _.each(games, function(game){
             includedGames.push(game);

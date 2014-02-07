@@ -12,13 +12,16 @@ angular.module('newBetaApp')
         break;
       case 'Drop':
         players[event.receiver] && players[event.receiver].stats.drops++;
+        players[event.receiver] && players[event.receiver].stats.oPlusMinus--;
         players[event.passer] && players[event.passer].stats.passesDropped++;
         break;
       case 'Throwaway':
         players[event.passer] && players[event.passer].stats.throwaways++;
+        players[event.passer] && players[event.passer].stats.oPlusMinus--;
         break;
       case 'Stall':
         players[event.passer] && players[event.passer].stats.stalls++;
+        players[event.passer] && players[event.passer].stats.oPlusMinus--;
         break;
       case 'MiscPenalty':
         if (event.type === 'Offense'){
@@ -29,11 +32,13 @@ angular.module('newBetaApp')
         break;
       case 'D':
         players[event.defender] && players[event.defender].stats.ds++;
+        players[event.defender] && players[event.defender].stats.dPlusMinus++;
         break;
       case 'Pull':
         if (players[event.defender]){
           players[event.defender].stats.iBPulls++;
           if (event.details && event.details.hangtime) {
+            players[event.defender].stats.hungPulls++;
             players[event.defender].stats.pullHangtime += (event.details.hangtime / 1000);
           }
         }
@@ -45,10 +50,12 @@ angular.module('newBetaApp')
         break;
       case 'Goal':
         if (players[event.passer]){
+          players[event.passer].stats.oPlusMinus++;
           players[event.passer].stats.completions++;
           players[event.passer].stats.assists++;
         }
         if (players[event.receiver]){
+          players[event.receiver].stats.oPlusMinus++;
           players[event.receiver].stats.catches++;
           players[event.receiver].stats.goals++;
         }
@@ -56,6 +63,8 @@ angular.module('newBetaApp')
       case 'Callahan':
         if (players[event.defender]){
           players[event.defender].stats.catches++;
+          players[event.defender].stats.dPlusMinus++;
+          players[event.defender].stats.oPlusMinus++;
           players[event.defender].stats.goals++;
           players[event.defender].stats.ds++;
           players[event.defender].stats.callahans++;
@@ -83,12 +92,12 @@ angular.module('newBetaApp')
         resolve();
       }
     });
-    var derive = _.memoize(function(gameRefs) {
+    var derive = function(gameRefs) {
       var players = {};
       _.each(playerNames, function(name){
         players[name] = {};
         players[name].stats = {};
-        _.each(['catches', 'drops', 'throwaways', 'stalls', 'penalized', 'ds', 'iBPulls', 'oBPulls', 'goals', 'callahans', 'thrownCallahans', 'assists', 'passesDropped', 'completions', 'timePlayed', 'pullHangtime', 'gamesPlayed', 'dPoints', 'oPoints'], function(type){
+        _.each(['catches', 'drops', 'throwaways', 'stalls', 'penalized', 'ds', 'iBPulls', 'oBPulls', 'goals', 'callahans', 'thrownCallahans', 'assists', 'passesDropped', 'completions', 'timePlayed', 'pullHangtime', 'gamesPlayed', 'dPoints', 'oPoints', 'oPlusMinus', 'dPlusMinus','hungPulls'], function(type){
           players[name].stats[type] = 0;
         });
       });
@@ -126,9 +135,32 @@ angular.module('newBetaApp')
           }
         );
       });
+      _.each(players, function(player, name){
+        player.name = name;
+      });
+      _.each(players, function(player){
+        var ps = player.stats;
+        ps.pointsPlayed = ps.oPoints + ps.dPoints;
+        ps.pulls = ps.oBPulls + ps.iBPulls;
+        ps.touches = (ps.pickups || 0) + ps.catches;
+        ps.plusMinus = ps.oPlusMinus + ps.dPlusMinus;
+        ps.timePlayedMinutes = Math.round(ps.timePlayed / 60);
+        ps.averagePullHangtime = ps.hungPulls ? parseFloat((ps.pullHangtime  / ps.hungPulls).toFixed(2)) : 0;
+        _.each(['goals', 'assists', 'ds',  'throwaways',  'drops'], function(name){
+          ps['pp' + name[0].toUpperCase() + name.slice(1)] = ps.pointsPlayed ? parseFloat((ps[name] / ps.pointsPlayed).toFixed(2)) : 0;
+        });
+      });
       return players;
-    });
-
+    };
+    function getLeaders(stats,types){
+      var leaders = {};
+      _.each(types, function(type){
+        leaders[type] = _(stats).max(function(player){
+          return player.stats[type];
+        });
+      });
+      return leaders;
+    }
     function resolve(){
       _.each(games, function(game) {
         game.points = JSON.parse(game.pointsJson);
@@ -136,6 +168,7 @@ angular.module('newBetaApp')
       });
       deferred.resolve({
         getFrom: derive,
+        getLeaders: getLeaders
       });
     }
     return deferred.promise;

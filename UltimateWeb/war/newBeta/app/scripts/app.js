@@ -12,7 +12,7 @@ angular.module('newBetaApp', [
       .when('/:teamId/download', {templateUrl: 'views/download.html', controller: 'DownloadCtrl'})
       .when('/:teamId/line', {templateUrl: 'views/line.html', controller: 'LineCtrl'})
       .when('/:teamId/games', {templateUrl: 'views/games.html', controller: 'GamesCtrl'})
-      .when('/:teamId/player/:playerId', {templateUrl: 'views/player.html', controller: 'PlayerCtrl'})
+      .when('/:teamId/player/:playerNameUri', {templateUrl: 'views/player.html', controller: 'PlayerCtrl'})
       .when('/404', {templateUrl: 'views/404.html', controller: '404Ctrl'})
       .otherwise({redirectTo: '/404'});
   }]);

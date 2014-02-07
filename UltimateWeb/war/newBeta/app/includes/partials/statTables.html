@@ -1,0 +1,27 @@
+<div>
+  <ul class="nav nav-pills stat-pills">
+    <li ng-class="{active: focus==category}" ng-repeat="category in categories"><a ng-click="changeFocus(category)">{{category.name | statName:category.name}}</a></li>
+  </ul>
+</div>
+<div class="stats-tables">
+  <div>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th><a ng-click="sort('-name')">Player Name</a></th>
+          <th class="stat-header" ng-repeat="type in focus.statTypes"><a ng-click="sort('stats',type)">{{type | statName:type}}</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="player in statsArray | orderBy:sorter:true">
+          <td class="stat-element"><a ng-click="navTo(player.name)">{{player.name}}</a></td>
+          <td class="stat-element" ng-repeat="type in focus.statTypes">
+            {{player.stats[type]}}
+          </td>
+        </tr>
+      </tbody>
+    </table> 
+  </div>
+</div>
+
+

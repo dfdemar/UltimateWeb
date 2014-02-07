@@ -7,9 +7,9 @@
       <span class="caret"></span>
     </button>
     <ul dropdown-target class="dropdown-menu">
-      <li ng-click="consider(allGames)"><a>All Games ({{numberOfGames}})</a></li>
-      <li ng-click="consider(mostRecentGame)"><a>Most Recent Game ({{mostRecentGame.opponentName}})</a></li>
-      <li ng-click="consider(mostRecentTournament)"><a>Last Tournament ({{mostRecentGame.tournamentName}})</a></li>
+      <li ng-click="filter.onlyInclude(allGames)"><a>All Games ({{numberOfGames}})</a></li>
+      <li ng-click="filter.onlyInclude(mostRecentGame)"><a>Most Recent Game ({{mostRecentGame.opponentName}})</a></li>
+      <li ng-click="filter.onlyInclude(mostRecentTournament)"><a>Last Tournament ({{mostRecentGame.tournamentName}})</a></li>
       <li class="divider"></li>
       <li><a ng-click="collect()">Specific Games</a></li>
     </ul>
@@ -27,7 +27,7 @@
         </div> <!-- .widget-header -->
         <div class="widget-content">
           <div style="text-align: center; padding: 5px;">
-            <button class="button btn-primary filter-modal-select-button" ng-click="filter.selectOnly(allGames)">Select All</button>
+            <button class="button btn-primary filter-modal-select-button" ng-click="filter.onlyInclude(allGames)">Select All</button>
             <button class="button btn-primary filter-modal-select-button" ng-click="filter.exclude(allGames)">Deselect All</button>
           </div>
           <div style="height:500px; overflow-y: scroll;">
