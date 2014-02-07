@@ -216,6 +216,7 @@ angular.module('newBetaApp')
     }
 
     exports.signon = function(teamId, password, successFunction, errorFunction) {
+      console.log('call went out');
       sendAnalyticsEvent('signon');
       var url = Ultimate.baseRestUrl + '/team/' + teamId + '/authenticate/' + password;
       sendRequest({

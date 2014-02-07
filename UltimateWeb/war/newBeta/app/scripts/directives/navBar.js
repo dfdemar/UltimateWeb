@@ -7,9 +7,9 @@ angular.module('newBetaApp')
       restrict: 'EA',
       scope: {
         page: '=',
-        tabName: '='
       },
       link: function postLink(scope) {
+        scope.playerName = decodeURI($routeParams.playerNameUri);
         scope.isMobile = viewer.isMobile();
         scope.isActive = function(option){
           return option === scope.page ? 'active' : '';

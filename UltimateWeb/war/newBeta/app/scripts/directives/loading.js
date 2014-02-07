@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 
 angular.module('newBetaApp')
@@ -5,11 +7,30 @@ angular.module('newBetaApp')
     return {
       restrict: 'A',
       scope: {
-        loading: '='
+        loading: '=',
+        loadingType: '='
       },
-      link: function preLink(scope, element, attrs){
-          element.prepend('<span class="my-loading-icon 9827345987"><b>We Googling Homie</b><br><img width="30" src="images/ajax-loader.gif"></span>');
-        scope.$watch('loading', function(newVal){
+      link: function preLink(scope, element){
+        var message = '';
+        if (scope.loadingType.indexOf('icon') === -1){
+          var i = -1;
+          var myInt = setInterval(function(){
+            if (++i === 4) {
+              clearInterval(myInt);
+            }
+            element.children()[0].children[0].innerHTML = messages[i];
+          },3000);
+          var messages = [
+            'Resolving IP address...',
+            'Determining content network...',
+            'Uploading personal information...',
+            'Downloading malware...',
+            'Lying about what this loading gif represents...'
+          ];
+          message = messages[0];
+        }
+        element.prepend('<span class="9827345987"><b id="87654">'+message+'</b><br><img width="30" src="images/ajax-loader.gif"></span>');
+                scope.$watch('loading', function(newVal){
           _.each(element.children(), function(node){
             node.hidden = (node.classList.contains('9827345987') && !newVal) || (!node.classList.contains('9827345987') && newVal);
           });
