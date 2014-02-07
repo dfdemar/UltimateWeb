@@ -172,6 +172,8 @@ public class AbstractController {
 	protected void logErrorAndThrow(String message, Throwable t) {
 		if (t instanceof UnauthorizedException) {
 			throw (UnauthorizedException)t;
+		} else if (t instanceof PasswordRequiredException) {
+			throw (PasswordRequiredException)t;
 		}
 		if (t == null) {
 			log.log(SEVERE, message);
