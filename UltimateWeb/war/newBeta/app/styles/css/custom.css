@@ -68,7 +68,6 @@ Assigned to:	You
   z-index:1040;
   position: fixed;
   min-width: 250px;
-  height: 500px;
   top: 10%;
   left: 37%;
   right: 37%;
@@ -89,10 +88,10 @@ Assigned to:	You
 .filter-modal-content{
   position: absolute;
   margin-top: 40px;
-  height: 500px;
+  height: 100%;
   overflow-y: scroll;
 }
-@media (max-width:550px){
+/*@media (max-width:550px){
   .modal-content{
     position:absolute;
     height:100%;
@@ -109,7 +108,7 @@ Assigned to:	You
     top: -40px;
     z-index: 1;
   }
-}
+}*/
 .button-cell{
   width: 12%;
   text-align: center;
@@ -486,4 +485,16 @@ Assigned to:	You
 .stat-header {
   max-width: 17%;
   word-wrap:break-word;
+}
+.my-modal {
+  left: 35%;
+  right: 35%;
+  top: 10%;
+  bottom: 10%;
+  position: absolute;
+  z-index: 1040;
+  background: white;
+  border-radius: 10px;
+  overflow-y: scroll;
+  padding: 5px;
 }
