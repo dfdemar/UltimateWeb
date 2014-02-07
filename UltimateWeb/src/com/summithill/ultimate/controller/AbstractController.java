@@ -203,7 +203,7 @@ public class AbstractController {
 					return;
 				}
 			}
-			throw new UnauthorizedException();
+			throw new PasswordRequiredException();
 		}
 	}
 	
