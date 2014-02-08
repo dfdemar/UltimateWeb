@@ -1,24 +1,24 @@
 <div title-bar></div>
 <div nav-bar page="'team'"></div>
-<div class="main">
-  <div class="container">
+<div class="main" loading="loading" style="text-align:center;">
+  <div class="container" style="text-align:left;">
     <div class="row">
-      <div ng-controller="FilterCtrl" ng-include="'views/filter/filter.html'"></div>
+      <stat-filter></stat-filter>
       <div class="col-md-10">
         <div class="widget big-stats-container stacked">
           <div class="widget-content">
             <div id="big_stats" class="cf" style="padding: 5px;y">
               <div class="stat">                
                 <h4>Record</h4></span>               
-                <span class="value">{{teamStats.teamRecord.wins}} - {{teamStats.teamRecord.losses}}</span>
+                <span class="value">{{teamStats.record.wins}} - {{teamStats.record.losses}}</span>
               </div> <!-- .stat -->
               <div class="stat">                
                 <h4>Point Spread</h4>
-                <span class="value">{{teamStats.goalSummary.ourDlineGoals + teamStats.goalSummary.ourOlineGoals}} - {{teamStats.goalSummary.theirOlineGoals + teamStats.goalSummary.theirDlineGoals}}</span>        
+                <span class="value">{{teamStats.pointSpread.ours}} - {{teamStats.pointSpread.theirs}}</span>        
               </div> <!-- .stat -->
               <div class="stat">                
                 <h4>Conversion Percentage</h4>
-                <span class="value">{{(teamStats.conversionRate * 100 + '').slice(0,4)}}%</span>
+                <span class="value">{{teamStats.conversionRate}}%</span>
               </div> <!-- .stat -->
               <div class="stat">                
                 <h4>Breaks per Points</h4>

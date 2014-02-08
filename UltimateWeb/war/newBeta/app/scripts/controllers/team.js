@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('TeamCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('TeamCtrl', function ($scope, teamStats) {
+    $scope.loading = true;
+    teamStats.then(function(api){
+      $scope.teamStats = api.getFromIncluded();
+      $scope.loading = false;
+    })
   });
+  

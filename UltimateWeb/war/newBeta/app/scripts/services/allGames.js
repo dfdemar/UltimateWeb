@@ -7,6 +7,10 @@ angular.module('newBetaApp')
     var deferred = $q.defer();
     api.retrieveGamesData($routeParams.teamId,
       function success(response) {
+        _.each(response, function(game) {
+          game.points = JSON.parse(game.pointsJson);
+          delete game.pointsJson;
+        });
         deferred.resolve(_(response).indexBy('gameId'));
       },
       function failure(e) {

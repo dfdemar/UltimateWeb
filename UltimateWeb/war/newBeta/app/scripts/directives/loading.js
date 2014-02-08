@@ -12,7 +12,7 @@ angular.module('newBetaApp')
       },
       link: function preLink(scope, element){
         var message = '';
-        if (scope.loadingType.indexOf('icon') === -1){
+        if (!scope.loadingType || scope.loadingType.indexOf('icon') === -1){
           var i = -1;
           var myInt = setInterval(function(){
             if (++i === 4) {

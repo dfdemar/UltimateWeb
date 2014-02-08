@@ -162,10 +162,6 @@ angular.module('newBetaApp')
       return leaders;
     }
     function resolve(){
-      _.each(games, function(game) {
-        game.points = JSON.parse(game.pointsJson);
-        delete game.pointsJson;
-      });
       deferred.resolve({
         getFrom: derive,
         getLeaders: getLeaders

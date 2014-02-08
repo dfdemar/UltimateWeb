@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('filter', function () {
+  .factory('filter', function (allGames) {
     var includedGames = [];
     function exclude(game){
       var index = includedGames.indexOf(game);
@@ -11,6 +11,11 @@ angular.module('newBetaApp')
         includedGames.splice(index);
       }
     }
+    allGames.then(function(games){
+      _.each(games, function(game){
+        includedGames.push(game);
+      });
+    });
     return {
       included: includedGames,
       include: function(games){
