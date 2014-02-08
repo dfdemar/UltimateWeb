@@ -263,7 +263,7 @@ public class WebRestController extends AbstractController {
 				if (isPasswordCorrect(team, password)) {
 					addPasswordHashCookie(response, team);
 				} else {
-					throw new UnauthorizedException();
+					throw new PasswordRequiredException();
 				}
 			}
 		} catch (Exception e) {
