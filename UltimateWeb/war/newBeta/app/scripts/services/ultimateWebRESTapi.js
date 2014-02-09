@@ -216,7 +216,8 @@ angular.module('newBetaApp')
     }
 
     exports.signon = function(teamId, password, successFunction, errorFunction) {
-      sendAnalyticsEvent('signon');
+      console.log('signon called');
+            sendAnalyticsEvent('signon');
       var url = Ultimate.baseRestUrl + '/team/' + teamId + '/authenticate/' + password;
       sendRequest({
         url: url,

@@ -17,12 +17,12 @@
                 <span class="value">{{teamStats.pointSpread.ours}} - {{teamStats.pointSpread.theirs}}</span>        
               </div> <!-- .stat -->
               <div class="stat">                
-                <h4>Conversion Percentage</h4>
-                <span class="value">{{teamStats.conversionRate}}%</span>
+                <h4>Offensize Productivity</h4>
+                <span class="value">{{teamStats.offensiveProductivity}}%</span>
               </div> <!-- .stat -->
               <div class="stat">                
-                <h4>Breaks per Points</h4>
-                <span class="value">{{(teamStats.goalSummary.ourDlineGoals / (teamStats.goalSummary.ourDlineGoals + teamStats.goalSummary.ourOlineGoals) * 100 + '').slice(0,4)}}%</span>         
+                <h4>Conversion Rate</h4>
+                <span class="value">{{teamStats.conversionRate}}%</span>         
               </div> <!-- .stat -->
             </div>
           </div>
@@ -37,32 +37,28 @@
             <h3>Points by Line</h3>
           </div> <!-- .widget-header -->
           <div class="widget-content points-per-break">
-              <div class="breaks-svg" pie-chart id="ourBreakPercentageId" data="ourBreakPercentageData" radius="90">
-                <h4>Us</h4>
-              </div>
-              <div class="breaks-svg" pie-chart id="theirBreakPercentageId" data="theirBreakPercentageData" radius="90">
-                <h4>Them</h4>
-              </div>
+            <div style="width:45%;margin:0;display:inline-block;">
+              <h3>Scored</h3>
+              <pie-chart dataset="teamStats.throwsPerPossession.scored" width="200" height="200"></pie-chart>
             </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="widget stacked widget-table">
-            <div class="widget-header">
-              <span class="icon-list-alt"></span>
-              <h3>Passes per Posession</h3>
-            </div>
-            <div class="widget-content points-per-break">
-              <div class="breaks-svg" pie-chart id="passesPerScoredPossesionId" data="passesPerScoredPossessionData" radius="90">
-                <h4>Goals</h4>
-              </div>
-              <div class="breaks-svg" pie-chart id="passesPerFailedPossesionId" data="passesPerFailedPossessionData" radius="90">
-                <h4>Turns</h4>
-              </div>
+            <div style="width:45%;margin:0;display:inline-block;">
+              <h3>Failed</h3>
+              <pie-chart dataset="teamStats.throwsPerPossession.failed" width="200" height="200"></pie-chart>
             </div>
           </div>
         </div>
       </div>
+      <div class="col-md-3">
+        <div class="widget stacked widget-table">
+          <div class="widget-header">
+            <span class="icon-list-alt"></span>
+            <h3>Passes per Posession</h3>
+          </div>
+          <div class="widget-content points-per-break">
+          </div>
+        </div>
+      </div>
+    </div>
       <div class="row">
         <div class="col-md-12">
           <div class="widget stacked widget-table" ng-show="notMobile">

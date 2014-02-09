@@ -6,7 +6,7 @@ angular.module('newBetaApp', [
   .config(['$routeProvider',
     function($routeProvider) {
       function checkAuth($location, Authorization, next) {
-        next.set($location.url);
+        next.set($location.path());
         return Authorization.ping($location.url().match(/^\/\d+/)[0].slice(1));
       }
       $routeProvider
