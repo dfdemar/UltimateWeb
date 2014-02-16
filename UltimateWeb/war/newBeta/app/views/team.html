@@ -69,14 +69,13 @@
     </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="widget stacked widget-table" ng-show="notMobile">
+          <div class="widget stacked widget-table">
             <div class="widget-header">
               <span class="icon-list-alt"></span>
               <h3>Assists to Goals</h3>
             </div> <!-- .widget-header -->
             <div class="widget-content points-per-break">
-              <div id="chart" flow-chart size="960">
-              </div>
+              <flow-chart dataset="teamStats.assistMap" width="960"></flow-chart>
             </div>
           </div>
         </div>

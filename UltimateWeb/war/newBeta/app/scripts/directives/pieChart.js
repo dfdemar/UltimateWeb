@@ -18,7 +18,6 @@ angular.module('newBetaApp')
             post: function(scope, element, attrs){
               var dataset;
               scope.$watch('dataset', function(newVal){
-                console.log('triggered');
                 if (newVal){
                   dataset = newVal;
                   change();

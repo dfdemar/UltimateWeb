@@ -9,7 +9,6 @@ angular.module('newBetaApp')
         api.signon($routeParams.teamId, password,
           function() {
             var goTo = next.get();
-            debugger;
             goTo ? $location.path(goTo) : $location.path($routeParams.teamId + '/players');
             $scope.$apply();
           }, function() {
