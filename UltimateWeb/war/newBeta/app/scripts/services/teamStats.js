@@ -123,6 +123,25 @@ angular.module('newBetaApp')
         tpp.scored = _(scored).countBy(groupingFunc);
         tpp.failed = _(failed).countBy(groupingFunc);
         result.throwsPerPossession = tpp;
+
+        // points scored by line
+        var ps = {
+          us : {offense: 0, defense: 0},
+          them : {offense: 0, defense: 0}
+        };
+
+        _(games).each(function(game){
+          _(game.points).each(function(point){
+            if (point.events[point.events.length - 1].type === 'Offense'){
+              point.summary.lineType === 'D' ? ps.us.defense++ : ps.us.offense++;
+            } else {
+              point.summary.lineType === 'D' ? ps.them.offense++ : ps.them.defense++;
+            }
+          });
+        });
+
+        result.pointSummary = ps;
+
         return result;
       }
     };
