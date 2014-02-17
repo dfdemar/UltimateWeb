@@ -12,9 +12,9 @@
             </div>
             <div class="widget-content">
               <ul class="nav nav-pills nav-stacked">
-                <li ng-repeat="game in games">
-                  <a class="select-game-button" ng-class="{selected: selectedGame(game)}">
-                    <span style="display:inline-block; width:35px;">{{game.date.slice(5)}}</span>
+                <li ng-repeat="game in sortedGames | orderBy:'date':true" ng-class="{active: isSelectedGame(game)}" ng-click="select(game)">
+                  <a class="select-game-button">
+                    <span style="display:inline-block; width:50px;">{{game.date | date:'shortDate'}}</span>
                     v {{game.opponentName}}
                     <span style="float:right;">{{game.ours}}-{{game.theirs}}</span>
                   </a>
@@ -32,7 +32,7 @@
                 <span ng-show="selectedGame.tournamentName">@ {{selectedGame.tournamentName}}</span>
               </h3>
             </div>
-            <div class="widget-content">
+            <div class="widget-content" loading="gameLoading" loading-type="'icon'">
               <div ng-show="selectedGame">
                 <div  style="text-align:center; color:initial; margin-bottom:30px;">
                   <h2>{{teamName}} ({{selectedGame.ours}}) - {{selectedGame.opponentName}} ({{selectedGame.theirs}}) </h2>
@@ -69,9 +69,7 @@
                   </ul>   
                   <div class="tab-content" ng-switch="contentFocus">
                     <!-- Stats -->
-                    <div class="" ng-show="isContentFocus('Stats')">
-                      <div></div>
-                    </div>
+                    <stat-tables></stat-tables>
                     <!-- Stats End -->
 
                     <!-- Points -->

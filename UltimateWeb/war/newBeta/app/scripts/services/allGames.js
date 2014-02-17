@@ -8,6 +8,7 @@ angular.module('newBetaApp')
     api.retrieveGamesData($routeParams.teamId,
       function success(response) {
         _.each(response, function(game) {
+          game.date = new Date(game.msSinceEpoch);
           game.points = JSON.parse(game.pointsJson);
           delete game.pointsJson;
         });
