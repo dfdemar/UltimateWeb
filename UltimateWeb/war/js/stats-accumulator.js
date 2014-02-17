@@ -15,7 +15,7 @@ PlayerStatsAccumulator = function() {
 	
 	this.summarizeGameData = function(arrayOfGameData) {
 		var allPlayerStats = {};
-		for (var int = 0; int < arrayOfGameData.length; int++) {
+		for (var i = 0; i < arrayOfGameData.length; i++) {
 			updateStatsForGame(allPlayerStats, arrayOfGameData[i]);
 		}
 		return allPlayerStats;
@@ -24,14 +24,14 @@ PlayerStatsAccumulator = function() {
 	function updateStatsForGame(allPlayerStats, game) {
 		var playedInGame = [];
 		var points = JSON.parse(game.pointsJson);
-		for (var int = 0; int < points.length; int++) {
+		for (var i = 0; i < points.length; i++) {
 			var point = points[i];
-			updatePointsPlayedStats(allPlayerStats, point, playedInGame);
+			updateTimePlayedStats(allPlayerStats, point);
 			
 			var events = point.events;
 			var lastEvent = null;
-			for (var int = 0; int < events.length; int++) {
-				var event = events[i];
+			for (var j = 0; j < events.length; j++) {
+				var event = events[j];
 				var passer = isOffense(event) && event.passer != null ? getStatsForPlayer(event.passer) : null;
 				var receiver = isOffense(event) && event.receiver != null ? getStatsForPlayer(event.receiver) : null;
 				var defender = isDefense(event) && event.defender != null ? getStatsForPlayer(event.defender) : null;
@@ -63,15 +63,15 @@ PlayerStatsAccumulator = function() {
 					if (isFirstOffenseEvent(event, lastEvent)) {
 						passer.touches++;
 					}
-				} else if (event.action = 'Pull') {			
+				} else if (event.action == 'Pull') {			
 					defender.pulls++;
 					updateHangtimeForPull(event, defender);
-				} else if (event.action = 'PullOb') {	
+				} else if (event.action == 'PullOb') {	
 					defender.pullsOB++;
-				} else if (event.action = 'D') {				
+				} else if (event.action == 'D') {				
 					defender.ds++;
 					defender.plusMinusCount++;
-				} else if (event.action = 'Callahan') {					
+				} else if (event.action == 'Callahan') {					
 					if (isDefense(event)) {
 						defender.callahans++;
 						defender.goals++;
@@ -87,7 +87,7 @@ PlayerStatsAccumulator = function() {
 						passer.plusMinusCount--;
 						updatePlusMinusLine(allPlayerStats, point, false, isOline(point));
 					}
-				} else if (event.action = 'Goal') {		
+				} else if (event.action == 'Goal') {		
 					if (isOffense(event)) {
 						passer.assists++;
 						passer.passes++;
@@ -100,7 +100,7 @@ PlayerStatsAccumulator = function() {
 							passer.touches++;
 						}
 					}
-					updatePlusMinusLine(allPlayerStats, point, isOffense(event), isOline(point)) {
+					updatePlusMinusLine(allPlayerStats, point, isOffense(event), isOline(point));
 				}
 				if (isOffense(event) && passer != null && passer.passes > 0) {
 					var passPercent = (passer.passes - passerTurnovers(passer)) / passer.passes * 100;
@@ -108,29 +108,29 @@ PlayerStatsAccumulator = function() {
 				}
 				if (isOffense(event) && receiver != null && receiver.catches > 0) {
 					var catchPercent = receiver.catches / (receiver.catches + receiver.drops) * 100;
-					receiver.setCatchSuccess(Math.round(catchPercent));	
+					receiver.catchSuccess = Math.round(catchPercent);	
 				}
 				lastEvent = event;
 			}
             updatePointsPlayedStats(allPlayerStats, point, playedInGame);
 		}
-		for (var int = 0; int < playedInGame.length; int++) {
-			getStatsForPlayer(playedInGame[i]).gamesPlayed++;
+		for (var k = 0; k < playedInGame.length; k++) {
+			getStatsForPlayer(playedInGame[k]).gamesPlayed++;
 		}
 	}
 	
 	function updateTimePlayedStats(allPlayerStats, point) {
 		if (point.line) {
-			var playersInEntirePoint = playersInEntirePoint(point);
-			var playersInPartOfPoint = playersInPartOfPoint(point);
+			var playersInEntirePoint = getPlayersInEntirePoint(point);
+			var playersInPartOfPoint = getPlayersInPartOfPoint(point);
 			// players who played all of point
-			for (var int = 0; int < playersInEntirePoint.length; int++) {
-				var playerStats = getPlayerStats(allPlayerStats, playersInEntirePoint[i]);
+			for (var i = 0; i < playersInEntirePoint.length; i++) {
+				var playerStats = getStatsForPlayer(allPlayerStats, playersInEntirePoint[i]);
 				playerStats.secondsPlayed += elapsedTimeForPoint(point);
 			}
 			// players that were subbed in/out (ascribe half of the point time)
-			for (var int = 0; int < playersInPartOfPoint.length; int++) {
-				var playerStats = getPlayerStats(allPlayerStats, playersInPartOfPoint[i]);
+			for (var i = 0; i < playersInPartOfPoint.length; i++) {
+				var playerStats = getStatsForPlayer(allPlayerStats, playersInPartOfPoint[i]);
 				var elapsedTime = elapsedTimeForPoint(point);
 				if (elapsedTime) {
 					elapsedTime = elapsedTime / 2;
@@ -142,13 +142,13 @@ PlayerStatsAccumulator = function() {
 
 	function updatePointsPlayedStats(allPlayerStats, point, playedInGame) {
 		if (point.line) {
-			var playersInEntirePoint = playersInEntirePoint(point);
-			var playersInPartOfPoint = playersInPartOfPoint(point);
+			var playersInEntirePoint = getPlayersInEntirePoint(point);
+			var playersInPartOfPoint = getPlayersInPartOfPoint(point);
 			// players who played all of point
-			for (var int = 0; int < playersInEntirePoint.length; int++) {
+			for (var i = 0; i < playersInEntirePoint.length; i++) {
 				var name = playersInEntirePoint[i];
-				addPlayerName(playerInGame, name);
-				var playerStats = getPlayerStats(allPlayerStats, name);
+				addPlayerName(playedInGame, name);
+				var playerStats = getStatsForPlayer(allPlayerStats, name);
 				playerStats.pointsPlayed++;
 				if (isOline(point)) {
 					playerStats.oPointsPlayed++;
@@ -157,10 +157,10 @@ PlayerStatsAccumulator = function() {
 				}
 			}
 			// players who played in part of point
-			for (var int = 0; int < playersInPartOfPoint.length; int++) {
+			for (var i = 0; i < playersInPartOfPoint.length; i++) {
 				var name = playersInPartOfPoint[i];
-				addPlayerName(playerInGame, name);
-				var playerStats = getPlayerStats(allPlayerStats, name);
+				addPlayerName(playedInGame, name);
+				var playerStats = getStatsForPlayer(allPlayerStats, name);
 				playerStats.pointsPlayed += .5;
 				if (isOline(point)) {
 					playerStats.oPointsPlayed += .5;
@@ -173,7 +173,7 @@ PlayerStatsAccumulator = function() {
 	
 	function updatePlusMinusLine(allPlayerStats, point, isOurGoal, isOline) {
 		if (point.line) {
-			for (var int = 0; int < point.line.length; int++) {
+			for (var i = 0; i < point.line.length; i++) {
 				var playerName = point.line[i];
 				var playerStats = getStatsForPlayer(playerName);
 				if (isOurGoal) {
@@ -195,11 +195,11 @@ PlayerStatsAccumulator = function() {
 
 	// answer the players that played during the entire point (were not
 	// substituted in or out)
-	function playersInEntirePoint(point) {
-		if (line) {
+	function getPlayersInEntirePoint(point) {
+		if (point.line) {
 			if (point.substitutions) {
 				var players = point.line.slice();
-				for (var int = 0; int < point.substitutions.length; int++) {
+				for (var i = 0; i < point.substitutions.length; i++) {
 					var fromPlayer = point.substitutions[i].fromPlayer;
 					var toPlayer = point.substitutions[i].toPlayer;
 					// drop both players that are part of a substitution
@@ -216,10 +216,10 @@ PlayerStatsAccumulator = function() {
 	}
 	
 	// answer the players that were substituted in or out during the point
-	function playersInPartOfPoint(point) {
+	function getPlayersInPartOfPoint(point) {
 		if (point.substitutions) {
 			var players = [];
-			for (var int = 0; int < point.substitutions.length; int++) {
+			for (var i = 0; i < point.substitutions.length; i++) {
 				var fromPlayer = point.substitutions[i].fromPlayer;
 				var toPlayer = point.substitutions[i].toPlayer;
 				// add both players that are part of a substitution
@@ -232,13 +232,13 @@ PlayerStatsAccumulator = function() {
 		}
 	}
 	
-	function getStatsForPlayer(allPlayerStats, playerName) {
-		var playerStats = allPlayerStats[playerName];
+	function getStatsForPlayer(allPlayerStats, name) {
+		var playerStats = allPlayerStats[name];
 		if (!playerStats) {
 			playerStats = {};
-			playerStats[playerName] = playerStats;
+			allPlayerStats[name] = playerStats;
 			
-			playerStats.playerName = playerName;
+			playerStats.playerName = name;
 			playerStats.plusMinusCount = 0;
 			playerStats.plusMinusOLine = 0;
 			playerStats.plusMinusDLine = 0;
@@ -273,15 +273,15 @@ PlayerStatsAccumulator = function() {
 	
 	function removePlayerName(names, playerName) {
 		var i = names.indexOf(playerName);
-		if(i != -1) {
+		if (i != -1) {
 			names.splice(i, 1);
 		} 
 	}
 	
 	function addPlayerName(names, playerName) {
 		// don't add it if already there
-		for (var int = 0; int < names.length; int++) {
-			if (names[i]) == playerName) {
+		for (var i = 0; i < names.length; i++) {
+			if (names[i] == playerName) {
 				return;
 			}
 		}
@@ -300,7 +300,7 @@ PlayerStatsAccumulator = function() {
 		var elapsedTime = point.summary.elapsedTime;
 		if (!elapsedTime) {
 			elapsedTime = 0;
-		})
+		}
 		return elapsedTime > UNREASONABLY_LONG_ELAPSED_TIME_MINUTES * 60 ? DEFAULT_POINT_ELAPSED_MINUTES * 60 : elapsedTime; 
 	}
 	
@@ -316,15 +316,6 @@ PlayerStatsAccumulator = function() {
 		return isOffense(event) && (previousEvent == null || !(isOffense(previousEvent)));
 	}
 	
-	function getHangTime(event) {
-		if (event.details) {
-			if (event.details.hangtime) {
-				return event.details.hangtime;
-			}
-		}
-		return 0;
-	}
-	
 	function updateHangtimeForPull(pullEvent, playerStat) {
 		if (pullEvent.details && pullEvent.details.hangtime) {
 			playerStat.pullsWithHangtime++;
@@ -333,7 +324,7 @@ PlayerStatsAccumulator = function() {
 		}
 	}
 	
-	function passerTurnovers(playerStat) {}
+	function passerTurnovers(playerStat) {
 		return playerStat.throwaways + playerStat.stalls + playerStat.miscPenalties;
 	}
 	
