@@ -6,6 +6,7 @@
     "json3": "~3.2.4",
     "es5-shim": "~2.1.0",
     "angular-route": "~1.2.0",
+    "angular-animate": "~1.2.13",
     "d3": "3.4.1",
     "jquery": "1.8.0",
     "underscore": "1.5.2" 

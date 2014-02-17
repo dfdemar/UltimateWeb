@@ -32,3 +32,12 @@ angular.module('newBetaApp')
       ps = global.psApi.getFrom([game])
       ts = global.tsApi.getFrom([game])
       scope.gameLoading = false
+
+    # points control
+    openPoints = {}
+    scope.togglePoints = (points, only) ->
+      if only then openPoints = {}
+      _(_(points).pluck '$$hashKey').each (id) ->
+        openPoints[id] = !openPoints[id]
+    scope.isOpen = (point) ->
+      openPoints[point['$$hashKey']]

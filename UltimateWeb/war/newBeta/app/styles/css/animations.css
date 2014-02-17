@@ -1,0 +1,19 @@
+.panel-body.ng-enter {
+  max-height: 0;
+  opacity:0;
+  transition: all 2s ease;
+}
+.panel-body.ng-enter-active {
+  opacity:1;
+  max-height: 2000px;
+}
+.panel-body.ng-leave {
+  max-height: 1000px;
+  transition: all 1s ease;
+}
+.panel-body.ng-leave-active {
+  max-height: 0;
+  padding-top:0;
+  padding-bottom:0;
+  opacity:0;
+}

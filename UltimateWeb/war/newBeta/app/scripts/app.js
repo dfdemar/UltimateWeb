@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('newBetaApp', [
-  'ngRoute'
+  'ngRoute',
+  'ngAnimate'
 ])
   .config(['$routeProvider',
     function($routeProvider) {
