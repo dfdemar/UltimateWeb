@@ -32,9 +32,9 @@ PlayerStatsAccumulator = function() {
 			var lastEvent = null;
 			for (var j = 0; j < events.length; j++) {
 				var event = events[j];
-				var passer = isOffense(event) && event.passer != null ? getStatsForPlayer(event.passer) : null;
-				var receiver = isOffense(event) && event.receiver != null ? getStatsForPlayer(event.receiver) : null;
-				var defender = isDefense(event) && event.defender != null ? getStatsForPlayer(event.defender) : null;
+				var passer = isOffense(event) && event.passer != null ? getStatsForPlayer(allPlayerStats,event.passer) : null;
+				var receiver = isOffense(event) && event.receiver != null ? getStatsForPlayer(allPlayerStats,event.receiver) : null;
+				var defender = isDefense(event) && event.defender != null ? getStatsForPlayer(allPlayerStats,event.defender) : null;
 
 				if (event.action == 'Catch') {
 					passer.passes++;
@@ -115,7 +115,7 @@ PlayerStatsAccumulator = function() {
             updatePointsPlayedStats(allPlayerStats, point, playedInGame);
 		}
 		for (var k = 0; k < playedInGame.length; k++) {
-			getStatsForPlayer(playedInGame[k]).gamesPlayed++;
+			getStatsForPlayer(allPlayerStats,playedInGame[k]).gamesPlayed++;
 		}
 	}
 	
@@ -175,7 +175,7 @@ PlayerStatsAccumulator = function() {
 		if (point.line) {
 			for (var i = 0; i < point.line.length; i++) {
 				var playerName = point.line[i];
-				var playerStats = getStatsForPlayer(playerName);
+				var playerStats = getStatsForPlayer(allPlayerStats,playerName);
 				if (isOurGoal) {
 					if (isOline) {
 						playerStats.plusMinusOLine++;
