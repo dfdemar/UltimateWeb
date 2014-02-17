@@ -17,3 +17,22 @@
   padding-bottom:0;
   opacity:0;
 }
+
+.fade-in.ng-enter {
+  opacity: 0;
+  transition: all 1s ease;
+}
+.fade-in.ng-enter-active {
+  opacity: 1;
+}
+.fade-in.ng-move {
+  opacity: 0;
+  transition: all 1s ease;
+}
+.fade-in.ng-move-active {
+  opacity: 1;
+}
+.fade-out-ng-leave {
+  opacity:1;
+  transition: all 1s ease;
+}
