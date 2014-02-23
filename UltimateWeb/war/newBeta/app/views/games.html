@@ -28,20 +28,20 @@
           <div class="widget-header">
             <span class="icon-file"></span>
             <h3 ng-show="selectedGame">
-              <span id="game-title">{{selectedGame.opponentName}}</span>
-              <span ng-show="selectedGame.tournamentName">@ {{selectedGame.tournamentName}}</span>
+              <span id="game-title">{{selectedGame.opponentName | upperCase}}</span>
+              <span ng-show="selectedGame.tournamentName">@ {{selectedGame.tournamentName | upperCase}}</span>
             </h3>
           </div>
           <div class="widget-content" loading="gameLoading" loading-type="'icon'">
             <div ng-if="selectedGame" class="fade-in">
               <div style="text-align:center; color:initial; margin-bottom:30px;">
-                <h2>{{teamName}} ({{selectedGame.ours}}) - {{selectedGame.opponentName}} ({{selectedGame.theirs}}) </h2>
-                <h5>{{teamName}} are {{selectedGame.gameSpecificStats.record}} against the {{selectedGame.opponentName}}.</h5>  
+                <h2>{{teamName | upperCase}} ({{selectedGame.ours}}) - {{selectedGame.opponentName | upperCase}} ({{selectedGame.theirs}}) </h2>
+                <h5>{{teamName | upperCase}} are {{gameStats.record.wins}} - {{gameStats.record.losses}}  against {{selectedGame.opponentName | upperCase}}.</h5>  
               </div>
               <div class="game-leaders">
                 <b style="font-size:1.5em;">Game Leaders:</b><br>
-                <p style="margin:0;" ng-repeat="(type, leader) in selectedGame.gameSpecificStats.leaders">
-                  {{prettifyText(type)}} : {{leader.playerName}} ({{leader[type]}})
+                <p style="margin:0;" ng-repeat="(type, leader) in gameStats.leaders">
+                  {{type | camelCase}} : {{leader.name}} ({{leader.stats[type]}})
                 </p>
               </div>
 

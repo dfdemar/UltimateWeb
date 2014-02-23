@@ -93,6 +93,7 @@ angular.module('newBetaApp')
       }
     });
     var derive = function(gameRefs) {
+      if (!_(gameRefs).isArray()) {gameRefs = [gameRefs];}
       var players = {};
       _.each(playerNames, function(name){
         players[name] = {};

@@ -22,15 +22,14 @@
     <link href="./styles/css/pages/reports.css" rel="stylesheet">
     <link href="./styles/css/custom.css" rel="stylesheet">
     <link href="./styles/css/animations.css" rel="stylesheet">
-    <link href="./styles/css/animations.css" rel="stylesheet">
-    <link href="./styles/animations.css" rel="stylesheet">
+    <!-- <link href="./styles/animations.css" rel="stylesheet"> -->
 </head>
   <body ng-app="newBetaApp">
     <div ng-view=""></div>
 
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.underscore.min.js"></script>
     <script src="bower_components/jQuery/jquery.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/d3/d3.js"></script>
@@ -75,6 +74,8 @@
     <script src="scripts/services/downloadUrl.js"></script>
     <script src="scripts/filters/eventDescription.js"></script>
     <script src="scripts/filters/eventImageUrl.js"></script>
+    <script src="scripts/filters/upperCase.js"></script>
+    <script src="scripts/services/gameStats.js"></script>
     <!-- endbuild -->
 </body>
 </html>
