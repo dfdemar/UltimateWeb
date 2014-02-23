@@ -15,7 +15,7 @@ angular.module('newBetaApp').factory('gameStats', function($q, allGames, playerS
     var leaders, players, relevant, results;
     results = {};
     players = psApi.getFrom(game);
-    relevant = _(games).findWhere({
+    relevant = _(games).where({
       opponentName: game.opponentName
     });
     if (!_(relevant).isArray()) {

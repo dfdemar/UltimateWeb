@@ -18,7 +18,7 @@ angular.module('newBetaApp')
       players = psApi.getFrom game
 
       # record
-      relevant = _(games).findWhere({opponentName: game.opponentName})
+      relevant = _(games).where({opponentName: game.opponentName})
       unless _(relevant).isArray()
         relevant = [relevant]
       results.record = _(relevant).countBy (game)->
