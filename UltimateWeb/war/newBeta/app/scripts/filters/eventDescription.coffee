@@ -3,7 +3,7 @@
 angular.module('newBetaApp')
   .filter 'eventDescription', () ->
     (event) ->
-      switch event 
+      switch event.action
         when 'Catch' then return event.passer + ' to ' + event.receiver
         when 'Drop' then return event.receiver + ' dropped from ' + event.passer;
         when 'Throwaway'

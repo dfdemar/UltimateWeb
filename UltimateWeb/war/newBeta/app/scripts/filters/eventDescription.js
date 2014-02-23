@@ -2,7 +2,7 @@
 'use strict';
 angular.module('newBetaApp').filter('eventDescription', function() {
   return function(event) {
-    switch (event) {
+    switch (event.action) {
       case 'Catch':
         return event.passer + ' to ' + event.receiver;
       case 'Drop':
