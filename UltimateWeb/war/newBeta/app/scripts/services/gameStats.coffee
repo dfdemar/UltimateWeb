@@ -33,5 +33,5 @@ angular.module('newBetaApp')
         leaders[type] = _(players).max (player)->
           player.stats[type]
       results.leaders = leaders
-      results
+      results        
     deferred.promise

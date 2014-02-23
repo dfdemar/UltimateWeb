@@ -15,8 +15,8 @@ angular.module('newBetaApp', [
         .when('/:teamId/team', {templateUrl: 'views/team.html', controller: 'TeamCtrl', resolve: {authorized: checkAuth }})
         .when('/:teamId/download', {templateUrl: 'views/download.html', controller: 'DownloadCtrl', resolve: {authorized: checkAuth }})
         .when('/:teamId/line', {templateUrl: 'views/line.html', controller: 'LineCtrl', resolve: {authorized: checkAuth }})
-        .when('/:teamId/games', {templateUrl: 'views/games.html', controller: 'GamesCtrl', resolve: {authorized: checkAuth }})
-        .when('/:teamId/games/:gameId', {templateUrl: 'views/games.html', controller: 'GamesCtrl', resolve: {authorized: checkAuth }})
+        .when('/:teamId/games', {templateUrl: 'views/games.html', controller: 'GamesCtrl', resolve: {authorized: checkAuth }, reloadOnSearch: false})
+        .when('/:teamId/games/:gameId', {templateUrl: 'views/games.html', controller: 'GamesCtrl', resolve: {authorized: checkAuth }, reloadOnSearch: false})
         .when('/:teamId/player/:playerNameUri', {templateUrl: 'views/player.html', controller: 'PlayerCtrl', resolve: { authorized: checkAuth }})
         .when('/404', {templateUrl: 'views/404.html', controller: '404Ctrl'})
         .otherwise({redirectTo: '/404'});

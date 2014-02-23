@@ -46,15 +46,15 @@
               </div>
 
               <!-- Wind --> 
-              <div class="wind-indicator">
+              <div class="wind-indicator" ng-if="selectedGame.wind">
                 <div style="margin-bottom: 7px;">
                   <img src="images/wind-large.png">
                   <span style="margin-left: 10px; verticle-align:bottom;"> {{selectedGame.wind.mph}} mph</span>
                 </div>
                 <div class="playing-field">
                   <div class="playing-field-proper">
-                    <div style="-webkit-transform:rotate({{selectedGame.wind.degrees}}deg)"class="arrow-container">
-                      <img src="images/wind-arrow-large.png">
+                    <div class="arrow-container">
+                      <img src="images/wind-arrow-large.png" rotating="selectedGame.wind.degrees">
                     </div>
                   </div>
                 </div>

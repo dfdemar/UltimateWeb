@@ -36,3 +36,6 @@
   opacity:1;
   transition: all 1s ease;
 }
+.rotating {
+  transition: all 3s ease;
+}

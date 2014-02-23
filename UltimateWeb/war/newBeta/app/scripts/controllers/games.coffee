@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'GamesCtrl', ($scope, $q, $routeParams, $location, allGames, playerStats, gameStats) ->
+  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats) ->
     # stupid coffee...
     games = null
     gsApi = null
@@ -15,10 +15,8 @@ angular.module('newBetaApp')
       games = responses[0]
       psApi = responses[1]
       gsApi = responses[2]
-      if $routeParams.gameId and _(games).has $routeParams.gameId then scope.select games[$routeParams.gameId]
-      else  
-        scope.select _(games).max (game) ->
-          game.msSinceEpoch
+      if $location.search() and _(games).has $location.search() then scope.select games[$location.search()]
+      else scope.select _(games).max (game) -> game.msSinceEpoch
       scope.loading = false
 
     # display all games with selection capabilities
@@ -30,8 +28,8 @@ angular.module('newBetaApp')
       game == scope.selectedGame
 
     scope.select = (game) ->
-      $location.path $routeParams.teamId + '/games/' + game.gameId
       scope.gameLoading = true
+      $location.search(game.gameId)
       scope.selectedGame = game
       scope.gameStats = gsApi.getFor game
       scope.gameLoading = false
