@@ -82,7 +82,7 @@
                             <span>{{point.summary.lineType}}-Line</span>&nbsp;&nbsp;
                             <span class="point-minutes">{{(point.summary.elapsedTime / 60 ).toString().slice(0,3)}} min.</span>&nbsp;&nbsp;
                             <span ng-repeat="player in point.line">
-                              <span ng-click="selectPlayer(derivePlayerFromName(player))" class="fake-link">{{player}}</span>
+                              <span>{{player}}</span>
                               <span>{{{true: '', false: ', '}[$last]}}</span>
                             </span>
                           </a>

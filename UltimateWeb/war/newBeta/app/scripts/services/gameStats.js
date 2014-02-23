@@ -14,7 +14,7 @@ angular.module('newBetaApp').factory('gameStats', function($q, allGames, playerS
   api.getFor = function(game) {
     var leaders, players, relevant, results;
     results = {};
-    players = psApi.getFrom(game);
+    players = psApi.getFrom([game]);
     relevant = _(games).where({
       opponentName: game.opponentName
     });

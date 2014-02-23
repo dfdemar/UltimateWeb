@@ -15,7 +15,7 @@ angular.module('newBetaApp')
 
     api.getFor = (game)->
       results = {}
-      players = psApi.getFrom game
+      players = psApi.getFrom [game]
 
       # record
       relevant = _(games).where({opponentName: game.opponentName})

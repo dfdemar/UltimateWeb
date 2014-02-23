@@ -1,20 +1,21 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats) ->
+  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats, filter) ->
     # stupid coffee...
     games = null
     gsApi = null
-    psApi = null
+    fApi = null
     # I hate writing $'s'
     scope = $scope
 
     # loading
     scope.loading = true
-    $q.all([allGames, playerStats, gameStats]).then (responses)->
+    $q.all([allGames, playerStats, gameStats, filter]).then (responses)->
       games = responses[0]
-      psApi = responses[1]
       gsApi = responses[2]
+      fApi = responses[3]
+
       if $location.search() and _(games).has $location.search() then scope.select games[$location.search()]
       else scope.select _(games).max (game) -> game.msSinceEpoch
       scope.loading = false
@@ -32,6 +33,7 @@ angular.module('newBetaApp')
       $location.search(game.gameId)
       scope.selectedGame = game
       scope.gameStats = gsApi.getFor game
+      fApi.onlyInclude([game])
       scope.gameLoading = false
 
     # points control
