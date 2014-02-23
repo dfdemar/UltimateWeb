@@ -8,12 +8,20 @@ angular.module('newBetaApp').controller('GamesCtrl', function($scope, $q, $locat
   scope = $scope;
   scope.loading = true;
   $q.all([allGames, playerStats, gameStats, filter]).then(function(responses) {
+    var id;
     games = responses[0];
     gsApi = responses[2];
     fApi = responses[3];
-    if ($location.search() && _(games).has($location.search())) {
-      scope.select(games[$location.search()]);
-    } else {
+    try {
+      id = _($location.search()).keys()[0];
+      if (games[id]) {
+        scope.select(games[id]);
+      } else {
+        scope.select(_(games).max(function(game) {
+          return game.msSinceEpoch;
+        }));
+      }
+    } catch (_error) {
       scope.select(_(games).max(function(game) {
         return game.msSinceEpoch;
       }));

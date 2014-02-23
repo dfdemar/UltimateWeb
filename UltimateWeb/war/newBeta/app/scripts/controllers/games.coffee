@@ -15,9 +15,12 @@ angular.module('newBetaApp')
       games = responses[0]
       gsApi = responses[2]
       fApi = responses[3]
-
-      if $location.search() and _(games).has $location.search() then scope.select games[$location.search()]
-      else scope.select _(games).max (game) -> game.msSinceEpoch
+      try 
+        id = _($location.search()).keys()[0]
+        if games[id] then scope.select games[id]
+        else scope.select _(games).max (game) -> game.msSinceEpoch
+      catch
+        scope.select _(games).max (game) -> game.msSinceEpoch
       scope.loading = false
 
     # display all games with selection capabilities
