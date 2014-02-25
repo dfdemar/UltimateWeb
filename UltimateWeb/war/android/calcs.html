@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>iUltimate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="../js/jquery-1.7.1.min.js"></script>
+    <!-- Les styles -->
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../css/publicity-custom.css" rel="stylesheet">
+    
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    
+    <script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-31918750-1']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+	</script>
+    
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    	  // Handler for .ready() called.
+    	});
+    </script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">iUltimate</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="details.html">Details</a></li>
+              <li><a href="support.html">Support</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>Calcs</h1>
+      <p><br>Question on how statistics are calculated?  Check out the calculations that follow.<br>  If you still have a question (or suggestion) <a href="mailto:support@ultimate-numbers.com">send us a note</a>.</p>
+      
+
+              <div >
+              	<strong>iUltimate calculations:</strong><br>
+                <div>
+                  <ul>
+                  <li class="stat-title"><span>+/-</span><br>
+                        <ul>
+                  			<li>+1 for a goal.</li>
+                  			<li>+1 for an assist.</li>
+                  			<li>+1 for a D.</li>
+                  			<li>-1 for a drop.</li>
+                  			<li>-1 for a passer turnover (throwaway, stalled, misc. penalty).</li>
+                  			<li>+2 for a callahan (+1 for D and +1 for goal).</li>
+                  			<li>-1 for being callahaned.</li>
+                  		</ul>
+				  </li>
+				  <li class="stat-title"><span>points played</span><br>
+				      <ul>
+						<li>total number of points played.  A player that subs in/out is credited half a point.</li>
+					  </ul>
+				  </li>
+				 <li class="stat-title"><span>o-line or d-line points played</span><br>
+				      <ul>
+							<li>total number of o-line or d-line points the player played.  A player that subs in/out is credited a half point.</li>
+						</ul>
+				  </li>
+                  <li class="stat-title"><span>+/- O-line</span><br>
+                        <ul>
+                  			<li>+1 for an O-line goal for a point in which the player was on the field<sup>1</sup>.</li>
+							<li>-1 for an opponent score against the O-line (a break) in which the player was on the field<sup>1</sup>.</li>
+                  		</ul>
+				  </li>	
+				  <li class="stat-title"><span>+/- D-line</span><br>
+                        <ul>
+                  			<li>+1 for a D-line goal (a break) for a point in which the player was on the field<sup>1</sup>.</li>
+							<li>-1 for an opponent score against the D-line for a point in which the player was on the field<sup>1</sup>.</li>
+                  		</ul>
+				  </li>					  
+				  <li class="stat-title"><span>minutes played</span><br>
+				      <ul>
+							<li>total number of minutes played by the player.  A player that subs in/out is credited half the point time.  <br> NOTE: If the elapsed time for a point appears amiss (> 1 hour) then it is assumed the game was adjusted outside of actual bounds and the default time per point (5 minutes) is credited.</li>				      
+   					  </ul>
+				  </li>				  
+                  <li class="stat-title"><span>touches</span><br>
+                    	<ul>
+                  			<li>+1 when offense player picks up or catches a disc after the pull.</li>
+                  			<li>+1 when player recieves a pass.  No additional count when this player subsequently passes.</li>
+                  			<li>+1 when player catches a goal.</li>
+                  			<li>+1 when player has a callahan.</li>
+                  		</ul>
+				  </li>   
+				  <li class="stat-title"><span>catches</span><br>
+                    	<ul>
+                  			<li>+1 when offense player catches the disc (including for a goal) passed from another player.</li>
+                  		</ul>
+				  </li> 
+				  <li class="stat-title"><span>throws</span><br>
+                    	<ul>
+                  			<li>+1 when offense player passes to another player (including for a goal) regardless of whether the pass is caught, i.e., includes drops and throwaways.</li>
+                  		</ul>
+				  </li> 
+				  <li class="stat-title"><span>throw %</span><br>
+                    	<ul>
+                  			<li>(throws - passer turnovers) &#247; throws</li>
+                  		</ul>
+				  </li> 
+				  <li class="stat-title"><span>catch %</span><br>
+                    	<ul>
+                  			<li>catches &#247; (catches + drops)</li>
+                  		</ul>
+				  </li> 
+                  </ul>
+                </div>
+                <sup>1</sup>Players substituted out before the goal are not affected.
+              </div>
+            
+
+      <hr>
+	  <footer>
+      	<br>
+      </footer>
+      
+    </div> 
+    
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../bootstrap/js/bootstrap-transition.js"></script>
+    <script src="../bootstrap/js/bootstrap-alert.js"></script>
+    <script src="../bootstrap/js/bootstrap-modal.js"></script>
+    <script src="../bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="../bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="../bootstrap/js/bootstrap-tab.js"></script>
+    <script src="../bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="../bootstrap/js/bootstrap-popover.js"></script>
+    <script src="../bootstrap/js/bootstrap-button.js"></script>
+    <script src="../bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="../bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="../bootstrap/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
