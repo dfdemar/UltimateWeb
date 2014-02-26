@@ -41,7 +41,9 @@
               <div class="game-leaders">
                 <b style="font-size:1.5em;">Game Leaders:</b><br>
                 <p style="margin:0;" ng-repeat="(type, leader) in gameStats.leaders">
-                  {{type | camelCase}} : {{leader.name}} ({{leader.stats[type]}})
+                  <span style="display:inline-block; min-width:90px;">{{type | camelCase}} : </span>
+                  <b><a ng-click="relocate.goTo('player', leader.name)">{{leader.name}}</a></b> 
+                  <span>({{leader.stats[type]}})</span>
                 </p>
               </div>
 
@@ -76,14 +78,14 @@
                     <a ng-click="togglePoints([], true)">Collapse All</a>
                     <div class="panel panel-default" ng-repeat="point in selectedGame.points" ng-class="{open: isOpen(point)}">
                       <div class="panel-heading" style="cursor:pointer;" ng-click="togglePoints([point])">
-                        <h4 class="panel-title">
+                        <h4 class="panel-title" ng-click="console.log(point)">
                           <a class="accordion-toggle">
                             <span class="point-score">{{point.summary.score.ours}}-{{point.summary.score.theirs}}</span>&nbsp;&nbsp;
                             <span>{{point.summary.lineType}}-Line</span>&nbsp;&nbsp;
                             <span class="point-minutes">{{(point.summary.elapsedTime / 60 ).toString().slice(0,3)}} min.</span>&nbsp;&nbsp;
                             <span ng-repeat="player in point.line">
                               <span>{{player}}</span>
-                              <span>{{{true: '', false: ', '}[$last]}}</span>
+                              <span>{{$last ? '': ','}}</span>
                             </span>
                           </a>
                         </h4>

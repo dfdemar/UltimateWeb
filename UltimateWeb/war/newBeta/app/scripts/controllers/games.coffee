@@ -1,14 +1,15 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats, filter) ->
+  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats, filter, relocate) ->
     # stupid coffee...
     games = null
     gsApi = null
     fApi = null
     # I hate writing $'s'
     scope = $scope
-
+    scope.relocate = relocate
+    scope.console = console
     # loading
     scope.loading = true
     $q.all([allGames, playerStats, gameStats, filter]).then (responses)->

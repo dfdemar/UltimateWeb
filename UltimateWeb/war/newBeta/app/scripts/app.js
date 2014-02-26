@@ -2,7 +2,8 @@
 
 angular.module('newBetaApp', [
   'ngRoute',
-  'ngAnimate'
+  'ngAnimate',
+  'ngDragDrop'
 ])
   .config(['$routeProvider',
     function($routeProvider) {

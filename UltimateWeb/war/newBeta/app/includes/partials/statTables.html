@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="player in statsArray | orderBy:sorter:'true'" ng-if="true" class="fade-in fade-out">
-          <td class="stat-element"><a ng-click="navTo(player.name)">{{player.name}}</a></td>
+          <td class="stat-element"><a ng-click="relocate.goTo('player', player.name)">{{player.name}}</a></td>
           <td class="stat-element" ng-repeat="type in focus.statTypes">
             {{player.stats[type]}}
           </td>

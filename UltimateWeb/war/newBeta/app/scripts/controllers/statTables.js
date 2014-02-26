@@ -3,12 +3,10 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('StattablesCtrl', function($scope, $location,$routeParams, playerStats, filter) {
+  .controller('StattablesCtrl', function($scope, $location,$routeParams, playerStats, filter, relocate) {
+    $scope.relocate = relocate;
     $scope.changeFocus = function(type) {
       $scope.focus = type;
-    };
-    $scope.navTo = function(playerName){
-      $location.url($routeParams.teamId + '/player/' + encodeURI(playerName));
     };
     playerStats.then(function(statsApi) {
       $scope.categories = [{

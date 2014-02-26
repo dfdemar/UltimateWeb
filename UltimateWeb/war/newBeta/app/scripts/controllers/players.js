@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('PlayersCtrl', function ($scope, playerStats, allGames, filter) {
+  .controller('PlayersCtrl', function ($scope, playerStats, allGames, filter, relocate) {
+    $scope.relocate = relocate;
     $scope.loading = true;
     var games, api;
     allGames.then(function(stuff){
