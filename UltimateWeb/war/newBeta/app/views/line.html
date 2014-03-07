@@ -31,7 +31,7 @@
                 </span>
               </div>
             </div>
-            <div class="line-container" ng-repeat="line in lines" line-stats line="line.players" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging">
+            <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging">
               <div class="line-header">
                 <h3 unbindable>Line {{lineCount}}</h3>
                 <i class="icon icon-remove line-close-button" ng-click="removeLine(line)"></i>
@@ -39,8 +39,8 @@
               <div class="line-players-list">
                 <div class="line-drop-box">
                   <div class="shadowy">
-                    <div class="player-in-line" >
-                      <span></span>
+                    <div class="player-in-line" ng-repeat="player in line.players">
+                      <span>{{player}}</span>
                       &nbsp;&nbsp;
                       <span class="icon-trash line-close-button"></span>
                     </div>
