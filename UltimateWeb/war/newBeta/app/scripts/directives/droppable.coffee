@@ -1,17 +1,19 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .directive 'droppable', () ->
+  .directive 'droppable', ($parse) ->
     restrict: 'A'
-    scope:
-      onDrop: '='
+    scope: true
     link: (scope, element, attrs)->
-      element.on 'dragenter', ->
-        console.log 'dragenter'
-      element.on 'dragover', ->
-        console.log 'dragover'
-      element.on 'dragleave', ->
-        console.log 'dragleave'
-      element.on 'drop', ->
-        console.log 'drop'
-
+      onEnter = $parse(attrs.onEnter)(scope) 
+      onLeave = $parse(attrs.onLeave)(scope)
+      onDrop = $parse(attrs.onDrop)(scope)
+      element.on 'dragenter', (event)->
+        onEnter?(scope.dragging)
+      element.on 'dragleave', (event)->
+        onLeave?(scope.dragging)
+      element.on 'drop', (event)->
+        onDrop?(scope.dragging)
+      element.on 'dragover', (event)->
+        onOver?(scope.dragging)
+        event.preventDefault()
