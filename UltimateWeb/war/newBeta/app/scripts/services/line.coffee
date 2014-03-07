@@ -1,15 +1,21 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'Line', ($rootScope) ->
+  .factory 'Line', ($rootScope, lineStats) ->
+    lineStats.then (response)->
+      lineStats = response
+    lineNum = 0
     class Line
       constructor: ->
-        @id = String Math.random()
+        @stats = {}
+        @id = ++lineNum
         @players = []
       addPlayer: (player)=>
         @players = _.union @players, [player]
-        $rootScope.$digest()
+        @updateStats()
       removePlayer: (player)->
         @players = _.without @players, player
-      getStats: =>
-        console.log 'todo'
+        @updateStats()
+      updateStats: ->
+        @stats = lineStats.getStats(@players)
+        $rootScope.$digest()

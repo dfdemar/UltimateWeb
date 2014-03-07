@@ -33,7 +33,7 @@
             </div>
             <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging">
               <div class="line-header">
-                <h3 unbindable>Line {{lineCount}}</h3>
+                <h3>Line {{line.id}}</h3>
                 <i class="icon icon-remove line-close-button" ng-click="removeLine(line)"></i>
               </div>
               <div class="line-players-list">
@@ -53,7 +53,7 @@
               <div>
                 <table ng-show="line.players.length" class="table table-striped">
                   <tr>
-                    <td>Points Considered</td><td>{{line.considerablePoints.length}}</td>
+                    <td>Points Considered</td><td>{{line.stats.consideredPoints.length}}</td>
                   </tr>
                 </table>
                 <table class="table table-striped" ng-repeat="(connection, statVal) in line.stats.connections">

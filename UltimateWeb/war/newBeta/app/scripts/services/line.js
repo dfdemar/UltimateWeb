@@ -2,27 +2,33 @@
 'use strict';
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-angular.module('newBetaApp').factory('Line', function($rootScope) {
-  var Line;
+angular.module('newBetaApp').factory('Line', function($rootScope, lineStats) {
+  var Line, lineNum;
+  lineStats.then(function(response) {
+    return lineStats = response;
+  });
+  lineNum = 0;
   return Line = (function() {
     function Line() {
-      this.getStats = __bind(this.getStats, this);
       this.addPlayer = __bind(this.addPlayer, this);
-      this.id = String(Math.random());
+      this.stats = {};
+      this.id = ++lineNum;
       this.players = [];
     }
 
     Line.prototype.addPlayer = function(player) {
       this.players = _.union(this.players, [player]);
-      return $rootScope.$digest();
+      return this.updateStats();
     };
 
     Line.prototype.removePlayer = function(player) {
-      return this.players = _.without(this.players, player);
+      this.players = _.without(this.players, player);
+      return this.updateStats();
     };
 
-    Line.prototype.getStats = function() {
-      return console.log('todo');
+    Line.prototype.updateStats = function() {
+      this.stats = lineStats.getStats(this.players);
+      return $rootScope.$digest();
     };
 
     return Line;

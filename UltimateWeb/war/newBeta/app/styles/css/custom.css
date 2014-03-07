@@ -392,6 +392,9 @@ Assigned to:	You
   border-radius: 25px;
   margin: 2px;
 }
+.player-token:focus{
+  outline: none !important;
+}
 .drag-line-text {
   position: absolute;
   top: 40%;
