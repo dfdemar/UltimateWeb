@@ -17,6 +17,10 @@ angular.module('newBetaApp').factory('Line', function($rootScope) {
       return $rootScope.$digest();
     };
 
+    Line.prototype.removePlayer = function(player) {
+      return this.players = _.without(this.players, player);
+    };
+
     Line.prototype.getStats = function() {
       return console.log('todo');
     };

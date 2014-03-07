@@ -9,5 +9,7 @@ angular.module('newBetaApp')
       addPlayer: (player)=>
         @players = _.union @players, [player]
         $rootScope.$digest()
+      removePlayer: (player)->
+        @players = _.without @players, player
       getStats: =>
         console.log 'todo'

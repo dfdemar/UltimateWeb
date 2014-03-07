@@ -42,7 +42,7 @@
                     <div class="player-in-line" ng-repeat="player in line.players">
                       <span>{{player}}</span>
                       &nbsp;&nbsp;
-                      <span class="icon-trash line-close-button"></span>
+                      <span class="icon-trash line-close-button" ng-click="line.removePlayer(player)"></span>
                     </div>
                     <div ng-show="!line.players.length" style="text-align:center;">
                       <span class="drag-line-text">Drag a player onto the line!</span>
