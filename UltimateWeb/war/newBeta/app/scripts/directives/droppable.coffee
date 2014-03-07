@@ -14,6 +14,7 @@ angular.module('newBetaApp')
         onLeave?(scope.dragging)
       element.on 'drop', (event)->
         onDrop?(scope.dragging)
+        scope.$digest()
       element.on 'dragover', (event)->
         onOver?(scope.dragging)
         event.preventDefault()

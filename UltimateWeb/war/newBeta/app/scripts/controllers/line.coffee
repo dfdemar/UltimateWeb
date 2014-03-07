@@ -20,4 +20,6 @@ angular.module('newBetaApp')
       scope.selectedLine = line
     scope.removeLine = (line)->
       delete scope.lines[line.id]
+    scope.addPlayerToSelected = (player)->
+      scope.selectedLine.addPlayer(player)
     scope.addLine()

@@ -18,4 +18,3 @@ angular.module('newBetaApp')
         @updateStats()
       updateStats: ->
         @stats = lineStats.getStats(@players)
-        $rootScope.$digest()

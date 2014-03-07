@@ -25,5 +25,8 @@ angular.module('newBetaApp').controller('LineCtrl', function($scope, $q, playerS
   scope.removeLine = function(line) {
     return delete scope.lines[line.id];
   };
+  scope.addPlayerToSelected = function(player) {
+    return scope.selectedLine.addPlayer(player);
+  };
   return scope.addLine();
 });

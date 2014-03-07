@@ -27,8 +27,7 @@ angular.module('newBetaApp').factory('Line', function($rootScope, lineStats) {
     };
 
     Line.prototype.updateStats = function() {
-      this.stats = lineStats.getStats(this.players);
-      return $rootScope.$digest();
+      return this.stats = lineStats.getStats(this.players);
     };
 
     return Line;

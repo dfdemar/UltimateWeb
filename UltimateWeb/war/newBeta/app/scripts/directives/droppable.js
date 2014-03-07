@@ -16,7 +16,10 @@ angular.module('newBetaApp').directive('droppable', function($parse) {
         return typeof onLeave === "function" ? onLeave(scope.dragging) : void 0;
       });
       element.on('drop', function(event) {
-        return typeof onDrop === "function" ? onDrop(scope.dragging) : void 0;
+        if (typeof onDrop === "function") {
+          onDrop(scope.dragging);
+        }
+        return scope.$digest();
       });
       return element.on('dragover', function(event) {
         if (typeof onOver === "function") {
