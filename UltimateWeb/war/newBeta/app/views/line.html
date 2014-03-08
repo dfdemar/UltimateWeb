@@ -31,9 +31,10 @@
                 </span>
               </div>
             </div>
-            <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging">
+            <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging" ng-click="selectLine(line)">
               <div class="line-header">
-                <h3>Line {{line.id}}</h3>
+                <h3 ng-show="line !== selectedLine">Line {{line.id}}</h3>
+                <h3 ng-show="line === selectedLine"><b>SELECTED</b></h3>
                 <i class="icon icon-remove line-close-button" ng-click="removeLine(line)"></i>
               </div>
               <div class="line-players-list">

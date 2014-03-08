@@ -28,5 +28,8 @@ angular.module('newBetaApp').controller('LineCtrl', function($scope, $q, playerS
   scope.addPlayerToSelected = function(player) {
     return scope.selectedLine.addPlayer(player);
   };
+  scope.selectLine = function(line) {
+    return scope.selectedLine = line;
+  };
   return scope.addLine();
 });
