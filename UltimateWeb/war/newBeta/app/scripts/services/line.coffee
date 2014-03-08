@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'Line', ($rootScope, lineStats) ->
+  .factory 'Line', (lineStats) ->
     lineStats.then (response)->
       lineStats = response
     lineNum = 0
