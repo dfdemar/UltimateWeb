@@ -31,7 +31,7 @@
                 </span>
               </div>
             </div>
-            <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="tease" on-leave="stopTease" dragging="dragging" ng-click="selectLine(line)">
+            <div class="line-container" ng-repeat="line in lines" droppable on-drop="line.addPlayer" on-enter="teaseTODO" on-leave="stopTeaseTODO" dragging="dragging" ng-click="selectLine(line)">
               <div class="line-header">
                 <h3 ng-if="line !== selectedLine">Line {{line.id}}</h3>
                 <h3 ng-if="line === selectedLine"><b>SELECTED</b></h3>
@@ -46,7 +46,10 @@
                       <span class="icon-trash line-close-button" ng-click="line.removePlayer(player)"></span>
                     </div>
                     <div ng-if="!line.players.length" style="text-align:center;">
-                      <span class="drag-line-text">Drag a player onto the line!</span>
+                      <span class="drag-line-text">Drag 
+                        <span ng-if="line === selectedLine">or click</span>
+                        a player onto the line!
+                      </span>
                     </div>
                   </div>
                 </div>
