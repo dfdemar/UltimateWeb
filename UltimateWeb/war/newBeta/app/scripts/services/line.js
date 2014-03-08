@@ -2,7 +2,7 @@
 'use strict';
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-angular.module('newBetaApp').factory('Line', function(lineStats) {
+angular.module('newBetaApp').factory('Line', function($rootScope, lineStats) {
   var Line, lineNum;
   lineStats.then(function(response) {
     return lineStats = response;

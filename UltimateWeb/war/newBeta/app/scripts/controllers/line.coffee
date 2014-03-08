@@ -1,20 +1,17 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'LineCtrl', ($scope, lineStats, Line, filter) ->
+  .controller 'LineCtrl', ($scope, $q, playerStats, lineStats, Line) ->
     scope = $scope
     scope.dragging
     scope.selectedLine
     scope.lines = {}
-    scope.includedGames = filter.included
     $scope.loading = true
-
-
+    lsApi = null
     lineStats.then (response)->
-      lineStats = response
-      $scope.players = lineStats.getPlayers()
+      lsApi = response
+      $scope.players = lsApi.getPlayers()
       $scope.loading = false
-      
     scope.setDragging = (player)->
       scope.dragging = player
     scope.addLine = ->
@@ -28,9 +25,8 @@ angular.module('newBetaApp')
     scope.selectLine = (line)->
       scope.selectedLine = line
     scope.addLine()
-
-    # update the lines on filter change
-    scope.$watchCollection 'includedGames', (update, old)->
-      if update and lineStats.getStats
-        _(scope.lines).each (line)->
-          line.updateStats()
+    # TODO
+    # add touch events to drag and drop. http://stackoverflow.com/questions/3382393/html5-drag-and-drop-api-on-touch-screen-devices
+    # make the selected line look different
+    # calculate any lineStats
+    # include the functionality of the game filter.

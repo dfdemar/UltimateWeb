@@ -1,34 +1,28 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'lineStats', ($q, team, allGames, filter) ->
-    
-    getStats = (players)->
-      result = {}
-      consideredPoints = []
-      # get considered points
-    api =
-      getPlayers: ->
-        _(team.players).pluck 'name'
-      getStats: getStats
-
+  .factory 'lineStats', ($q, allGames, team) ->
     deferred = $q.defer()
-    includedGames = null
-
-    # wait for player names and games data.
-    $q.all([team, allGames]).then (response)->
-      includedGames = filter.included
-      team = response[0]
+    $q.all([allGames, team]).then (response)->
+      allGames = response[0]
+      team = response[1]
       deferred.resolve api
 
-
-      _(includedGames).each (game)->
+    getStats = _.memoize (players)->
+      result = {}
+      # get considered points
+      consideredPoints = []
+      _(allGames).each (game)->
         _(game.points).each (point)->
           if _(point.line).intersection(players).length is players.length 
             #if the line contains all of the passed players
             consideredPoints.push point
       result.consideredPoints = consideredPoints
       result
+    api =
+      getPlayers: ->
+        _(team.players).pluck 'name'
+      getStats: getStats
 
 
     return deferred.promise
