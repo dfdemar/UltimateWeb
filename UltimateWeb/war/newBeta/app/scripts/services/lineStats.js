@@ -2,23 +2,17 @@
 'use strict';
 angular.module('newBetaApp').factory('lineStats', function($q, team, allGames, filter) {
   var api, deferred, getStats, includedGames;
-  getStats = function(players) {
-    var consideredPoints, result;
-    result = {};
-    return consideredPoints = [];
-  };
-  api = {
-    getPlayers: function() {
-      return _(team.players).pluck('name');
-    },
-    getStats: getStats
-  };
   deferred = $q.defer();
   includedGames = null;
   $q.all([team, allGames]).then(function(response) {
     includedGames = filter.included;
     team = response[0];
-    deferred.resolve(api);
+    return deferred.resolve(api);
+  });
+  getStats = function(players) {
+    var consideredPoints, result;
+    result = {};
+    consideredPoints = [];
     _(includedGames).each(function(game) {
       return _(game.points).each(function(point) {
         if (_(point.line).intersection(players).length === players.length) {
@@ -28,6 +22,12 @@ angular.module('newBetaApp').factory('lineStats', function($q, team, allGames, f
     });
     result.consideredPoints = consideredPoints;
     return result;
-  });
+  };
+  api = {
+    getPlayers: function() {
+      return _(team.players).pluck('name');
+    },
+    getStats: getStats
+  };
   return deferred.promise;
 });

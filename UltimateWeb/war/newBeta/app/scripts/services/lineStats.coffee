@@ -2,15 +2,6 @@
 
 angular.module('newBetaApp')
   .factory 'lineStats', ($q, team, allGames, filter) ->
-    
-    getStats = (players)->
-      result = {}
-      consideredPoints = []
-      # get considered points
-    api =
-      getPlayers: ->
-        _(team.players).pluck 'name'
-      getStats: getStats
 
     deferred = $q.defer()
     includedGames = null
@@ -21,7 +12,10 @@ angular.module('newBetaApp')
       team = response[0]
       deferred.resolve api
 
-
+    getStats = (players)->
+      result = {}
+      consideredPoints = []
+      # get considered points
       _(includedGames).each (game)->
         _(game.points).each (point)->
           if _(point.line).intersection(players).length is players.length 
@@ -29,6 +23,11 @@ angular.module('newBetaApp')
             consideredPoints.push point
       result.consideredPoints = consideredPoints
       result
+
+    api =
+      getPlayers: ->
+        _(team.players).pluck 'name'
+      getStats: getStats
 
 
     return deferred.promise
