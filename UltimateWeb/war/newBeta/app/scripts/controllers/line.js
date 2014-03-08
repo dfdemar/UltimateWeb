@@ -31,6 +31,7 @@ angular.module('newBetaApp').controller('LineCtrl', function($scope, lineStats, 
   scope.selectLine = function(line) {
     return scope.selectedLine = line;
   };
+  scope._contains = _.contains;
   scope.addLine();
   return scope.$watchCollection('includedGames', function(update, old) {
     if (update && lineStats.getStats) {

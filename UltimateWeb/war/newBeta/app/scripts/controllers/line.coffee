@@ -27,6 +27,7 @@ angular.module('newBetaApp')
       scope.selectedLine.addPlayer(player)
     scope.selectLine = (line)->
       scope.selectedLine = line
+    scope._contains = _.contains
     scope.addLine()
 
     # update the lines on filter change

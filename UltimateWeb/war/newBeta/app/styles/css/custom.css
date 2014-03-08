@@ -395,6 +395,10 @@ Assigned to:	You
 .player-token:focus{
   outline: none !important;
 }
+.player-token.selected {
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
 .drag-line-text {
   position: absolute;
   top: 40%;
