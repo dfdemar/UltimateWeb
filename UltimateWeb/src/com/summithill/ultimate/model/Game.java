@@ -15,7 +15,6 @@ import com.summithill.ultimate.model.lightweights.Point;
 public class Game extends ModelObject {
 	public static final String ENTITY_TYPE_NAME = "Game";
 	public static final String TIMESTAMP_PROPERTY = "timestamp";
-	public static final String TIMESTAMP_UTC_PROPERTY = "timestampUTC";
 	public static final String SCORE_OURS_PROPERTY = "scoreOurs";
 	public static final String SCORE_THEIRS_PROPERTY = "scoreTheirs";
 	public static final String GAME_ID_NAME_PROPERTY = "gameId";
@@ -80,14 +79,6 @@ public class Game extends ModelObject {
 	
 	public void setTimestamp(String name) {
 		entity.setProperty(TIMESTAMP_PROPERTY, name);
-	}
-	
-	public String getTimestampUTC() {
-		return (String)entity.getProperty(TIMESTAMP_UTC_PROPERTY);
-	}
-	
-	public void setTimestampUTC(String name) {
-		entity.setProperty(TIMESTAMP_UTC_PROPERTY, name);
 	}
 	
 	public Long getOurScore() {
