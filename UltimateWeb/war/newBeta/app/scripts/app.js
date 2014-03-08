@@ -2,7 +2,8 @@
 
 angular.module('newBetaApp', [
   'ngRoute',
-  'ngAnimate'
+  'ngAnimate',
+  'ngCookies'
 ])
   .config(['$routeProvider',
     function($routeProvider) {

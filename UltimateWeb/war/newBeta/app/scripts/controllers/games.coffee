@@ -9,7 +9,6 @@ angular.module('newBetaApp')
     # I hate writing $'s'
     scope = $scope
     scope.relocate = relocate
-    scope.console = console
     # loading
     scope.loading = true
     $q.all([allGames, playerStats, gameStats, filter]).then (responses)->

@@ -1,6 +1,7 @@
 <div title-bar></div>
 <div nav-bar page="'games'"></div>
 <div loading="loading" style="text-align:center;"></div>
+<feedback></feedback>
 <div class="main fade-in" ng-if="!loading">
   <div class="container">
     <div class="row">
@@ -78,7 +79,7 @@
                     <a ng-click="togglePoints([], true)">Collapse All</a>
                     <div class="panel panel-default" ng-repeat="point in selectedGame.points" ng-class="{open: isOpen(point)}">
                       <div class="panel-heading" style="cursor:pointer;" ng-click="togglePoints([point])">
-                        <h4 class="panel-title" ng-click="console.log(point)">
+                        <h4 class="panel-title">
                           <a class="accordion-toggle">
                             <span class="point-score">{{point.summary.score.ours}}-{{point.summary.score.theirs}}</span>&nbsp;&nbsp;
                             <span>{{point.summary.lineType}}-Line</span>&nbsp;&nbsp;

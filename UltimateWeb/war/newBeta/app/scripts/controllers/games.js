@@ -7,7 +7,6 @@ angular.module('newBetaApp').controller('GamesCtrl', function($scope, $q, $locat
   fApi = null;
   scope = $scope;
   scope.relocate = relocate;
-  scope.console = console;
   scope.loading = true;
   $q.all([allGames, playerStats, gameStats, filter]).then(function(responses) {
     var id;
