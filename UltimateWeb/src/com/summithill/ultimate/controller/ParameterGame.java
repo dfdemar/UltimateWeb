@@ -3,6 +3,7 @@ package com.summithill.ultimate.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -20,6 +21,7 @@ public class ParameterGame {
 	private String pointsJson;
 	private Wind wind;
 	private String timestamp;
+	private String timestampUTC;
 	private String date;
 	private String time;
 	private long msSinceEpoch;
@@ -38,6 +40,7 @@ public class ParameterGame {
 		pGame.setGameId(game.getGameId());
 		pGame.setOpponentName(game.getOpponentName());
 		pGame.setTournamentName(game.getTournamentName());
+		// do the old school (doesn't hanndle timezone correctly)
 		if (game.getTimestamp() != null) {
 			pGame.setTimestamp(game.getTimestamp());
 			DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -51,6 +54,23 @@ public class ParameterGame {
 			} catch (Exception e) {
 				throw new RuntimeException("Cannot parse/format date: " + game.getTimestamp(), e);
 			}
+		}
+		// if we have the new school version use it	
+		if (game.getTimestampUTC() != null) {
+			pGame.setTimestampUTC(game.getTimestampUTC());
+//			TimeZone tz = TimeZone.getTimeZone("UTC");
+//		    DateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+//		    parser.setTimeZone(tz);
+//			DateFormat dateFormatter = new SimpleDateFormat("EEE, M/dd");
+//			DateFormat timeFormatter = new SimpleDateFormat("h:mm");
+//			try {
+//				Date date = parser.parse(game.getTimestampUTC());
+//				pGame.setDate(dateFormatter.format(date));
+//				pGame.setTime(timeFormatter.format(date));
+//				pGame.setMsSinceEpoch(date.getTime());
+//			} catch (Exception e) {
+//				throw new RuntimeException("Cannot parse/format date: " + game.getTimestampUTC(), e);
+//			}
 		}
 		pGame.setOurs(game.getOurScore());
 		pGame.setTheirs(game.getTheirScore());
@@ -69,6 +89,7 @@ public class ParameterGame {
 		game.setTournamentName(tournamentName);
 		game.setPointsJson(pointsJson);
 		game.setTimestamp(timestamp);
+		game.setTimestampUTC(timestampUTC);
 		game.setOurScore(ours);
 		game.setTheirScore(theirs);
 		game.setFirstPointOline(isFirstPointOline);
@@ -114,6 +135,14 @@ public class ParameterGame {
 
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
+	}
+	
+	public String getTimestampUTC() {
+		return timestampUTC;
+	}
+
+	public void setTimestampUTC(String timestampUTC) {
+		this.timestampUTC = timestampUTC;
 	}
 
 	public long getOurs() {
