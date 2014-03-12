@@ -1,13 +1,18 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'PlayerCtrl', ($scope, $routeParams, $q, playerStats, allGames) ->
+  .controller 'PlayerCtrl', ($scope, $routeParams, $q, playerStats, allGames, playerExtensionStats) ->
     scope = $scope
     scope.loading = true
     players = null
-    $q.all([playerStats, allGames]).then (responses)->
+    playerName = decodeURI $routeParams.playerNameUri
+    $q.all([playerStats, allGames, playerExtensionStats]).then (responses)->
       playerStats = responses[0]
       allGames = responses[1]
+      playerExtensionStats = responses[2]
       players = playerStats.getFrom allGames
-      scope.player = players[decodeURI $routeParams.playerNameUri]
+      scope.player = players[playerName]
       scope.loading = false
+      playerExtensionStats.setPlayer playerName 
+      playerExtensionStats.setGames allGames
+      scope.targetStats = playerExtensionStats.getTargetMap()
