@@ -8,7 +8,7 @@
     </button>
     <ul dropdown-target class="dropdown-menu">
       <li ng-click="filter.onlyInclude(allGames)"><a>All Games ({{numberOfGames}})</a></li>
-      <li ng-click="filter.onlyInclude(mostRecentGame)"><a>Most Recent Game ({{mostRecentGame.opponentName}})</a></li>
+      <li ng-click="filter.onlyInclude([mostRecentGame])"><a>Most Recent Game ({{mostRecentGame.opponentName}})</a></li>
       <li ng-click="filter.onlyInclude(mostRecentTournament)"><a>Last Tournament ({{mostRecentGame.tournamentName}})</a></li>
       <li class="divider"></li>
       <li><a ng-click="collect()">Specific Games</a></li>

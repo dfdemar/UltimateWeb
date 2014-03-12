@@ -563,3 +563,9 @@ Assigned to:	You
 .no-link {
   color: inherit;
 }
+.flow-map-pointer{
+  height: 1em;
+  display: inline-block;
+  padding: 3%;
+  width: 30%;
+}
