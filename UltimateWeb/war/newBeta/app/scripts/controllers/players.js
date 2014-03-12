@@ -18,7 +18,6 @@ angular.module('newBetaApp')
       $scope.statTypes = statApi.statTypes;
       $scope.numberOfGames = Object.keys(games).length;
       $scope.included = filter.included;
-      filter.include(games);
       $scope.$watchCollection('included', function(){
         $scope.playerStats = statApi.getFrom(filter.included);
         render(); // fucking digest loop.

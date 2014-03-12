@@ -6,38 +6,31 @@ angular.module('newBetaApp')
   .factory('filter', function (allGames) {
     var includedGames = [];
     function exclude(game){
-      var index = includedGames.indexOf(game);
-      if (index > -1){
-        includedGames.splice(index);
-      }
+      var index = _.indexOf(includedGames, game);
+      index > -1 && includedGames.splice(index, 1);
     }
-    allGames.then(function(games){
-      _.each(games, function(game){
-        includedGames.push(game);
-      });
+    function include(game){
+      includedGames.push(game);
+    }
+    function onlyInclude(games){
+      includedGames.splice(0, includedGames.length);
+      _.each(games, include);
+    }
+    allGames.then(function(response){
+      onlyInclude(response);
     });
     return {
       included: includedGames,
       include: function(games){
-        if (games.gameId) {
-          includedGames.push(games);
-        }
-        else {
-          _.each(games, function(game){
-            includedGames.push(game);
-          });
-        }
+        (_.isArray(games) || !games.gameId) ? _.each(games, include) : include(games);
       },
-      onlyInclude: function(games){
-        includedGames.splice(0, includedGames.length);
-        this.include(games);
-      },
+      onlyInclude: onlyInclude,
       exclude: function(games){
-        if (_(games).isArray()){
-          _.each(games, exclude);
-        } else {
-          exclude(games);
-        }
+        if (_.isArray(games) || !games.gameId) {_.each(games, exclude);}
+        else {exclude(games);}
+      },
+      contains: function(game){
+        return _.chain(includedGames).pluck('gameId').contains(game.gameId).value();
       }
     };
   });

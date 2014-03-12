@@ -35,13 +35,7 @@ angular.module('newBetaApp')
       orderLayout();
       $scope.dDOpen = true;
     };
-    $scope.close = function() {
-      $scope.dDOpen = false;
-    };
-    $scope.isIncluded = function(game){
-      return _(filter.included).contains(game);
-    };
-    $scope.toggleSelect = function(game){
-      !$scope.isIncluded(game) ? filter.include(game) : filter.exclude(game);
-    };
+    $scope.close = function() {$scope.dDOpen = false;};
+    $scope.isIncluded = filter.contains;
+    $scope.toggleSelect = function(game){filter.contains(game) ? filter.exclude(game) : filter.include(game);};
   });
