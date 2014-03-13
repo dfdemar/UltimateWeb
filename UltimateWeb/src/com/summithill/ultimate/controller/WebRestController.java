@@ -296,7 +296,7 @@ public class WebRestController extends AbstractController {
 	// returns the stats for each game
 	@RequestMapping(value = "/team/{teamId}/stats/player/games", method = RequestMethod.GET)
 	@ResponseBody
-	public Collection<ParameterGamePlayerStats> getPlayerStatsForEachGame(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = true) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) throws NoSuchRequestHandlingMethodException {
+	public Collection<ParameterGamePlayerStats> getPlayerStatsForEachGame(@PathVariable String teamId,  @RequestParam(value = "gameIds", required = false) String gameIdsAsString, HttpServletRequest request, final HttpServletResponse response) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
@@ -304,7 +304,7 @@ public class WebRestController extends AbstractController {
 			} else {
 				verifyAccess(team, request);
 				this.addStandardExpireHeader(response);  
-				List<String> gameIdsToInclude = Arrays.asList(gameIdsAsString.split("_"));
+				List<String> gameIdsToInclude = gameIdsAsString == null ? service.getGameIDs(team) : Arrays.asList(gameIdsAsString.split("_"));
 				List<ParameterGamePlayerStats> gamePlayerStats = new ArrayList<ParameterGamePlayerStats>();
 				ObjectMapper mapper = new ObjectMapper();
 				for (String gameId : gameIdsToInclude) {
