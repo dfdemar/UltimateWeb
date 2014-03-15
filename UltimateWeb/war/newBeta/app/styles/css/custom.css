@@ -538,7 +538,6 @@ Assigned to:	You
   line-height: 40px;
   z-index:3;
   background-color: #F90;
-  text-shadow: 1px 1px 1px white;
   box-shadow: 1px 1px 10px #888888;
 }
 .feedback-token:hover{
