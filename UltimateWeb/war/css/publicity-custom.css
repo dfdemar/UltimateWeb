@@ -2,6 +2,7 @@
 
 .screenshot {
 	padding: 0px 75px 50px 75px;
+	width: 300px;
 }
 #screenshot-heading {
 	text-align: center;
