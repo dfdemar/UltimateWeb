@@ -32,6 +32,7 @@ angular.module('newBetaApp')
     allGames.then (response) ->
       allGames = response
       deferred.resolve api
+      
     deferred = $q.defer()
     deferred.promise
 

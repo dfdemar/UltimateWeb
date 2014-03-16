@@ -3,22 +3,21 @@
 angular.module('newBetaApp')
   .factory 'gameStats', ($q, allGames, playerStats) ->
     deferred = $q.defer()
-    games = {}
-    psApi = {}
 
     $q.all([allGames, playerStats]).then (response)->
-      games = response[0]
-      psApi = response[1]
+      allGames = response[0]
+      playerStats = response[1]
       deferred.resolve api
 
     api = {}
 
     api.getFor = (game)->
       results = {}
-      players = psApi.getFrom [game]
+      playerStats.setGames [game]
+      players = playerStats.getAll()
 
       # record
-      relevant = _(games).where({opponentName: game.opponentName})
+      relevant = _(allGames).where({opponentName: game.opponentName})
       unless _(relevant).isArray()
         relevant = [relevant]
       results.record = _(relevant).countBy (game)->

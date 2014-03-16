@@ -32,7 +32,7 @@ angular.module('newBetaApp')
     $scope.games = filter.included; // updated by the filter controller.
     $scope.sorter = '-name';
     function init(){
-      $scope.stats = playerStats.getFrom(filter.included);
+      $scope.stats = playerStats.getAll();
       $scope.players = Object.keys($scope.stats);
       $scope.statTypes = Object.keys($scope.stats[$scope.players[0]].stats);
       startWatching();
@@ -40,7 +40,7 @@ angular.module('newBetaApp')
     function startWatching(){
       $scope.$watchCollection('games', function(nv, ov) {
         playerStats.setGames(filter.included);
-        $scope.stats = playerStats.getFrom();
+        $scope.stats = playerStats.getAll();
         $scope.statsArray = _($scope.stats).toArray();
         $scope.players = Object.keys($scope.stats);
         $scope.statTypes = Object.keys($scope.stats[$scope.players[0]].stats);      

@@ -11,11 +11,10 @@ angular.module('newBetaApp').controller('PlayerCtrl', function($scope, $routePar
     allGames = responses[1];
     playerExtensionStats = responses[2];
     playerStats.setGames(allGames);
-    players = playerStats.getFrom();
-    scope.player = players[playerName];
-    scope.loading = false;
-    playerExtensionStats.setPlayer(playerName);
     playerExtensionStats.setGames(allGames);
-    return scope.targetStats = playerExtensionStats.getTargetMap();
+    playerExtensionStats.setPlayer(playerName);
+    scope.player = playerStats.getForPlayer(playerName);
+    scope.targetStats = playerExtensionStats.getTargetMap();
+    return scope.loading = false;
   });
 });

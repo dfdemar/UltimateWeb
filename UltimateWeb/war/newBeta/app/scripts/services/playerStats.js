@@ -198,11 +198,17 @@ angular.module('newBetaApp')
     }
     function resolve(){
       deferred.resolve({
-        getFrom: derive,
         getLeaders: getLeaders,
         getTotals: getTotals,
         getAverages: getAverages,
-        setGames: function(games){includedGames = games;}
+        getAll: function(){return playerStats},
+        getForPlayer: function(playerName){
+          return playerStats[playerName];
+        },
+        setGames: function(games){
+          includedGames = games;
+          derive();
+        }
       });
     }
     return deferred.promise;

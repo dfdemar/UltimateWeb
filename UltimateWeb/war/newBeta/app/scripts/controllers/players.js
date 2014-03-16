@@ -11,13 +11,13 @@ angular.module('newBetaApp')
       playerStats = responses[0];
       allGames = responses[1];
       playerStats.setGames(allGames);
-      $scope.playerStats = playerStats.getFrom();
+      $scope.playerStats = playerStats.getAll();
       $scope.statTypes = playerStats.statTypes;
       $scope.numberOfGames = Object.keys(allGames).length;
       $scope.included = filter.included;
       $scope.$watchCollection('included', function(){
         playerStats.setGames(filter.included);
-        $scope.playerStats = playerStats.getFrom();
+        $scope.playerStats = playerStats.getAll();
         render(); // fucking digest loop.
       });
       $scope.loading = false;
