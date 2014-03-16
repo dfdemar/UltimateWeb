@@ -42,11 +42,11 @@ angular.module('newBetaApp')
         return memo && $scope.isIncluded(game);
       }, true);
     };
-    $scope.toggleAll = _.memoize(function(games, choice){
+    $scope.toggleAll = function(games, choice){
       _.each(games, function(game){
         $scope.toggleSelect(game, choice);
       });
-    });
+    };
     $scope.toggleSelect = function(game, choice){
       (!filter.contains(game) || choice) ? filter.include(game) : filter.exclude(game);
     };
