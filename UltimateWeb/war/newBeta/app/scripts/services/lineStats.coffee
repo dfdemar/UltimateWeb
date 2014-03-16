@@ -26,7 +26,6 @@ angular.module('newBetaApp')
 
     api =
       getPlayers: ->
-        debugger
         _.pluck team.players, 'name'
       getStats: getStats
 

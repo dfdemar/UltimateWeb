@@ -37,5 +37,17 @@ angular.module('newBetaApp')
     };
     $scope.close = function() {$scope.dDOpen = false;};
     $scope.isIncluded = filter.contains;
-    $scope.toggleSelect = function(game){filter.contains(game) ? filter.exclude(game) : filter.include(game);};
+    $scope.allIncluded = function(games){
+      return _.reduce(games, function(memo, game){
+        return memo && $scope.isIncluded(game);
+      }, true);
+    };
+    $scope.toggleAll = _.memoize(function(games, choice){
+      _.each(games, function(game){
+        $scope.toggleSelect(game, choice);
+      });
+    });
+    $scope.toggleSelect = function(game, choice){
+      (!filter.contains(game) || choice) ? filter.include(game) : filter.exclude(game);
+    };
   });

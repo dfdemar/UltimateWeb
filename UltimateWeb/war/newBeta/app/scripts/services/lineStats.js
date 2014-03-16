@@ -25,7 +25,6 @@ angular.module('newBetaApp').factory('lineStats', function($q, team, allGames, f
   };
   api = {
     getPlayers: function() {
-      debugger;
       return _.pluck(team.players, 'name');
     },
     getStats: getStats

@@ -64,15 +64,7 @@ Assigned to:	You
 .my-modal {
   display: block;
 }
-.modal-content {
-  z-index:1040;
-  position: fixed;
-  min-width: 250px;
-  top: 10%;
-  left: 37%;
-  right: 37%;
-  bottom: 10%;
-}
+
 .filter-modal-header{
   position: absolute !important;
   width: 100%;
@@ -567,4 +559,8 @@ Assigned to:	You
   display: inline-block;
   padding: 3%;
   width: 30%;
+}
+.disable-games{
+  background: transparent;
+  color: rgb(209, 209, 209);
 }

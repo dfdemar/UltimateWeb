@@ -10,7 +10,8 @@ angular.module('newBetaApp')
       index > -1 && includedGames.splice(index, 1);
     }
     function include(game){
-      includedGames.push(game);
+      if (!_.contains(includedGames, game))
+        includedGames.push(game);
     }
     function onlyInclude(games){
       includedGames.splice(0, includedGames.length);
