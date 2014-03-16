@@ -4,6 +4,11 @@
 
 angular.module('newBetaApp')
   .factory('playerStats', function($q, allGames, team) {
+
+    var includedGames;
+    var playerStats;
+
+
     function recordEvent(event, players) {
       switch (event.action) {
       case 'Catch':
@@ -92,7 +97,7 @@ angular.module('newBetaApp')
         resolve();
       }
     });
-    var derive = function(gameRefs) {
+    var derive = function() {
       var players = {};
       _.each(playerNames, function(name){
         players[name] = {};
@@ -103,7 +108,7 @@ angular.module('newBetaApp')
       });
 
 
-      _.each(gameRefs, function(ref) {
+      _.each(includedGames, function(ref) {
         var playedInGame = {};
         _.each(games[ref.gameId].points, function(point) {
           _.each(point.line, function(name){
@@ -150,21 +155,31 @@ angular.module('newBetaApp')
           ps['pp' + name[0].toUpperCase() + name.slice(1)] = ps.pointsPlayed ? parseFloat((ps[name] / ps.pointsPlayed).toFixed(2)) : 0;
         });
       });
+      playerStats = players;
       return players;
     };
-    function getLeaders(stats,types){
+    function getLeaders(types){
       var leaders = {};
       _.each(types, function(type){
-        leaders[type] = _(stats).max(function(player){
+        leaders[type] = _(playerStats).max(function(player){
           return player.stats[type];
         });
       });
       return leaders;
     }
+    function getTotals(){
+
+    }
+    function getAverages(){
+
+    }
     function resolve(){
       deferred.resolve({
         getFrom: derive,
-        getLeaders: getLeaders
+        getLeaders: getLeaders,
+        getTotals: getTotals,
+        getAverages: getAverages,
+        setGames: function(games){includedGames = games;}
       });
     }
     return deferred.promise;

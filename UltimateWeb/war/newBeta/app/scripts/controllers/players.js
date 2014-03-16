@@ -3,25 +3,24 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('PlayersCtrl', function ($scope, playerStats, allGames, filter, relocate) {
+  .controller('PlayersCtrl', function ($scope, $q, playerStats, allGames, filter, relocate) {
     $scope.relocate = relocate;
     $scope.loading = true;
-    var games, api;
-    allGames.then(function(stuff){
-      games = stuff;
-    });
     $scope.sortBy = 'name';
-    playerStats.then(function(statApi){
-      api = statApi;
-      $scope.loading = false;
-      $scope.playerStats = statApi.getFrom(games);
-      $scope.statTypes = statApi.statTypes;
-      $scope.numberOfGames = Object.keys(games).length;
+    $q.all([playerStats, allGames]).then(function(responses){
+      playerStats = responses[0];
+      allGames = responses[1];
+      playerStats.setGames(allGames);
+      $scope.playerStats = playerStats.getFrom();
+      $scope.statTypes = playerStats.statTypes;
+      $scope.numberOfGames = Object.keys(allGames).length;
       $scope.included = filter.included;
       $scope.$watchCollection('included', function(){
-        $scope.playerStats = statApi.getFrom(filter.included);
+        playerStats.setGames(filter.included);
+        $scope.playerStats = playerStats.getFrom();
         render(); // fucking digest loop.
       });
+      $scope.loading = false;
       render();
     });
     $scope.console = console;
@@ -44,6 +43,6 @@ angular.module('newBetaApp')
       }
     };
     function render() {
-      $scope.leaders = api.getLeaders($scope.playerStats, ['goals','ds','pointsPlayed', 'plusMinus']);
+      $scope.leaders = playerStats.getLeaders(['goals','ds','pointsPlayed', 'plusMinus']);
     }
   });

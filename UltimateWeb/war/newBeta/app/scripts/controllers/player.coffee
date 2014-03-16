@@ -10,7 +10,8 @@ angular.module('newBetaApp')
       playerStats = responses[0]
       allGames = responses[1]
       playerExtensionStats = responses[2]
-      players = playerStats.getFrom allGames
+      playerStats.setGames allGames
+      players = playerStats.getFrom() 
       scope.player = players[playerName]
       scope.loading = false
       playerExtensionStats.setPlayer playerName 

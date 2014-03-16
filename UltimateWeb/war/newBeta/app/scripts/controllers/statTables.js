@@ -30,18 +30,24 @@ angular.module('newBetaApp')
     }, ];
     $scope.focus = $scope.categories[0];
     $scope.games = filter.included; // updated by the filter controller.
+    $scope.sorter = '-name';
     function init(){
       $scope.stats = playerStats.getFrom(filter.included);
       $scope.players = Object.keys($scope.stats);
       $scope.statTypes = Object.keys($scope.stats[$scope.players[0]].stats);
+      startWatching();
     }
-    $scope.$watchCollection('games', function() {
-      $scope.stats = playerStats.getFrom(filter.included);
-      $scope.statsArray = _($scope.stats).toArray();
-      $scope.players = Object.keys($scope.stats);
-      $scope.statTypes = Object.keys($scope.stats[$scope.players[0]].stats);
-    });
-    $scope.sorter = '-name';
+    function startWatching(){
+      $scope.$watchCollection('games', function(nv, ov) {
+        playerStats.setGames(filter.included);
+        $scope.stats = playerStats.getFrom();
+        $scope.statsArray = _($scope.stats).toArray();
+        $scope.players = Object.keys($scope.stats);
+        $scope.statTypes = Object.keys($scope.stats[$scope.players[0]].stats);      
+        $scope.totals = playerStats.getTotals();
+        $scope.averages = playerStats.getAverages();
+      });
+    }
     $scope.sort = function(obj, prop){
       var name;
       prop ? name = obj + '.' + prop : name = obj;
