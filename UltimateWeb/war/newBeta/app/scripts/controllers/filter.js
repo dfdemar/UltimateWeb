@@ -10,10 +10,10 @@ angular.module('newBetaApp')
     allGames.then(function(games) {
       $scope.allGames = games;
       $scope.numberOfGames = Object.keys(games).length;
-      $scope.mostRecentGame = _(games).max(function(item) {
+      $scope.mostRecentGame = _.max(games, function(item) {
         return item.msSinceEpoch;
       });
-      $scope.tournaments = _(games).groupBy('tournamentName');
+      $scope.tournaments = _.groupBy(games, 'tournamentName');
       $scope.mostRecentTournamentName = $scope.mostRecentGame.tournamentName;
       $scope.mostRecentTournament = $scope.mostRecentTournamentName ? $scope.tournaments[$scope.mostRecentGame.tournamentName] : null;
       if ($scope.tournaments && $scope.tournaments['undefined']) {
@@ -23,7 +23,7 @@ angular.module('newBetaApp')
     });
 
     function orderLayout() {
-      $scope.orderedTournaments = _($scope.tournaments).map(function(games) {
+      $scope.orderedTournaments = _.map($scope.tournaments,function(games) {
         return _.toArray(games).sort(function(a, b) {
           return b.msSinceEpoch - a.msSinceEpoch;
         });

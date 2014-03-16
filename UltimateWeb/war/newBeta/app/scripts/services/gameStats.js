@@ -14,13 +14,13 @@ angular.module('newBetaApp').factory('gameStats', function($q, allGames, playerS
     results = {};
     playerStats.setGames([game]);
     players = playerStats.getAll();
-    relevant = _(allGames).where({
+    relevant = _.where(allGames, {
       opponentName: game.opponentName
     });
     if (!_(relevant).isArray()) {
       relevant = [relevant];
     }
-    results.record = _(relevant).countBy(function(game) {
+    results.record = _.countBy(relevant, function(game) {
       if (game.ours > game.theirs) {
         return 'wins';
       } else {
@@ -33,7 +33,7 @@ angular.module('newBetaApp').factory('gameStats', function($q, allGames, playerS
     });
     leaders = {};
     _(['goals', 'assists', 'ds', 'throwaways', 'plusMinus']).each(function(type) {
-      return leaders[type] = _(players).max(function(player) {
+      return leaders[type] = _.max(players, function(player) {
         return player.stats[type];
       });
     });

@@ -93,7 +93,7 @@ angular.module('newBetaApp')
       }
     });
     team.then(function(response){
-      playerNames = _(response.players).pluck('name');
+      playerNames = _(response.players).pluck('name').valueOf();
       if (games && team){
         resolve();
       }
@@ -107,7 +107,6 @@ angular.module('newBetaApp')
           players[name].stats[type] = 0;
         });
       });
-
 
       _.each(includedGames, function(ref) {
         var playedInGame = {};
@@ -128,7 +127,7 @@ angular.module('newBetaApp')
         });
       });
       _.each(players, function(player){
-        extendPercentageStats(player.stats)
+        extendPercentageStats(player.stats);
       });
       _.each(players, function(player, name){
         player.name = name;
@@ -146,7 +145,7 @@ angular.module('newBetaApp')
       stats.plusMinus = stats.oPlusMinus + stats.dPlusMinus;
       stats.timePlayedMinutes = Math.round(stats.timePlayed / 60);
       stats.averagePullHangtime = stats.hungPulls ? (stats.pullHangtime  / stats.hungPulls) : 0;
-      _.each(['goals', 'assists', 'ds',  'throwaways',  'drostats'], function(name){
+      _.each(['goals', 'assists', 'ds',  'throwaways',  'drops'], function(name){
         stats['pp' + name[0].toUpperCase() + name.slice(1)] = stats.pointsPlayed ? (stats[name] / stats.pointsPlayed) : 0;
       });
 
@@ -164,7 +163,7 @@ angular.module('newBetaApp')
     function getLeaders(types){
       var leaders = {};
       _.each(types, function(type){
-        leaders[type] = _(playerStats).max(function(player){
+        leaders[type] = _.max(playerStats,function(player){
           return player.stats[type];
         });
       });
@@ -173,7 +172,7 @@ angular.module('newBetaApp')
     function getTotals(){
       var totals = {};
       _.each(basicStatTypes, function(type){
-        totals[type] = _(playerStats).reduce(getSumFunction(type));
+        totals[type] = _.reduce(playerStats,getSumFunction(type));
       });
       extendPercentageStats(totals);
       extendAestheticStats(totals);
@@ -181,9 +180,9 @@ angular.module('newBetaApp')
     }
     function getAverages(){
       var averages = {};
-      var statTypes = _.keys(_(playerStats).sample().stats);
+      var statTypes = _.keys(_.sample(playerStats).stats);
       _(statTypes).each(function(type){
-        averages[type] = _(playerStats).reduce(getSumFunction(type)).valueOf() / _.keys(playerStats).length;
+        averages[type] = _.reduce(playerStats, getSumFunction(type)).valueOf() / _.keys(playerStats).length;
       });
       return averages;
     }
@@ -203,6 +202,7 @@ angular.module('newBetaApp')
         getAverages: getAverages,
         getAll: function(){return playerStats},
         getForPlayer: function(playerName){
+          console.log('called')
           return playerStats[playerName];
         },
         setGames: function(games){

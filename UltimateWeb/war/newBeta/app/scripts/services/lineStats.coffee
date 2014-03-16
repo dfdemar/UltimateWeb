@@ -16,9 +16,9 @@ angular.module('newBetaApp')
       result = {}
       consideredPoints = []
       # get considered points
-      _(includedGames).each (game)->
-        _(game.points).each (point)->
-          if _(point.line).intersection(players).length is players.length 
+      _.each includedGames, (game)->
+        _.each game.points, (point)->
+          if _.intersection(point.line, players).length is players.length 
             #if the line contains all of the passed players
             consideredPoints.push point
       result.consideredPoints = consideredPoints
@@ -26,7 +26,8 @@ angular.module('newBetaApp')
 
     api =
       getPlayers: ->
-        _(team.players).pluck 'name'
+        debugger
+        _.pluck team.players, 'name'
       getStats: getStats
 
 

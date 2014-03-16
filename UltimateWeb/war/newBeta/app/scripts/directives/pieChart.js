@@ -54,7 +54,7 @@ angular.module('newBetaApp')
 
               // set the start and end angles to 0 so we can transition
               // clockwise to the actual values later
-              var datum = dataset ? _(dataset).values() : [];
+              var datum = dataset ? _.values(dataset) : [];
               var path = scope.svg.selectAll('path')
                 .data(pie(datum))
                 .enter().append('path')
@@ -76,7 +76,7 @@ angular.module('newBetaApp')
               d3.selectAll('input').on('change', change);
 
               function change() {
-                var datum = dataset ? _(dataset).values() : [];
+                var datum = dataset ? _.values(dataset) : [];
                 path = path.data(pie(datum)); // update the data
                 // set the start and end angles to Math.PI * 2 so we can transition
                 // anticlockwise to the actual values later

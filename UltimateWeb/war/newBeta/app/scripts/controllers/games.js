@@ -11,21 +11,21 @@ angular.module('newBetaApp').controller('GamesCtrl', function($scope, $q, $locat
     gameStats = responses[2];
     filter = responses[3];
     try {
-      id = _($location.search()).keys()[0];
+      id = _.keys($location.search())[0];
       if (allGames[id]) {
         scope.select(allGames[id]);
       } else {
-        scope.select(_(allGames).max(function(game) {
+        scope.select(_.max(allGames, function(game) {
           return game.msSinceEpoch;
         }));
       }
     } catch (_error) {
-      scope.select(_(allGames).max(function(game) {
+      scope.select(_.max(allGames, function(game) {
         return game.msSinceEpoch;
       }));
     }
     scope.loading = false;
-    return scope.sortedGames = _(allGames).toArray();
+    return scope.sortedGames = _.toArray(allGames);
   });
   scope.isSelectedGame = function(game) {
     return game === scope.selectedGame;
@@ -43,7 +43,7 @@ angular.module('newBetaApp').controller('GamesCtrl', function($scope, $q, $locat
     if (only) {
       openPoints = {};
     }
-    return _(_(points).pluck('$$hashKey')).each(function(id) {
+    return _(points).pluck('$$hashKey').each(function(id) {
       return openPoints[id] = !openPoints[id];
     });
   };

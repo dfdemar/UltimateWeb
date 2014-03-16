@@ -17,10 +17,10 @@ angular.module('newBetaApp')
       players = playerStats.getAll()
 
       # record
-      relevant = _(allGames).where({opponentName: game.opponentName})
+      relevant = _.where allGames, {opponentName: game.opponentName}
       unless _(relevant).isArray()
         relevant = [relevant]
-      results.record = _(relevant).countBy (game)->
+      results.record = _.countBy relevant, (game)->
         if game.ours > game.theirs then 'wins' else 'losses'
       _(results.record).defaults
         wins: 0
@@ -29,8 +29,10 @@ angular.module('newBetaApp')
       # leaders
       leaders = {}
       _(['goals', 'assists', 'ds', 'throwaways', 'plusMinus']).each (type)->
-        leaders[type] = _(players).max (player)->
+        leaders[type] = _.max players, (player)->
           player.stats[type]
+
       results.leaders = leaders
-      results        
+      results
+
     deferred.promise

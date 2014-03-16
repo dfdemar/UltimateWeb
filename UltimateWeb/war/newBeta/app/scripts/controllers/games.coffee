@@ -12,13 +12,13 @@ angular.module('newBetaApp')
       gameStats = responses[2]
       filter = responses[3]
       try 
-        id = _($location.search()).keys()[0]
+        id = _.keys($location.search())[0]
         if allGames[id] then scope.select allGames[id]
-        else scope.select _(allGames).max (game) -> game.msSinceEpoch
+        else scope.select _.max allGames, (game) -> game.msSinceEpoch
       catch
-        scope.select _(allGames).max (game) -> game.msSinceEpoch
+        scope.select _.max allGames, (game) -> game.msSinceEpoch
       scope.loading = false
-      scope.sortedGames = _(allGames).toArray()
+      scope.sortedGames = _.toArray allGames
 
 
     scope.isSelectedGame = (game) ->
@@ -36,7 +36,7 @@ angular.module('newBetaApp')
     openPoints = {}
     scope.togglePoints = (points, only) ->
       if only then openPoints = {}
-      _(_(points).pluck '$$hashKey').each (id) ->
+      _(points).pluck('$$hashKey').each (id) ->
         openPoints[id] = !openPoints[id]
     scope.isOpen = (point) ->
       openPoints[point['$$hashKey']]

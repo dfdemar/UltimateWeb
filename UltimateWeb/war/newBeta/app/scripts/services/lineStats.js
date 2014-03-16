@@ -13,9 +13,9 @@ angular.module('newBetaApp').factory('lineStats', function($q, team, allGames, f
     var consideredPoints, result;
     result = {};
     consideredPoints = [];
-    _(includedGames).each(function(game) {
-      return _(game.points).each(function(point) {
-        if (_(point.line).intersection(players).length === players.length) {
+    _.each(includedGames, function(game) {
+      return _.each(game.points, function(point) {
+        if (_.intersection(point.line, players).length === players.length) {
           return consideredPoints.push(point);
         }
       });
@@ -25,7 +25,8 @@ angular.module('newBetaApp').factory('lineStats', function($q, team, allGames, f
   };
   api = {
     getPlayers: function() {
-      return _(team.players).pluck('name');
+      debugger;
+      return _.pluck(team.players, 'name');
     },
     getStats: getStats
   };

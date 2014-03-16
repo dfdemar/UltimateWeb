@@ -12,7 +12,7 @@ angular.module('newBetaApp')
           game.points = JSON.parse(game.pointsJson);
           delete game.pointsJson;
         });
-        deferred.resolve(_(response).indexBy('gameId'));
+        deferred.resolve(_.indexBy(response, 'gameId'));
       },
       function failure(e) {
         deferred.reject(e);

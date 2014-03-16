@@ -31,7 +31,7 @@ angular.module('newBetaApp')
         var temp = $rootScope.$new();
         temp.included = filter.included;
         temp.$watchCollection('included', function() {
-          _(result).extend(that.getFrom(filter.included));
+          _.extend(result,that.getFrom(filter.included));
         });
         return result;
       },
@@ -136,8 +136,8 @@ angular.module('newBetaApp')
           }
           return '12+';
         };
-        tpp.scored = _(scored).countBy(groupingFunc);
-        tpp.failed = _(failed).countBy(groupingFunc);
+        tpp.scored = _.countBy(scored, groupingFunc);
+        tpp.failed = _.countBy(failed,groupingFunc);
         result.throwsPerPossession = tpp;
 
         // points scored by line
