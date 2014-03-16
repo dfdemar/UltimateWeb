@@ -2,41 +2,34 @@
 
 angular.module('newBetaApp')
   .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats, filter, relocate) ->
-    # stupid coffee...
-    games = null
-    gsApi = null
-    fApi = null
     # I hate writing $'s'
     scope = $scope
     scope.relocate = relocate
     # loading
     scope.loading = true
     $q.all([allGames, playerStats, gameStats, filter]).then (responses)->
-      games = responses[0]
-      gsApi = responses[2]
-      fApi = responses[3]
+      allGames = responses[0]
+      gameStats = responses[2]
+      filter = responses[3]
       try 
         id = _($location.search()).keys()[0]
-        if games[id] then scope.select games[id]
-        else scope.select _(games).max (game) -> game.msSinceEpoch
+        if allGames[id] then scope.select allGames[id]
+        else scope.select _(allGames).max (game) -> game.msSinceEpoch
       catch
-        scope.select _(games).max (game) -> game.msSinceEpoch
+        scope.select _(allGames).max (game) -> game.msSinceEpoch
       scope.loading = false
+      scope.sortedGames = _(allGames).toArray()
 
-    # display all games with selection capabilities
-    allGames.then (games) ->
-      scope.games = games
-      scope.sortedGames = _(games).toArray()
 
     scope.isSelectedGame = (game) ->
       game == scope.selectedGame
 
     scope.select = (game) ->
       scope.gameLoading = true
+      filter.onlyInclude([game])
       $location.search(game.gameId)
       scope.selectedGame = game
-      scope.gameStats = gsApi.getFor game
-      fApi.onlyInclude([game])
+      scope.gameStats = gameStats.getFor game
       scope.gameLoading = false
 
     # points control
