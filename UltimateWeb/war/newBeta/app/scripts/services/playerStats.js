@@ -7,6 +7,7 @@ angular.module('newBetaApp')
 
     var includedGames;
     var playerStats;
+    var basicStatTypes = ['catches', 'drops', 'throwaways', 'stalls', 'penalized', 'ds', 'iBPulls', 'oBPulls', 'goals', 'callahans', 'thrownCallahans', 'assists', 'passesDropped', 'completions', 'timePlayed', 'pullHangtime', 'gamesPlayed', 'dPoints', 'oPoints', 'oPlusMinus', 'dPlusMinus','hungPulls'];
 
 
     function recordEvent(event, players) {
@@ -102,7 +103,7 @@ angular.module('newBetaApp')
       _.each(playerNames, function(name){
         players[name] = {};
         players[name].stats = {};
-        _.each(['catches', 'drops', 'throwaways', 'stalls', 'penalized', 'ds', 'iBPulls', 'oBPulls', 'goals', 'callahans', 'thrownCallahans', 'assists', 'passesDropped', 'completions', 'timePlayed', 'pullHangtime', 'gamesPlayed', 'dPoints', 'oPoints', 'oPlusMinus', 'dPlusMinus','hungPulls'], function(type){
+        _.each(basicStatTypes, function(type){
           players[name].stats[type] = 0;
         });
       });
@@ -127,37 +128,39 @@ angular.module('newBetaApp')
         });
       });
       _.each(players, function(player){
-        _.each([
-            ['catchingPercentage', 'catches', 'drops'],
-            ['passingPercentage', 'completions', 'throwaways'],
-            ['iBPullingPercentage', 'iBPulls', 'oBPulls']
-          ], function(average){
-            if (player.stats[average[1]] + player.stats[average[2]]){
-              player.stats[average[0]] = Math.round(player.stats[average[1]] / (player.stats[average[1]] + player.stats[average[2]]) * 100);
-            } else {
-              player.stats[average[0]] = 100;
-            }
-          }
-        );
+        extendPercentageStats(player.stats)
       });
       _.each(players, function(player, name){
         player.name = name;
       });
       _.each(players, function(player){
-        var ps = player.stats;
-        ps.pointsPlayed = ps.oPoints + ps.dPoints;
-        ps.pulls = ps.oBPulls + ps.iBPulls;
-        ps.touches = (ps.pickups || 0) + ps.catches;
-        ps.plusMinus = ps.oPlusMinus + ps.dPlusMinus;
-        ps.timePlayedMinutes = Math.round(ps.timePlayed / 60);
-        ps.averagePullHangtime = ps.hungPulls ? parseFloat((ps.pullHangtime  / ps.hungPulls).toFixed(2)) : 0;
-        _.each(['goals', 'assists', 'ds',  'throwaways',  'drops'], function(name){
-          ps['pp' + name[0].toUpperCase() + name.slice(1)] = ps.pointsPlayed ? parseFloat((ps[name] / ps.pointsPlayed).toFixed(2)) : 0;
-        });
+        extendAestheticStats(player.stats);
       });
       playerStats = players;
       return players;
     };
+    function extendAestheticStats(stats){
+      stats.pointsPlayed = stats.oPoints + stats.dPoints;
+      stats.pulls = stats.oBPulls + stats.iBPulls;
+      stats.touches = (stats.pickustats || 0) + stats.catches;
+      stats.plusMinus = stats.oPlusMinus + stats.dPlusMinus;
+      stats.timePlayedMinutes = Math.round(stats.timePlayed / 60);
+      stats.averagePullHangtime = stats.hungPulls ? (stats.pullHangtime  / stats.hungPulls) : 0;
+      _.each(['goals', 'assists', 'ds',  'throwaways',  'drostats'], function(name){
+        stats['pp' + name[0].toUpperCase() + name.slice(1)] = stats.pointsPlayed ? (stats[name] / stats.pointsPlayed) : 0;
+      });
+
+    }
+    function extendPercentageStats(stats){
+      _.each([
+          ['catchingPercentage', 'catches', 'drops'],
+          ['passingPercentage', 'completions', 'throwaways'],
+          ['iBPullingPercentage', 'iBPulls', 'oBPulls']
+        ], function(average){
+          stats[average[0]] = Math.round(stats[average[1]] / (stats[average[1]] + stats[average[2]]) * 100);
+        }
+      );
+    }
     function getLeaders(types){
       var leaders = {};
       _.each(types, function(type){
@@ -168,10 +171,30 @@ angular.module('newBetaApp')
       return leaders;
     }
     function getTotals(){
-
+      var totals = {};
+      _.each(basicStatTypes, function(type){
+        totals[type] = _(playerStats).reduce(getSumFunction(type));
+      });
+      extendPercentageStats(totals);
+      extendAestheticStats(totals);
+      return totals;
     }
     function getAverages(){
-
+      var averages = {};
+      var statTypes = _.keys(_(playerStats).sample().stats);
+      _(statTypes).each(function(type){
+        averages[type] = _(playerStats).reduce(getSumFunction(type)).valueOf() / _.keys(playerStats).length;
+      });
+      return averages;
+    }
+    function getSumFunction(type){
+      return function(memo, player){
+        if (_.isNumber(memo)) {
+          return player.stats[type] ? memo + player.stats[type] : memo;
+        } else {
+          return player.stats[type];
+        }
+      };
     }
     function resolve(){
       deferred.resolve({
