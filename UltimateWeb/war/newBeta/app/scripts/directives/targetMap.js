@@ -8,7 +8,7 @@ angular.module('newBetaApp').directive('targetMap', function($parse) {
       data: '='
     },
     link: function(scope, element, attrs) {
-      var diameter, getColor, getText, height;
+      var diameter, getColor, getText, height, render;
       getColor = function(action) {
         var color;
         return color = (function() {
@@ -50,16 +50,22 @@ angular.module('newBetaApp').directive('targetMap', function($parse) {
       height = parseInt($(element.parent()).css('width')) + 150;
       diameter = height - 150;
       $(element.parent()).css('height', height);
-      return scope.$watch('data', function(newData) {
+      scope.$watch('data', function() {
+        return render();
+      });
+      window.onresize(function() {
+        return render();
+      });
+      return render = function() {
         var bubble, color, format, node, svg, tooltip;
-        if (newData) {
+        if (scope.data) {
           d3.select('#target-map').select('svg').remove();
           format = d3.format(',d');
           color = d3.scale.category20c();
           tooltip = d3.select('#target-map').append('div').attr('class', 'target-mouseover-tooltip').text('a simple tooltip');
           bubble = d3.layout.pack().sort(null).size([diameter, height + 100]).padding(1.5);
           svg = d3.select('#target-map').append('svg').attr('width', diameter).attr('height', height + 100).attr('class', 'bubble');
-          node = svg.selectAll('.node').data(bubble.nodes(newData).filter(function(d) {
+          node = svg.selectAll('.node').data(bubble.nodes(scope.data).filter(function(d) {
             return !d.children;
           })).enter().append('g').attr('class', 'target-node').attr('transform', function(d) {
             return 'translate(' + d.x + ',' + d.y + ')';
@@ -80,7 +86,7 @@ angular.module('newBetaApp').directive('targetMap', function($parse) {
           });
           return d3.select(self.frameElement).style('height', diameter + 'px');
         }
-      });
+      };
     }
   };
 });

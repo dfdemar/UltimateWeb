@@ -31,9 +31,14 @@ angular.module('newBetaApp')
       height = parseInt($(element.parent()).css 'width') + 150
       diameter = height - 150
       $(element.parent()).css 'height', height
-      scope.$watch 'data', (newData)->
-        if newData
 
+      scope.$watch 'data', ->
+        render()
+      window.onresize ->
+        render()
+
+      render = ->
+        if scope.data
           d3.select('#target-map').select('svg').remove()
 
           format = d3.format ',d'
@@ -56,7 +61,7 @@ angular.module('newBetaApp')
           .attr( 'class', 'bubble')
 
           node = svg.selectAll('.node')
-          .data( bubble.nodes(newData).filter (d)-> not d.children)
+          .data( bubble.nodes(scope.data).filter (d)-> not d.children)
           .enter()
           .append( 'g')
           .attr( 'class', 'target-node')
