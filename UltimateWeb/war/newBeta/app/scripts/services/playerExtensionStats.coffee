@@ -18,7 +18,7 @@ angular.module('newBetaApp')
               if event.passer is playerName then playersThrows.push event
         actions = _.groupBy playersThrows, 'action'
         _.each actions, (events, action)->
-          receivers = _.countBy events, (event)-> event.receiver || 'The other team'
+          receivers = _.countBy events, (event)-> event.receiver || 'The Other Team'
           _.each receivers, (count, player)->
             children.push
               actionType: action

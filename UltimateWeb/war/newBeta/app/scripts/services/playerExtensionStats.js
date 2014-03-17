@@ -28,7 +28,7 @@ angular.module('newBetaApp').factory('playerExtensionStats', function($q, allGam
       _.each(actions, function(events, action) {
         var receivers;
         receivers = _.countBy(events, function(event) {
-          return event.receiver || 'The other team';
+          return event.receiver || 'The Other Team';
         });
         return _.each(receivers, function(count, player) {
           return children.push({

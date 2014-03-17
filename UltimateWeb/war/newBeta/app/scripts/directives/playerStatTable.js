@@ -9,18 +9,17 @@ angular.module('newBetaApp').directive('playerStatTable', function($routeParams,
     },
     link: function(scope, element, attrs) {
       var init;
+      playerStats.then(function(response) {
+        return init(response);
+      });
       scope.included = filter.included;
       scope.$watch('included', function() {
         scope.myStats = typeof playerStats.getAll === "function" ? playerStats.getAll()[scope.playerName] : void 0;
         return scope.teamAverage = typeof playerStats.getAverages === "function" ? playerStats.getAverages() : void 0;
       });
-      playerStats.then(function(response) {
-        playerStats = response;
-        return init();
-      });
-      return init = function() {
-        scope.playerStats = playerStats.getAll()[scope.playerName].stats;
-        scope.teamAverage = playerStats.getAverages();
+      return init = function(api) {
+        scope.playerStats = api.getAll()[scope.playerName].stats;
+        scope.teamAverage = api.getAverages();
         return scope.statTypes = _.keys(scope.playerStats).sort();
       };
     }

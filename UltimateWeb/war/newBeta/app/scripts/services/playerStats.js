@@ -199,7 +199,7 @@ angular.module('newBetaApp')
           derive();
         }
       });
-    })
+    });
     var deferred = $q.defer();
     return deferred.promise;
   });

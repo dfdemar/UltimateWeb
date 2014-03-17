@@ -6,7 +6,7 @@ angular.module('newBetaApp')
     scope.loading = true
     scope.console = console
     players = null
-    playerName = decodeURI $routeParams.playerNameUri
+    scope.playerName = decodeURI $routeParams.playerNameUri
     $q.all([playerStats, allGames, playerExtensionStats]).then (responses)->
       playerStats = responses[0]
       allGames = responses[1]
@@ -17,6 +17,5 @@ angular.module('newBetaApp')
     init = ->
       playerStats.setGames allGames
       playerExtensionStats.setGames allGames
-      playerExtensionStats.setPlayer playerName
-      scope.player = playerStats.getForPlayer playerName
+      playerExtensionStats.setPlayer scope.playerName
       scope.targetStats = playerExtensionStats.getTargetMap()
