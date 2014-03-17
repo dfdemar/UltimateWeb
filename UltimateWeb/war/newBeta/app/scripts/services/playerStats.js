@@ -83,24 +83,9 @@ angular.module('newBetaApp')
       }
     }
 
-
-    var games, playerNames;
-    var deferred = $q.defer();
-    allGames.then(function(response) {
-      games = response;
-      if (games && team){
-        resolve();
-      }
-    });
-    team.then(function(response){
-      playerNames = _(response.players).pluck('name').valueOf();
-      if (games && team){
-        resolve();
-      }
-    });
     var derive = function() {
       var players = {};
-      _.each(playerNames, function(name){
+      _(team.players).pluck('name').each(function(name){
         players[name] = {};
         players[name].stats = {};
         _.each(basicStatTypes, function(type){
@@ -110,7 +95,7 @@ angular.module('newBetaApp')
 
       _.each(includedGames, function(ref) {
         var playedInGame = {};
-        _.each(games[ref.gameId].points, function(point) {
+        _.each(allGames[ref.gameId].points, function(point) {
           _.each(point.line, function(name){
             if (players[name]) {
               if (!playedInGame[name]){
@@ -195,7 +180,11 @@ angular.module('newBetaApp')
         }
       };
     }
-    function resolve(){
+
+    //promise land
+    $q.all([allGames, team]).then(function(responses){
+      allGames = responses[0];
+      team = responses[1];
       deferred.resolve({
         getLeaders: getLeaders,
         getTotals: getTotals,
@@ -210,7 +199,8 @@ angular.module('newBetaApp')
           derive();
         }
       });
-    }
+    })
+    var deferred = $q.defer();
     return deferred.promise;
   });
 
