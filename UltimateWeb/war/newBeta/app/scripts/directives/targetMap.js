@@ -53,9 +53,9 @@ angular.module('newBetaApp').directive('targetMap', function($parse) {
       scope.$watch('data', function() {
         return render();
       });
-      window.onresize(function() {
+      window.onresize = function() {
         return render();
-      });
+      };
       return render = function() {
         var bubble, color, format, node, svg, tooltip;
         if (scope.data) {

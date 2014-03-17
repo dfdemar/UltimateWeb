@@ -34,7 +34,7 @@ angular.module('newBetaApp')
 
       scope.$watch 'data', ->
         render()
-      window.onresize ->
+      window.onresize = ->
         render()
 
       render = ->
