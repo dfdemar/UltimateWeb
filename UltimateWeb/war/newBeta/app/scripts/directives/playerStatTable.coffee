@@ -7,16 +7,20 @@ angular.module('newBetaApp')
     scope: 
       playerName: '='
     link: (scope, element, attrs) ->
+      api = null
       playerStats.then (response)->
-        init(response)
+        api = response
+        init()
 
       scope.included = filter.included
-      scope.$watch 'included', ->
-        scope.myStats = playerStats.getAll?()[scope.playerName]
-        scope.teamAverage = playerStats.getAverages?()
+      scope.$watchCollection 'included', ->
+        api?.setGames filter.included
+        scope.playerStats = api?.getAll()[scope.playerName].stats
+        scope.teamAverage = api?.getAverages()
 
 
-      init = (api)->
+      init = ()->
+        api.setGames scope.included
         scope.playerStats = api.getAll()[scope.playerName].stats
         scope.teamAverage = api.getAverages()
         scope.statTypes = _.keys(scope.playerStats).sort()

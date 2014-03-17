@@ -18,9 +18,11 @@ angular.module('newBetaApp')
       _.each(games, include);
     }
     allGames.then(function(response){
+      allGames = response;
       onlyInclude(response);
     });
     return {
+      includeAll: function(){onlyInclude(allGames)},
       included: includedGames,
       include: function(games){
         (_.isArray(games) || !games.gameId) ? _.each(games, include) : include(games);

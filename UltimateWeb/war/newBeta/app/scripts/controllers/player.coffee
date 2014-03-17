@@ -1,21 +1,22 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'PlayerCtrl', ($scope, $routeParams, $q, playerStats, allGames, playerExtensionStats) ->
+  .controller 'PlayerCtrl', ($scope, $routeParams, $q, allGames, playerExtensionStats, filter) ->
     scope = $scope
     scope.loading = true
     scope.console = console
     players = null
     scope.playerName = decodeURI $routeParams.playerNameUri
-    $q.all([playerStats, allGames, playerExtensionStats]).then (responses)->
-      playerStats = responses[0]
-      allGames = responses[1]
-      playerExtensionStats = responses[2]
+    $q.all([allGames, playerExtensionStats]).then (responses)->
+      allGames = responses[0]
+      playerExtensionStats = responses[1]
       init()
       scope.loading = false
 
     init = ->
-      playerStats.setGames allGames
-      playerExtensionStats.setGames allGames
+      filter.includeAll()
+      scope.included = filter.included
       playerExtensionStats.setPlayer scope.playerName
-      scope.targetStats = playerExtensionStats.getTargetMap()
+      scope.$watchCollection 'included', ->
+        playerExtensionStats.setGames scope.included
+        scope.targetStats = playerExtensionStats.getTargetMap()

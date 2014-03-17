@@ -8,16 +8,22 @@ angular.module('newBetaApp').directive('playerStatTable', function($routeParams,
       playerName: '='
     },
     link: function(scope, element, attrs) {
-      var init;
+      var api, init;
+      api = null;
       playerStats.then(function(response) {
-        return init(response);
+        api = response;
+        return init();
       });
       scope.included = filter.included;
-      scope.$watch('included', function() {
-        scope.myStats = typeof playerStats.getAll === "function" ? playerStats.getAll()[scope.playerName] : void 0;
-        return scope.teamAverage = typeof playerStats.getAverages === "function" ? playerStats.getAverages() : void 0;
+      scope.$watchCollection('included', function() {
+        if (api != null) {
+          api.setGames(filter.included);
+        }
+        scope.playerStats = api != null ? api.getAll()[scope.playerName].stats : void 0;
+        return scope.teamAverage = api != null ? api.getAverages() : void 0;
       });
-      return init = function(api) {
+      return init = function() {
+        api.setGames(scope.included);
         scope.playerStats = api.getAll()[scope.playerName].stats;
         scope.teamAverage = api.getAverages();
         return scope.statTypes = _.keys(scope.playerStats).sort();
