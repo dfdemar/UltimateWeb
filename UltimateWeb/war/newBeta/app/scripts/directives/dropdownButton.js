@@ -27,7 +27,7 @@ angular.module('newBetaApp')
           }
         });
         $document.on('click', function(e){
-          if (e.target !== iElement[0]) {
+          if (e.target !== iElement[0] && !_.contains(iElement.children(), e.target)) {
             isOpen = false;
             theElement.css('display', 'none');
           }
