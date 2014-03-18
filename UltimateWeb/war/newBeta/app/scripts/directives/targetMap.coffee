@@ -2,12 +2,13 @@
 
 angular.module('newBetaApp')
   .directive 'targetMap', ($parse) ->
-    template: '<div id="target-map"><svg></svg></div>'
+    templateUrl: 'includes/partials/targetMap.html'
     restrict: 'E'
     scope: 
       data: '='
     link: (scope, element, attrs) ->
-      getColor = (action)->
+      scope.keyEvents = ['Drop', 'Catch', 'Throwaway', 'Goal']
+      scope.getColor = (action)->
         color = switch
           when action is 'Drop' then '#c5007c'
           when action is 'Catch' then '#949A27'
@@ -77,7 +78,7 @@ angular.module('newBetaApp')
 
           node.append( 'circle')
           .attr( "r", (d)-> d.r)
-          .style( "fill", (d)-> getColor d.actionType, true)
+          .style( "fill", (d)-> scope.getColor d.actionType, true)
 
           node.append( 'text')
           .attr( 'dy', '.5em')
