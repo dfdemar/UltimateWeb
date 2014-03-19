@@ -573,3 +573,10 @@ Assigned to:	You
 .stat-header > a {
   word-break: break-word;
 }
+.main {
+  margin-bottom: 30%;
+}
+.line-through{
+  color:#888 !important;
+  text-decoration: line-through !important;
+}
