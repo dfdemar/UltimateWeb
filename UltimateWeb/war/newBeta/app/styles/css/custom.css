@@ -577,3 +577,11 @@ Assigned to:	You
 .stats-tables > div > p {
   margin:5px 0 3px 10px !important;
 }
+.logo {
+  position: absolute;
+  right: 0;
+  padding-top: 6px; 
+}
+.nav-header-container {
+  position: relative;
+}
