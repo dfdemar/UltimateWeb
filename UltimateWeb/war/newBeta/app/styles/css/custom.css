@@ -535,10 +535,11 @@ Assigned to:	You
   color: inherit;
 }
 .flow-map-pointer{
+  position: absolute;
   height: 1em;
   display: inline-block;
-  padding: 3%;
-  width: 30%;
+  width: 90px;
+  margin: 0 10px 0 10px; 
 }
 .disable-games{
   background: transparent;
@@ -584,4 +585,47 @@ Assigned to:	You
 }
 .nav-header-container {
   position: relative;
+}
+.flow-map-animation {
+  position: relative;
+  height: 110px;
+}
+.flow-map-animation > .cutie {
+  position: absolute;
+  width: 90px;
+  z-index: 2;
+}
+.flow-map-description {
+  height:2em;
+}
+.flow-map-animation > img {
+  margin: 1%;
+  width: 60px;
+}
+.flow-map-animation > .cutie:first-child {
+  left: 0;
+}
+.flow-map-animation > .cutie:first-child + .cutie {
+  left: 46%;
+}
+.flow-map-animation > .cutie:first-child + .cutie + .cutie{
+  right: 0;
+}
+.flow-map-description > .flow-map-pointer:first-child {
+  left: 0;
+}
+.flow-map-description > .flow-map-pointer:first-child + .flow-map-pointer {
+  left: 46%;
+}
+.flow-map-description > .flow-map-pointer:first-child + .flow-map-pointer + .flow-map-pointer{
+  right: 0;
+}
+.frisbee-arrow {
+  position: absolute;
+  left: 2%;
+  top: 50px;
+  z-index: 1;
+}
+.footer {
+  z-index: 5;
 }
