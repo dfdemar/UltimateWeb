@@ -492,12 +492,6 @@ Assigned to:	You
   border-radius: 30px;
   padding: 20px;
 }
-.first-time-modal{
-  left: 15%;
-  right: 15%;
-  top: 15%;
-  bottom: 15%;
-}
 .feedback-modal > .icon {
   position: absolute;
   top: 15px;

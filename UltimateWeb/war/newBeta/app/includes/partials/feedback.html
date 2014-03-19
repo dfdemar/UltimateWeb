@@ -1,37 +1,41 @@
-<div ng-if="firstTime" class='feedback-modal first-time-modal'>
-  <h3>What up Fam!?</h3>
-  <p>Yo dog, I heard you needed some content. Let's hope I don't forget about this little feedback plea. If I did, it means the cookies never got ate. PLEASE shoot me a note about the site, I fucking live for user feedback. Let's be real, ain't no designer touched on this, this shit is bootstrapped, bootwrapped, and my product guy is my dad. If you don't get something, if you think something looks like shit, if you wanna see this awesome thing that isn't on the site yet, if you have any constructive criticism whatsoever, holla at me; if you have only non-constructive things to say, show it to your homies and tell them to get critical. This thing is uber-beta, and I play way too many video games in my parent's basement.</p>
-  <span ng-click="closeModal()" class="icon icon-remove"></span>
-  <span class="btn btn-normal btn-success" ng-click="closeModal()">You're the best</span>
-  <span class="btn btn-normal btn-default" ng-click="closeModal()">Fuck you</span>
-</div>
+
 <a href="mailto:krgeppert@gmail.com" class="no-link">
   <div class="feedback-token" ng-click=""> <!-- TODO -->
     <span>Feedback!</span>
   </div>
 </a>
-<div ng-if="emailOpen" class="feedback-modal email-modal">
-  <h4>Thanks for giving feedback!</h4>
-  <div class="widget-content" ng-if="!tooMuchSubmitted">
-    <form role="form" class="form-horizontal col-md-12">
-      <div class="form-group">
-        <div class="col-md-6">
-          <input type="text" placeholder="Your Email" class="form-control" ng-model="email" ng-class="{invalid: !isValid(email) && submitted}">
-        </div>
+
+<div class='modal-backdrop' ng-if="!firstTime && !gotMobileWarning && isMobile"></div>
+<div class="modal" style="display: block;"  ng-if="!firstTime && !gotMobileWarning && isMobile">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Hello Moto</h4>
       </div>
-      <div class="form-group">
-        <div class="col-md-9">
-          <input type="text" placeholder="Subject" ng-model="subject" class="form-control">
-        </div>
+      <div class="modal-body">
+        <p>Welcome Mobile User. Please visit our site with a computer for more features!</p>
       </div>
-      <div class="form-group">
-        <div class="col-md-11">
-          <textarea name="text1" class="form-control" placeholder="Feedback" ng-model="message" ng-class="{invalid: !message && submitted}" rows="10"></textarea>
-        </div>
+      <div class="modal-footer">
+         <span class="btn btn-normal btn-success" ng-click="closeMobileWarning()">Got it.</span>
       </div>
-    </form>
-    <span class="btn btn-normal btn-success" ng-click="submitEmail(email, subject, message)">Submit</span>
-    <span class="btn btn-normal btn-default" ng-click="closeEmail()">Cancel</span>
+    </div>
   </div>
-  <span ng-click="closeEmail()" class="icon icon-remove"></span>
+</div>
+<div class='modal-backdrop' ng-if="firstTime"></div>
+<div class="modal" style="display: block;" ng-if="firstTime">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Welcome!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Welcome to ultiAnalytics' website. This site is in beta; please give us your feedback.</p>
+      </div>
+      <div class="modal-footer">
+         <span class="btn btn-normal btn-success" ng-click="closeFirstTimeModal()">Thanks.</span>
+      </div>
+    </div>
+  </div>
 </div>

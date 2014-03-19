@@ -11,6 +11,7 @@ angular.module('newBetaApp')
       link: function postLink(scope) {
         scope.playerName = decodeURI($routeParams.playerNameUri);
         $rootScope.isMobile = viewer.isMobile();
+        scope.isMobile = viewer.isMobile();
         scope.isActive = function(option){
           return option === scope.page ? 'active' : '';
         };
