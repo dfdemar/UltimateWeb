@@ -570,3 +570,6 @@ Assigned to:	You
   display:inline-block;
   margin:10px;
 }
+.stat-header > a {
+  word-break: break-word;
+}

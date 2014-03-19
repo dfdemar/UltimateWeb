@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('navBar', function (viewer, $routeParams, $location) {
+  .directive('navBar', function (viewer, $routeParams, $location, $rootScope) {
     return {
       templateUrl: 'includes/partials/nav-bar.html',
       restrict: 'EA',
@@ -10,7 +10,7 @@ angular.module('newBetaApp')
       },
       link: function postLink(scope) {
         scope.playerName = decodeURI($routeParams.playerNameUri);
-        scope.isMobile = viewer.isMobile();
+        $rootScope.isMobile = viewer.isMobile();
         scope.isActive = function(option){
           return option === scope.page ? 'active' : '';
         };
