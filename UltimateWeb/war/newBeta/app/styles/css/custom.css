@@ -574,3 +574,6 @@ Assigned to:	You
   color:#888 !important;
   text-decoration: line-through !important;
 }
+.stats-tables > div > p {
+  margin:5px 0 3px 10px !important;
+}
