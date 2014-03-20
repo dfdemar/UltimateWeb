@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('navBar', function (viewer, $routeParams, $location, $rootScope) {
+  .directive('navBar', ['viewer', '$routeParams', '$location', '$rootScope', function (viewer, $routeParams, $location, $rootScope) {
     return {
       templateUrl: 'includes/partials/nav-bar.html',
       restrict: 'EA',
@@ -21,4 +21,4 @@ angular.module('newBetaApp')
         };
       }
     };
-  });
+  }]);

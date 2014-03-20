@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .directive 'droppable', ($parse) ->
+  .directive 'droppable', ['$parse',($parse) ->
     restrict: 'A'
     scope: true
     link: (scope, element, attrs)->
@@ -18,3 +18,4 @@ angular.module('newBetaApp')
       element.on 'dragover', (event)->
         onOver?(scope.dragging)
         event.preventDefault()
+]

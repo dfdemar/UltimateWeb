@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('titleBar', function (teamName) {
+  .directive('titleBar', ['teamName', function (teamName) {
     return {
       templateUrl: 'includes/partials/title-bar.html',
       restrict: 'EA',
@@ -12,4 +12,4 @@ angular.module('newBetaApp')
         });
       }
     };
-  });
+  }]);

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('FilterCtrl', function($scope, filter, allGames) {
+  .controller('FilterCtrl', ['$scope', 'filter', 'allGames', function($scope, filter, allGames) {
     $scope.dDOpen = false;
     $scope.filter = filter;
     $scope.buttonMessage = 'All Games';
@@ -97,4 +97,4 @@ angular.module('newBetaApp')
         $scope.buttonMessage = 'You don\'t have any stats!';
       }
     });
-  });
+  }]);

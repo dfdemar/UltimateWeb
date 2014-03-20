@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('allGames', function($q, $routeParams, api) {
+  .factory('allGames', ['$q', '$routeParams', 'api', function($q, $routeParams, api) {
     var deferred = $q.defer();
     api.retrieveGamesData($routeParams.teamId,
       function success(response) {
@@ -19,4 +19,4 @@ angular.module('newBetaApp')
       }
     );
     return deferred.promise;
-  });
+  }]);

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('StattablesCtrl', function($scope, $location,$routeParams, playerStats, filter, relocate) {
+  .controller('StattablesCtrl', ['$scope', '$location','$routeParams', 'playerStats', 'filter', 'relocate', function($scope, $location,$routeParams, playerStats, filter, relocate) {
     $scope.relocate = relocate;
     $scope.changeFocus = function(type) {
       $scope.focus = type;
@@ -53,5 +53,5 @@ angular.module('newBetaApp')
       prop ? name = obj + '.' + prop : name = obj;
       ($scope.sorter === name) ? $scope.sorter = '-' + $scope.sorter : $scope.sorter = name;
     };
-  });
+  }]);
   

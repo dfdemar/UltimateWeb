@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .service('Authorization', function($q, $location, api) {
+  .service('Authorization', ['$q', '$location', 'api',function($q, $location, api) {
     return {
       ping: function(teamId){
         var deferred = $q.defer();
@@ -21,4 +21,4 @@ angular.module('newBetaApp')
         return deferred.promise;
       }
     };
-  });
+  }]);

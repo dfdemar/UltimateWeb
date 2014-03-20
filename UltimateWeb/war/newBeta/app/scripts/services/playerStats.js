@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('playerStats', function($q, allGames, team) {
+  .factory('playerStats', ['$q', 'allGames', 'team',function($q, allGames, team) {
 
     var includedGames;
     var playerStats;
@@ -202,7 +202,7 @@ angular.module('newBetaApp')
     });
     var deferred = $q.defer();
     return deferred.promise;
-  });
+  }]);
 
 // Assists Passes  Throwaways  Stalls  Percent Completed
 // Goals Catches Touches Drops Percent Caught

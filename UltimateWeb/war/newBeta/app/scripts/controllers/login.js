@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('LoginCtrl', function($scope, $routeParams, $location, api, next) {
+  .controller('LoginCtrl', ['$scope', '$routeParams', '$location', 'api', 'next', function($scope, $routeParams, $location, api, next) {
     $scope.attempt = function(password) {
       if (password){
         console.log(password);
@@ -18,4 +18,4 @@ angular.module('newBetaApp')
           });
       }
     };
-  });
+  }]);

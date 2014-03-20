@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('teamStats', function($q, $routeParams, $rootScope, filter, api, allGames) {
+  .factory('teamStats', ['$q', '$routeParams', '$rootScope', 'filter', 'api', 'allGames',function($q, $routeParams, $rootScope, filter, api, allGames) {
     var deferred = $q.defer();
     var statsMap = {};
     var collection = 0;
@@ -226,4 +226,4 @@ angular.module('newBetaApp')
       }
     };
     return deferred.promise;
-  });
+  }]);

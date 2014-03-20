@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('pieChart', function ($parse) {
+  .directive('pieChart', ['$parse',function ($parse) {
     return {
       template: '<svg></svg>',
       restrict: 'AE',
@@ -78,4 +78,4 @@ angular.module('newBetaApp')
         };
       }
     };
-  });
+  }]);

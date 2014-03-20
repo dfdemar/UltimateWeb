@@ -1,3 +1,4 @@
 angular.module('newBetaApp')
-  .controller 'DownloadCtrl', ($scope, downloadUrl) -> 
+  .controller 'DownloadCtrl', ['$scope', 'downloadUrl',($scope, downloadUrl) -> 
     $scope.url = downloadUrl
+  ]

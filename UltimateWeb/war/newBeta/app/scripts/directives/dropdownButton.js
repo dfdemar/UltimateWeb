@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('dropdownButton', function ($document) {
+  .directive('dropdownButton', ['$document',function ($document) {
     return {
       restrict: 'A',
       link: function postLink(scope, iElement) {
@@ -39,4 +39,4 @@ angular.module('newBetaApp')
         }
       }
     };
-  });
+  }]);

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'GamesCtrl', ($scope, $q, $location, allGames, playerStats, gameStats, filter, relocate) ->
+  .controller 'GamesCtrl', ['$scope', '$q', '$location', 'allGames', 'playerStats', 'gameStats', 'filter', 'relocate', ($scope, $q, $location, allGames, playerStats, gameStats, filter, relocate) ->
     # I hate writing $'s'
     scope = $scope
     scope.relocate = relocate
@@ -40,3 +40,4 @@ angular.module('newBetaApp')
         openPoints[id] = !openPoints[id]
     scope.isOpen = (point) ->
       openPoints[point['$$hashKey']]
+]

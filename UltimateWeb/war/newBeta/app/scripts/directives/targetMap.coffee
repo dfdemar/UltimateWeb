@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .directive 'targetMap', ($parse) ->
+  .directive 'targetMap', ['$parse', ($parse) ->
     templateUrl: 'includes/partials/targetMap.html'
     restrict: 'E'
     scope: 
@@ -87,4 +87,4 @@ angular.module('newBetaApp')
 
           d3.select( self.frameElement)
           .style 'height', diameter + 'px'
-
+]

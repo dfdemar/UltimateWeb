@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('PlayersCtrl', function ($scope, $q, playerStats, allGames, filter, relocate) {
+  .controller('PlayersCtrl', ['$scope', '$q', 'playerStats', 'allGames', 'filter', 'relocate', function ($scope, $q, playerStats, allGames, filter, relocate) {
     $scope.relocate = relocate;
     $scope.loading = true;
     $scope.sortBy = 'name';
@@ -45,4 +45,4 @@ angular.module('newBetaApp')
     function render() {
       $scope.leaders = playerStats.getLeaders(['goals','ds','pointsPlayed', 'plusMinus']);
     }
-  });
+  }]);

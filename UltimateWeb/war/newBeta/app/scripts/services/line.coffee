@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'Line', (lineStats) ->
+  .factory 'Line', ['lineStats',(lineStats) ->
     lineStats.then (response)->
       lineStats = response
     lineNum = 0
@@ -18,3 +18,4 @@ angular.module('newBetaApp')
         @updateStats()
       updateStats: ->
         @stats = lineStats.getStats(@players)
+]

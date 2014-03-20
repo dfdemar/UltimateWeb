@@ -25,4 +25,4 @@ angular.module('newBetaApp')
           $('.modal-backdrop').remove()
           $('.modal').remove()
 
-  ]
+]

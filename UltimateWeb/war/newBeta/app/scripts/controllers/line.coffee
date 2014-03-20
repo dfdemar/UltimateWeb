@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'LineCtrl', ($scope, lineStats, Line, filter) ->
+  .controller 'LineCtrl', ['$scope', 'lineStats', 'Line', 'filter', ($scope, lineStats, Line, filter) ->
     scope = $scope
     scope.dragging
     scope.selectedLine
@@ -35,3 +35,4 @@ angular.module('newBetaApp')
       if update and lineStats.getStats
         _(scope.lines).each (line)->
           line.updateStats()
+]
