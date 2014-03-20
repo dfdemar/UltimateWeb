@@ -6,7 +6,7 @@ angular.module('newBetaApp')
   .controller('FilterCtrl', function($scope, filter, allGames) {
     $scope.dDOpen = false;
     $scope.filter = filter;
-    $scope.filteredBy = 'All Games';
+    $scope.buttonMessage = 'All Games';
     allGames.then(function(games) {
       $scope.allGames = games;
       $scope.numberOfGames = Object.keys(games).length;
@@ -50,4 +50,51 @@ angular.module('newBetaApp')
     $scope.toggleSelect = function(game, choice){
       (!filter.contains(game) || choice) ? filter.include(game) : filter.exclude(game);
     };
+    var $dedicatedScope = $scope.$new();
+    $dedicatedScope.included = filter.included;
+    $dedicatedScope.$watchCollection('included', function(currentGames){
+
+      // this is the logic for the filter button's message. It's a nest, I know, but it's O(n).
+      // if tournaments have been established, run the following logic:
+        // Say all games (n games) if all are selected.
+        // else Say a tournament name (+n games other than that tournament)
+        // else Say the most recent game selected, and (+n games other than selected)
+      // if there are any games selected and no tournaments, it means this is the first load, ergo append the number of games to the message so it's All Games (n games), instead of just all games.
+      // Otherwise they don't have any stats recorded, so tell them. 
+      //TODO: unit test this piece of shit...
+
+
+      if ($scope.tournaments){
+        var possibilities = {
+          total: true,
+          tournaments: _.clone($scope.tournaments),
+          games: _.clone($scope.allGames, 'gameId')
+        };
+        delete possibilities.tournaments['-'];
+        var current = _(currentGames).indexBy('gameId').valueOf();
+        _.each($scope.allGames, function(game){
+          if (!_(current).has(game.gameId)){
+            delete possibilities.total;
+            delete possibilities.tournaments[game.tournamentName];
+            delete possibilities.games[game.gameId];
+          }
+        });
+        if (possibilities.total){
+          $scope.buttonMessage = 'All Games ' + '(' + currentGames.length + ' games)';
+        } else if (_.keys(possibilities.tournaments).length){
+          var tourney = _(possibilities.tournaments).sample();
+          var extraGames = currentGames.length - tourney.length ? ' (+' + (currentGames.length - tourney.length) + ' games)' : '';
+          $scope.buttonMessage = tourney[0].tournamentName + extraGames;
+        } else if (currentGames.length){
+          var extraGames = currentGames.length > 1 ? ' (+' + (currentGames.length - 1) + ' games)' : '';
+          $scope.buttonMessage = _.min(currentGames, 'msSinceEpoch').opponentName + extraGames;
+        } else {
+          $scope.buttonMessage = 'Zero Games Selected!';
+        }
+      } else if (currentGames.length) {
+        $scope.buttonMessage += ' (' + currentGames.length + ' games)';
+      } else {
+        $scope.buttonMessage = 'You don\'t have any stats!';
+      }
+    });
   });
