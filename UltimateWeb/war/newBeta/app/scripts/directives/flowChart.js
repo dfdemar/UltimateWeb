@@ -116,7 +116,7 @@ angular.module('newBetaApp')
                   .attr('x', 6 + sankey.nodeWidth())
                   .attr('text-anchor', 'start');
 
-                function dragmove(d) {
+                var dragmove = function(d) {
                   d3.select(this).attr('transform', 'translate(' + d.x + ',' + (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) + ')');
                   sankey.relayout();
                   link.attr('d', path);

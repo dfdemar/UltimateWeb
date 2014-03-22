@@ -135,9 +135,18 @@ module.exports = function (grunt) {
     },
     // not used since Uglify task does concat,
     // but still available if needed
-    /*concat: {
-      dist: {}
-    },*/
+    concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        files: {
+          'dist/js/scripts.js': ['./app/scripts/**/*.js'],
+          'dist/js/modules.js': ["./app/bower_components/angular-animate/angular-animate.min.js", "./app/bower_components/angular-route/angular-route.min.js", "./app/bower_components/angular-cookies/angular-cookies.min.js"],
+          'dist/index.html': ['./app/distindex.html']
+        }
+      },
+    },
     rev: {
       dist: {
         files: {
@@ -187,14 +196,12 @@ module.exports = function (grunt) {
       // By default, your `index.html` <!-- Usemin Block --> will take care of
       // minification. This option is pre-configured if you do not wish to use
       // Usemin blocks.
-      // dist: {
-      //   files: {
-      //     '<%= yeoman.dist %>/styles/main.css': [
-      //       '.tmp/styles/{,*/}*.css',
-      //       '<%= yeoman.app %>/styles/{,*/}*.css'
-      //     ]
-      //   }
-      // }
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/styles/main.css': ["<%= yeoman.app %>/styles/css/bootstrap.min.css", "<%= yeoman.app %>/styles/css/bootstrap-responsive.min.css", "<%= yeoman.app %>/styles/css/google-font-style.css", "<%= yeoman.app %>/styles/css/font-awesome.min.css", "<%= yeoman.app %>/styles/css/ui-lightness/jquery-ui-1.10.0.custom.min.css", "<%= yeoman.app %>/styles/css/base-admin-3.css", "<%= yeoman.app %>/styles/css/base-admin-3-responsive.css", "<%= yeoman.app %>/styles/css/pages/signin.css", "<%= yeoman.app %>/styles/css/pages/dashboard.css", "<%= yeoman.app %>/styles/css/pages/plans.css", "<%= yeoman.app %>/styles/css/pages/pricing.css", "<%= yeoman.app %>/styles/css/pages/reports.css", "<%= yeoman.app %>/styles/css/custom.css", "<%= yeoman.app %>/styles/css/animations.css"
+          ]
+        }
+      }
     },
     htmlmin: {
       dist: {
@@ -246,6 +253,22 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      assets: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>',
+            dest: '<%= yeoman.dist %>',
+            src: [
+              'images/**/*',
+              'views/**/*',
+              'includes/**/*',
+              'styles/**/*'
+            ]
+          }
+        ]
       }
     },
     concurrent: {
@@ -299,7 +322,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run(['better_build', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
@@ -323,13 +346,18 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
-    'concat',
     'ngmin',
     'copy:dist',
     'cdnify',
     'uglify',
     'rev',
     'usemin'
+  ]);
+  grunt.registerTask('better_build', [
+    'clean:dist',
+    'copy:assets',
+    'cssmin',
+    'concat',
   ]);
 
   grunt.registerTask('default', [
