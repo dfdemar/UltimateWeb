@@ -47,7 +47,7 @@
                       <span class="icon-trash line-close-button" ng-click="line.removePlayer(player)"></span>
                     </div>
                     <div ng-if="!line.players.length" style="text-align:center;">
-                      <span class="drag-line-text">Drag 
+                      <span class="drag-line-text">Drag
                         <span ng-if="line === selectedLine">or click</span>
                         a player onto the line!
                       </span>
@@ -58,16 +58,28 @@
               <div>
                 <table ng-show="line.players.length" class="table table-striped">
                   <tr>
-                    <td>Points Considered</td><td>{{line.stats.consideredPoints.length}}</td>
+                    <td><b>Points Played Together<b></td><td><b>{{line.stats.consideredPoints.length}}<b></td>
                   </tr>
-                </table>
-                <table class="table table-striped" ng-repeat="(connection, statVal) in line.stats.connections">
                   <tr>
-                    <th>{{connection}}</th><th></th>
+                    <td>Scoring Percentage</td><td>{{line.stats.scoringPercentage | hundredths}}</td>
                   </tr>
-                  <tr ng-repeat="(type,val) in statVal">
-                    <td>{{type}}</td><td>{{val}}</td>
+                  <tr>
+                    <th>On Offense</th>
+                    <th>{{line.stats.oPoints.length}}</th>
                   </tr>
+                  <tr ng-repeat="(stat,value) in line.stats.onOffense">
+                    <td>{{stat | camelCase}}</td>
+                    <td>{{value | hundredths}}</td>
+                  </tr>
+                  <tr>
+                    <th>On Defense</th>
+                    <th>{{line.stats.dPoints.length}}</th>
+                  </tr>
+                  <tr ng-repeat="(stat,value) in line.stats.onDefense">
+                    <td>{{stat | camelCase}}</td>
+                    <td>{{value | hundredths}}</td>
+                  </tr>
+                  <tr ng-repeat="stat in line.stats.onDefense"></tr>
                 </table>
                 <h3 ng-show="!line.players.length" style="text-align:center;"><b>No Data</b></h3>
               </div>
