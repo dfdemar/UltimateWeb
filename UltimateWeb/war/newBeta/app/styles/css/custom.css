@@ -534,12 +534,6 @@ Assigned to:	You
 .no-link {
   color: inherit;
 }
-.flow-map-pointer{
-  height: 1em;
-  display: inline-block;
-  padding: 3%;
-  width: 30%;
-}
 .disable-games{
   background: transparent;
   color: rgb(209, 209, 209);
@@ -580,8 +574,20 @@ Assigned to:	You
 .logo {
   position: absolute;
   right: 0;
-  padding-top: 6px; 
+  padding-top: 6px;
 }
 .nav-header-container {
   position: relative;
+}
+.flow-map-pointers {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width:100%;
+  text-align: center;
+}
+.flow-map-pointers > div {
+  display: inline-block;
+  width: 19%;
+  margin-top: 10px;
 }
