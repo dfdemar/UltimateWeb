@@ -27,6 +27,8 @@ angular.module('newBetaApp')
       scope.selectedLine.addPlayer(player)
     scope.selectLine = (line)->
       scope.selectedLine = line
+    scope.isNumber = (item)->
+      typeof(item) is 'number'
     scope._contains = _.contains
     scope.addLine()
 

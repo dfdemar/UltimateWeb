@@ -64,6 +64,14 @@
                     <td>Scoring Percentage</td><td>{{line.stats.scoringPercentage | hundredths}}</td>
                   </tr>
                   <tr>
+                    <th>Connections</th>
+                    <th>{{line.stats.connections.total}}</th>
+                  </tr>
+                  <tr ng-repeat="(connection, value) in line.stats.connections.combinations">
+                    <td>{{connection}}</td>
+                    <td>{{value}}</td>
+                  </tr>
+                  <tr>
                     <th>On Offense</th>
                     <th>{{line.stats.oPoints.length}}</th>
                   </tr>

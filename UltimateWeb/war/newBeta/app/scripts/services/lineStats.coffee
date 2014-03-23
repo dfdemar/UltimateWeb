@@ -26,9 +26,21 @@ angular.module('newBetaApp')
     getScoringPercentage = (points)->
       ratio = _.countBy points, (point)->
         if point.events[point.events.length - 1].type is 'Offense' then 'scored' else 'failed'
-      ratio.scored / (ratio.scored + ratio.failed) * 100
+      ratio = _.defaults ratio, {scored:0 , failed:0}
+      ratio.scored / ((ratio.scored || 0) + (ratio.failed || 0)) * 100
+
 
     getConnectionStats = (points, players)->
+      connections =
+        total: 0
+        combinations:{}
+      _.each points, (point)->
+        _.each point.events, (event)->
+          if _(players).contains(event.passer) and _(players).contains event.receiver
+            connections.total++
+            connections.combinations[event.passer + ' to ' + event.receiver] ?= 0
+            connections.combinations[event.passer + ' to ' + event.receiver]++
+      connections
 
     getStats = (players)->
       consideredPoints = getConsideredPoints includedGames, players
@@ -39,6 +51,7 @@ angular.module('newBetaApp')
         consideredPoints: consideredPoints
         oPoints: oPoints
         dPoints: dPoints
+        connections: getConnectionStats consideredPoints, players
         scoringPercentage: getScoringPercentage consideredPoints
         onOffense:
           scoringPercentage: getScoringPercentage oPoints
