@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'gameStats', ($q, allGames, playerStats) ->
+  .factory 'gameStats', ['$q', 'allGames', 'playerStats',($q, allGames, playerStats) ->
     deferred = $q.defer()
 
     $q.all([allGames, playerStats]).then (response)->
@@ -36,3 +36,4 @@ angular.module('newBetaApp')
       results
 
     deferred.promise
+]

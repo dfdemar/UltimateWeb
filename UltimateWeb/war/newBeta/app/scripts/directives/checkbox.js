@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('checkbox', function ($parse) {
+  .directive('checkbox', ['$parse',function ($parse) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
@@ -10,4 +10,4 @@ angular.module('newBetaApp')
         });
       }
     };
-  });
+  }]);

@@ -1,5 +1,5 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .controller('404Ctrl', function ($scope) {
-  });
+  .controller('404Ctrl', ['$scope',function ($scope) {
+  }]);

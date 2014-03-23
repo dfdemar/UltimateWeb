@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .controller 'PlayerCtrl', ($scope, $routeParams, $q, allGames, playerExtensionStats, filter) ->
+  .controller 'PlayerCtrl', ['$scope', '$routeParams', '$q', 'allGames', 'playerExtensionStats', 'filter', ($scope, $routeParams, $q, allGames, playerExtensionStats, filter) ->
     scope = $scope
     scope.loading = true
     scope.console = console
@@ -20,3 +20,4 @@ angular.module('newBetaApp')
       scope.$watchCollection 'included', ->
         playerExtensionStats.setGames scope.included
         scope.targetStats = playerExtensionStats.getTargetMap()
+]

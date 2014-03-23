@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .factory('filter', function (allGames) {
+  .factory('filter', ['allGames',function (allGames) {
     var includedGames = [];
     function exclude(game){
       var index = _.indexOf(includedGames, game);
@@ -36,4 +36,4 @@ angular.module('newBetaApp')
         return _.chain(includedGames).pluck('gameId').contains(game.gameId).value();
       }
     };
-  });
+  }]);

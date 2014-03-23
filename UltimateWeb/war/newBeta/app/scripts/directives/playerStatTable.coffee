@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .directive 'playerStatTable', ($routeParams, playerStats, filter) ->
+  .directive 'playerStatTable', ['$routeParams', 'playerStats', 'filter', ($routeParams, playerStats, filter) ->
     templateUrl: 'includes/partials/playerStatTable.html'
     restrict: 'E'
     scope: 
@@ -24,5 +24,4 @@ angular.module('newBetaApp')
         scope.playerStats = api.getAll()[scope.playerName].stats
         scope.teamAverage = api.getAverages()
         scope.statTypes = _.keys(scope.playerStats).sort()
-
-
+]

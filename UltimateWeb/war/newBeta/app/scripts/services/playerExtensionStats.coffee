@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('newBetaApp')
-  .factory 'playerExtensionStats', ($q, allGames) ->
+  .factory 'playerExtensionStats', ['$q', 'allGames',($q, allGames) ->
     playerName = ''
     consideredGames = []
     api = 
@@ -35,7 +35,7 @@ angular.module('newBetaApp')
       
     deferred = $q.defer()
     deferred.promise
-
+]
         # _.each(consideredEvents, function(event){
         #   targetMap[event.action] = targetMap[event.action] || {};
         #   targetMap[event.action][encodeURI(event.receiver)] = ++targetMap[event.action][encodeURI(event.receiver)] || 1;

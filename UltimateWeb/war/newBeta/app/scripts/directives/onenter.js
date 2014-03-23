@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('newBetaApp')
-  .directive('onEnter', function ($parse, $document) {
+  .directive('onEnter', ['$parse', '$document', function ($parse, $document) {
     return {
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
@@ -13,4 +13,4 @@ angular.module('newBetaApp')
         });
       }
     };
-  });
+  }]);
