@@ -21,7 +21,7 @@ angular.module('newBetaApp')
             element.children()[0].children[0].innerHTML = messages[i];
           },3000);
           var messages = [
-            'Resolving IP address...',
+            'Calculating Team Statistics...',
             'Determining content network...',
             'Uploading personal information...',
             'Downloading malware...',
