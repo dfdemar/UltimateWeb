@@ -1,4 +1,4 @@
-<div>
+\<div>
   <ul class="nav nav-pills stat-pills">
     <li ng-class="{active: focus==category}" ng-repeat="category in categories"><a ng-click="changeFocus(category)">{{category.name | camelCase:category.name}}</a></li>
   </ul>
@@ -24,7 +24,7 @@
           <td ng-repeat ="type in focus.statTypes" class="stat-element">{{averages[type] | hundredths}}</td>
         </tr>
         <tr>
-          <td class="stat-element"><b>Totals</b></td>
+          <td class="stat-element"><b>{{teamName}}</b></td>
           <td ng-repeat ="type in focus.statTypes" class="stat-element">{{totals[type] | hundredths}}</td>
         </tr>
       </tbody>
