@@ -68,7 +68,7 @@ angular.module('newBetaApp')
                   .attr('transform', function(d) {return 'translate(' + arc.centroid(d) + ')'; })
                   .attr('dy', '.35em')
                   .style('text-anchor', 'middle')
-                  .style('fill','#555')
+                  .style('fill','white')
                   .text(function(d) { return d.data.range; });
 
                 g.attr('transform', 'translate('+ width / 2 +','+ width / 2 +')');
