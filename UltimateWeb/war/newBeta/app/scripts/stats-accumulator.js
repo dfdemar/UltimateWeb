@@ -1,18 +1,18 @@
 /****************  PLAYER STATS ACCUMULATOR ********************/
 
-/* 	
-	Summarizes raw game data for a team, producing the same player stats object that is 
+/*
+	Summarizes raw game data for a team, producing the same player stats object that is
 	returned by retrievePlayerStatsForGames(), AKA endpoint /team/{teamId}/stats/player.
 	The game data should be in the same format as that returned by retrieveGamesData(),
 	AKA /team/{teamId}/gamesdata.  That is, game objects with point data that is embedded JSON.
-	
+
 	Equivalent functionality to java class PlayerStatisticsCalculator
-	 
+
 */
-PlayerStatsAccumulator = function() {
-	var UNREASONABLY_LONG_ELAPSED_TIME_MINUTES = 60; 
-	var DEFAULT_POINT_ELAPSED_MINUTES = 5; 
-	
+var PlayerStatsAccumulator = function() {
+	var UNREASONABLY_LONG_ELAPSED_TIME_MINUTES = 60;
+	var DEFAULT_POINT_ELAPSED_MINUTES = 5;
+
 	this.summarizeGameData = function(arrayOfGameData) {
 		var allPlayerStats = {};
 		for (var i = 0; i < arrayOfGameData.length; i++) {
@@ -20,14 +20,14 @@ PlayerStatsAccumulator = function() {
 		}
 		return allPlayerStats;
 	}
-	
+
 	function updateStatsForGame(allPlayerStats, game) {
 		var playedInGame = [];
 		var points = JSON.parse(game.pointsJson);
 		for (var i = 0; i < points.length; i++) {
 			var point = points[i];
 			updateTimePlayedStats(allPlayerStats, point);
-			
+
 			var events = point.events;
 			var lastEvent = null;
 			for (var j = 0; j < events.length; j++) {
@@ -63,21 +63,21 @@ PlayerStatsAccumulator = function() {
 					if (isFirstOffenseEvent(event, lastEvent)) {
 						passer.touches++;
 					}
-				} else if (event.action == 'Pull') {			
+				} else if (event.action == 'Pull') {
 					defender.pulls++;
 					updateHangtimeForPull(event, defender);
-				} else if (event.action == 'PullOb') {	
+				} else if (event.action == 'PullOb') {
 					defender.pullsOB++;
-				} else if (event.action == 'D') {				
+				} else if (event.action == 'D') {
 					defender.ds++;
 					defender.plusMinusCount++;
-				} else if (event.action == 'Callahan') {					
+				} else if (event.action == 'Callahan') {
 					if (isDefense(event)) {
 						defender.callahans++;
 						defender.goals++;
 						defender.ds++;
 						defender.touches++;
-						defender.plusMinusCount++;  
+						defender.plusMinusCount++;
 						defender.plusMinusCount++; // double for a callahan
 						updatePlusMinusLine(allPlayerStats, point, true, isOline(point));
 					} else {
@@ -87,7 +87,7 @@ PlayerStatsAccumulator = function() {
 						passer.plusMinusCount--;
 						updatePlusMinusLine(allPlayerStats, point, false, isOline(point));
 					}
-				} else if (event.action == 'Goal') {		
+				} else if (event.action == 'Goal') {
 					if (isOffense(event)) {
 						passer.assists++;
 						passer.passes++;
@@ -108,7 +108,7 @@ PlayerStatsAccumulator = function() {
 				}
 				if (isOffense(event) && receiver != null && receiver.catches > 0) {
 					var catchPercent = receiver.catches / (receiver.catches + receiver.drops) * 100;
-					receiver.catchSuccess = Math.round(catchPercent);	
+					receiver.catchSuccess = Math.round(catchPercent);
 				}
 				lastEvent = event;
 			}
@@ -118,7 +118,7 @@ PlayerStatsAccumulator = function() {
 			getStatsForPlayer(allPlayerStats,playedInGame[k]).gamesPlayed++;
 		}
 	}
-	
+
 	function updateTimePlayedStats(allPlayerStats, point) {
 		if (point.line) {
 			var playersInEntirePoint = getPlayersInEntirePoint(point);
@@ -170,7 +170,7 @@ PlayerStatsAccumulator = function() {
 			}
 		}
 	}
-	
+
 	function updatePlusMinusLine(allPlayerStats, point, isOurGoal, isOline) {
 		if (point.line) {
 			for (var i = 0; i < point.line.length; i++) {
@@ -214,7 +214,7 @@ PlayerStatsAccumulator = function() {
 			return [];
 		}
 	}
-	
+
 	// answer the players that were substituted in or out during the point
 	function getPlayersInPartOfPoint(point) {
 		if (point.substitutions) {
@@ -231,13 +231,13 @@ PlayerStatsAccumulator = function() {
 			return [];
 		}
 	}
-	
+
 	function getStatsForPlayer(allPlayerStats, name) {
 		var playerStats = allPlayerStats[name];
 		if (!playerStats) {
 			playerStats = {};
 			allPlayerStats[name] = playerStats;
-			
+
 			playerStats.playerName = name;
 			playerStats.plusMinusCount = 0;
 			playerStats.plusMinusOLine = 0;
@@ -270,14 +270,14 @@ PlayerStatsAccumulator = function() {
 		}
 		return playerStats;
 	}
-	
+
 	function removePlayerName(names, playerName) {
 		var i = names.indexOf(playerName);
 		if (i != -1) {
 			names.splice(i, 1);
-		} 
+		}
 	}
-	
+
 	function addPlayerName(names, playerName) {
 		// don't add it if already there
 		for (var i = 0; i < names.length; i++) {
@@ -287,35 +287,35 @@ PlayerStatsAccumulator = function() {
 		}
 		names.push(playerName);
 	}
-	
+
 	function isOline(point) {
 		return point.summary.lineType == 'O';
 	}
-	
+
 	function isDline(point) {
 		return point.summary.lineType == 'D';
 	}
-	
+
 	function elapsedTimeForPoint(point) {
 		var elapsedTime = point.summary.elapsedTime;
 		if (!elapsedTime) {
 			elapsedTime = 0;
 		}
-		return elapsedTime > UNREASONABLY_LONG_ELAPSED_TIME_MINUTES * 60 ? DEFAULT_POINT_ELAPSED_MINUTES * 60 : elapsedTime; 
+		return elapsedTime > UNREASONABLY_LONG_ELAPSED_TIME_MINUTES * 60 ? DEFAULT_POINT_ELAPSED_MINUTES * 60 : elapsedTime;
 	}
-	
+
 	function isOffense(event) {
 		return event.type == 'Offense';
 	}
-	
+
 	function isDefense(event) {
 		return event.type == 'Defense';
 	}
-	
+
 	function isFirstOffenseEvent(event, previousEvent) {
 		return isOffense(event) && (previousEvent == null || !(isOffense(previousEvent)));
 	}
-	
+
 	function updateHangtimeForPull(pullEvent, playerStat) {
 		if (pullEvent.details && pullEvent.details.hangtime) {
 			playerStat.pullsWithHangtime++;
@@ -323,9 +323,9 @@ PlayerStatsAccumulator = function() {
 			playerStat.pullsAvgHangtimeMillis = playerStat.pullsTotalHangtime / playerStat.pullsWithHangtime;
 		}
 	}
-	
+
 	function passerTurnovers(playerStat) {
 		return playerStat.throwaways + playerStat.stalls + playerStat.miscPenalties;
 	}
-	
+
 }

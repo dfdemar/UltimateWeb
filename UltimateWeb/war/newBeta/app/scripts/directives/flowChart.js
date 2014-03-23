@@ -15,7 +15,7 @@ angular.module('newBetaApp')
           post: function (scope, element) {
             scope.$watch('dataset', function(newVal, oldVal) {
               if (scope.dataset){
-                if (newVal && oldVal){ 
+                if (newVal && oldVal){
                   element.contents().empty();
                 }
                 var margin = {
