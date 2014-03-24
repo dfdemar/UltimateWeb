@@ -595,3 +595,7 @@ Assigned to:	You
 .centered{
   text-align: center;
 }
+.welcome-banner {
+  max-width: 375px;
+  width: 90%;
+}
