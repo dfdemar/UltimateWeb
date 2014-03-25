@@ -24,7 +24,6 @@ angular.module('newBetaApp')
             'Calculating Team Statistics...',
             'Determining content network...',
             'Uploading personal information...',
-            'Downloading malware...',
             'Lying about what this loading gif represents...'
           ];
           message = messages[0];

@@ -4,7 +4,7 @@ angular.module('newBetaApp')
   .directive 'playerStatTable', ['$routeParams', 'playerStats', 'filter', ($routeParams, playerStats, filter) ->
     templateUrl: 'includes/partials/playerStatTable.html'
     restrict: 'E'
-    scope: 
+    scope:
       playerName: '='
     link: (scope, element, attrs) ->
       api = null
@@ -23,5 +23,5 @@ angular.module('newBetaApp')
         api.setGames scope.included
         scope.playerStats = api.getAll()[scope.playerName].stats
         scope.teamAverage = api.getAverages()
-        scope.statTypes = _.keys(scope.playerStats).sort()
+        scope.statTypes = _(scope.playerStats).omit(['timePlayed','hungPulls','pullHangtime','passesDropped']).keys(scope.playerStats).valueOf().sort()
 ]
