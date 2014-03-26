@@ -23,5 +23,5 @@ angular.module('newBetaApp')
         api.setGames scope.included
         scope.playerStats = api.getAll()[scope.playerName].stats
         scope.teamAverage = api.getAverages()
-        scope.statTypes = _(scope.playerStats).omit(['timePlayed','hungPulls','pullHangtime']).keys(scope.playerStats).valueOf().sort()
+        scope.statTypes = _(scope.playerStats).omit(['timePlayed','hungPulls','pullHangtime','passesDropped']).keys(scope.playerStats).valueOf().sort()
 ]
