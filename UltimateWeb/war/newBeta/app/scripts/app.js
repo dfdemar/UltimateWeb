@@ -13,7 +13,7 @@ angular.module('newBetaApp', [
       }
       function checkPlayerExistence ($q, $location, api) {
         api.retrieveTeam($location.url().match(/^\/\d+/)[0].slice(1), true, function(response){
-          if (_(response.players).pluck('name').contains($location.url().match(/\/[^\/]+$/)[0].slice(1))){
+          if (_(response.players).pluck('name').contains(decodeURI($location.url().match(/\/[^\/]+$/)[0].slice(1)))){
             deferred.resolve();
           } else {
             $location.url('/404');
