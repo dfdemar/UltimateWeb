@@ -11,69 +11,72 @@ angular.module('newBetaApp')
 
 
     function recordEvent(event, players) {
+      var receiver = event.receiver;
+      var passer = event.passer;
+      var defender = event.defender;
       switch (event.action) {
       case 'Catch':
-        players[event.receiver] && players[event.receiver].stats.catches++;
-        players[event.passer] && players[event.passer].stats.completions++;
+        players[receiver] && players[receiver].stats.catches++;
+        players[passer] && players[passer].stats.completions++;
         break;
       case 'Drop':
-        players[event.receiver] && players[event.receiver].stats.drops++;
-        players[event.receiver] && players[event.receiver].stats.oPlusMinus--;
-        players[event.passer] && players[event.passer].stats.passesDropped++;
+        players[receiver] && players[receiver].stats.drops++;
+        players[receiver] && players[receiver].stats.oPlusMinus--;
+        players[passer] && players[passer].stats.passesDropped++;
         break;
       case 'Throwaway':
-        players[event.passer] && players[event.passer].stats.throwaways++;
-        players[event.passer] && players[event.passer].stats.oPlusMinus--;
+        players[passer] && players[passer].stats.throwaways++;
+        players[passer] && players[passer].stats.oPlusMinus--;
         break;
       case 'Stall':
-        players[event.passer] && players[event.passer].stats.stalls++;
-        players[event.passer] && players[event.passer].stats.oPlusMinus--;
+        players[passer] && players[passer].stats.stalls++;
+        players[passer] && players[passer].stats.oPlusMinus--;
         break;
       case 'MiscPenalty':
         if (event.type === 'Offense'){
-          players[event.passer] && players[event.passer].stats.penalized++;
+          players[passer] && players[passer].stats.penalized++;
         } else {
-          players[event.defender] && players[event.defender].stats.penalized++;
+          players[defender] && players[defender].stats.penalized++;
         }
         break;
       case 'D':
-        players[event.defender] && players[event.defender].stats.ds++;
-        players[event.defender] && players[event.defender].stats.dPlusMinus++;
+        players[defender] && players[defender].stats.ds++;
+        players[defender] && players[defender].stats.dPlusMinus++;
         break;
       case 'Pull':
-        if (players[event.defender]){
-          players[event.defender].stats.iBPulls++;
+        if (players[defender]){
+          players[defender].stats.iBPulls++;
           if (event.details && event.details.hangtime) {
-            players[event.defender].stats.hungPulls++;
-            players[event.defender].stats.pullHangtime += (event.details.hangtime / 1000);
+            players[defender].stats.hungPulls++;
+            players[defender].stats.pullHangtime += (event.details.hangtime / 1000);
           }
         }
         break;
       case 'PullOb':
-        if (players[event.defender]){
-          players[event.defender].stats.oBPulls++;
+        if (players[defender]){
+          players[defender].stats.oBPulls++;
         }
         break;
       case 'Goal':
-        if (players[event.passer]){
-          players[event.passer].stats.oPlusMinus++;
-          players[event.passer].stats.completions++;
-          players[event.passer].stats.assists++;
+        if (players[passer]){
+          players[passer].stats.oPlusMinus++;
+          players[passer].stats.completions++;
+          players[passer].stats.assists++;
         }
-        if (players[event.receiver]){
-          players[event.receiver].stats.oPlusMinus++;
-          players[event.receiver].stats.catches++;
-          players[event.receiver].stats.goals++;
+        if (players[receiver]){
+          players[receiver].stats.oPlusMinus++;
+          players[receiver].stats.catches++;
+          players[receiver].stats.goals++;
         }
         break;
       case 'Callahan':
-        if (players[event.defender]){
-          players[event.defender].stats.catches++;
-          players[event.defender].stats.dPlusMinus++;
-          players[event.defender].stats.oPlusMinus++;
-          players[event.defender].stats.goals++;
-          players[event.defender].stats.ds++;
-          players[event.defender].stats.callahans++;
+        if (players[defender]){
+          players[defender].stats.catches++;
+          players[defender].stats.dPlusMinus++;
+          players[defender].stats.oPlusMinus++;
+          players[defender].stats.goals++;
+          players[defender].stats.ds++;
+          players[defender].stats.callahans++;
         }
         break;
       default:
@@ -123,17 +126,22 @@ angular.module('newBetaApp')
       playerStats = players;
       return players;
     };
+    function statSum(stats, types, negative){
+      return _.reduce(types, function(memo,type){
+        memo = negative ? memo - stats[type] : memo + stats[type];
+        return memo;
+      }, 0);
+    }
     function extendAestheticStats(stats){
-      stats.pointsPlayed = stats.oPoints + stats.dPoints;
-      stats.pulls = stats.oBPulls + stats.iBPulls;
-      stats.touches = (stats.pickustats || 0) + stats.catches;
-      stats.plusMinus = stats.oPlusMinus + stats.dPlusMinus;
+      stats.pointsPlayed = statSum(stats, ['oPoints', 'dPoints']);
+      stats.pulls = statSum(stats, ['oBPulls', 'iBPulls']);
+      stats.touches = statSum(stats, ['completions', 'throwaways', 'goals','passesDropped']);
+      stats.plusMinus = statSum(stats, ['oPlusMinus', 'dPlusMinus']);
       stats.timePlayedMinutes = Math.round(stats.timePlayed / 60);
-      stats.averagePullHangtime = stats.hungPulls ? (stats.pullHangtime  / stats.hungPulls) : 0;
+      stats.averagePullHangtime = stats.pullHangtime  / stats.hungPulls;
       _.each(['goals', 'assists', 'ds',  'throwaways',  'drops'], function(name){
         stats['pp' + name[0].toUpperCase() + name.slice(1)] = stats.pointsPlayed ? (stats[name] / stats.pointsPlayed) : 0;
       });
-
     }
     function extendPercentageStats(stats){
       _.each([
