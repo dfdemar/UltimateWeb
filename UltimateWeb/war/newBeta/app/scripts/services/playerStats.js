@@ -199,7 +199,6 @@ angular.module('newBetaApp')
         getAverages: getAverages,
         getAll: function(){return playerStats},
         getForPlayer: function(playerName){
-          console.log('called')
           return playerStats[playerName];
         },
         setGames: function(games){

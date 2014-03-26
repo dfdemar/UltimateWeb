@@ -5,7 +5,6 @@ angular.module('newBetaApp')
     templateUrl: 'includes/partials/feedback.html'
     restrict: 'E'
     link: (scope, element, attrs) ->
-      console.log $cookies.iUltimateVisited
       scope.gotMobileWarning = $cookies.iUltimateVisited is 'mobile'
       scope.firstTime =  !$cookies.iUltimateVisited
       scope.submitted = false
@@ -20,7 +19,6 @@ angular.module('newBetaApp')
       scope.closeMobileWarning = ->
         scope.gotMobileWarning = true
         $cookies.iUltimateVisited = 'mobile'
-        console.log $cookies
         try
           $('.modal-backdrop').remove()
           $('.modal').remove()
