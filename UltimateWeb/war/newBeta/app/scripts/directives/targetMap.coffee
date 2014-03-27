@@ -4,7 +4,7 @@ angular.module('newBetaApp')
   .directive 'targetMap', ['$parse', ($parse) ->
     templateUrl: 'includes/partials/targetMap.html'
     restrict: 'E'
-    scope: 
+    scope:
       data: '='
     link: (scope, element, attrs) ->
       scope.keyEvents = ['Drop', 'Catch', 'Throwaway', 'Goal']
@@ -16,7 +16,7 @@ angular.module('newBetaApp')
           when action is 'Goal' then '#298020'
           else '#c75aba'
 
-      getText = (data)-> 
+      getText = (data)->
         at = data.actionType
         dv = data.value
         dr = data.receiver
@@ -67,7 +67,7 @@ angular.module('newBetaApp')
           .append( 'g')
           .attr( 'class', 'target-node')
           .attr( 'transform', (d)-> 'translate(' + d.x + ',' + d.y + ')')
-          .on 'mouseover', (d)-> 
+          .on 'mouseover', (d)->
             tooltip.style( 'visibility', 'visible')
             .text getText(d)
           .on 'mousemove', ->
@@ -83,7 +83,9 @@ angular.module('newBetaApp')
           node.append( 'text')
           .attr( 'dy', '.5em')
           .style( 'text-anchor', 'middle')
-          .text (d)-> d.receiver.substring 0, d.r / 3
+          .text (d)->
+            if _.contains d.receiver.toLowerCase(), 'anonymous' then return 'The other team'
+            d.receiver.substring 0, d.r / 3
 
           d3.select( self.frameElement)
           .style 'height', diameter + 'px'

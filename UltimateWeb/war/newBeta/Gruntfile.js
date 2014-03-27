@@ -1,11 +1,4 @@
-// Generated on 2014-01-31 using generator-angular 0.6.0-rc.1
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
@@ -13,21 +6,20 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: {
-      // configurable paths
       app: require('./bower.json').appPath || 'app',
       dist: 'dist'
     },
     watch: {
       coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+        files: ['<%= yeoman.app %>/scripts/**/*.coffee'],
         tasks: ['coffee:dist']
       },
       coffeeTest: {
-        files: ['test/spec/{,*/}*.coffee'],
+        files: ['test/spec/**/*.coffee'],
         tasks: ['coffee:test']
       },
       styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
+        files: ['<%= yeoman.app %>/styles/**/*.css'],
         tasks: ['copy:styles', 'autoprefixer']
       },
       livereload: {
