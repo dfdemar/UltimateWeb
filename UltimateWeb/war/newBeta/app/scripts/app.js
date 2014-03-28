@@ -17,7 +17,7 @@ angular.module('newBetaApp', [
             deferred.resolve();
           } else {
             $location.url('/404');
-            deferred.resolve();
+            deferred.resolve(new Error('bad player name'));
           }
         });
         var deferred = $q.defer();
