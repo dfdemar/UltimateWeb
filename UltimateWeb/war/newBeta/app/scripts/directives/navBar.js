@@ -19,6 +19,9 @@ angular.module('newBetaApp')
           var path = '/' + $routeParams.teamId + '/' + page;
           if (page !== scope.page){ $location.path(path); }
         };
+        scope.toggleNav = function(){
+          scope.navOpen = !scope.navOpen;
+        };
       }
     };
   }]);
