@@ -599,3 +599,6 @@ Assigned to:	You
   max-width: 375px;
   width: 90%;
 }
+.with-footer{
+  margin-bottom: 53px;
+}

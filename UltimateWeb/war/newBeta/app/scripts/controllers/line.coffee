@@ -11,10 +11,11 @@ angular.module('newBetaApp')
 
 
     lineStats.then (response)->
+      filter.includeAll();
       lineStats = response
       $scope.players = lineStats.getPlayers()
       $scope.loading = false
-      
+
     scope.setDragging = (player)->
       scope.dragging = player
     scope.addLine = ->

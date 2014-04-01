@@ -8,6 +8,7 @@ angular.module('newBetaApp')
     $scope.loading = true;
     $scope.sortBy = 'name';
     $q.all([playerStats, allGames]).then(function(responses){
+      filter.includeAll();
       playerStats = responses[0];
       allGames = responses[1];
       playerStats.setGames(allGames);
