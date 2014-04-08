@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.appengine.api.oauth.OAuthService;
+import com.google.appengine.api.oauth.OAuthServiceFactory;
+import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
@@ -29,6 +33,8 @@ import com.summithill.ultimate.service.TeamService;
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
+	private final static String AUTH_TYPE_QUERY_STRING_PARAMETER = "auth-type";
+	private final static String AUTH_TYPE_OAUTH = "oauth";
 	
 	@Autowired
 	protected TeamService service;
@@ -161,11 +167,26 @@ public class AbstractController {
 		if (request.getRequestURL().toString().contains("//local")) {
 			return "localtestuser";
 		}
-		UserService userService = UserServiceFactory.getUserService();
-		if (userService != null && userService.isUserLoggedIn()) {
-			return userService.getCurrentUser().getUserId();
+		String authorizationType = request.getParameter(AUTH_TYPE_QUERY_STRING_PARAMETER);
+		if (authorizationType != null && authorizationType.equals(AUTH_TYPE_OAUTH)) {
+			try {
+		        OAuthService oauth = OAuthServiceFactory.getOAuthService();
+		        User user = oauth.getCurrentUser();
+		        if (user == null) {
+		        	throw new UnauthorizedException();
+		        } else {
+			        return user.getUserId();
+		        }
+		    } catch (OAuthRequestException e) {
+		    	throw new UnauthorizedException();
+		    }
 		} else {
-			throw new UnauthorizedException();
+			UserService userService = UserServiceFactory.getUserService();
+			if (userService != null && userService.isUserLoggedIn()) {
+				return userService.getCurrentUser().getUserId();
+			} else {
+				throw new UnauthorizedException();
+			}
 		}
 	}
 

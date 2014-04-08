@@ -17,14 +17,14 @@ public class MobileRestControllerTest {
 	
 	@Test
 	public void testVersionCheck() throws Exception {
-		ParameterMetaInfo metaInfo = controller.getMetaInfo("1.0.3");
+		ParameterMetaInfo metaInfo = controller.getMetaInfo("1.0.3", null);
 		assertFalse(metaInfo.isAppVersionAcceptable());
 		
-		metaInfo = controller.getMetaInfo("1.0.901");
+		metaInfo = controller.getMetaInfo("1.0.901", null);
 		assertTrue(metaInfo.isAppVersionAcceptable());
 		
 		// invalid version
-		metaInfo = controller.getMetaInfo("1.0");
+		metaInfo = controller.getMetaInfo("1.0", null);
 		assertFalse(metaInfo.isAppVersionAcceptable());
 	}
 	
