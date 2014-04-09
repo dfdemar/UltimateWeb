@@ -40,6 +40,7 @@ import com.summithill.ultimate.statistics.TeamStats;
 @Controller
 @RequestMapping("/view")
 public class WebRestController extends AbstractController {
+	private static final int MAX_DAYS_FOR_RECENT_GAMES = 90;
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -62,6 +63,18 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterTeam> getTeams(HttpServletRequest request) {
 		return getParameterTeams(request);
+	}
+	
+	@RequestMapping(value = "/teams/all", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterTeamInfo> getAllTeams(HttpServletRequest request) {
+		return getAllParameterTeamInfos();
+	}
+	
+	@RequestMapping(value = "/games", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterGame> getGamesSince(@RequestParam(value = "days", required = true) int numberOfDays) {
+		return getParameterGamesSince(Math.min(numberOfDays, MAX_DAYS_FOR_RECENT_GAMES));
 	}
 	
 	@RequestMapping(value = "/team/{id}/players", method = RequestMethod.GET)

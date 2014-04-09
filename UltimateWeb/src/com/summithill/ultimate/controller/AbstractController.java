@@ -5,7 +5,9 @@ import static java.util.logging.Level.SEVERE;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
@@ -106,6 +108,21 @@ public class AbstractController {
 		}
 	}
 	
+	protected List<ParameterTeamInfo> getAllParameterTeamInfos() {
+		try {
+			List<ParameterTeamInfo> teamsResponseList = new ArrayList<ParameterTeamInfo>();
+			List<Team> teams = service.getAllTeams();
+			for (Team team : teams) {
+				ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
+				teamsResponseList.add(pTeam);
+			}
+			return teamsResponseList;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getAllParameterTeamInfos", e);
+			return null;
+		}
+	}
+	
 	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		return getParameterGames(teamId, request, false, false);
 	}
@@ -132,6 +149,33 @@ public class AbstractController {
 			}
 		} catch (NoSuchRequestHandlingMethodException e) {  
 			throw e;  // 404						
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGames", e);
+			return null;
+		}
+	}
+	
+	protected List<ParameterGame> getParameterGamesSince(int numberOfDays)  {
+		try {
+			Map<String, Team> teamLookup = new HashMap<String, Team>();
+			for (Team team: service.getAllTeams()) {
+				teamLookup.put(team.getPersistenceId(), team);
+			}
+			List<Game> games = service.getGamesSince(numberOfDays);
+			List<ParameterGame> parameterGames = new ArrayList<ParameterGame>();
+			for (Game game : games) {
+				game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
+				ParameterGame pGame = ParameterGame.fromGame(game);
+				String teamPersistenceId = game.getParentPersistenceId();
+				if (teamPersistenceId != null) {
+					Team team = teamLookup.get(teamPersistenceId);
+					if (team != null) {
+						pGame.setTeamInfo(ParameterTeamInfo.fromTeam(team));
+					}
+				}
+				parameterGames.add(pGame);
+			}
+			return parameterGames;
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getGames", e);
 			return null;
