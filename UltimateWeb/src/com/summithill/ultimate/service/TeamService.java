@@ -1,5 +1,7 @@
 package com.summithill.ultimate.service;
 
+import static java.util.logging.Level.SEVERE;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -33,6 +36,12 @@ public class TeamService {
 			.getName());
 
 	public long saveTeam(String userIdentifier, Team team) {
+		try {
+			updateTeamSummaryData(team);
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "unable to update team summary data for team " + team.getName());
+			// don't prevent team save if the summary upate fails
+		}
 		Entity entity = team.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		Entity teamEntity = team.asEntity();
@@ -160,11 +169,16 @@ public class TeamService {
 		Entity entity = game.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		getDatastore().put(entity);
+		// update team (will recalulate first/last game, etc.)
+		Team team = getTeam(game.getParentPersistenceId());
+		saveTeam(userIdentifier, team);  
 
 	}
 
-	public void deleteGame(Game game) {
+	public void deleteGame(String userIdentifier, Game game) {
+		Team team = getTeam(game.getParentPersistenceId());
 		getDatastore().delete(game.asEntity().getKey());
+		saveTeam(userIdentifier, team);  
 	}
 
 	public void deleteTeam(Team team) {
@@ -178,6 +192,7 @@ public class TeamService {
 			gameKeys.add(game.asEntity().getKey());
 		}
 		getDatastore().delete(gameKeys);
+		saveTeam(userIdentifier, team);  
 	}
 
 	public Team getTeam(String userIdentifier, String teamName) {
@@ -230,6 +245,24 @@ public class TeamService {
 
 		return newTeamId;
 	}
+	
+	public void forceUpdateAllTeamsSummaryData(boolean recalculate)  {
+		List<Team> teams = getAllTeams();
+		int count = 0;
+		for (Team team : teams) {
+			boolean shouldUpdate = recalculate || team.getFirstGameDate() == null;
+			if (shouldUpdate) {
+				try {
+					updateTeamSummaryData(team);
+					getDatastore().put(team.asEntity());
+					count++;
+				} catch (Exception e) {
+					log.log(Level.SEVERE, "unable to update team summary data for team " + team.getName());
+				}
+			}
+			log.log(Level.INFO, "teams updated count = " + count);
+		}
+	}
 
 	private DatastoreService getDatastore() {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -245,5 +278,38 @@ public class TeamService {
 	private void addUserToEntity(Entity entity, String userIdentifier) {
 		entity.setProperty(USER_ID_PROPERTY, userIdentifier);
 	}
+	
+    private void updateTeamSummaryData(Team team) {
+        List<Game> games = getGames(team);
+        team.setNumberOfGames(games.size());
+    	String firstGame = null;
+    	String lastGame = null;
+        for (Game game : games) {
+			firstGame = minDate(firstGame, game.getTimestamp());
+			lastGame = maxDate(lastGame, game.getTimestamp());
+		}
+        team.setFirstGameDate(firstGame);
+        team.setLastGameDate(lastGame);
+    }
+    
+    private String minDate(String s1, String s2) {
+    	if (s1 == null) {
+    		return s2;
+    	} else if (s2 == null) {
+    		return s1;
+    	} else {
+    		return s1.compareTo(s2) < 0 ? s1 : s2;
+    	}
+    }
+    
+    private String maxDate(String s1, String s2) {
+    	if (s1 == null) {
+    		return s2;
+    	} else if (s2 == null) {
+    		return s1;
+    	} else {
+    		return s1.compareTo(s2) < 0 ? s2 : s1;
+    	}
+    }
 
 }

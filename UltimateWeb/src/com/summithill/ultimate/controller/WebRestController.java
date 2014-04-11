@@ -231,6 +231,13 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	// this will force the teams to recalculate their summary values
+//	@RequestMapping(value = "/special/forceteamsummarycalc", method = RequestMethod.GET)
+//	@ResponseBody
+//	public void forceTeamSummariesRecalc() {
+//		service.forceUpdateAllTeamsSummaryData(false);
+//	}
+	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
@@ -241,7 +248,7 @@ public class WebRestController extends AbstractController {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				Game game = service.getGame(team, gameId);
-				service.deleteGame(game);
+				service.deleteGame(userIdentifier, game);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);

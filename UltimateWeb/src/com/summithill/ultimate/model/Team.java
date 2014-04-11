@@ -10,6 +10,9 @@ public class Team extends ModelObject {
 	public static final String MOBILE_TEAMID_PROPERTY = "teamId";
 	public static final String WEBSITE_PASSWORD_PROPERTY = "password";
 	public static final String ARE_PLAYERS_FROM_LEAGUEVINE = "playersAreLeaguevine";
+	public static final String NUMBER_OF_GAMES = "numberOfGames";
+	public static final String FIRST_GAME_DATE = "firstGameDate";
+	public static final String LAST_GAME_DATE = "lastGameDate";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -43,6 +46,31 @@ public class Team extends ModelObject {
 	
 	public void setMobileId(String teamName) {
 		entity.setProperty(MOBILE_TEAMID_PROPERTY, teamName);
+	}
+	
+	public long getNumberOfGames() {
+		Long answer = (Long)entity.getProperty(NUMBER_OF_GAMES);
+		return answer == null ? 0 : answer.longValue();
+	}
+	
+	public void setNumberOfGames(long num) {
+		entity.setProperty(NUMBER_OF_GAMES, Long.valueOf(num));
+	}
+	
+	public String getFirstGameDate() {
+		return (String)entity.getProperty(FIRST_GAME_DATE);
+	}
+	
+	public void setFirstGameDate(String mmmmddyy) {
+		entity.setProperty(FIRST_GAME_DATE, mmmmddyy);
+	}
+	
+	public String getLastGameDate() {
+		return (String)entity.getProperty(LAST_GAME_DATE);
+	}
+	
+	public void setLastGameDate(String mmmmddyy) {
+		entity.setProperty(LAST_GAME_DATE, mmmmddyy);
 	}
 
 	public boolean isMixed() {
