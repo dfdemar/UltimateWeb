@@ -17,6 +17,18 @@ import com.summithill.ultimate.model.Team;
 public class WebPageController extends AbstractController {
 	
 	@RequestMapping(value = "/{teamId}/main", method = RequestMethod.GET)
+	public String getTeamMainPage(@PathVariable String teamId, ModelMap model) {
+		Team team = service.getTeam(teamId);
+		if (team == null) {
+			model.addAttribute("teamName", "TEAM NOT FOUND");
+		} else {
+			model.addAttribute("teamId", teamId);
+			model.addAttribute("teamName", team.getName());
+		}
+		return "main"; // forward to jsp
+	}
+// TODO...JIM..uncomment next line and remove getTeamMainPage when we move to Kyle's app
+//	@RequestMapping(value = "/{teamId}/main", method = RequestMethod.GET)
 	public String getTeamMainPageRedirect(@PathVariable String teamId, HttpServletRequest request) {
 		// redirect to the new app
 		String schemeAndHost = StringUtils.substringBefore(request. getRequestURL().toString(), "/team/");
