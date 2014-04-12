@@ -27,6 +27,7 @@ public class ParameterGame {
 	private long theirs;
 	private String leaguevineJson;
 	private String timeoutDetailsJson;
+	private ParameterTeamInfo teamInfo;
 	
 	public String getGameId() {
 		return gameId;
@@ -194,6 +195,14 @@ public class ParameterGame {
 
 	public void setTimeoutDetailsJson(String timeoutDetailsJson) {
 		this.timeoutDetailsJson = timeoutDetailsJson;
+	}
+
+	public ParameterTeamInfo getTeamInfo() {
+		return teamInfo;
+	}
+
+	public void setTeamInfo(ParameterTeamInfo teamInfo) {
+		this.teamInfo = teamInfo;
 	}
 
 }

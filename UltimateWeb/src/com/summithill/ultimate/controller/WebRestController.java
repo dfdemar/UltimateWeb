@@ -40,6 +40,7 @@ import com.summithill.ultimate.statistics.TeamStats;
 @Controller
 @RequestMapping("/view")
 public class WebRestController extends AbstractController {
+	private static final int MAX_DAYS_FOR_RECENT_GAMES = 90;
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -62,6 +63,18 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterTeam> getTeams(HttpServletRequest request) {
 		return getParameterTeams(request);
+	}
+	
+	@RequestMapping(value = "/teams/all", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterTeamInfo> getAllTeams(HttpServletRequest request) {
+		return getAllParameterTeamInfos();
+	}
+	
+	@RequestMapping(value = "/games", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterGame> getGamesSince(@RequestParam(value = "days", required = true) int numberOfDays) {
+		return getParameterGamesSince(Math.min(numberOfDays, MAX_DAYS_FOR_RECENT_GAMES));
 	}
 	
 	@RequestMapping(value = "/team/{id}/players", method = RequestMethod.GET)
@@ -218,6 +231,13 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	// this will force the teams to recalculate their summary values
+//	@RequestMapping(value = "/special/forceteamsummarycalc", method = RequestMethod.GET)
+//	@ResponseBody
+//	public void forceTeamSummariesRecalc() {
+//		service.forceUpdateAllTeamsSummaryData(false);
+//	}
+	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
@@ -228,7 +248,7 @@ public class WebRestController extends AbstractController {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				Game game = service.getGame(team, gameId);
-				service.deleteGame(game);
+				service.deleteGame(userIdentifier, game);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);

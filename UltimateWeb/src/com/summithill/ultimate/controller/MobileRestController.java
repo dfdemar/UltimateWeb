@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
@@ -20,7 +21,8 @@ import com.summithill.ultimate.model.Team;
 @Controller
 @RequestMapping("/mobile")
 public class MobileRestController extends AbstractController {
-	private static final String MIN_ACCEPTABLE_APP_VERSION = "1.0.29";
+	private static final String MIN_ACCEPTABLE_APP_IOS_VERSION = "1.0.29";
+	private static final String MIN_ACCEPTABLE_APP_ANDROID_VERSION = "1.1.17";
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
@@ -31,13 +33,15 @@ public class MobileRestController extends AbstractController {
 		return testTeam;
 	}
 	
-	@RequestMapping(value = "/meta/{appVersion}", method = RequestMethod.GET, headers="Accept=*/*")
+	@RequestMapping(value = "/meta/{appVersion}", method = RequestMethod.GET)
 	@ResponseBody
-	public ParameterMetaInfo getMetaInfo(@PathVariable String appVersion) {
+	public ParameterMetaInfo getMetaInfo(@PathVariable String appVersion, @RequestParam(value = "mobile-type", required = false) String mobileType) {
 		ParameterMetaInfo metaInfo = new ParameterMetaInfo();
-		if (normalizedVersionString(appVersion).compareTo(normalizedVersionString(MIN_ACCEPTABLE_APP_VERSION)) < 0) {
+		boolean isAndroid = mobileType != null && mobileType.toLowerCase().contains("android");
+		String minVersion = isAndroid ? MIN_ACCEPTABLE_APP_ANDROID_VERSION : MIN_ACCEPTABLE_APP_IOS_VERSION;
+		if (normalizedVersionString(appVersion).compareTo(normalizedVersionString(minVersion)) < 0) {
 			metaInfo.setAppVersionAcceptable(false);
-			metaInfo.setMessageToUser("The version of the app you are running on your mobile device is no longer compatible with the cloud.  Please upgrade the app to the latest version.  \nDon't worry...you won't lose your data as a result of the upgrade!");
+			metaInfo.setMessageToUser("The version of the app you are running on your mobile device is no longer compatible with the server.  Please upgrade the app to the latest version.  \nDon't worry...you won't lose your data as a result of the upgrade!");
 		}
 		return metaInfo;
 	}

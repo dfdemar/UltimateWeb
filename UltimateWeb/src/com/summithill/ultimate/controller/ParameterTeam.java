@@ -16,6 +16,10 @@ public class ParameterTeam {
 	private String password;
 	private String leaguevineJson;
 	private boolean isPlayersAreLeaguevine;
+	private int numberOfGames;
+	private String firstGameDate;
+	private String lastGameDate;
+	
 	
 	public static ParameterTeam fromTeam(Team team) {
 		ParameterTeam pTeam = new ParameterTeam();
@@ -26,6 +30,9 @@ public class ParameterTeam {
 		pTeam.setDisplayPlayerNumber(team.isDisplayingPlayerNumber());
 		pTeam.setLeaguevineJson(team.getLeaguevineJson());
 		pTeam.setPlayersAreLeaguevine(team.arePlayersFromLeaguevine());
+		pTeam.setNumberOfGames((int)team.getNumberOfGames());
+		pTeam.setFirstGameDate(team.getFirstGameDate());
+		pTeam.setLastGameDate(team.getLastGameDate());
 		return pTeam;
 	}
 	
@@ -108,5 +115,29 @@ public class ParameterTeam {
 
 	public void setPlayersAreLeaguevine(boolean isPlayersAreLeaguevine) {
 		this.isPlayersAreLeaguevine = isPlayersAreLeaguevine;
+	}
+
+	public int getNumberOfGames() {
+		return numberOfGames;
+	}
+
+	public void setNumberOfGames(int numberOfGames) {
+		this.numberOfGames = numberOfGames;
+	}
+
+	public String getFirstGameDate() {
+		return firstGameDate;
+	}
+
+	public void setFirstGameDate(String firstGameDate) {
+		this.firstGameDate = firstGameDate;
+	}
+
+	public String getLastGameDate() {
+		return lastGameDate;
+	}
+
+	public void setLastGameDate(String lastGameDate) {
+		this.lastGameDate = lastGameDate;
 	}
 }
