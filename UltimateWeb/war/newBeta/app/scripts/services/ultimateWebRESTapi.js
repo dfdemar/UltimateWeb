@@ -10,8 +10,12 @@ angular.module('newBetaApp')
     var Ultimate = {};
 
     Ultimate.busyDialogStack = 0;
-    // Ultimate.baseRestUrl = '/rest/view';
-    Ultimate.baseRestUrl = 'http://www.ultimate-numbers.com/rest/view';
+    
+    // make sure we use the host from where we were loaded to prevent CORS from being used unnecessarily
+    // (unless the page is loaded locally in which case just use the default host)
+    var restHost = document.URL indexOf("ultimate-numbers.com") >= 0) ? "www.ultimate-numbers.com" : "www.ultianlytics.com";
+    Ultimate.baseRestUrl = "http://" + restHost + '/rest/view';
+    // make sure we use the host from where we were loaded to prevent CORS from being used unnecessarily
     Ultimate.sessionId = new Date().getTime() + '';
 
     exports.retrieveTeam = function(id, includePlayers, successFunction, errorFunction) {
