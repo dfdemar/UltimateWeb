@@ -2,6 +2,7 @@ package com.summithill.ultimate.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +16,27 @@ import com.summithill.ultimate.model.Team;
 @Controller
 public class WebPageController extends AbstractController {
 	
-	@RequestMapping(value = "/{id}/main", method = RequestMethod.GET)
-	public String getTeamMainPage(@PathVariable String id, ModelMap model) {
-		Team team = service.getTeam(id);
+	@RequestMapping(value = "/{teamId}/main", method = RequestMethod.GET)
+	public String getTeamMainPageRedirect(@PathVariable String teamId, HttpServletRequest request) {
+		// redirect to the new app
+		String schemeAndHost = StringUtils.substringBefore(request. getRequestURL().toString(), "/team/");
+		String newPath = "/app/index.html#/" + teamId + "/players";
+		String redirectUrl = schemeAndHost + newPath;
+	
+		return "redirect:" + redirectUrl;
+	}
+	
+	// get the old (jQueryMobile) main page
+	@RequestMapping(value = "/{teamId}/classic", method = RequestMethod.GET)
+	public String getMainPageClassic(@PathVariable String teamId, ModelMap model) {
+		Team team = service.getTeam(teamId);
 		if (team == null) {
 			model.addAttribute("teamName", "TEAM NOT FOUND");
 		} else {
-			model.addAttribute("teamId", id);
+			model.addAttribute("teamId", teamId);
 			model.addAttribute("teamName", team.getName());
 		}
-		return "main"; // forward to jsp
+		return "main-classic"; // forward to jsp
 	}
 	
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
