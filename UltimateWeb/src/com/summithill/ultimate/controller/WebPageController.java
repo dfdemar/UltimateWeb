@@ -21,17 +21,17 @@ public class WebPageController extends AbstractController {
 	 
 		To cutover to Kyle's app:
 		1.) change the first request mapping from "/{teamId}/main" to "/{teamId}/main-classic"
-		1.) change the second request mapping from "/{teamId}/main-redirect" to "/{teamId}/main"
+		2.) change the second request mapping from "/{teamId}/main-redirect" to "/{teamId}/main"
 	
 	*/
 	
-	@RequestMapping(value = "/{teamId}/main", method = RequestMethod.GET)
-	public String getTeamMainPageClassic(@PathVariable String teamId, ModelMap model) {
-		Team team = service.getTeam(teamId);
+	@RequestMapping(value = "/{id}/main", method = RequestMethod.GET)
+	public String getTeamMainPageClassic(@PathVariable String id, ModelMap model) {
+		Team team = service.getTeam(id);
 		if (team == null) {
 			model.addAttribute("teamName", "TEAM NOT FOUND");
 		} else {
-			model.addAttribute("teamId", teamId);
+			model.addAttribute("teamId", id);
 			model.addAttribute("teamName", team.getName());
 		}
 		return "main-classic"; // forward to jsp
@@ -46,20 +46,7 @@ public class WebPageController extends AbstractController {
 	
 		return "redirect:" + redirectUrl;
 	}
-	
-	// get the old (jQueryMobile) main page
-	@RequestMapping(value = "/{teamId}/classic", method = RequestMethod.GET)
-	public String getMainPageClassic(@PathVariable String teamId, ModelMap model) {
-		Team team = service.getTeam(teamId);
-		if (team == null) {
-			model.addAttribute("teamName", "TEAM NOT FOUND");
-		} else {
-			model.addAttribute("teamId", teamId);
-			model.addAttribute("teamName", team.getName());
-		}
-		return "main-classic"; // forward to jsp
-	}
-	
+
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String getAdminPage(ModelMap model, HttpServletRequest request) {
 
