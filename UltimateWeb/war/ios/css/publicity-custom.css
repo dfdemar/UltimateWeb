@@ -1,0 +1,25 @@
+/*  custom css for publicity page(s) */
+
+.screenshot {
+	padding: 0px 75px 50px 75px;
+	width: 300px;
+}
+#screenshot-heading {
+	text-align: center;
+}
+#screenshot-carousel {
+	width: 470px;
+}
+#beta-tester-notice {
+	font-size: medium;
+	color: red;
+}
+.stat-title span {
+	float: left;
+	width: 200px;
+	font-style: italic;
+	font-weight: bold; 
+}
+.stat-title li {
+	list-style: none;
+}
