@@ -119,9 +119,15 @@ public class TeamService {
 				firstDateString);
 		Iterable<Entity> gameEntities = getDatastore().prepare(query)
 				.asIterable();
+		
 		List<Game> gameList = new ArrayList<Game>();
+		Date tomorrow = DateUtils.addDays(new Date(), 1);
+		String tommorrowDateString = formatter.format(tomorrow);
 		for (Entity gameEntity : gameEntities) {
-			gameList.add(Game.fromEntity(gameEntity));
+			Game game = Game.fromEntity(gameEntity);
+			if (game.getTimestamp().compareTo(tommorrowDateString) < 0) {  // drop future dates
+				gameList.add(game);
+			}
 		}
 		return gameList;
 	}
