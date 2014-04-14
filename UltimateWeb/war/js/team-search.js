@@ -1,36 +1,75 @@
+// team search
+var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
+var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14');
 
-$.ajax('http://www.ultianalytics.com/rest/view/teams/all').then(function(response){
-  var tree = searchify(response);
+recentGamesPromise.then(function(recentGames){
+  appendRecentGames(recentGames);
+  allTeamNamesPromise.then(function(teamNames){
+    establishSearch(teamNames, recentGames);
+  });
+});
+function establishSearch(teamNames, recentGames){
+  var teamSearch = searchify(teamNames, 'name');
+  var gameSearch = searchify(recentGames, 'opponentName');
+
   $searchInput = $('#search');
-  $searchInput.on('keypress', _.debounce(function(event){
-    results = search(tree, response, $searchInput.val().toLowerCase());
-    _.each(results, function(team){
-      $dropdown = $('.search-results');
-      $dropdown.show()
-      $dropdown.append('<li><a class="search-option">'+ team.name +'</a></li>')
-    });
-    $(window).on('click', function(e){
-      $dropdown.empty()
-      $dropdown.hide()
-    })
+  $searchInput.on('keydown', _.debounce(function(event){
+    $dropdown = $('.search-results');
+    teardown($dropdown);
+
+    // click away -> close dropdown
+    $(window).on('click', function(){ teardown($dropdown); });
+
+    teamResults = search(teamSearch, $searchInput.val().toLowerCase());
+    if (teamResults.length){
+      var teamsToAppend = '';
+      _.each(teamResults, function(team){
+        teamsToAppend += teamDropdownItem(team.cloudId, team.passwordProtected, team.name);
+      });
+      dropdownDisplay(teamsToAppend);
+    }
+    gameResults = search(gameSearch, $searchInput.val().toLowerCase());
+    if (gameResults.length){
+      var gamesToAppend = '<li class="divider"></li>';
+      _.each(gameResults, function(game){
+        gamesToAppend += gameDropdownItem(game.teamId, game.passwordProtected, game.teamInfo.name, game.opponentName);
+      });
+      dropdownDisplay(gamesToAppend)
+    }
   }, 300));
-});
-$.ajax('http://www.ultianalytics.com/rest/view/games?days=14').then(function(response){
-  var l = response.length - 1;
+}
+function dropdownDisplay(content){
+  $('.search-results').append(content);
+  $('.search-results').show();
+}
+function appendRecentGames(recentGames){
+  var l = recentGames.length - 1;
   for (var i = 0; i < 10; i++){
-    var game = response[l-i];
-    timeSinceString = getTimeString(game.msSinceEpoch);
-    $('.teams').append('<tr><td><a>' + game.teamInfo.name + ' vs. ' + game.opponentName + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>')
+    $('.teams').append(recentGame(recentGames[l-i]));
   }
-});
-function search(tree, teams, token){
-  var results = prefixSearch(tree, token);
-  return results.concat(simpleSearch(5 - results.length));
+}
+function recentGame(game){
+  timeSinceString = getTimeString(game.msSinceEpoch);
+  return '<tr><td><a href="http://www.ultianalytics.com/newBeta/app/index.html#/'+game.teamId+'/players">' + game.teamInfo.name + ' vs. ' + game.opponentName + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
+}
+function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
+  return '<li><a class="search-option" href="http://www.ultianalytics.com/newBeta/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+}
+function teamDropdownItem(cloudId,isPasswordProtected,name){
+  return '<li><a class="search-option" href="http://www.ultianalytics.com/newBeta/app/index.html#/'+cloudId+'/players">'+ name + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+}
+function teardown($node){
+  $node.empty()
+  $node.hide()
+}
+function search(tree, token){
+  var results = prefixSearch(tree, token).slice(0, 8);
+  return results.concat(simpleSearch(8 - results.length));
 }
 function prefixSearch(tree, token){
-  if (!token) {return tree.children; }
+  if (!token) {return tree.children || []; }
   if (!tree[token[0]]) {return []; }
-  else {return prefixSearch(tree[token[0]], token.slice(1)); }
+  return prefixSearch(tree[token[0]], token.slice(1));
 }
 function getTimeString(gameMs){
   var minutes = Math.floor((Date.now() - gameMs) / 60000);
@@ -40,10 +79,10 @@ function getTimeString(gameMs){
   if (hours) return hours + ' hours';
   if (minutes) return minutes + ' minutes';
 }
-function searchify(teams){
+function searchify(teams, indexBy){
   var tree = {}
   _.each(teams, function(team){
-    register(team, team.name, tree);
+    register(team, team[indexBy], tree);
   });
   return tree;
 }

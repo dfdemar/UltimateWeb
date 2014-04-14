@@ -17,6 +17,21 @@
         padding-bottom: 40px;
       }
     </style>
+    <style type="text/css">
+      .lock-icon {
+        position:absolute;
+        top: 8px;
+        right: 8px;
+      }
+      .search-icon {
+        position: absolute;
+        top: 7px;
+        right:10px;
+      }
+      .relative {
+        position: relative;
+      }
+    </style>
     <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -29,19 +44,19 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icon.png">
     <link rel="apple-touch-icon-precomposed" href="images/icon2x.png">
 
-	<script type="text/javascript">
+  <script type="text/javascript">
 
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-31918750-1']);
-		  _gaq.push(['_trackPageview']);
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-31918750-1']);
+      _gaq.push(['_trackPageview']);
 
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
 
-	</script>
+  </script>
   </head>
 
   <body>
@@ -71,35 +86,35 @@
     <div class="container">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-		<div class="hero-unit">
-			<div class="row">
-				<div class="span7">
-					<h1>Analyze Your Team</h1>
-					<p>iUltimate is an iPhone (or iPad, iPod touch) app and website to help you gather statistics and analyze your ultimate team.  <a href="http://itunes.apple.com/us/app/iultimate/id527772643?ls=1&mt=8">Download</a></p>
-					<p>
-						<a href="details.html" class="btn btn-primary btn-large">Learn more &raquo;</a>
-					</p>
-					<br>
-					<br>
-					<br>
-					<br>
-					<p>
-						Or perhaps you are looking for the <a href="android/index.html">Android version?</a>
-					</p>
-				</div>
-				<div class="span3">
-					<img id="icon" alt="icon" src="images/icon-large-square.png">
-				</div>
-			</div>
-			<!-- <div id="beta-tester-notice">We are looking for beta testers!  Want to try the app?  <a href="mailto:support@ultimate-numbers.com?subject=Beta version of iUltimate">Let us know.</a></div>  -->
-		</div>
+    <div class="hero-unit">
+      <div class="row">
+        <div class="span7">
+          <h1>Analyze Your Team</h1>
+          <p>iUltimate is an iPhone (or iPad, iPod touch) app and website to help you gather statistics and analyze your ultimate team.  <a href="http://itunes.apple.com/us/app/iultimate/id527772643?ls=1&mt=8">Download</a></p>
+          <p>
+            <a href="details.html" class="btn btn-primary btn-large">Learn more &raquo;</a>
+          </p>
+          <br>
+          <br>
+          <br>
+          <br>
+          <p>
+            Or perhaps you are looking for the <a href="android/index.html">Android version?</a>
+          </p>
+        </div>
+        <div class="span3">
+          <img id="icon" alt="icon" src="images/icon-large-square.png">
+        </div>
+      </div>
+      <!-- <div id="beta-tester-notice">We are looking for beta testers!  Want to try the app?  <a href="mailto:support@ultimate-numbers.com?subject=Beta version of iUltimate">Let us know.</a></div>  -->
+    </div>
     <div class="row">
       <div class="span8">
         <h2>Current Teams</h2>
       </div>
-      <div class="span4">
-        <input type="text" id="search" class="input-xlarge search-query">
-        <i class="icon-search"></i>
+      <div class="span4 relative">
+        <input type="text" id="search" class="input-block-level search-query">
+        <i class="icon-search search-icon"></i>
         <div class="dropdown">
           <ul class="dropdown-menu search-results">
           </ul>
@@ -129,13 +144,12 @@
             </tr>
           </thead>
           <tbody  class="teams">
-            <tr><a>
-            </a></tr>
+            <tr><a></a></tr>
           </tbody>
         </table>
       </div>
     </div>
-		<!-- Example row of columns -->
+    <!-- Example row of columns -->
       <div class="row">
         <div class="span4">
           <h2>Details</h2>
@@ -156,8 +170,8 @@
       </div>
 
       <hr>
-	  <footer>
-      	<br>
+    <footer>
+        <br>
         <p>&copy; 2014 Summit Hill Software, Inc., all rights reserved</p>
       </footer>
 
@@ -174,9 +188,8 @@
     <script src="bootstrap/js/bootstrap-button.js"></script>
     <script src="bootstrap/js/bootstrap-collapse.js"></script>
     <script src="bootstrap/js/bootstrap-carousel.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="js/team-search.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="./js/team-search.js"></script>
 
   </body>
 </html>
