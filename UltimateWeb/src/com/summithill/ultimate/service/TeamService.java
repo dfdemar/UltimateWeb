@@ -38,7 +38,7 @@ public class TeamService {
 		try {
 			updateTeamSummaryData(team);
 		} catch (Exception e) {
-			log.log(Level.SEVERE, "unable to update team summary data for team " + team.getName());
+			log.log(Level.SEVERE, "unable to update team summary data for team " + team.getName(), e);
 			// don't prevent team save if the summary upate fails
 		}
 		Entity entity = team.asEntity();
