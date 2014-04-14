@@ -1,7 +1,5 @@
 package com.summithill.ultimate.service;
 
-import static java.util.logging.Level.SEVERE;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -172,6 +171,7 @@ public class TeamService {
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
+		updateLastUpdatedTimestamp(game);
 		Entity entity = game.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		getDatastore().put(entity);
@@ -316,6 +316,14 @@ public class TeamService {
     	} else {
     		return s1.compareTo(s2) < 0 ? s2 : s1;
     	}
+    }
+    
+    private void updateLastUpdatedTimestamp(Game game) {
+		TimeZone utc = TimeZone.getTimeZone("UTC");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		formatter.setTimeZone(utc);
+		String nowAsUtcFormattedString = formatter.format(new Date());
+		game.setLastUpdateUtc(nowAsUtcFormattedString);;
     }
 
 }

@@ -28,6 +28,7 @@ public class ParameterGame {
 	private String leaguevineJson;
 	private String timeoutDetailsJson;
 	private ParameterTeamInfo teamInfo;
+	private String lastUpdateUtc;
 	
 	public String getGameId() {
 		return gameId;
@@ -61,6 +62,7 @@ public class ParameterGame {
 		pGame.setLeaguevineJson(game.getLeaguevineJson());
 		pGame.setTimeoutDetailsJson(game.getTimeoutDetailsJson());
 		pGame.setWind(game.getWind());
+		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
 		return pGame;
 	}
 
@@ -203,6 +205,14 @@ public class ParameterGame {
 
 	public void setTeamInfo(ParameterTeamInfo teamInfo) {
 		this.teamInfo = teamInfo;
+	}
+
+	public String getLastUpdateUtc() {
+		return lastUpdateUtc;
+	}
+
+	public void setLastUpdateUtc(String lastUpdateUtc) {
+		this.lastUpdateUtc = lastUpdateUtc;
 	}
 
 }
