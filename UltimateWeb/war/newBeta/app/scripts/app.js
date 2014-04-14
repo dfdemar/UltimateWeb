@@ -1,8 +1,4 @@
 'use strict';
-$('.main-view').css('min-height', window.innerHeight)
-$(window).resize(function(){
-  $('.main-view').css('min-height', window.innerHeight)
-})
 
 angular.module('newBetaApp', [
   'ngRoute',
