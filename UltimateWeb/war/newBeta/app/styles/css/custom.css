@@ -561,9 +561,6 @@ Assigned to:	You
 .stat-header > a {
   word-break: break-word;
 }
-.main {
-  margin-bottom: 30%;
-}
 .line-through{
   color:#888 !important;
   text-decoration: line-through !important;
@@ -601,4 +598,7 @@ Assigned to:	You
 }
 .with-footer{
   margin-bottom: 53px;
+}
+div[ng-view]{
+  min-height: 100%
 }
