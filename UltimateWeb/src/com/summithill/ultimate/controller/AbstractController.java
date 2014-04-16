@@ -177,7 +177,7 @@ public class AbstractController {
 			}
 			return parameterGames;
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getGames", e);
+			logErrorAndThrow("Error on getGamesSince", e);
 			return null;
 		}
 	}

@@ -114,19 +114,15 @@ public class TeamService {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String firstDateString = formatter.format(firstDate);
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
-		query.addFilter(Game.TIMESTAMP_PROPERTY, Query.FilterOperator.GREATER_THAN,
+		query.addFilter(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN,
 				firstDateString);
 		Iterable<Entity> gameEntities = getDatastore().prepare(query)
 				.asIterable();
 		
 		List<Game> gameList = new ArrayList<Game>();
-		Date tomorrow = DateUtils.addDays(new Date(), 1);
-		String tommorrowDateString = formatter.format(tomorrow);
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
-			if (game.getTimestamp().compareTo(tommorrowDateString) < 0) {  // drop future dates
-				gameList.add(game);
-			}
+			gameList.add(game);
 		}
 		return gameList;
 	}

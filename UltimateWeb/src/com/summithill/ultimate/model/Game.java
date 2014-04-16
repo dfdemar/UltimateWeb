@@ -25,7 +25,7 @@ public class Game extends ModelObject {
 	public static final String POINTS_JSON_PROPERTY = "pointsJson";
 	public static final String WIND_JSON_PROPERTY = "wind";
 	public static final String TIMEOUT_DETAILS_JSON_PROPERTY = "timeoutDetailsJson";
-	public static final String LAST_UPDATE_UTC_JSON_PROPERTY = "lastUpdateUtc";
+	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -83,11 +83,11 @@ public class Game extends ModelObject {
 	}
 	
 	public String getLastUpdateUtc() {
-		return (String)entity.getProperty(LAST_UPDATE_UTC_JSON_PROPERTY);
+		return (String)entity.getProperty(LAST_UPDATE_UTC_PROPERTY);
 	}
 	
 	public void setLastUpdateUtc(String timestamp) {
-		entity.setProperty(LAST_UPDATE_UTC_JSON_PROPERTY, timestamp);
+		entity.setProperty(LAST_UPDATE_UTC_PROPERTY, timestamp);
 	}
 	
 	public Long getOurScore() {
