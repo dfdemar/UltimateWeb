@@ -54,8 +54,8 @@ function establishSearch(teamNames, recentGames){
       });
       dropdownDisplay(teamsToAppend);
     }
-    gameResults = search(gameSearch, $searchInput.val().toLowerCase());
-    if (gameResults.length){
+    // gameResults = search(gameSearch, $searchInput.val().toLowerCase());
+    if (false){ // removed game search for now.
       var gamesToAppend = '<li class="divider"></li>';
       _.each(gameResults, function(game){
         gamesToAppend += gameDropdownItem(game.teamId, game.passwordProtected, game.teamInfo.name, game.opponentName);
@@ -73,7 +73,7 @@ function appendRecentGames(recentGames){
     return (new Date(a.lastUpdateUtc) - new Date(b.lastUpdateUtc))
   })
   var l = recentGames.length - 1;
-  for (var i = 0; i < 10; i++){
+  for (var i = 0; i < 15; i++){
     $('.teams').append(recentGame(recentGames[l-i]));
   }
 }
