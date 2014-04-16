@@ -49,7 +49,7 @@ function establishSearch(teamNames, recentGames){
     if (teamResults.length){
       var teamsToAppend = '';
       _.each(teamResults, function(team){
-        teamsToAppend += teamDropdownItem(team.cloudId, team.passwordProtected, team.name);
+        teamsToAppend += teamDropdownItem(team.cloudId, team.passwordProtected, team.name, team.numberOfGames);
       });
       dropdownDisplay(teamsToAppend);
     }
@@ -87,7 +87,7 @@ function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
   return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teamDropdownItem(cloudId,isPasswordProtected,name, gamesPlayed){
-  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ name + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ name + '<span class="games-played">('+ gamesPlayed +' games)</span>' +(isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teardown($node){
   $node.empty()
