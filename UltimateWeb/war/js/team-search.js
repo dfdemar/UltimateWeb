@@ -69,9 +69,12 @@ function dropdownDisplay(content){
   $('.search-results').show();
 }
 function appendRecentGames(recentGames){
+  recentGames.sort(function(a,b){
+    return (new Date(a.msSinceEpoch) - new Date(b.msSinceEpoch))
+  })
   var l = recentGames.length - 1;
   for (var i = 0; i < 10; i++){
-    $('.teams').append(recentGame(recentGames[l-i]));
+    $('.teams').prepend(recentGame(recentGames[l-i]));
   }
 }
 function recentGame(game){

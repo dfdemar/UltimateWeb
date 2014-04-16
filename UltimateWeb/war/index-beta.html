@@ -31,6 +31,9 @@
       .relative {
         position: relative;
       }
+      .horizontal-centered{
+        text-align: center;
+      }
     </style>
     <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -109,10 +112,7 @@
       <!-- <div id="beta-tester-notice">We are looking for beta testers!  Want to try the app?  <a href="mailto:support@ultimate-numbers.com?subject=Beta version of iUltimate">Let us know.</a></div>  -->
     </div>
     <div class="row">
-      <div class="span8">
-        <h2>Current Teams</h2>
-      </div>
-      <div class="span4 relative">
+      <div class="span4 relative offset8">
         <input type="text" id="search" class="input-block-level search-query">
         <i class="icon-search search-icon"></i>
         <div class="dropdown">
@@ -122,11 +122,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="span5">
-        <h3>AUDL</h3>
-        <ul class="audl-teams"></ul>
+      <div class="span3">
+        <ul class="audl-teams nav nav-tabs nav-stacked horizontal-centered">
+        </ul>
       </div>
-      <div class="span7">
+      <div class="span9">
         <table class="table">
           <thead>
             <tr>
