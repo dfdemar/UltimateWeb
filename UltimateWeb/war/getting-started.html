@@ -30,6 +30,11 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    		$('.carousel').carousel('pause');  // prevents automatic scrolling
+    	});
+    </script>
   </head>
 
   <body>
@@ -47,27 +52,35 @@
             <ul class="nav">
               <li><a href="index.html">Home</a></li>
               <li><a href="details.html">Details</a></li>
-              <li><a href="getting-started.html">Get Started</a></li>
+              <li class="active"><a href="#">Get Started</a></li>
               <li><a href="support.html">Support</a></li>
-              <li class="active"><a href="#">Contact</a></li>
-			  <li><a href="privacy.html">Privacy</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="privacy.html">Privacy</a></li>              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
+  <div class="container">
 
-      <h1>Contact</h1>
-      <p><br>Need to chat? <a href="mailto:support@ultianalytics.com">send us a note</a>.</p>
-      <br><br><br><br><br>
+    <h1>Let's get started!</h1>
+    <br/>
+    <p>Getting started is easy.  Just download the iPhone or Android mobile app and start gatherings stats.  You can upload* stats to the site at any time.</p>
+    <br/>
+    <p><a href="http://itunes.apple.com/us/app/iultimate/id527772643?ls=1&mt=8" class="btn btn-primary btn-large">Download the iPhone app (iUltimate)</a></p>
+    <br/>
+    <p><a href="https://play.google.com/store/apps/details?id=com.summithillsoftware.ultimate" class="btn btn-primary btn-large">Download the Android app</a></p>
+	<br/><br/>
+	<p>*Uploading requires a google sign-on.  If you think you might share stats gathering duties with others you should consider creating a new google identity for your team instead of using your own google account.</p>    
+	<br/><br/>
+
       <hr>
 	  <footer>
       	<br>
-        <p>&copy; 2012 Summit Hill Software, Inc., all rights reserved</p>
+        <p>&copy; 2014 Summit Hill Software, Inc., all rights reserved</p>
       </footer>
-    </div> 
+  </div>
 
     <!-- Le javascript
     ================================================== -->
