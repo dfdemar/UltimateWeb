@@ -1,4 +1,25 @@
 // team search
+var teamsJson =[
+{"id": 5182111044599808, "name": "Madison Radicals"},
+{"id": 5638404075159552, "name": "Wind Chill"},
+{"id": 6220853180104704, "name": "Empire"},
+{"id": 4868028676177920, "name": "Breeze"},
+{"id": 5732910535540736, "name": "Revolution"},
+{"id": 5471866718257152, "name": "Wildfire"},
+{"id": 5684961520648192, "name": "Mechanix"},
+{"id": 5075454121738240, "name": "AlleyCats"},
+{"id": 5724681378201600, "name": "Dragons"},
+{"id":5131065358286848, "name": "Rush"},
+{"id": 5153656886263808, "name": "Phoenix"},
+{"id": 5753341694967808, "name": "Royal"},
+{"id": 6597766625099776, "name": "Spiders"},
+{"id": 5648334039547904, "name": "Raptors"},
+{"id": 6226234774126592, "name": "Riptide"},
+{"id": 5716606839685120, "name": "Lions"},
+{"id": 5094953273262080, "name": "FlameThrowers"}
+]
+
+
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
 var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14');
 
@@ -8,6 +29,11 @@ recentGamesPromise.then(function(recentGames){
     establishSearch(teamNames, recentGames);
   });
 });
+var teamNodes = '';
+_.each(teamsJson, function(team){
+  teamNodes += '<li><a href="http://www.ultianalytics.com/app/index.html#/'+team.id+'/players">'+team.name+'</a></li>'
+});
+$('.audl-teams').append(teamNodes)
 function establishSearch(teamNames, recentGames){
   var teamSearch = searchify(teamNames, 'name');
   var gameSearch = searchify(recentGames, 'opponentName');
@@ -50,13 +76,13 @@ function appendRecentGames(recentGames){
 }
 function recentGame(game){
   timeSinceString = getTimeString(game.msSinceEpoch);
-  return '<tr><td><a href="http://www.ultianalytics.com/newBeta/app/index.html#/'+game.teamId+'/players">' + game.teamInfo.name + ' vs. ' + game.opponentName + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
+  return '<tr><td><a href="http://www.ultianalytics.com/app/index.html#/'+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
 }
 function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
-  return '<li><a class="search-option" href="http://www.ultianalytics.com/newBeta/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teamDropdownItem(cloudId,isPasswordProtected,name){
-  return '<li><a class="search-option" href="http://www.ultianalytics.com/newBeta/app/index.html#/'+cloudId+'/players">'+ name + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ name + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teardown($node){
   $node.empty()
