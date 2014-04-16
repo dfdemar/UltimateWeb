@@ -1,24 +1,23 @@
 // team search
-var teamsJson =[
-{"id": 5182111044599808, "name": "Madison Radicals"},
-{"id": 5638404075159552, "name": "Wind Chill"},
-{"id": 6220853180104704, "name": "Empire"},
-{"id": 4868028676177920, "name": "Breeze"},
-{"id": 5732910535540736, "name": "Revolution"},
-{"id": 5471866718257152, "name": "Wildfire"},
-{"id": 5684961520648192, "name": "Mechanix"},
-{"id": 5075454121738240, "name": "AlleyCats"},
-{"id": 5724681378201600, "name": "Dragons"},
-{"id":5131065358286848, "name": "Rush"},
-{"id": 5153656886263808, "name": "Phoenix"},
-{"id": 5753341694967808, "name": "Royal"},
-{"id": 6597766625099776, "name": "Spiders"},
-{"id": 5648334039547904, "name": "Raptors"},
-{"id": 6226234774126592, "name": "Riptide"},
-{"id": 5716606839685120, "name": "Lions"},
-{"id": 5094953273262080, "name": "FlameThrowers"}
-]
-
+var teamsJson =_([
+{"id": 5182111044599808, "name": "Radicals", location: "Madison"},
+{"id": 5638404075159552, "name": "Wind Chill", location: "Minnesota"},
+{"id": 6220853180104704, "name": "Empire", location: "New York"},
+{"id": 4868028676177920, "name": "Breeze", location: "DC"},
+{"id": 5732910535540736, "name": "Revolution", location: "Cincinnati"},
+{"id": 5471866718257152, "name": "Wildfire", location: "Chicago"},
+{"id": 5684961520648192, "name": "Mechanix", location: "Detroit"},
+{"id": 5075454121738240, "name": "AlleyCats", location: "Indianapolis"},
+{"id": 5724681378201600, "name": "Dragons", location: "Rochester"},
+{"id":5131065358286848, "name": "Rush", location: "Toronto"},
+{"id": 5153656886263808, "name": "Phoenix", location: "Philadelphia"},
+{"id": 5753341694967808, "name": "Royal", location: "Montreal"},
+{"id": 6597766625099776, "name": "Spiders", location: "San Jose"},
+{"id": 5648334039547904, "name": "Raptors", location: "Seattle"},
+{"id": 6226234774126592, "name": "Riptide", location: "Vancouver"},
+{"id": 5716606839685120, "name": "Lions", location: "Salt Lake"},
+{"id": 5094953273262080, "name": "FlameThrowers", location: "San Francisco"}
+]).sortBy('location').valueOf();
 
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
 var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14');
@@ -31,7 +30,7 @@ recentGamesPromise.then(function(recentGames){
 });
 var teamNodes = '';
 _.each(teamsJson, function(team){
-  teamNodes += '<li><a href="http://www.ultianalytics.com/app/index.html#/'+team.id+'/players">'+team.name+'</a></li>'
+  teamNodes += '<li><a href="http://www.ultianalytics.com/app/index.html#/'+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
 });
 $('.audl-teams').append(teamNodes)
 function establishSearch(teamNames, recentGames){
@@ -87,7 +86,7 @@ function recentGame(game){
 function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
   return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
-function teamDropdownItem(cloudId,isPasswordProtected,name){
+function teamDropdownItem(cloudId,isPasswordProtected,name, gamesPlayed){
   return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ name + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teardown($node){
