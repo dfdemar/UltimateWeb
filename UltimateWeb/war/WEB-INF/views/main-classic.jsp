@@ -195,7 +195,7 @@ import="com.google.appengine.api.users.*"
 		<div class="narrowOnly"><br>Want to produce your own stats? <a class="downlaodRawStatsLink" href="javascript:void(0)">Download file of Raw Data</a></div>	
 		<div><br><br>Wondering how a statistic is calculated? Check out our calcs: <a href="javascript:void(0)" onclick="window.open('/calcs.html');return false;">Calculations</a></div>
 		<div>&nbsp;</div>
-		<div><br>Problem or suggestion?  <a href="http://www.ultimate-numbers.com/support.html" rel="external">Let us know</a></div>
+		<div><br>Problem or suggestion?  <a href="http://www.ultianalytics.com/support.html" rel="external">Let us know</a></div>
 		<div>&nbsp;</div>	
 	</div>
 </div>

@@ -5,7 +5,7 @@ Get a list of meta information (including score) for ALL games for the team:
 NOTES: 
 "ours" and "theirs" are scores.
 
-http://www.ultimate-numbers.com/rest/view/team/{teamid}/games
+http://www.ultianalytics.com/rest/view/team/{teamid}/games
 
 SAMPLE RESPONSE:
 

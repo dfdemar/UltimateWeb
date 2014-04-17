@@ -1,8 +1,8 @@
 
 Retrieve the team meta data (optionally with players)
 
-http://www.ultimate-numbers.com/rest/view/team/{teamid}
-http://www.ultimate-numbers.com/rest/view/team/{teamid}?players=true
+http://www.ultianalytics.com/rest/view/team/{teamid}
+http://www.ultianalytics.com/rest/view/team/{teamid}?players=true
 
 SAMPLE RESPONSES:
 

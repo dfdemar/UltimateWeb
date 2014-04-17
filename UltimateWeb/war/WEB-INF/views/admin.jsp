@@ -89,8 +89,8 @@ import="com.google.appengine.api.users.*"
 		<div><br>&nbsp;<a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 		
 		<div class="footer">
-		<a href="http://www.ultimate-numbers.com/">About</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="http://www.ultimate-numbers.com/privacy.html">Privacy</a>
+		<a href="http://www.ultianalytics.com/">About</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="http://www.ultianalytics.com/privacy.html">Privacy</a>
 		</div>
 		<br><br>
 	</div>

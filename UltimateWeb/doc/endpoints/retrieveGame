@@ -2,7 +2,7 @@
 Retrieve all of the game data for a particular game. 
 
 
-http://www.ultimate-numbers.com/rest/view/team/{teamid}/game/{gameid}
+http://www.ultianalytics.com/rest/view/team/{teamid}/game/{gameid}
 
 NOTE: the event data (an array of points) is the response but is in a single string (escaped json), i.e., to get the event data 
 var points = JSON.parse(responseData.pointsJson) OR jQuery.parseJSON(responseData.pointsJson)   OR   eval("(" + responseData.pointsJson + ')')
