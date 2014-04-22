@@ -40,6 +40,22 @@ public class Team extends ModelObject {
 		entity.setProperty(NAME_PROPERTY, teamName);
 	}
 	
+	public String getNameWithSeason() {
+		String name = getName();
+		if (!name.matches(".*201[0-9].*")) {
+			String firstDate = getFirstGameDate();
+			if (firstDate != null && firstDate.length() >= 4) {
+				String firstYear = firstDate.substring(0, 4);
+				name = name + " " + firstYear;
+				String lastDate = getLastGameDate();
+				if (lastDate != null && lastDate.length() >= 4 && !lastDate.startsWith(firstYear)) {
+					name = name + "-" + lastDate.substring(0, 4);
+				}
+			}
+		}
+		return name;
+	}
+	
 	public String getMobileId() {
 		return (String)entity.getProperty(MOBILE_TEAMID_PROPERTY);
 	}

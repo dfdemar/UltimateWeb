@@ -10,6 +10,7 @@ public class ParameterTeam {
 	private String cloudId;
 	private String teamId;  // mobile id
 	private String name;
+	private String nameWithSeason;
 	private boolean isMixed;
 	private boolean isDisplayPlayerNumber;
 	private List<ParameterPlayer> players;
@@ -26,6 +27,7 @@ public class ParameterTeam {
 		pTeam.setCloudId(team.getPersistenceId());
 		pTeam.setTeamId(team.getMobileId());
 		pTeam.setName(team.getName());
+		pTeam.setNameWithSeason(team.getNameWithSeason());
 		pTeam.setMixed(team.isMixed());
 		pTeam.setDisplayPlayerNumber(team.isDisplayingPlayerNumber());
 		pTeam.setLeaguevineJson(team.getLeaguevineJson());
@@ -52,7 +54,7 @@ public class ParameterTeam {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public boolean isMixed() {
 		return isMixed;
 	}
@@ -140,4 +142,13 @@ public class ParameterTeam {
 	public void setLastGameDate(String lastGameDate) {
 		this.lastGameDate = lastGameDate;
 	}
+
+	public String getNameWithSeason() {
+		return nameWithSeason;
+	}
+
+	public void setNameWithSeason(String nameWithSeason) {
+		this.nameWithSeason = nameWithSeason;
+	}
+
 }

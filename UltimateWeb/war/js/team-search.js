@@ -49,7 +49,7 @@ function establishSearch(teamNames, recentGames){
     if (teamResults.length){
       var teamsToAppend = '';
       _.each(teamResults, function(team){
-        teamsToAppend += teamDropdownItem(team.cloudId, team.passwordProtected, team.name, team.numberOfGames);
+        teamsToAppend += teamDropdownItem(team.cloudId, team.passwordProtected, team.nameWithSeason, team.numberOfGames);
       });
       dropdownDisplay(teamsToAppend);
     }

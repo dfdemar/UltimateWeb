@@ -32,6 +32,7 @@ import="com.google.appengine.api.users.*"
 		Ultimate = {};
 		Ultimate.teamId = "${teamId}";
 		Ultimate.teamName = "${teamName}";
+		Ultimate.teamNameWithSeason = "${teamNameWithSeason}";
 	</script>
 	<script src="../../js/rest.js"></script>
 	<script src="../../js/stats.js"></script>

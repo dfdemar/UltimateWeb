@@ -33,6 +33,7 @@ public class WebPageController extends AbstractController {
 		} else {
 			model.addAttribute("teamId", id);
 			model.addAttribute("teamName", team.getName());
+			model.addAttribute("teamNameWithSeason", team.getNameWithSeason());
 		}
 		return "main-classic"; // forward to jsp
 	}

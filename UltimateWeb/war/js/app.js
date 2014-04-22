@@ -140,14 +140,15 @@ function populateTeam(successFunction) {
 		if (!Ultimate.teamName) {
 			retrieveTeam(Ultimate.teamId, true, function(team) {
 				Ultimate.team = team;
-				Ultimate.teamName = team.name;
-				$('.teamName').html(Ultimate.teamName);
+				Ultimate.teamName = team.name;				
+				Ultimate.teamNameWithSeason = team.teamNameWithSeason;
+				$('.teamName').html(Ultimate.teamNameWithSeason);
 				if (successFunction) {
 					successFunction();
 				}
 			}, handleError);
 		} else {
-			$('.teamName').html(Ultimate.teamName);
+			$('.teamName').html(Ultimate.teamNameWithSeason);
 			if (successFunction) {
 				successFunction();
 			}
