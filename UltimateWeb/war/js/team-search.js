@@ -24,8 +24,8 @@ var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?da
 
 recentGamesPromise.then(function(recentGames){
   appendRecentGames(recentGames);
-  allTeamNamesPromise.then(function(teamNames){
-    establishSearch(teamNames, recentGames);
+  allTeamNamesPromise.then(function(teams){
+    establishSearch(teams, recentGames);
   });
 });
 var teamNodes = '';
@@ -33,8 +33,8 @@ _.each(teamsJson, function(team){
   teamNodes += '<li><a href="http://www.ultianalytics.com/app/index.html#/'+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
 });
 $('.audl-teams').append(teamNodes)
-function establishSearch(teamNames, recentGames){
-  var teamSearch = searchify(teamNames, 'name');
+function establishSearch(teams, recentGames){
+  var teamSearch = searchify(teams, 'name');
   var gameSearch = searchify(recentGames, 'opponentName');
 
   $searchInput = $('#search');
@@ -45,7 +45,7 @@ function establishSearch(teamNames, recentGames){
     // click away -> close dropdown
     $(window).on('click', function(){ teardown($dropdown); });
 
-    teamResults = search(teamSearch, $searchInput.val().toLowerCase());
+    teamResults = search(teamSearch, $searchInput.val().toLowerCase(), teams);
     if (teamResults.length){
       var teamsToAppend = '';
       _.each(teamResults, function(team){
@@ -93,9 +93,9 @@ function teardown($node){
   $node.empty()
   $node.hide()
 }
-function search(tree, token){
+function search(tree, token, teams){
   var results = prefixSearch(tree, token).slice(0, 8);
-  return results.concat(simpleSearch(8 - results.length));
+  return results.concat(simpleSearch(teams, 8 - results.length, token));
 }
 function prefixSearch(tree, token){
   if (!token) {return tree.children || []; }
@@ -126,12 +126,16 @@ function register(team, name, tree){
   tree[thisLetter].children.push(team);
   register(team, name.slice(1), tree[thisLetter]);
 }
-function simpleSearch(teams,numberNeeded){
+function simpleSearch(teams, numberNeeded, searchText){
   var i = 0;
   var found = [];
-  while (found.length < numberNeeded && i < teams.length){
-    if (_(teams[i].name).contains(item)){
-      found.push(teams[i])
+  if (!_.isEmpty(searchText)) {
+    var searchTextLowerCase = searchText.toLowerCase();	  
+    while (found.length < numberNeeded && i < teams.length){
+      if (_.contains(teams[i].name.toLowerCase(), searchTextLowerCase)) {
+        found.push(teams[i]);
+      }
+      i++;
     }
   }
   return found
