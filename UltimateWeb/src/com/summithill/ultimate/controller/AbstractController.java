@@ -37,6 +37,7 @@ public class AbstractController {
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
 	private final static String AUTH_TYPE_QUERY_STRING_PARAMETER = "auth-type";
 	private final static String AUTH_TYPE_OAUTH = "oauth";
+	private final static String TEST_TEAM_NAME_MARKER = "@test@";
 	
 	@Autowired
 	protected TeamService service;
@@ -113,8 +114,10 @@ public class AbstractController {
 			List<ParameterTeamInfo> teamsResponseList = new ArrayList<ParameterTeamInfo>();
 			List<Team> teams = service.getAllTeams();
 			for (Team team : teams) {
-				ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
-				teamsResponseList.add(pTeam);
+				if (!team.getName().contains(TEST_TEAM_NAME_MARKER)) {
+					ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
+					teamsResponseList.add(pTeam);
+				}
 			}
 			return teamsResponseList;
 		} catch (Exception e) {
