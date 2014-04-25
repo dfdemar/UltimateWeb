@@ -81,7 +81,7 @@ function recentGame(game){
   var timezoneOffset = (new Date()).getTimezoneOffset();
   goodDate = badDate.setMinutes(-timezoneOffset);
   timeSinceString = getTimeString(goodDate);
-  return '<tr><td><a href="http://www.ultianalytics.com/app/index.html#/'+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
+  return '<tr><td><a href="http://www.ultianalytics.com/app/index.html#/'+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + ', ' + game.date + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
 }
 function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
   return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
