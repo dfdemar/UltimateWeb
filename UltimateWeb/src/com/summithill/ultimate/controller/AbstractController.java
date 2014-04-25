@@ -167,16 +167,18 @@ public class AbstractController {
 			List<Game> games = service.getGamesSince(numberOfDays);
 			List<ParameterGame> parameterGames = new ArrayList<ParameterGame>();
 			for (Game game : games) {
-				game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
-				ParameterGame pGame = ParameterGame.fromGame(game);
-				String teamPersistenceId = game.getParentPersistenceId();
-				if (teamPersistenceId != null) {
-					Team team = teamLookup.get(teamPersistenceId);
-					if (team != null) {
-						pGame.setTeamInfo(ParameterTeamInfo.fromTeam(team));
+				if (!game.getOpponentName().contains(TEST_TEAM_NAME_MARKER) ) {
+					game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
+					ParameterGame pGame = ParameterGame.fromGame(game);
+					String teamPersistenceId = game.getParentPersistenceId();
+					if (teamPersistenceId != null) {
+						Team team = teamLookup.get(teamPersistenceId);
+						if (team != null && !team.getName().contains(TEST_TEAM_NAME_MARKER)) {
+							pGame.setTeamInfo(ParameterTeamInfo.fromTeam(team));
+							parameterGames.add(pGame);
+						}
 					}
 				}
-				parameterGames.add(pGame);
 			}
 			return parameterGames;
 		} catch (Exception e) {
