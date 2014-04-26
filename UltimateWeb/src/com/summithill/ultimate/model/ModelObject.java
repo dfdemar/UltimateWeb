@@ -31,6 +31,14 @@ public class ModelObject {
 		return null;
 	}
 	
+	public Key getParentPersistenceKey() {
+		if (entity != null) {
+			Key parentKey = entity.getParent();
+			return parentKey;
+		}
+		return null;
+	}
+	
 	protected void copyProperties(Entity fromEntity, Entity toEntity, String userIdentifier) {
 		toEntity.setPropertiesFrom(fromEntity);
 		toEntity.setProperty(USER_ID_PROPERTY, userIdentifier);

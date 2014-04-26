@@ -160,11 +160,13 @@ public class AbstractController {
 	
 	protected List<ParameterGame> getParameterGamesSince(int numberOfDays, int max)  {
 		try {
+			List<Game> games = service.getGamesSince(numberOfDays, max);
+			List<Team> teamsForGames = service.getTeamsForGames(games);
 			Map<String, Team> teamLookup = new HashMap<String, Team>();
-			for (Team team: service.getAllTeams()) {
+			for (Team team: teamsForGames) {
 				teamLookup.put(team.getPersistenceId(), team);
 			}
-			List<Game> games = service.getGamesSince(numberOfDays, max);
+			
 			List<ParameterGame> parameterGames = new ArrayList<ParameterGame>();
 			for (Game game : games) {
 				if (!game.getOpponentName().contains(TEST_TEAM_NAME_MARKER) ) {

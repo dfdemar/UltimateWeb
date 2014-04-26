@@ -4,10 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,6 +71,27 @@ public class TeamService {
 		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
 		Iterable<Entity> teamEntities = getDatastore().prepare(query)
 				.asIterable();
+		List<Team> teamList = new ArrayList<Team>();
+		for (Entity teamEntity : teamEntities) {
+			teamList.add(Team.fromEntity(teamEntity));
+		}
+		return teamList;
+	}
+	
+	public List<Team> getTeamsForGames(Collection<Game> games) {
+		Set<Key> teamKeys = new HashSet<Key>();
+		for (Game game : games) {
+			teamKeys.add(game.getParentPersistenceKey());
+		}
+		if (teamKeys.size() > 200) { // don't want query filter to be too large
+			return getAllTeams();
+		}
+		
+		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
+		Query.Filter queryFilter = new Query.FilterPredicate("__key__", Query.FilterOperator.IN, new ArrayList<Key>(teamKeys));
+		query.setFilter(queryFilter);
+		
+		Iterable<Entity> teamEntities = getDatastore().prepare(query).asIterable();
 		List<Team> teamList = new ArrayList<Team>();
 		for (Entity teamEntity : teamEntities) {
 			teamList.add(Team.fromEntity(teamEntity));
