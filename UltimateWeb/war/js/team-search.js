@@ -20,7 +20,7 @@ var teamsJson =_([
 ]).sortBy('location').valueOf();
 
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
-var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14');
+var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14&max=50');
 
 recentGamesPromise.then(function(recentGames){
   appendRecentGames(recentGames);

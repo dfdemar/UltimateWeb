@@ -73,8 +73,8 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGamesSince(@RequestParam(value = "days", required = true) int numberOfDays) {
-		return getParameterGamesSince(Math.min(numberOfDays, MAX_DAYS_FOR_RECENT_GAMES));
+	public List<ParameterGame> getGamesSince(@RequestParam(value = "days", required = true) int numberOfDays, @RequestParam(value = "max", required = false) Integer maxResults) {
+		return getParameterGamesSince(Math.min(numberOfDays, MAX_DAYS_FOR_RECENT_GAMES), maxResults == null ? Integer.MAX_VALUE : maxResults);
 	}
 	
 	@RequestMapping(value = "/team/{id}/players", method = RequestMethod.GET)

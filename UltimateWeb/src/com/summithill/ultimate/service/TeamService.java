@@ -3,6 +3,7 @@ package com.summithill.ultimate.service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -22,6 +23,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.ModelObject;
@@ -109,15 +113,20 @@ public class TeamService {
 		return gameList;
 	}
 
-	public List<Game> getGamesSince(int days) {
+	public List<Game> getGamesSince(int days, int max) {
 		Date firstDate = DateUtils.addDays(new Date(), -1 * days);
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String firstDateString = formatter.format(firstDate);
+		Date tommorrow = DateUtils.addDays(new Date(), 1);
+		String tomorrowDateString = formatter.format(tommorrow);
+		
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
-		query.addFilter(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN,
-				firstDateString);
-		Iterable<Entity> gameEntities = getDatastore().prepare(query)
-				.asIterable();
+		Query.Filter beginDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN, firstDateString);
+		Query.Filter endDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.LESS_THAN, tomorrowDateString);	
+		Query.Filter queryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
+		query.setFilter(queryFilter);
+		query.addSort(Game.LAST_UPDATE_UTC_PROPERTY, SortDirection.DESCENDING);
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(max));
 		
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
