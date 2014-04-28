@@ -1,5 +1,8 @@
 package com.summithill.ultimate.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
@@ -42,5 +45,9 @@ public class ModelObject {
 	protected void copyProperties(Entity fromEntity, Entity toEntity, String userIdentifier) {
 		toEntity.setPropertiesFrom(fromEntity);
 		toEntity.setProperty(USER_ID_PROPERTY, userIdentifier);
+	}
+	
+	protected void logError(String message, Exception e) {
+		Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, message, e);
 	}
 }

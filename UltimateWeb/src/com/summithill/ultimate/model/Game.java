@@ -1,6 +1,7 @@
 package com.summithill.ultimate.model;
 
 import java.io.StringWriter;
+import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 import com.summithill.ultimate.controller.Wind;
 import com.summithill.ultimate.model.lightweights.Point;
+import com.summithill.ultimate.util.JsonUtil;
 
 public class Game extends ModelObject {
 	public static final String ENTITY_TYPE_NAME = "Game";
@@ -26,6 +28,7 @@ public class Game extends ModelObject {
 	public static final String WIND_JSON_PROPERTY = "wind";
 	public static final String TIMEOUT_DETAILS_JSON_PROPERTY = "timeoutDetailsJson";
 	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
+	public static final String LAST_UPDATE_HASH_PROPERTY = "lastUpdateHash";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -88,6 +91,32 @@ public class Game extends ModelObject {
 	
 	public void setLastUpdateUtc(String timestamp) {
 		entity.setProperty(LAST_UPDATE_UTC_PROPERTY, timestamp);
+	}
+	
+	public String getLastUpdateHash() {
+		return (String)entity.getProperty(LAST_UPDATE_HASH_PROPERTY);
+	}
+	
+	private void setLastUpdateHash(String hash) {
+		entity.setProperty(LAST_UPDATE_HASH_PROPERTY, hash);
+	}
+	
+	public void resetHash() {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(getOpponentName().getBytes());
+			md.update((byte)(isFirstPointOline() ? 0 : 1));
+			md.update((byte)getGamePoint());
+			md.update(Long.toString(getOurScore()).getBytes());
+			md.update(Long.toString(getTheirScore()).getBytes());
+			md.update(getTournamentName().getBytes());
+			md.update(JsonUtil.jsonHash(getWindJson()).getBytes());
+			md.update(JsonUtil.jsonHash(getPointsJson()).getBytes());
+			md.update(JsonUtil.jsonHash(getTimeoutDetailsJson()).getBytes());
+			setLastUpdateHash(md.toString());
+		} catch (Exception e) {
+			logError("Cannot create hash of game vs. " + getOpponentName(), e);
+		}
 	}
 	
 	public Long getOurScore() {
@@ -227,7 +256,4 @@ public class Game extends ModelObject {
 		setPoints(points);
 	}
 	
-	
 }
-
-;;
