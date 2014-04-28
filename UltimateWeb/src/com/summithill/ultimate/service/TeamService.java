@@ -253,6 +253,32 @@ public class TeamService {
 			return null;
 		}
 	}
+	
+	public Collection<Team> getTeams(Collection<String> teamIds, boolean includePasswordProtected) {
+		if (teamIds == null) {
+			return Collections.emptyList();
+		}
+		Set<Key> teamKeys = new HashSet<Key>();
+		for (String teamId : teamIds) {
+			Key teamKey = KeyFactory.createKey(Team.ENTITY_TYPE_NAME, Long.parseLong(teamId));
+			teamKeys.add(teamKey);
+		}
+		
+		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
+		Query.Filter queryFilter = new Query.FilterPredicate("__key__", Query.FilterOperator.IN, new ArrayList<Key>(teamKeys));
+		query.setFilter(queryFilter);
+		
+		Iterable<Entity> teamEntities = getDatastore().prepare(query).asIterable();
+		
+		List<Team> teamList = new ArrayList<Team>();
+		for (Entity teamEntity : teamEntities) {
+			Team team = Team.fromEntity(teamEntity);
+			if (!team.hasPassword() || includePasswordProtected) {
+				teamList.add(team);
+			}
+		}
+		return teamList;
+	}
 
 	public long copyTeam(String userIdentifier, String id) {
 		// copy team
