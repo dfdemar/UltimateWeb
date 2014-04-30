@@ -10,6 +10,7 @@ public class ParameterTeam {
 	private String cloudId;
 	private String teamId;  // mobile id
 	private String name;
+	private String season;
 	private String nameWithSeason;
 	private boolean isMixed;
 	private boolean isDisplayPlayerNumber;
@@ -27,6 +28,7 @@ public class ParameterTeam {
 		pTeam.setCloudId(team.getPersistenceId());
 		pTeam.setTeamId(team.getMobileId());
 		pTeam.setName(team.getName());
+		pTeam.setSeason(team.getSeason());
 		pTeam.setNameWithSeason(team.getNameWithSeason());
 		pTeam.setMixed(team.isMixed());
 		pTeam.setDisplayPlayerNumber(team.isDisplayingPlayerNumber());
@@ -149,6 +151,14 @@ public class ParameterTeam {
 
 	public void setNameWithSeason(String nameWithSeason) {
 		this.nameWithSeason = nameWithSeason;
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
 	}
 
 }

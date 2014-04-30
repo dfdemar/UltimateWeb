@@ -7,6 +7,7 @@ import com.summithill.ultimate.model.Team;
 public class ParameterTeamInfo {
 	private String cloudId;
 	private String name;
+	private String season;
 	private String nameWithSeason;
 	private boolean isMixed;
 	private boolean isPasswordProtected;
@@ -18,6 +19,7 @@ public class ParameterTeamInfo {
 		ParameterTeamInfo pTeam = new ParameterTeamInfo();
 		pTeam.setCloudId(team.getPersistenceId());
 		pTeam.setName(team.getName());
+		pTeam.setSeason(team.getSeason());
 		pTeam.setNameWithSeason(team.getNameWithSeason());
 		pTeam.setMixed(team.isMixed());
 		pTeam.setPasswordProtected(team.hasPassword());
@@ -89,6 +91,14 @@ public class ParameterTeamInfo {
 
 	public void setNameWithSeason(String nameWithSeason) {
 		this.nameWithSeason = nameWithSeason;
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
 	}
 
 }

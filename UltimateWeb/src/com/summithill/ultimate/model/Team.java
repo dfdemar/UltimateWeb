@@ -43,17 +43,26 @@ public class Team extends ModelObject {
 	public String getNameWithSeason() {
 		String name = getName();
 		if (!name.matches(".*201[0-9].*")) {
-			String firstDate = getFirstGameDate();
-			if (firstDate != null && firstDate.length() >= 4) {
-				String firstYear = firstDate.substring(0, 4);
-				name = name + " " + firstYear;
-				String lastDate = getLastGameDate();
-				if (lastDate != null && lastDate.length() >= 4 && !lastDate.startsWith(firstYear)) {
-					name = name + "-" + lastDate.substring(0, 4);
-				}
+			String season = getSeason();
+			if (season.length() > 0) {
+				name = name + " " + season;
 			}
 		}
 		return name;
+	}
+	
+	public String getSeason() {
+		String season = "";
+		String firstDate = getFirstGameDate();
+		if (firstDate != null && firstDate.length() >= 4) {
+			String firstYear = firstDate.substring(0, 4);
+			season = firstYear;
+			String lastDate = getLastGameDate();
+			if (lastDate != null && lastDate.length() >= 4 && !lastDate.startsWith(firstYear)) {
+				season = season + "-" + lastDate.substring(0, 4);
+			}
+		}
+		return season;
 	}
 	
 	public String getMobileId() {
