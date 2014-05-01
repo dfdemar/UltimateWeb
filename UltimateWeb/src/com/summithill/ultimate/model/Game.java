@@ -256,4 +256,12 @@ public class Game extends ModelObject {
 		setPoints(points);
 	}
 	
+	public boolean hasSameHash(String otherHash) {
+		if (getLastUpdateHash() == null || otherHash == null) {
+			return false;
+		} else {
+			return getLastUpdateHash().equals(otherHash);
+		}
+	}
+	
 }

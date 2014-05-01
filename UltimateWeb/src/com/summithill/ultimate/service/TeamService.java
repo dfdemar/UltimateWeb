@@ -200,14 +200,13 @@ public class TeamService {
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
-		updateLastUpdatedTimestamp(game);
+		Team team = getTeam(game.getParentPersistenceId());
+		updateLastUpdatedTimestamp(team, game);
 		Entity entity = game.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		getDatastore().put(entity);
-		// update team (will recalulate first/last game, etc.)
-		Team team = getTeam(game.getParentPersistenceId());
+		// update the associated team (which will recalulate first/last game, etc.)
 		saveTeam(userIdentifier, team);  
-
 	}
 
 	public void deleteGame(String userIdentifier, Game game) {
@@ -373,12 +372,16 @@ public class TeamService {
     	}
     }
     
-    private void updateLastUpdatedTimestamp(Game game) {
-		TimeZone utc = TimeZone.getTimeZone("UTC");
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		formatter.setTimeZone(utc);
-		String nowAsUtcFormattedString = formatter.format(new Date());
-		game.setLastUpdateUtc(nowAsUtcFormattedString);;
+    private void updateLastUpdatedTimestamp(Team team, Game game) {
+		game.resetHash();
+    	Game oldGame = getGame(team, game.getGameId());
+    	if (oldGame == null || !game.hasSameHash(oldGame.getLastUpdateHash())) {
+    		TimeZone utc = TimeZone.getTimeZone("UTC");
+    		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    		formatter.setTimeZone(utc);
+    		String nowAsUtcFormattedString = formatter.format(new Date());
+    		game.setLastUpdateUtc(nowAsUtcFormattedString);
+    	}
     }
 
 }
