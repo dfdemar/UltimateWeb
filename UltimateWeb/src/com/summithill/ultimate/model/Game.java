@@ -113,7 +113,13 @@ public class Game extends ModelObject {
 			md.update(JsonUtil.jsonHash(getWindJson()).getBytes());
 			md.update(JsonUtil.jsonHash(getPointsJson()).getBytes());
 			md.update(JsonUtil.jsonHash(getTimeoutDetailsJson()).getBytes());
-			setLastUpdateHash(md.toString());
+			// convert digest bytes to a string
+			byte[] digestBytes = md.digest();
+			StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < digestBytes.length; i++) {
+	          sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+			setLastUpdateHash(sb.toString());
 		} catch (Exception e) {
 			logError("Cannot create hash of game vs. " + getOpponentName(), e);
 		}

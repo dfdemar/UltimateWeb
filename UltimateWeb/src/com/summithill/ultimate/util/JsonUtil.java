@@ -17,10 +17,22 @@ public class JsonUtil {
 	
 	public static String jsonHash(String json) {
 		try {
-			HashMap<String,Object> map = new ObjectMapper().readValue(json, new TypeReference<HashMap<String,Object>>() {});
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			updateDigest(md, map);
-			return md.toString();
+			if (json.startsWith("[")) {
+				Collection<Object> array = new ObjectMapper().readValue(json, new TypeReference<Collection<Object>>() {});
+				updateDigest(md, array);
+			} else {
+				HashMap<String,Object> map = new ObjectMapper().readValue(json, new TypeReference<HashMap<String,Object>>() {});
+				updateDigest(md, map);
+			}
+			byte[] digestBytes = md.digest();
+			
+			// convert digest bytes to a string
+			StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < digestBytes.length; i++) {
+	          sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+			return sb.toString();
 		} catch (Exception e) {
 			logError("Unable to compute json hash because of error: " + e.getMessage(), e);
 			return null;
