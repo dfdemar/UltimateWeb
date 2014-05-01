@@ -69,7 +69,9 @@ function dropdownDisplay(content){
 }
 function appendRecentGames(recentGames){
   recentGames.sort(function(a,b){
-    return (new Date(a.lastUpdateUtc) - new Date(b.lastUpdateUtc))
+	  if(a.lastUpdateUtc < b.lastUpdateUtc) return -1;
+	  if(a.lastUpdateUtc > b.lastUpdateUtc) return 1;
+	  return 0;
   })
   var l = recentGames.length - 1;
   for (var i = 0; i < 15; i++){
