@@ -77,10 +77,11 @@ function appendRecentGames(recentGames){
   }
 }
 function recentGame(game){
-  var badDate = new Date(game.lastUpdateUtc);
-  var timezoneOffset = (new Date()).getTimezoneOffset();
-  goodDate = badDate.setMinutes(-timezoneOffset);
-  timeSinceString = getTimeString(goodDate);
+  var lastUpdateUtcString = (game.lastUpdateUtc + ':00').replace(/-/g, '/');  // fix-up the string so that js can parse it
+  var utcDate = new Date(lastUpdateUtcString);
+  var timezoneOffsetMinutes = (new Date()).getTimezoneOffset();
+  var localDate = new Date(utcDate.getTime() - timezoneOffsetMinutes*60000);
+  var timeSinceString = getTimeString(localDate);
   return '<tr><td><a href="http://www.ultianalytics.com/app/index.html#/'+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + ', ' + game.date + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
 }
 function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
@@ -102,13 +103,14 @@ function prefixSearch(tree, token){
   if (!tree[token[0]]) {return []; }
   return prefixSearch(tree[token[0]], token.slice(1));
 }
-function getTimeString(gameMs){
-  var minutes = Math.floor(((new Date()).getTime() - gameMs) / 60000);
+function getTimeString(localDate){
+  var minutes = Math.floor(((new Date()).getTime() - localDate.getTime()) / 60000);
   var hours = Math.floor(minutes / 60);
   var days = Math.floor(hours / 24);
-  if (days) return days + ' days';
-  if (hours) return hours + ' hours';
-  if (minutes) return minutes + ' minutes';
+  if (days) return days + (days == 1 ? ' day' : ' days');
+  if (hours) return hours + (hours == 1 ? ' hour' : ' hours');
+  if (minutes) return minutes + (minutes == 1 ? ' minute' : ' minutes');
+  return " a few seconds";
 }
 function searchify(teams, indexBy){
   var tree = {}
