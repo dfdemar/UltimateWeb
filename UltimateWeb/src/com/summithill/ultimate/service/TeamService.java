@@ -155,7 +155,9 @@ public class TeamService {
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
-			gameList.add(game);
+			if (game.getTimestamp().compareTo(firstDateString) >= 0) {
+				gameList.add(game);
+			}
 		}
 		return gameList;
 	}

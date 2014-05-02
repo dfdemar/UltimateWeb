@@ -19,8 +19,9 @@ var teamsJson =_([
 {"id": 5094953273262080, "name": "FlameThrowers", location: "San Francisco"}
 ]).sortBy('location').valueOf();
 
+var recentDays = 14;
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
-var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=14&max=50');
+var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=' + recentDays + '&max=100');
 
 recentGamesPromise.then(function(recentGames){
   appendRecentGames(recentGames);
