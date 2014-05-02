@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -309,6 +310,33 @@ public class WebRestController extends AbstractController {
 			throw e;
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getPlayerStats", e);
+			return null;
+		}
+	}
+	
+	// returns the aggregated player stats for all games for the teams listed
+	@RequestMapping(value = "/teams/stats/player", method = RequestMethod.POST)
+	@ResponseBody
+	public Collection<TeamPlayerStats> getPlayerStatsForTeams(@RequestBody String[] teamIds)  {	
+		try {
+			Collection<Team> teams = service.getTeams(Arrays.asList(teamIds), true);
+			ObjectMapper mapper = new ObjectMapper();
+			List<TeamPlayerStats> results = new ArrayList<TeamPlayerStats>();
+			for (Team team : teams) {
+				TeamPlayerStats teamPlayerStats = new TeamPlayerStats(team.getTeamId());
+				results.add(teamPlayerStats);
+				if (team.hasPassword()) {
+					teamPlayerStats.setPrivate(true);
+				} else {
+					List<String> gameIdsToInclude = service.getGameIDs(team);
+					Collection<PlayerStats> playerStats = new PlayerStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
+					String playerStatsJson = mapper.writeValueAsString(playerStats);
+					teamPlayerStats.setPlayerStatsJson(playerStatsJson);
+				}
+			}
+			return results;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getPlayerStatsForTeams", e);
 			return null;
 		}
 	}
