@@ -21,6 +21,7 @@ public class ParameterTeam {
 	private int numberOfGames;
 	private String firstGameDate;
 	private String lastGameDate;
+	private boolean isPrivate;
 	
 	
 	public static ParameterTeam fromTeam(Team team) {
@@ -37,6 +38,7 @@ public class ParameterTeam {
 		pTeam.setNumberOfGames((int)team.getNumberOfGames());
 		pTeam.setFirstGameDate(team.getFirstGameDate());
 		pTeam.setLastGameDate(team.getLastGameDate());
+		pTeam.setPrivate(team.hasPassword());
 		return pTeam;
 	}
 	
@@ -159,6 +161,14 @@ public class ParameterTeam {
 
 	public void setSeason(String season) {
 		this.season = season;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
 	}
 
 }

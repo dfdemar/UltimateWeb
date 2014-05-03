@@ -62,8 +62,37 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterTeam> getTeams(HttpServletRequest request) {
-		return getParameterTeams(request);
+	public List<ParameterTeam> getTeamsForUser(HttpServletRequest request) {
+		return getParameterTeamsForUser(request);
+	}
+	
+	@RequestMapping(value = "/teams/anyuser", method = RequestMethod.POST)
+	@ResponseBody
+	public Collection<ParameterTeam> getTeams(@RequestBody String[] teamIds, @RequestParam(value = "includePlayers", required = false) boolean includePlayers)  {	
+		try {
+			Collection<Team> teams = service.getTeams(Arrays.asList(teamIds), true);
+			List<ParameterTeam> results = new ArrayList<ParameterTeam>();
+			for (Team team : teams) {
+				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+				results.add(pTeam);
+				if (team.hasPassword()) {
+					pTeam.setPassword(null); // don't let consumer see password
+				} else {
+					if (includePlayers) {
+						List<Player> players = service.getPlayers(team);
+						List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
+						for (Player player : players) {
+							paramPlayers.add(ParameterPlayer.fromPlayer(player));
+						}
+						pTeam.setPlayers(paramPlayers);
+					}
+				}
+			}
+			return results;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getTeams", e);
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/teams/all", method = RequestMethod.GET)

@@ -92,7 +92,7 @@ public class AbstractController {
 		}
 	}
 	
-	protected List<ParameterTeam> getParameterTeams(HttpServletRequest request) {
+	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
 			List<ParameterTeam> teamsResponseList = new ArrayList<ParameterTeam>();
@@ -104,7 +104,7 @@ public class AbstractController {
 			}
 			return teamsResponseList;
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeams", e);
+			logErrorAndThrow("Error on getParameterTeamsForUser", e);
 			return null;
 		}
 	}
