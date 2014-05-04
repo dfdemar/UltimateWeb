@@ -40,7 +40,7 @@
 	display: table-cell;
 	width: 40%;
 	vertical-align: top;
-
+	
 	font-size: 11px;
 	font-weight: bold;
 	color: #999;
@@ -49,7 +49,7 @@
 .stat-value {
 	display: block;
 	margin-bottom: .55em;
-
+	
 	font-size: 30px;
 	font-weight: bold;
 	letter-spacing: -2px;
@@ -68,7 +68,7 @@
 
 .stats #donut-chart {
 	height: 100px;
-	margin-left: -20px;
+	margin-left: -20px;	
 }
 
 
@@ -89,7 +89,7 @@
 	padding: 0 2em 0 1.5em;
 	padding-bottom: 1em;
 	margin-bottom: 1em;
-
+	
 	border-bottom: 1px dotted #CCC;
 }
 
@@ -111,28 +111,28 @@
 .news-item-date {
 	width: 75px;
 	vertical-align: middle;
-
+	
 	text-align: right;
 }
 
 .news-item-day {
 	display: block;
 	margin-bottom: .25em;
-
+	
 	font-size: 24px;
 	color: #888;
 }
 
 .news-item-preview {
 	margin-bottom: 0;
-
+	
 	color: #777;
 }
 
 .news-item-month {
 	display: block;
-	padding-right: 1px;
-
+	padding-right: 1px;	
+	
 	font-size: 12px;
 	font-weight: 600;
 	color: #888;
@@ -146,57 +146,57 @@
 
 .action-table .btn-small {
 	padding: 4px 5px 5px;
-
+	
 	font-size: 10px;
 }
 
-.action-table .td-actions {
-	width: 80px;
-
-	text-align: center;
+.action-table .td-actions { 
+	width: 80px; 
+	
+	text-align: center; 
 }
 
-	.action-table .td-actions .btn {
-		margin-right: .5em;
+	.action-table .td-actions .btn { 
+		margin-right: .5em;		
 	}
-
-	.action-table .td-actions .btn:last-child {
-		margin-rigth: 0;
+	
+	.action-table .td-actions .btn:last-child { 
+		margin-rigth: 0; 		
 	}
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
 @media (max-width: 979px) {
-
+	
 }
 
 
 @media (max-width: 480px) {
-
+	
 	.stats .stat {
-
+		
 		margin-bottom: 3em;
 	}
-
+	
 	.stats .stat .stat-value {
 		margin-bottom: .15em;
-
+		
 		font-size: 20px;
 	}
-
+	
 	.stats {
 		float: left;
-
+		
 		display: block;
-
+		
 		margin-bottom: 0;
 	}
-
+	
 	#chart-stats {
-		margin: 2em 0 1em;
+		margin: 2em 0 1em;		
 	}
 }
