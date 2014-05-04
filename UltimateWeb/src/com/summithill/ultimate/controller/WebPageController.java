@@ -16,16 +16,7 @@ import com.summithill.ultimate.model.Team;
 @Controller
 public class WebPageController extends AbstractController {
 	
-	/*
-	 TODO...Jim
-	 
-		To cutover to Kyle's app:
-		1.) change the first request mapping from "/{teamId}/main" to "/{teamId}/main-classic"
-		2.) change the second request mapping from "/{teamId}/main-redirect" to "/{teamId}/main"
-	
-	*/
-	
-	@RequestMapping(value = "/{id}/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/main-classic", method = RequestMethod.GET)
 	public String getTeamMainPageClassic(@PathVariable String id, ModelMap model) {
 		Team team = service.getTeam(id);
 		if (team == null) {
@@ -38,7 +29,7 @@ public class WebPageController extends AbstractController {
 		return "main-classic"; // forward to jsp
 	}
 
-	@RequestMapping(value = "/{teamId}/main-redirect", method = RequestMethod.GET)
+	@RequestMapping(value = "/{teamId}/main", method = RequestMethod.GET)
 	public String getTeamMainPageRedirect(@PathVariable String teamId, HttpServletRequest request) {
 		// redirect to the new app
 		String schemeAndHost = StringUtils.substringBefore(request. getRequestURL().toString(), "/team/");
