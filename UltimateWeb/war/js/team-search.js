@@ -20,6 +20,8 @@ var teamsJson =_([
 ]).sortBy('location').valueOf();
 
 var recentDays = 14;
+var recentDaysPreferred = 7;
+var numberOfRecentGamesToDisplay = 20;
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
 var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=' + recentDays + '&max=100');
 
@@ -69,19 +71,19 @@ function dropdownDisplay(content){
   $('.search-results').show();
 }
 function appendRecentGames(recentGames){
-  recentGames.sort(function(a,b){
-	  if(a.lastUpdateUtc < b.lastUpdateUtc) return -1;
-	  if(a.lastUpdateUtc > b.lastUpdateUtc) return 1;
+  var mostRecentGames = reduceGames(recentGames);
+  mostRecentGames.sort(function(a,b){ // descending
+	  if(a.lastUpdateUtc > b.lastUpdateUtc) return -1;
+	  if(a.lastUpdateUtc < b.lastUpdateUtc) return 1;
 	  return 0;
   })
-  var l = recentGames.length - 1;
-  for (var i = 0; i < 15; i++){
-    $('.teams').append(recentGame(recentGames[l-i]));
+  var numberOfGames = Math.min(numberOfRecentGamesToDisplay, mostRecentGames.length);
+  for (var i = 0; i < numberOfRecentGamesToDisplay; i++){
+    $('.teams').append(createRecentGameLink(mostRecentGames[i]));
   }
 }
-function recentGame(game){
-  var lastUpdateUtcString = (game.lastUpdateUtc + ':00').replace(/-/g, '/');  // fix-up the string so that js can parse it
-  var utcDate = new Date(lastUpdateUtcString);
+function createRecentGameLink(game){
+  var utcDate = parseDateString(game.lastUpdateUtc);
   var timezoneOffsetMinutes = (new Date()).getTimezoneOffset();
   var localDate = new Date(utcDate.getTime() - timezoneOffsetMinutes*60000);
   var timeSinceString = getTimeString(localDate);
@@ -145,3 +147,18 @@ function simpleSearch(teams, numberNeeded, searchText){
   }
   return found
 }
+function parseDateString(formattedDate) {
+	// expects a date formatted as yyyy-mm-dd hh:mm
+	var parseableDateString = (formattedDate + ':00').replace(/-/g, '/');  // fix-up the string so that js can parse it
+	return new Date(parseableDateString);
+}
+function reduceGames(recentGames) {
+	// try to reduce the games to a smaller set of the most recent (unless we don't have enough)
+	var preferredDateRangeBegin = new Date().getTime() - (recentDaysPreferred * 24 * 60 * 60 * 1000);
+	var mostRecentGames = _.filter(recentGames, function(game) { 
+		var gameStartDate = parseDateString(game.timestamp);
+		return gameStartDate != null && gameStartDate.getTime() > preferredDateRangeBegin;
+	});
+	return mostRecentGames.length > numberOfRecentGamesToDisplay ? mostRecentGames : recentGames;
+}
+
