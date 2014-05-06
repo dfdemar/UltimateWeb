@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
+import com.summithill.ultimate.model.State;
 import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.statistics.AllStatisticsCalculator;
 import com.summithill.ultimate.statistics.AllStats;
@@ -299,6 +300,56 @@ public class WebRestController extends AbstractController {
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on setTeamPassword", e);
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/state/{stateType}", method = RequestMethod.POST)
+	@ResponseBody
+	public String saveState(@PathVariable String teamId, @PathVariable String stateType, @RequestBody String stateJson) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				State state = new State(team, stateType, stateJson);
+				return service.saveState(state);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on saveState", e);
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/state/{stateType}/{stateId}", method = RequestMethod.GET)
+	@ResponseBody
+	public ParameterState getState(@PathVariable String stateId, @PathVariable String stateType, HttpServletRequest request, @RequestParam(value = "meta", required = false) boolean metaOnly) {
+		try {
+			State state = service.getState(stateId);
+			if (state == null || !state.getType().equals(stateType)) {
+				throw new ResourceNotFoundException();
+			} else {
+				Team team = service.getTeam(state.getTeamId());
+				if (team == null) {
+					throw new ResourceNotFoundException();
+				}
+				ParameterState pState = ParameterState.fromState(state);
+				pState.setTeamPrivate(team.hasPassword());
+				pState.setTeamNameWithSeason(team.getNameWithSeason());
+				if (metaOnly) {
+					pState.setJson(null);
+					return pState;
+				} else {
+					if (pState.isTeamPrivate()) {
+						this.verifyAccess(team, request);
+					}
+					return pState;
+				}
+			}
+		} catch (ResourceNotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on g", e);
+			return null;
 		}
 	}
 	

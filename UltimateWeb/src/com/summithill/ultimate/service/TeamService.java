@@ -33,6 +33,7 @@ import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.ModelObject;
 import com.summithill.ultimate.model.Player;
+import com.summithill.ultimate.model.State;
 import com.summithill.ultimate.model.Team;
 
 @Component
@@ -202,13 +203,33 @@ public class TeamService {
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
-		Team team = getTeam(game.getParentPersistenceId());
+		Team team = getTeam(game.getTeamPersistenceId());
 		updateLastUpdatedTimestamp(team, game);
 		Entity entity = game.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		getDatastore().put(entity);
 		// update the associated team (which will recalulate first/last game, etc.)
 		saveTeam(userIdentifier, team);  
+	}
+	
+	public String saveState(State state) {
+		state.resetLastUpdateUtc();
+		Entity entity = state.asEntity();
+		getDatastore().put(entity);
+		return state.getPersistenceId();
+	}
+	
+	public State getState(String stateId) {
+		if (stateId == null) {
+			return null;
+		}
+		try {
+			return State.fromEntity(getDatastore().get(
+					KeyFactory.createKey(State.ENTITY_TYPE_NAME,
+							Long.parseLong(stateId))));
+		} catch (EntityNotFoundException e1) {
+			return null;
+		}
 	}
 
 	public void deleteGame(String userIdentifier, Game game) {

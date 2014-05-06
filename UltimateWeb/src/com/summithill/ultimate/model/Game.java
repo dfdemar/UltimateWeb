@@ -53,6 +53,10 @@ public class Game extends ModelObject {
 		return Long.toString(entity.getParent().getId());
 	}
 	
+	public String getTeamPersistenceId() {
+		return getParentPersistenceId();
+	}
+	
 	public String getGameId() {
 		return (String)entity.getProperty(GAME_ID_NAME_PROPERTY);
 	}
