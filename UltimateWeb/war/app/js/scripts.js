@@ -2034,7 +2034,7 @@ angular.module('newBetaApp')
     function getTotals(){
       var totals = {};
       _.each(basicStatTypes, function(type){
-        totals[type] = _.reduce(playerStats,getSumFunction(type),0);
+        totals[type] = _.reduce(playerStats,getSumFunction(type));
       });
       extendPercentageStats(totals);
       extendAestheticStats(totals);
@@ -2044,7 +2044,7 @@ angular.module('newBetaApp')
       var averages = {};
       var statTypes = _.keys(_.sample(playerStats).stats);
       _(statTypes).each(function(type){
-        averages[type] = _.reduce(playerStats, getSumFunction(type),0).valueOf() / _.keys(playerStats).length;
+        averages[type] = _.reduce(playerStats, getSumFunction(type)).valueOf() / _.keys(playerStats).length;
       });
       return averages;
     }
@@ -2052,6 +2052,8 @@ angular.module('newBetaApp')
       return function(memo, player){
         if (_.isNumber(memo)) {
           return player.stats[type] ? memo + player.stats[type] : memo;
+        } else {
+          return player.stats[type];
         }
       };
     }
@@ -2151,39 +2153,6 @@ angular.module('newBetaApp')
         );
       });
     });
-
-    function getGoalSummary(game){
-      return statsMap[game.gameId].goalSummary;
-    }
-    function throwGroupingFunc(num) {
-      if (num === 1) {
-        return '1';
-      }
-      if (num < 4) {
-        return '4';
-      }
-      if (num < 8) {
-        return '8';
-      }
-      if (num < 12) {
-        return '12';
-      }
-      return '12+';
-    }
-
-    function addLink(passer, receiver, map) {
-      if (map.links[passer]) {
-        if (map.links[passer][receiver]) {
-          map.links[passer][receiver] += 1;
-        } else {
-          map.links[passer][receiver] = 1;
-        }
-      } else {
-        map.links[passer] = {};
-        map.links[passer][receiver] = 1;
-      }
-    }
-
     var tsApi = {
       getFromIncluded: function() {
         var that = this;
@@ -2196,50 +2165,112 @@ angular.module('newBetaApp')
         return result;
       },
       getFrom: function(games) {
-        var results = {};
-        var considerablePoints = _.reduce(games, function(points, game){
-          return points.concat(game.points);
-        }, []);
+        var result = {};
 
-        results.record = this.getRecord(games);
-        results.pointSpread = this.getPointSpread(games);
-        results.offensiveProductivity = this.getOffensiveProductivity(considerablePoints);
-        results.conversionRate = this.getConversionRate(considerablePoints, results.pointSpread.ours);
-        results.throwsPerPossession = this.getThrowsPerPossession(considerablePoints);
-        results.pointSummary = this.getPointSummary(considerablePoints);
-        results.assistMap = this.getAssistMap(considerablePoints);
+        // Record
+        var record = {
+          wins: 0,
+          losses: 0
+        };
+        _(games).each(function(game) {
+          var gs = statsMap[game.gameId].goalSummary;
+          gs.ourOlineGoals + gs.ourDlineGoals > gs.theirOlineGoals + gs.theirDlineGoals ? record.wins++ : record.losses++;
+        });
+        result.record = record;
 
-        return results;
-      },
-      getOffensiveProductivity: function(points){
+        // Point Spread
+        var ps = {
+          ours: 0,
+          theirs: 0
+        };
+        _(games).each(function(game) {
+          var gs = statsMap[game.gameId].goalSummary;
+          ps.ours += gs.ourDlineGoals + gs.ourOlineGoals;
+          ps.theirs += gs.theirDlineGoals + gs.theirOlineGoals;
+        });
+        result.pointSpread = ps;
+
+        // Offensive Conversion
         var offensiveOpps = 0;
         var offensiveConversions = 0;
-        _(points).each(function(point) {
-          if (point.summary.lineType === 'O') {
-            offensiveOpps++;
-            if (point.events[point.events.length - 1].type === 'Offense') {
-              offensiveConversions++;
-            }
-          }
-        });
-        return offensiveOpps ? Math.round(offensiveConversions / offensiveOpps * 100) : 0;
-      },
-      getConversionRate: function(points, ourPointSpread){
-        var scoringOpps = 0;
-        _(points).each(function(point) {
-          if (point.summary.lineType === 'O') {
-            scoringOpps++;
-          }
-          _(point.events).each(function(event) {
-            if ((event.action === 'D' && event.type === 'Defense') || (event.action === 'Throwaway' && event.type === 'Defense')) {
-              scoringOpps++;
+        _(games).each(function(game) {
+          _(game.points).each(function(point) {
+            if (point.summary.lineType === 'O') {
+              offensiveOpps++;
+              if (point.events[point.events.length - 1].type === 'Offense') {
+                offensiveConversions++;
+              }
             }
           });
         });
-        return scoringOpps ? Math.round(ourPointSpread / scoringOpps * 100) : 0;
-      },
-      getPointSummary: function(points){
-        var pointSummary = {
+        result.offensiveProductivity = offensiveOpps ? Math.round(offensiveConversions / offensiveOpps * 100) : 0;
+
+        // Conversion Rate
+
+        var scoringOpps = 0;
+        _(games).each(function(game) {
+          _(game.points).each(function(point) {
+            if (point.summary.lineType === 'O') {
+              scoringOpps++;
+            }
+            _(point.events).each(function(event) {
+              if ((event.action === 'D' && event.type === 'Defense') || (event.action === 'Throwaway' && event.type === 'Defense')) {
+                scoringOpps++;
+              }
+            });
+          });
+        });
+        result.conversionRate = scoringOpps ? Math.round(result.pointSpread.ours / scoringOpps * 100) : 0;
+
+        // Throws per possession
+        var scored = [];
+        var failed = [];
+        var passes = 0;
+        _(games).each(function(game) {
+          _(game.points).each(function(point) {
+            passes = 0;
+            _(point.events).each(function(event) {
+              if (event.type === 'Offense') {
+                if (event.action === 'Catch') {
+                  passes++;
+                } else if (event.action === 'Goal') {
+                  scored.push(++passes);
+                  passes = 0;
+                } else if (event.action === 'Throwaway' || event.action === 'Drop' || event.action === 'Turnover' || event.action === 'Stall') {
+                  failed.push(++passes);
+                  passes = 0;
+                }
+              } else {
+                if (passes > 0) {
+                  scored.push(passes);
+                  passes = 0;
+                }
+              }
+            });
+          });
+        });
+        var tpp = {};
+        var groupingFunc = function(num) {
+          if (num === 1) {
+            return '1';
+          }
+          if (num < 4) {
+            return '4';
+          }
+          if (num < 8) {
+            return '8';
+          }
+          if (num < 12) {
+            return '12';
+          }
+          return '12+';
+        };
+        tpp.scored = _.countBy(scored, groupingFunc);
+        tpp.failed = _.countBy(failed,groupingFunc);
+        result.throwsPerPossession = tpp;
+
+        // points scored by line
+        var ps = {
           us: {
             offense: 0,
             defense: 0
@@ -2249,85 +2280,40 @@ angular.module('newBetaApp')
             defense: 0
           }
         };
-        _(points).each(function(point) {
-          if (point.events[point.events.length - 1].type === 'Offense') {
-            point.summary.lineType === 'D' ? pointSummary.us.defense++ : pointSummary.us.offense++;
-          } else {
-            point.summary.lineType === 'D' ? pointSummary.them.offense++ : pointSummary.them.defense++;
-          }
-        });
-        return pointSummary;
-      },
-      getPointSpread: function(games){
-        var pointSpread = {
-          ours: 0,
-          theirs: 0
-        };
+
         _(games).each(function(game) {
-          var goalSummary = getGoalSummary(game);
-          pointSpread.ours += goalSummary.ourDlineGoals + goalSummary.ourOlineGoals;
-          pointSpread.theirs += goalSummary.theirDlineGoals + goalSummary.theirOlineGoals;
-        });
-        return pointSpread;
-      },
-      getRecord: function(games){
-        var record = {
-          wins: 0,
-          losses: 0
-        };
-        _(games).each(function(game) {
-          var goalSummary = getGoalSummary(game);
-          goalSummary.ourOlineGoals + goalSummary.ourDlineGoals > goalSummary.theirOlineGoals + goalSummary.theirDlineGoals ? record.wins++ : record.losses++;
-        });
-        return record;
-      },
-      getThrowsPerPossession: function(points){
-        var scored = [];
-        var failed = [];
-        var passes = 0;
-        _(points).each(function(point) {
-          passes = 0;
-          _(point.events).each(function(event) {
-            if (event.type === 'Offense') {
-              if (event.action === 'Catch') {
-                passes++;
-              } else if (event.action === 'Goal') {
-                scored.push(++passes);
-                passes = 0;
-              } else if (event.action === 'Throwaway' || event.action === 'Drop' || event.action === 'Turnover' || event.action === 'Stall') {
-                failed.push(++passes);
-                passes = 0;
-              }
+          _(game.points).each(function(point) {
+            if (point.events[point.events.length - 1].type === 'Offense') {
+              point.summary.lineType === 'D' ? ps.us.defense++ : ps.us.offense++;
             } else {
-              if (passes > 0) {
-                scored.push(passes);
-                passes = 0;
-              }
+              point.summary.lineType === 'D' ? ps.them.offense++ : ps.them.defense++;
             }
           });
         });
-        var throwsPerPossession = {};
-        throwsPerPossession.scored = _.countBy(scored, throwGroupingFunc);
-        throwsPerPossession.failed = _.countBy(failed, throwGroupingFunc);
-        return throwsPerPossession;
-      },
-      getAssistMap: function(points){
+
+        result.pointSummary = ps;
+
+        // goal flow
+
+        var goalCount = result.pointSpread.ours;
         var assistMap = {nodes: {}, links: {}};
-        _(points).each(function(point) {
-          var endEvent = point.events[point.events.length - 1];
-          var penultimateEvent = point.events[point.events.length - 2];
-          if (endEvent.type === 'Offense') { // if the goal was scored by the offense.
-            var passer = endEvent.passer + 'P';
-            var receiver = endEvent.receiver + 'R';
-            if (penultimateEvent && penultimateEvent.type === 'Offense') {
-              var penUPasser = penultimateEvent.passer + 'H';
-              assistMap.nodes[penUPasser] = true;
-              addLink(penUPasser, passer, assistMap);
+        _.each(games, function(game) {
+          _.each(game.points, function(point) {
+            var endEvent = point.events[point.events.length - 1];
+            var penultimateEvent = point.events[point.events.length - 2];
+            if (endEvent.type === 'Offense') { // if the goal was scored by the offense.
+              var passer = endEvent.passer + 'P';
+              var receiver = endEvent.receiver + 'R';
+              if (penultimateEvent && penultimateEvent.type === 'Offense') {
+                var penUPasser = penultimateEvent.passer + 'H';
+                assistMap.nodes[penUPasser] = true;
+                addLink(penUPasser, passer, assistMap);
+              }
+              assistMap.nodes[passer] = true;
+              assistMap.nodes[receiver] = true;
+              addLink(passer, receiver, assistMap);
             }
-            assistMap.nodes[passer] = true;
-            assistMap.nodes[receiver] = true;
-            addLink(passer, receiver, assistMap);
-          }
+          });
         });
         var nodes = [];
         var i = 0;
@@ -2351,16 +2337,25 @@ angular.module('newBetaApp')
           });
         });
         assistMap.links = links;
-        return assistMap;
+        function addLink(passer, receiver, map) {
+          if (map.links[passer]) {
+            if (map.links[passer][receiver]) {
+              map.links[passer][receiver] += 1;
+            } else {
+              map.links[passer][receiver] = 1;
+            }
+          } else {
+            map.links[passer] = {};
+            map.links[passer][receiver] = 1;
+          }
+        };
+
+        result.assistMap = assistMap;
+        return result;
       }
     };
     return deferred.promise;
-  }]);
-
-
-
-
-;/* global $, angular, jQuery */
+  }]);;/* global $, angular, jQuery */
 // written by Jim Geppert
 
 'use strict';
@@ -2915,9 +2910,6 @@ angular.module('newBetaApp')
       },
       isMobileSized: function () {
         return $(window).outerWidth() <= 768;
-      },
-      isLargeScreen: function (){
-        return $(window).outerWidth() >= 1200;
       }
     };
   });
