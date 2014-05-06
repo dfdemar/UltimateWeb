@@ -8,7 +8,7 @@ var teamsJson =_([
 {"id": 5471866718257152, "name": "Wildfire", location: "Chicago"},
 {"id": 5684961520648192, "name": "Mechanix", location: "Detroit"},
 {"id": 5075454121738240, "name": "AlleyCats", location: "Indianapolis"},
-{"id": 5724681378201600, "name": "Dragons", location: "Rochester"},
+{"id": 5682238511382528, "name": "Dragons", location: "Rochester"},
 {"id":5131065358286848, "name": "Rush", location: "Toronto"},
 {"id": 5153656886263808, "name": "Phoenix", location: "Philadelphia"},
 {"id": 5753341694967808, "name": "Royal", location: "Montreal"},
