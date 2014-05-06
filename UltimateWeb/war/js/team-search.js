@@ -15,7 +15,7 @@ var teamsJson =_([
 {"id": 6597766625099776, "name": "Spiders", location: "San Jose"},
 {"id": 5648334039547904, "name": "Raptors", location: "Seattle"},
 {"id": 6226234774126592, "name": "Riptide", location: "Vancouver"},
-{"id": 5716606839685120, "name": "Lions", location: "Salt Lake"},
+{"id": 5662069344960512, "name": "Lions", location: "Salt Lake"},
 {"id": 5094953273262080, "name": "FlameThrowers", location: "San Francisco"}
 ]).sortBy('location').valueOf();
 
