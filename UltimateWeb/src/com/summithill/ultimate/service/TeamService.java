@@ -204,12 +204,14 @@ public class TeamService {
 
 	public void saveGame(String userIdentifier, Game game) {
 		Team team = getTeam(game.getTeamPersistenceId());
-		updateLastUpdatedTimestamp(team, game);
-		Entity entity = game.asEntity();
-		this.addUserToEntity(entity, userIdentifier);
-		getDatastore().put(entity);
-		// update the associated team (which will recalulate first/last game, etc.)
-		saveTeam(userIdentifier, team);  
+		boolean isGameNewOrChanged = updateLastUpdatedTimestamp(team, game);
+		if (isGameNewOrChanged) {
+			Entity entity = game.asEntity();
+			this.addUserToEntity(entity, userIdentifier);
+			getDatastore().put(entity);
+			// update the associated team (which will recalulate first/last game, etc.)
+			saveTeam(userIdentifier, team);  
+		}
 	}
 	
 	public String saveState(State state) {
@@ -395,7 +397,7 @@ public class TeamService {
     	}
     }
     
-    private void updateLastUpdatedTimestamp(Team team, Game game) {
+    private boolean updateLastUpdatedTimestamp(Team team, Game game) {
 		game.resetHash();
     	Game oldGame = getGame(team, game.getGameId());
     	if (oldGame == null || !game.hasSameHash(oldGame.getLastUpdateHash())) {
@@ -404,7 +406,9 @@ public class TeamService {
     		formatter.setTimeZone(utc);
     		String nowAsUtcFormattedString = formatter.format(new Date());
     		game.setLastUpdateUtc(nowAsUtcFormattedString);
+    		return true;
     	}
+    	return false;
     }
 
 }

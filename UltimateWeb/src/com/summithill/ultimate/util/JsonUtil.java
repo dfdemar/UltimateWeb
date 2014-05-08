@@ -7,15 +7,47 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtil {
 	
-	public static String jsonHash(String json) {
+	public static void updateDigestWithJsonString(MessageDigest md, String json) {
+		updateDigest(md, jsonHash(json));
+	}
+	
+	public static void updateDigest(MessageDigest md, Object value) {
+		if (value != null) {
+			md.update(value.toString().getBytes());
+		}
+	}
+	
+	public static void updateDigest(MessageDigest md, long value) {
+		md.update(Long.toString(value).getBytes());
+	}
+	
+	public static void updateDigest(MessageDigest md, int value) {
+		md.update(Integer.toString(value).getBytes());
+	}
+	
+	public static void updateDigest(MessageDigest md, boolean value) {
+		md.update((byte)(value ? 0 : 1));
+	}
+	
+	public static String digestAsString(MessageDigest md) {
+		byte[] digestBytes = md.digest();
+		StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < digestBytes.length; i++) {
+          sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
+	}
+	
+	private static String jsonHash(String json) {
+		if (json == null) {
+			return null;
+		}
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			if (json.startsWith("[")) {
@@ -25,17 +57,9 @@ public class JsonUtil {
 				HashMap<String,Object> map = new ObjectMapper().readValue(json, new TypeReference<HashMap<String,Object>>() {});
 				updateDigest(md, map);
 			}
-			byte[] digestBytes = md.digest();
-			
-			// convert digest bytes to a string
-			StringBuffer sb = new StringBuffer();
-	        for (int i = 0; i < digestBytes.length; i++) {
-	          sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
-	        }
-			return sb.toString();
+			return digestAsString(md);
 		} catch (Exception e) {
-			logError("Unable to compute json hash because of error: " + e.getMessage(), e);
-			return null;
+			throw new RuntimeException("Unable to compute json hash because of error: " + e.getMessage(), e);
 		} 
 	}
 	
@@ -63,15 +87,6 @@ public class JsonUtil {
 		List<String> keys = new ArrayList<String>(map.keySet());
 		Collections.sort(keys);
 		return keys;
-	}
-
-	private static void updateDigest(MessageDigest md, Object value) {
-		String updateValue = value == null ? "null" : value.toString();
-		md.update(updateValue.getBytes());
-	}
-	
-	private static void logError(String message, Exception e) {
-		Logger.getLogger(JsonUtil.class.getName()).log(Level.SEVERE, message, e);
 	}
 
 }

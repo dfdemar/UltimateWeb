@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,24 +109,20 @@ public class Game extends ModelObject {
 	public void resetHash() {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(getOpponentName().getBytes());
-			md.update((byte)(isFirstPointOline() ? 0 : 1));
-			md.update((byte)getGamePoint());
-			md.update(Long.toString(getOurScore()).getBytes());
-			md.update(Long.toString(getTheirScore()).getBytes());
-			md.update(getTournamentName().getBytes());
-			md.update(JsonUtil.jsonHash(getWindJson()).getBytes());
-			md.update(JsonUtil.jsonHash(getPointsJson()).getBytes());
-			md.update(JsonUtil.jsonHash(getTimeoutDetailsJson()).getBytes());
-			// convert digest bytes to a string
-			byte[] digestBytes = md.digest();
-			StringBuffer sb = new StringBuffer();
-	        for (int i = 0; i < digestBytes.length; i++) {
-	          sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
-	        }
-			setLastUpdateHash(sb.toString());
+			JsonUtil.updateDigest(md, getOpponentName());
+			JsonUtil.updateDigest(md, getTournamentName());
+			JsonUtil.updateDigest(md, isFirstPointOline());
+			JsonUtil.updateDigest(md, getGamePoint());
+			JsonUtil.updateDigest(md, getOurScore());
+			JsonUtil.updateDigest(md, getTheirScore());
+			JsonUtil.updateDigestWithJsonString(md, getWindJson());
+			JsonUtil.updateDigestWithJsonString(md, getPointsJson());
+			JsonUtil.updateDigestWithJsonString(md, getTimeoutDetailsJson());
+			setLastUpdateHash(JsonUtil.digestAsString(md));
 		} catch (Exception e) {
-			logError("Cannot create hash of game vs. " + getOpponentName(), e);
+			// if we have an error...assume that things have changed...force a new hash value
+			logError("Error attempting to reset game last upate hash...generating a unique hash value instead.  Game was vs. " + getOpponentName(), e);
+			setLastUpdateHash(UUID.randomUUID().toString());
 		}
 	}
 	
@@ -272,6 +269,11 @@ public class Game extends ModelObject {
 		} else {
 			return getLastUpdateHash().equals(otherHash);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Game v. " + getOpponentName();
 	}
 	
 }
