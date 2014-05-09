@@ -133,7 +133,10 @@ function renderDeletePlayerDialog(team, player, isMerge) {
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var toPlayer = $('#moveToPlayerList option:selected').val();
 		deletePlayer(Ultimate.teamId, player, toPlayer, function() {
-			alert('Player ' + player + ' deleted.  Associated data moved to player ' + toPlayer);
+			alert('Player ' + player + ' deleted.  Associated data moved to player ' + toPlayer + 
+					". If you still have games on your mobile device with player " + player + 
+					" you should now download those games to your device (otherwise " 
+					+ player + " will re-appear when you next upload those games).");
 			resetCacheBuster();
 			populateTeam(function() {
 				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
@@ -153,7 +156,10 @@ function renderRenamePlayerDialog(team, player) {
 			alert('Invalid player name');
 		} else {
 			renamePlayer(Ultimate.teamId, player, newName, function() {
-				alert('Player ' + player + ' renamed to ' + newName);
+				alert('Player ' + player + ' renamed to ' + newName +
+						". If you still have games on your mobile device with player " + player + 
+						" you should now download those games to your device (otherwise " 
+						+ player + " will re-appear when you next upload those games).");
 				resetCacheBuster();
 				populateTeam(function() {
 					$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
