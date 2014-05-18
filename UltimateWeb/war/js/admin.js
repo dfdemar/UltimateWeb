@@ -213,9 +213,15 @@ function updateTeamsList(teams) {
 }
 
 function populateTeam(successFunction) {
-	retrieveTeamForAdmin(Ultimate.teamId, true, function(team) {
+	retrieveTeamForAdmin(Ultimate.teamId, true, true, function(team) {
 		Ultimate.team = team;
 		Ultimate.teamName = team.name;
+		if (team.players) {
+			for (var i = 0; i < team.players.length; i++) {
+				var player = team.players[i];
+				player.description = player.inactive ? player.name + ' (inactive)' : player.name;
+			}
+		}
 		var teamTitle = Ultimate.teamName + ', team ID ' + Ultimate.teamId;
 		$('.teamTitle').html(teamTitle);
 		$('.teamWebsite').attr('href', '/team/' + Ultimate.teamId + '/main');

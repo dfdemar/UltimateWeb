@@ -5,9 +5,12 @@ import static java.util.logging.Level.SEVERE;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
@@ -62,6 +65,8 @@ public class AbstractController {
 
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request, boolean includePassword, boolean verifyWebsitePassword) throws NoSuchRequestHandlingMethodException {
 		try {
+			boolean includePlayers = "true".equals(request.getParameter("players"));
+			boolean includeInactivePlayers = "true".equals(request.getParameter("includeInactive"));
 			Team team = service.getTeam(id);
 			if (team == null) {
 				throw new NoSuchRequestHandlingMethodException(request);
@@ -70,14 +75,8 @@ public class AbstractController {
 					this.verifyAccess(team, request);
 				}
 				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
-				if ("true".equals(request.getParameter("players"))) {
-					List<Player> players = service.getPlayers(team);
-					List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
-					for (Player player : players) {
-						paramPlayers.add(ParameterPlayer.fromPlayer(player));
-					}
-					pTeam.setPlayers(paramPlayers);
-					
+				if (includePlayers) {
+					pTeam.setPlayers(getParameterPlayers(team, includeInactivePlayers));
 				}
 				if (includePassword) {
 					pTeam.setPassword(team.getPassword());
@@ -90,6 +89,30 @@ public class AbstractController {
 			logErrorAndThrow("Error on getTeam", e);
 			return null;
 		}
+	}
+	
+	protected List<ParameterPlayer> getParameterPlayers(Team team, boolean includeInactive) {
+		List<Player> players = service.getPlayers(team);
+		Set<ParameterPlayer> paramPlayers = new HashSet<ParameterPlayer>();
+		for (Player player : players) {
+			paramPlayers.add(ParameterPlayer.fromPlayer(player));
+		}
+		
+		if (includeInactive) {
+			Set<String> playerNamesFromGames = extractPlayerNamesFromGames(team.getTeamId());
+			for (String playerName : playerNamesFromGames) {
+				if (!playerName.equalsIgnoreCase("Anonymous")) {
+					ParameterPlayer playerFromGame = ParameterPlayer.createInactivePlayer(playerName);
+					if (!paramPlayers.contains(playerFromGame)) {
+						paramPlayers.add(playerFromGame);
+					}
+				}
+			}
+		}
+		
+		List<ParameterPlayer> answer = new ArrayList<ParameterPlayer>(paramPlayers);
+		Collections.sort(answer);
+		return answer;
 	}
 	
 	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request) {
@@ -307,6 +330,29 @@ public class AbstractController {
 			}
 		}
 		return null;
+	}
+	
+	protected Set<String> extractPlayerNamesFromGames(String teamId)  {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				return Collections.emptySet();
+			} else {
+				List<Game> games = service.getGames(team);
+				Set<String> playerNames = new HashSet<String>();
+				for (Game game : games) {
+					extractPlayerNames(game, playerNames);
+				}
+				return playerNames;
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on extractPlayerNames", e);
+			return Collections.emptySet();
+		}
+	}
+	
+	private void extractPlayerNames(Game game, Set<String> playerNames) {
+		game.extractPlayerNames(playerNames);
 	}
 		 
     private String convertToHex(byte[] data) { 

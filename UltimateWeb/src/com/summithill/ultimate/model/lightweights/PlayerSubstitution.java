@@ -1,5 +1,7 @@
 package com.summithill.ultimate.model.lightweights;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -47,5 +49,15 @@ public class PlayerSubstitution {
 		if (this.toPlayer != null && this.toPlayer.equalsIgnoreCase(oldPlayerName)) {
 			this.toPlayer = newPlayerName;
 		}
+	}
+	
+	@JsonIgnore
+	public void extractPlayerNames(Set<String> playerNames) {
+		if (this.fromPlayer != null) {
+			playerNames.add(this.fromPlayer);
+		}
+		if (this.toPlayer != null) {
+			playerNames.add(this.toPlayer);
+		}		
 	}
 }

@@ -40,7 +40,7 @@ import="com.google.appengine.api.users.*"
 		{{#each players}}
 			<li>
 				<div data-role="controlgroup" data-type="horizontal">
-					<span class="playerListName">{{name}}</span>
+					<span class="playerListName">{{description}}</span>
 					<a href="#playerChangeDialog?change=merge&team={{teamId}}&player={{name}}" data-role="button">Merge</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=delete&team={{teamId}}&player={{name}}" data-role="button">Delete</a>

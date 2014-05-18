@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.summithill.ultimate.model.Player;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class ParameterPlayer {
+public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	private String name;
 	private String number;
 	private String position;
 	private boolean isMale;
 	private String leaguevinePlayer;
+	private boolean isInactive;
 	
 	public static ParameterPlayer fromPlayer(Player player) {
 		ParameterPlayer pPlayer = new ParameterPlayer();
@@ -27,6 +28,13 @@ public class ParameterPlayer {
 		modelPlayer.setPosition(position);
 		modelPlayer.setIsMale(isMale);
 		modelPlayer.setLeaguevinePlayerJson(leaguevinePlayer);
+	}
+	
+	public static ParameterPlayer createInactivePlayer(String name) {
+		ParameterPlayer pPlayer = new ParameterPlayer();
+		pPlayer.setName(name);
+		pPlayer.setInactive(true);
+		return pPlayer;
 	}
 
 	public String getName() {
@@ -68,4 +76,40 @@ public class ParameterPlayer {
 	public void setLeaguevinePlayer(String leaguevinePlayer) {
 		this.leaguevinePlayer = leaguevinePlayer;
 	}
+
+	public boolean isInactive() {
+		return isInactive;
+	}
+
+	public void setInactive(boolean isInactive) {
+		this.isInactive = isInactive;
+	}
+	
+	@Override
+	public int compareTo(ParameterPlayer otherPlayer) {
+		return this.getName().compareToIgnoreCase(otherPlayer.getName());
+	}
+
+	@Override
+	public int hashCode() {
+		return name == null ? 0  : name.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ParameterPlayer other = (ParameterPlayer) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equalsIgnoreCase(other.name))
+			return false;
+		return true;
+	}
+
 }

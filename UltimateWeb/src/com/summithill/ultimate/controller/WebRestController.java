@@ -7,7 +7,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,21 +111,16 @@ public class WebRestController extends AbstractController {
 		return getParameterGamesSince(Math.min(numberOfDays, MAX_DAYS_FOR_RECENT_GAMES), maxResults == null ? Integer.MAX_VALUE : maxResults);
 	}
 	
-	@RequestMapping(value = "/team/{id}/players", method = RequestMethod.GET)
+	@RequestMapping(value = "/team/{teamId}/players", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterPlayer> getPlayers(@PathVariable String id, HttpServletRequest request) {
+	public List<ParameterPlayer> getPlayers(@PathVariable String teamId, HttpServletRequest request, @RequestParam(value = "includeInactive", required = false) boolean includeInactive) {
 		try {
-			Team team = service.getTeam(id);
+			Team team = service.getTeam(teamId);
 			if (team == null) {
 				return null;
 			} else {
 				verifyAccess(team, request);
-				List<Player> players = service.getPlayers(team);
-				List<ParameterPlayer> paramPlayers = new ArrayList<ParameterPlayer>();
-				for (Player player : players) {
-					paramPlayers.add(ParameterPlayer.fromPlayer(player));
-				}
-				return paramPlayers;
+				return getParameterPlayers(team, includeInactive);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getPlayers", e);

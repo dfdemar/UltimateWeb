@@ -9,10 +9,15 @@ function retrieveTeam(id, includePlayers, successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 
-function retrieveTeamForAdmin(id, includePlayers, successFunction, errorFunction) {
+function retrieveTeamForAdmin(id, includePlayers, includeInactive, successFunction, errorFunction) {
 	sendAnalyticsEvent("retrieveTeamForAdmin");
 	var url = Ultimate.baseRestUrl + '/admin/team/' + id;
-	url = includePlayers ? url + "?players=true" : url;
+	if (includePlayers) {
+		url = url + "?players=true";
+		if (includeInactive) {
+			url = url + "&includeInactive=true";
+		}
+	}
 	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
 }
 

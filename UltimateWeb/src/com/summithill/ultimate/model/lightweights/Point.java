@@ -174,6 +174,25 @@ public class Point {
 			}
 		}
 	}
+	
+	@JsonIgnore
+	public void extractPlayerNames(Set<String> playerNames) {
+		if (getLine() != null) {
+			for (String playerName : getLine()) {
+				playerNames.add(playerName);
+			}
+		}	
+		if (getEvents() != null) {
+			for (Event event : getEvents()) {
+				event.extractPlayerNames(playerNames);
+			}
+		}
+		if (getSubstitutions() != null) {
+			for (PlayerSubstitution substitution : getSubstitutions()) {
+				substitution.extractPlayerNames(playerNames);
+			}
+		}
+	}
 
 	@JsonIgnore
 	private boolean removePlayer(String playerName) {

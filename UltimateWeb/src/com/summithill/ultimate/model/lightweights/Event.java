@@ -1,5 +1,7 @@
 package com.summithill.ultimate.model.lightweights;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -195,6 +197,19 @@ public class Event {
 		}
 		if (this.receiver != null && this.receiver.equalsIgnoreCase(oldPlayerName)) {
 			this.receiver = newPlayerName;
+		}
+	}
+	
+	@JsonIgnore
+	public void extractPlayerNames(Set<String> playerNames) {
+		if (this.defender != null) {
+			playerNames.add(this.defender);
+		}
+		if (this.passer != null) {
+			playerNames.add(this.passer);
+		}
+		if (this.receiver != null) {
+			playerNames.add(this.receiver);
 		}
 	}
 

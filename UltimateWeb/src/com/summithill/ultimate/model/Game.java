@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -253,6 +254,14 @@ public class Game extends ModelObject {
 		Game gameClone = new Game(team);
 		copyProperties(entity, gameClone.entity, userIdentifier);
 		return gameClone;
+	}
+	
+	public void extractPlayerNames(Set<String> playerNames) {
+		List<Point> points = getPoints();
+		for (Point point : points) {
+			point.extractPlayerNames(playerNames);
+		}
+		setPoints(points);
 	}
 	
 	public void renamePlayer(String oldPlayerName, String newPlayerName) {
