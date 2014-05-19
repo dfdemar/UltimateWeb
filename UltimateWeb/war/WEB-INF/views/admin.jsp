@@ -40,7 +40,7 @@ import="com.google.appengine.api.users.*"
 		{{#each players}}
 			<li>
 				<div data-role="controlgroup" data-type="horizontal">
-					<span class="playerListName">{{description}}</span>
+					<span class="playerListName">{{{description}}}</span>
 					<a href="#playerChangeDialog?change=merge&team={{teamId}}&player={{name}}" data-role="button">Merge</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=delete&team={{teamId}}&player={{name}}" data-role="button">Delete</a>
@@ -49,6 +49,8 @@ import="com.google.appengine.api.users.*"
 				</div>
 			</li>
 		{{/each}}
+
+
 	</script>
 	
 	<script id="moveToPlayerListTemplate" type="text/x-handlebars-template">
@@ -242,6 +244,12 @@ import="com.google.appengine.api.users.*"
 					
 			</div>
 		</div>
+
+		<div class="inactive-player-footnote">
+			<br><br><sup>1</sup>Player is no longer on current list of players.  See <a rel="external" href="/support.html">FAQ</a> for more info on <strong>inactive</strong>.
+		</div>
+
+
 		<div><br><a href="#" class="appLink" rel=external>Stats Collecter App</a><br>&nbsp;</div>
 	</div>
 
