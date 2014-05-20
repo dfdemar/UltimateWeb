@@ -5,6 +5,7 @@ import static java.util.logging.Level.SEVERE;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -130,6 +131,21 @@ public class AbstractController {
 			logErrorAndThrow("Error on getParameterTeamsForUser", e);
 			return null;
 		}
+	}
+	
+	protected void savePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
+		List<Player> players = parameterPlayersToModelPlayers(team, mobilePlayers);
+		service.savePlayers(userIdentifier, team, players);
+	}
+	
+	protected List<Player> parameterPlayersToModelPlayers(Team team, Collection<ParameterPlayer> parameterPlayers) {
+		List<Player> players = new ArrayList<Player>();
+		for (ParameterPlayer mobilePlayer : parameterPlayers) {
+			Player player = new Player(team, mobilePlayer.getName());
+			mobilePlayer.copyToPlayer(player);
+			players.add(player);
+		}
+		return players;
 	}
 	
 	protected List<ParameterTeamInfo> getAllParameterTeamInfos() {

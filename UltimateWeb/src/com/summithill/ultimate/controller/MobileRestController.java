@@ -1,7 +1,12 @@
 package com.summithill.ultimate.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,15 +116,39 @@ public class MobileRestController extends AbstractController {
 			logErrorAndThrow("error saving game", e);
 		}
 	}
-	
-	private void savePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
-		List<Player> players = new ArrayList<Player>();
-		for (ParameterPlayer mobilePlayer : mobilePlayers) {
-			Player player = new Player(team, mobilePlayer.getName());
-			mobilePlayer.copyToPlayer(player);
-			players.add(player);
-		}
+
+	private void updatePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
+		updatePlayerLongNames(team, mobilePlayers);
+		Set<ParameterPlayer> paramPlayers = new HashSet<ParameterPlayer>(mobilePlayers);
+		addParameterPlayersFromGames(team, paramPlayers);
+		List<Player> players = parameterPlayersToModelPlayers(team, paramPlayers);
 		service.savePlayers(userIdentifier, team, players);
+	}
+	
+	private void updatePlayerLongNames(Team team, List<ParameterPlayer> paramPlayers) {
+		List<Player> players = service.getPlayers(team);
+		Map<String, Player> playerLookup = new HashMap<String, Player>();
+		for (Player player : players) {
+			playerLookup.put(player.getName(), player);
+		}
+		for (ParameterPlayer pPlayer : paramPlayers) {
+			Player existingPlayer = playerLookup.get(pPlayer.getName());
+			if (existingPlayer != null) {
+				pPlayer.setLongName(existingPlayer.getLongName());
+			}
+		}
+	}
+
+	private void addParameterPlayersFromGames(Team team, Set<ParameterPlayer> paramPlayers) {
+		Set<String> playerNamesFromGames = extractPlayerNamesFromGames(team.getTeamId());
+		for (String playerName : playerNamesFromGames) {
+			if (!playerName.equalsIgnoreCase("Anonymous")) {
+				ParameterPlayer playerFromGame = ParameterPlayer.createInactivePlayer(playerName);
+				if (!paramPlayers.contains(playerFromGame)) {
+					paramPlayers.add(playerFromGame);
+				}
+			}
+		}
 	}
 	
 	public String normalizedVersionString(String version) {
