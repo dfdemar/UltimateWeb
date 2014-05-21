@@ -146,19 +146,26 @@ function renderDeletePlayerDialog(team, player, isMerge) {
 }
 
 function renderRenamePlayerDialog(team, player) {
+	var oldName = player.name;
 	configurePlayerMoveDialogForRename(player);
 	$('.player-change-dialog-player').html(player);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
-		var newName = $('#player-change-dialog-player-new-name-field').val();
+		var newName = $('#player-change-dialog-player-new-nickname-field').val();
 		newName = newName == null ? '' : jQuery.trim(newName);
+		var displayName = $('#player-change-dialog-player-new-displayname-field').val();
+		displayName = displayName == null ? null : jQuery.trim(displayName);
 		if (newName == '' || newName.toLowerCase() == 'anonymous' || newName.toLowerCase() == 'anon' || newName.toLowerCase() == 'unknown' ) {
-			alert('Invalid player name');
+			alert('Sorry..that is an invalid nickname');
+		} else if (newName.length > 8) {
+			alert('Sorry...nickname must be less than 9 characters');			
+		} else if (displayName != null && newName.length > 40) {
+			alert('Sorry...display name must be less than 41 characters');				
 		} else {
-			renamePlayer(Ultimate.teamId, player, newName, function() {
+			renamePlayer(Ultimate.teamId, player, newName, displayName, function() {
 				alert('Player ' + player + ' renamed to ' + newName +
 						". If you still have games on your mobile device with player " + player + 
-						" you should now download those games to your device (otherwise " 
+						" you should now download the team and those games to your device (otherwise " 
 						+ player + " will re-appear when you next upload those games).");
 				resetCacheBuster();
 				populateTeam(function() {
@@ -224,6 +231,8 @@ function populateTeam(successFunction) {
 				if (player.inactive) {
 					$('.inactive-player-footnote').css('display', 'block');
 					player.description += ' (inactive<sup>1</sup>)';
+				} else if (player.longName) {
+					player.description += ' (' + player.longName + ')';
 				} 
 			}
 		}

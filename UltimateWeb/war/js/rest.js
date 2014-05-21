@@ -63,9 +63,10 @@ function deletePlayer(teamId, playerToDelete, replacementPlayer, successFunction
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
-function renamePlayer(teamId, playerToRename, replacementPlayer, successFunction, errorFunction) {
+function renamePlayer(teamId, playerToRename, replacementPlayer, longName, successFunction, errorFunction) {
 	sendAnalyticsEvent("renamePlayer");
-	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename + '&replacement='+replacementPlayer; 
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/player/rename?player=' + playerToRename + 
+	'&replacement=' + replacementPlayer + '&longName=' + longName; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 

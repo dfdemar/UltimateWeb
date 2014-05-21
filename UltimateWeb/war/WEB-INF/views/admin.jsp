@@ -302,8 +302,10 @@ import="com.google.appengine.api.users.*"
 					</select>
 				</div><br>
 				<div id="player-change-dialog-player-new-name">
-					<label for="basic">New Name:</label>
-    				<input type="text" name="name" id="player-change-dialog-player-new-name-field" value=""/>
+					<label for="basic">New Nickname:</label>
+    				<input type="text" name="name" id="player-change-dialog-player-new-nickname-field" value=""/>
+    				<label for="basic">New Display Name:</label>
+    				<input type="text" name="name" id="player-change-dialog-player-new-displayname-field" value=""/>
 				</div>
 			</div> 
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 
