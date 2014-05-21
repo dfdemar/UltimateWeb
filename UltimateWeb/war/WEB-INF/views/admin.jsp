@@ -67,9 +67,9 @@ import="com.google.appengine.api.users.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Admin Tool</span><br>
+				<span class="teamName">UltiAnalytics Admin Tool</span><br>
 				<span class="adminUser"></span><a href="#" class="logout" rel=external>logout</a><br><br>
-				<span	class="pageTitle">Ultimate Team Statistics</span>
+				<span class="pageTitle"></span>
 			</div>
 			
 		</div>
@@ -102,9 +102,9 @@ import="com.google.appengine.api.users.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Admin Tool</span><br>
+				<span class="teamName">UltiAnalytics Admin Tool</span><br>
 				<span class="adminUser"></span><br><br>
-				<span class="pageTitle">Ultimate Team Statistics</span>
+				<span class="pageTitle"></span>
 			</div>
 			<a href="#" class="logout" rel=external>logout</a>
 		</div>
@@ -154,9 +154,9 @@ import="com.google.appengine.api.users.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Admin Tool</span><br>
+				<span class="teamName">UltiAnalytics Admin Tool</span><br>
 				<span class="adminUser"></span><br><br>
-				<span class="pageTitle">Ultimate Team Statistics</span>
+				<span class="pageTitle"></span>
 			</div>
 			<a href="#" class="logout" rel=external>logout</a>
 		</div>
@@ -205,9 +205,9 @@ import="com.google.appengine.api.users.*"
 		<div class="top-section">
 			<img class="players-image" src="/images/ultimate-silhouette.png">
 			<div class="pageHeading">
-				<span class="teamName">Admin Tool</span><br>
+				<span class="teamName">UltiAnalytics Admin Tool</span><br>
 				<span class="adminUser"></span><br><br>
-				<span class="pageTitle">Ultimate Team Statistics</span>
+				<span class="pageTitle"></span>
 			</div>
 			<a href="#" class="logout" rel=external>logout</a>
 		</div>
