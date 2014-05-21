@@ -133,11 +133,6 @@ public class AbstractController {
 		}
 	}
 	
-	protected void savePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
-		List<Player> players = parameterPlayersToModelPlayers(team, mobilePlayers);
-		service.savePlayers(userIdentifier, team, players);
-	}
-	
 	protected List<Player> parameterPlayersToModelPlayers(Team team, Collection<ParameterPlayer> parameterPlayers) {
 		List<Player> players = new ArrayList<Player>();
 		for (ParameterPlayer mobilePlayer : parameterPlayers) {

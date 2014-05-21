@@ -1,12 +1,8 @@
 package com.summithill.ultimate.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -89,7 +85,7 @@ public class MobileRestController extends AbstractController {
 			}
 			parameterTeam.copyToTeam(team);
 			long id = service.saveTeam(userIdentifier, team);
-			savePlayers(userIdentifier, team, parameterTeam.getPlayers());
+			updatePlayers(userIdentifier, team, parameterTeam.getPlayers());
 			return new SaveTeamResponse(id);
 		} catch (Exception e) {
 			logErrorAndThrow("error saving team", e);
@@ -119,9 +115,7 @@ public class MobileRestController extends AbstractController {
 
 	private void updatePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
 		updatePlayerLongNames(team, mobilePlayers);
-		Set<ParameterPlayer> paramPlayers = new HashSet<ParameterPlayer>(mobilePlayers);
-		addParameterPlayersFromGames(team, paramPlayers);
-		List<Player> players = parameterPlayersToModelPlayers(team, paramPlayers);
+		List<Player> players = parameterPlayersToModelPlayers(team, mobilePlayers);
 		service.savePlayers(userIdentifier, team, players);
 	}
 	
@@ -135,18 +129,6 @@ public class MobileRestController extends AbstractController {
 			Player existingPlayer = playerLookup.get(pPlayer.getName());
 			if (existingPlayer != null) {
 				pPlayer.setLongName(existingPlayer.getLongName());
-			}
-		}
-	}
-
-	private void addParameterPlayersFromGames(Team team, Set<ParameterPlayer> paramPlayers) {
-		Set<String> playerNamesFromGames = extractPlayerNamesFromGames(team.getTeamId());
-		for (String playerName : playerNamesFromGames) {
-			if (!playerName.equalsIgnoreCase("Anonymous")) {
-				ParameterPlayer playerFromGame = ParameterPlayer.createInactivePlayer(playerName);
-				if (!paramPlayers.contains(playerFromGame)) {
-					paramPlayers.add(playerFromGame);
-				}
 			}
 		}
 	}
