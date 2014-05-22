@@ -11,6 +11,7 @@ import com.summithill.ultimate.model.lightweights.PointSummary;
 public class EventWriter {
 	private static String DELIMITER = ",";
 	private static String DELIMITER_REPLACEMENT = "-";
+	private int MAX_PLAYERS_IN_POINT = 28;
 	private Writer writer;
 	
 	public EventWriter(Writer writer) {
@@ -34,25 +35,25 @@ public class EventWriter {
 			this.writeWithDelimiterAfter(replaceDelims(event.getPasser()));
 			this.writeWithDelimiterAfter(replaceDelims(event.getReceiver()));
 			this.writeWithoutDelimiter(replaceDelims(event.getDefender()));
-			if (point.getLine() != null) {
-				int i = 0;
-				for (String playerName : point.playersInPoint()) {
-					i++;
-					if (i < 12) {
-						this.writeWithDelimiterBefore(replaceDelims(playerName));
-					}
-				}
-				while (i < 12) {
-					this.writeWithDelimiterBefore("");
-					i++;
-				}
-			}
 			String hangTime = "";
 			if (event.getDetails() != null && event.getDetails().getHangtime() > 0) {
 				float hangTimeSeconds = (float)event.getDetails().getHangtime()  / 1000f;
 				hangTime = this.asString(hangTimeSeconds);
 			} 
 			this.writeWithDelimiterBefore(hangTime);
+			if (point.getLine() != null) {
+				int i = 0;
+				for (String playerName : point.playersInPoint()) {
+					i++;
+					if (i < MAX_PLAYERS_IN_POINT) {
+						this.writeWithDelimiterBefore(replaceDelims(playerName));
+					}
+				}
+				while (i < MAX_PLAYERS_IN_POINT) {
+					this.writeWithDelimiterBefore("");
+					i++;
+				}
+			}
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
@@ -84,13 +85,12 @@ public class EventWriter {
 			writer.write("Receiver");
 			writer.write(DELIMITER);
 			writer.write("Defender");
-			for (int i = 0; i < 12; i++) {
+			writer.write(DELIMITER);
+			writer.write("Hang Time (secs)");
+			for (int i = 0; i < MAX_PLAYERS_IN_POINT; i++) {
 				writer.write(DELIMITER);
 				writer.write("Player " + Integer.toString(i));	
 			}
-			writer.write(DELIMITER);
-			writer.write("Hang Time (secs)");
-			
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
