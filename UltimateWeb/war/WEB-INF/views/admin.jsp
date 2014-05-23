@@ -238,6 +238,12 @@ import="com.google.appengine.api.users.*"
 				</div>
 				
 				<div>
+					<br>
+					<strong><span style="color: red;">NEW</span> - use "rename" to set a long "display name" for a player which will appear on the web site instead of their nickname.</strong>
+					<br><br><br>
+				</div>
+				
+				<div>
 					<ul id="playersList" data-role="listview" data-inset="true">
 					</ul>
 				</div>
