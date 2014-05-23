@@ -216,26 +216,15 @@ public class WebRestController extends AbstractController {
 				renamePlayerForTeam(userIdentifier, team, playerToRename, replacement);
 				
 				// fix the name in the team players list
-				boolean alreadyHasReplacement = false;
 				List<Player> players = service.getPlayers(team);
 				for (Player player : players) {
-					if (player.getName().equals(replacement)) {
-						alreadyHasReplacement = true;
+					if (player.getName().equals(playerToRename)) {
+						player.setName(replacement);
+						player.setLongName(longName);
 						break;
 					}
 				}
-				if (alreadyHasReplacement) {
-					service.deletePlayer(team, playerToRename);
-				} else {
-					for (Player player : players) {
-						if (player.getName().equals(playerToRename)) {
-							player.setName(replacement);
-							player.setLongName(longName);
-							break;
-						}
-					}
-					service.savePlayers(userIdentifier, team, players);
-				}
+				service.savePlayers(userIdentifier, team, players);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on renamePlayer", e);

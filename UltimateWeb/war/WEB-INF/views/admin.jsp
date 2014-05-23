@@ -41,11 +41,11 @@ import="com.google.appengine.api.users.*"
 			<li>
 				<div data-role="controlgroup" data-type="horizontal">
 					<span class="playerListName">{{{description}}}</span>
+					<a href="#playerChangeDialog?change=rename&team={{teamId}}&player={{name}}" data-role="button">Rename</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=merge&team={{teamId}}&player={{name}}" data-role="button">Merge</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#playerChangeDialog?change=delete&team={{teamId}}&player={{name}}" data-role="button">Delete</a>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="#playerChangeDialog?change=rename&team={{teamId}}&player={{name}}" data-role="button">Rename</a>
 				</div>
 			</li>
 		{{/each}}
@@ -303,9 +303,9 @@ import="com.google.appengine.api.users.*"
 				</div><br>
 				<div id="player-change-dialog-player-new-name">
 					<label for="basic">New Nickname:</label>
-    				<input type="text" name="name" id="player-change-dialog-player-new-nickname-field" value=""/>
+    				<input type="text" name="name" id="player-change-dialog-player-new-nickname-field" value="" maxlength="8"/>
     				<label for="basic">New Display Name:</label>
-    				<input type="text" name="name" id="player-change-dialog-player-new-displayname-field" value=""/>
+    				<input type="text" name="name" id="player-change-dialog-player-new-displayname-field" value="" maxlength="30"/>
 				</div>
 			</div> 
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 
