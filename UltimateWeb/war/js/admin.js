@@ -145,21 +145,35 @@ function renderDeletePlayerDialog(team, player, isMerge) {
 	});
 }
 
-function renderRenamePlayerDialog(team, player) {
-	configurePlayerMoveDialogForRename(player);
-	$('.player-change-dialog-player').html(player);
+function renderRenamePlayerDialog(team, playerName) {
+	var player = playerNamed(playerName);
+	configurePlayerMoveDialogForRename(playerName);
+	var oldLongName = trimString(playerNamed(playerName).longName);
+	$('.player-change-dialog-player').html(playerName);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
-		var newName = $('#player-change-dialog-player-new-name-field').val();
-		newName = newName == null ? '' : jQuery.trim(newName);
+		var newName = trimString($('#player-change-dialog-player-new-nickname-field').val());
+		var longName = trimString($('#player-change-dialog-player-new-displayname-field').val());
 		if (newName == '' || newName.toLowerCase() == 'anonymous' || newName.toLowerCase() == 'anon' || newName.toLowerCase() == 'unknown' ) {
-			alert('Invalid player name');
+			alert('Sorry..that is an invalid nickname');
+		} else if (newName.length > 8) {  // text field has max chars set so should not ever hit this line
+			alert('Sorry...nickname must be less than 9 characters');	
+		} else if (newName == playerName && oldLongName == longName) {  // text field has max chars set so should not ever hit this line
+			alert('You did not change the nick name or display name');				
 		} else {
-			renamePlayer(Ultimate.teamId, player, newName, function() {
-				alert('Player ' + player + ' renamed to ' + newName +
-						". If you still have games on your mobile device with player " + player + 
-						" you should now download those games to your device (otherwise " 
-						+ player + " will re-appear when you next upload those games).");
+			renamePlayer(Ultimate.teamId, playerName, newName, longName, function() {
+				var message = 'No changes made';
+				if (newName != playerName) {
+					message = 'Player ' + playerName + ' renamed to ' + newName +
+					'. If you still have games on your mobile device with player ' + playerName + 
+					' you should now download the team and those games to your device (otherwise ' 
+					+ playerName + ' will re-appear when you next upload those games).';
+				} else if (longName != oldLongName) {
+					message =  longName ==  '' ? 
+							'Player ' + playerName + ' display name removed.' :
+							'Player ' + playerName + ' display name changed to ' + longName + '.';
+				}
+				alert(message);
 				resetCacheBuster();
 				populateTeam(function() {
 					$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
@@ -224,6 +238,8 @@ function populateTeam(successFunction) {
 				if (player.inactive) {
 					$('.inactive-player-footnote').css('display', 'block');
 					player.description += ' (inactive<sup>1</sup>)';
+				} else if (player.longName) {
+					player.description += ' (' + player.longName + ')';
 				} 
 			}
 		}
@@ -374,11 +390,35 @@ function configurePlayerMoveDialogForMerge(player) {
 	$('#player-change-dialog-player-new-name').hide();
 }
 
-function configurePlayerMoveDialogForRename(player) {
+function configurePlayerMoveDialogForRename(playerName) {
+	var player = playerNamed(playerName);
 	$('#player-change-dialog-title').html("Rename Player");
 	$('#player-change-dialog-action-description').html("Rename");
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Rename");
+	$('#player-change-dialog-player-new-nickname-field').val(player.name);
+	$('#player-change-dialog-player-new-displayname-field').html(player.longName == null ? "" : player.longName);
 	$('#player-change-dialog-instructions').hide();
 	$('#player-change-dialog-target-select').hide();
 	$('#player-change-dialog-player-new-name').show();
+}
+
+function playerNamed(playerName) {
+	var players = Ultimate.team.players;
+	if (players) {
+		for (var i = 0; i < players.length; i++) {
+			var player = players[i];
+			if (player.name == playerName) {
+				return player;
+			}
+		}
+	} 
+	return null;
+}
+
+// always returns a valid string
+function trimString(s) {
+	if (s == null) {
+		return '';
+	}
+	return jQuery.trim(s);
 }

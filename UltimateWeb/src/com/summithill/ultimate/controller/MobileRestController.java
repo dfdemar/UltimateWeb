@@ -1,7 +1,8 @@
 package com.summithill.ultimate.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -84,7 +85,7 @@ public class MobileRestController extends AbstractController {
 			}
 			parameterTeam.copyToTeam(team);
 			long id = service.saveTeam(userIdentifier, team);
-			savePlayers(userIdentifier, team, parameterTeam.getPlayers());
+			updatePlayers(userIdentifier, team, parameterTeam.getPlayers());
 			return new SaveTeamResponse(id);
 		} catch (Exception e) {
 			logErrorAndThrow("error saving team", e);
@@ -111,15 +112,25 @@ public class MobileRestController extends AbstractController {
 			logErrorAndThrow("error saving game", e);
 		}
 	}
-	
-	private void savePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
-		List<Player> players = new ArrayList<Player>();
-		for (ParameterPlayer mobilePlayer : mobilePlayers) {
-			Player player = new Player(team, mobilePlayer.getName());
-			mobilePlayer.copyToPlayer(player);
-			players.add(player);
-		}
+
+	private void updatePlayers(String userIdentifier, Team team, List<ParameterPlayer> mobilePlayers) {
+		updatePlayerLongNames(team, mobilePlayers);
+		List<Player> players = parameterPlayersToModelPlayers(team, mobilePlayers);
 		service.savePlayers(userIdentifier, team, players);
+	}
+	
+	private void updatePlayerLongNames(Team team, List<ParameterPlayer> paramPlayers) {
+		List<Player> players = service.getPlayers(team);
+		Map<String, Player> playerLookup = new HashMap<String, Player>();
+		for (Player player : players) {
+			playerLookup.put(player.getName(), player);
+		}
+		for (ParameterPlayer pPlayer : paramPlayers) {
+			Player existingPlayer = playerLookup.get(pPlayer.getName());
+			if (existingPlayer != null) {
+				pPlayer.setLongName(existingPlayer.getLongName());
+			}
+		}
 	}
 	
 	public String normalizedVersionString(String version) {

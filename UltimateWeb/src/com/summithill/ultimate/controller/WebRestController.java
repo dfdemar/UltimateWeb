@@ -7,10 +7,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -204,8 +201,11 @@ public class WebRestController extends AbstractController {
 	// NOTE: a rename and a merge are equivalent!
 	@RequestMapping(value = "/team/{teamId}/player/rename", method = RequestMethod.POST)
 	@ResponseBody
-	public void renamePlayer(@PathVariable String teamId, @RequestParam(value = "player", required = true) String playerToRename, 
-			@RequestParam(value = "replacement", required = true) String replacement, HttpServletRequest request) {
+	public void renamePlayer(@PathVariable String teamId, 
+			@RequestParam(value = "player", required = true) String playerToRename, 
+			@RequestParam(value = "replacement", required = true) String replacement, 
+			@RequestParam(value = "longName", required = false) String longName, 
+			HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
 			Team team = service.getTeam(teamId);
@@ -216,25 +216,15 @@ public class WebRestController extends AbstractController {
 				renamePlayerForTeam(userIdentifier, team, playerToRename, replacement);
 				
 				// fix the name in the team players list
-				boolean alreadyHasReplacement = false;
 				List<Player> players = service.getPlayers(team);
 				for (Player player : players) {
-					if (player.getName().equals(replacement)) {
-						alreadyHasReplacement = true;
+					if (player.getName().equals(playerToRename)) {
+						player.setName(replacement);
+						player.setLongName(longName);
 						break;
 					}
 				}
-				if (alreadyHasReplacement) {
-					service.deletePlayer(team, playerToRename);
-				} else {
-					for (Player player : players) {
-						if (player.getName().equals(playerToRename)) {
-							player.setName(replacement);
-							break;
-						}
-					}
-					service.savePlayers(userIdentifier, team, players);
-				}
+				service.savePlayers(userIdentifier, team, players);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on renamePlayer", e);

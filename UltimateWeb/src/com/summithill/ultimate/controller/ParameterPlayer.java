@@ -6,6 +6,7 @@ import com.summithill.ultimate.model.Player;
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	private String name;
+	private String longName;
 	private String number;
 	private String position;
 	private boolean isMale;
@@ -16,6 +17,7 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 		ParameterPlayer pPlayer = new ParameterPlayer();
 		pPlayer.setMale(player.isMale());
 		pPlayer.setName(player.getName());
+		pPlayer.setLongName(player.getLongName());
 		pPlayer.setNumber(player.getNumber());
 		pPlayer.setPosition(player.getPosition());
 		pPlayer.setLeaguevinePlayer(player.getLeaguevinePlayerJson());
@@ -24,6 +26,7 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	
 	public void copyToPlayer(Player modelPlayer) {
 		modelPlayer.setName(name);
+		modelPlayer.setLongName(longName);
 		modelPlayer.setNumber(number);
 		modelPlayer.setPosition(position);
 		modelPlayer.setIsMale(isMale);
@@ -45,6 +48,14 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 		this.name = name;
 	}
 
+	public String getLongName() {
+		return longName;
+	}
+
+	public void setLongName(String longName) {
+		this.longName = longName;
+	}
+	
 	public String getNumber() {
 		return number;
 	}
