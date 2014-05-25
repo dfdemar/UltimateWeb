@@ -150,6 +150,7 @@ function renderRenamePlayerDialog(team, playerName) {
 	configurePlayerMoveDialogForRename(playerName);
 	var oldLongName = trimString(playerNamed(playerName).longName);
 	$('.player-change-dialog-player').html(playerName);
+	$('.player-change-dialog-player').html(oldLongName);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var newName = trimString($('#player-change-dialog-player-new-nickname-field').val());
