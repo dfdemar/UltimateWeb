@@ -150,7 +150,6 @@ function renderRenamePlayerDialog(team, playerName) {
 	configurePlayerMoveDialogForRename(playerName);
 	var oldLongName = trimString(playerNamed(playerName).longName);
 	$('.player-change-dialog-player').html(playerName);
-	$('.player-change-dialog-player').html(oldLongName);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var newName = trimString($('#player-change-dialog-player-new-nickname-field').val());
@@ -397,7 +396,7 @@ function configurePlayerMoveDialogForRename(playerName) {
 	$('#player-change-dialog-action-description').html("Rename");
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Rename");
 	$('#player-change-dialog-player-new-nickname-field').val(player.name);
-	$('#player-change-dialog-player-new-displayname-field').html(player.longName == null ? "" : player.longName);
+	$('#player-change-dialog-player-new-displayname-field').val(player.longName == null ? "" : player.longName);
 	$('#player-change-dialog-instructions').hide();
 	$('#player-change-dialog-target-select').hide();
 	$('#player-change-dialog-player-new-name').show();

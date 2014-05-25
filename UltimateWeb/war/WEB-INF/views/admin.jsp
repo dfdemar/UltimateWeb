@@ -311,7 +311,7 @@ import="com.google.appengine.api.users.*"
 					<label for="basic">New Nickname:</label>
     				<input type="text" name="name" id="player-change-dialog-player-new-nickname-field" value="" maxlength="8"/>
     				<label for="basic">New Display Name:</label>
-    				<input type="text" name="name" id="player-change-dialog-player-new-displayname-field" value="" maxlength="30"/>
+    				<input type="text" name="longName" id="player-change-dialog-player-new-displayname-field" value="" maxlength="24"/>
 				</div>
 			</div> 
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 

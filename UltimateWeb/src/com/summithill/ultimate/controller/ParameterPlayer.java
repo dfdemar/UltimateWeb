@@ -1,5 +1,6 @@
 package com.summithill.ultimate.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.summithill.ultimate.model.Player;
 
@@ -54,6 +55,11 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 
 	public void setLongName(String longName) {
 		this.longName = longName;
+	}
+	
+	@JsonProperty
+	public String getPreferredName() {
+		return this.longName != null && !this.longName.isEmpty() ? longName : name;
 	}
 	
 	public String getNumber() {
