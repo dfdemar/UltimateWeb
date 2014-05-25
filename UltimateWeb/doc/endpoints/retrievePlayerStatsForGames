@@ -4,6 +4,7 @@ There is ONE stats object per player
 
 http://www.ultianalytics.com/rest/view/team/{teamid}/stats/player
 http://www.ultianalytics.com/rest/view/team/{teamid}/stats/player?gameIds={gameid_1}_{gameid_n}
+GET
 
 If the gameIds query string parameter is omitted the server will summarize status for ALL games for this team.  If the gameIds query sting parameter is included then only the games listed will be summarized.  the gameIds in the query string should be separated by an underscore.
 

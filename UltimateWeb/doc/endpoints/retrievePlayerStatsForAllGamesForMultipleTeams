@@ -1,0 +1,18 @@
+	
+Retrieve summarized player stats for a set of teams.  The stats are aggregated for all games for each team.
+
+http://www.ultianalytics.com/rest/view/teams/stats/player
+POST
+request body:  json array of team IDs, example: ["123234234234234", "45623423432434"]
+
+Example response attached.   For each team there are 3 properties:
+{
+	"teamId":"5471866718257152", 
+	"private":false,
+	"playerStatsJson":"[{\"playerName\":\"Casey D\",\......"
+}
+
+If private is true there will be no playerStatsJson.
+The playerStatsJson is embedded JSON.  This allows you to deserialize each team's stats individually if you prefer (to avoid a large object in memory).
+
+see retreivePlayerStatsForGames for example JSON for the player stats.

@@ -4,6 +4,7 @@ Retrieve summarized player AND team stats for a particular team.  The stats are 
 
 http://www.ultianalytics.com/rest/view/team/{teamid}/stats/all
 http://www.ultianalytics.com/rest/view/team/{teamid}/stats/all?gameIds={gameid_1}_{gameid_n}
+GET
 
 There are 2 high level properties:
 "playerStats"

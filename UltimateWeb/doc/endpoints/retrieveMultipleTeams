@@ -1,0 +1,39 @@
+Retrieves multiple teams with one call
+
+http://www.ultianalytics.com/rest/view/teams/anyuser?includePlayers=true
+POST
+request body:  json array of team IDs, example: ["341234123424234", "4512451234223124"]
+
+The response is an array of teams, each with an array of players.  If the team is password protected there will not be any players (and the private property will be true).
+[
+   {
+      "cloudId":"341234123424234",
+      "teamId":"team-AAD56602-808A-4926-BB9A-AC566AE20AB5",
+      "name":"Disc Gods",
+      "season":"2014",
+      "nameWithSeason":"Disc Gods 2014",
+      "numberOfGames":5,
+      "firstGameDate":"2014-04-13 14:12",
+      "lastGameDate":"2014-04-26 19:07",
+      "private":false,
+      "displayPlayerNumber":false,
+      "mixed":false,
+      "playersAreLeaguevine":false
+      "players":[
+         {
+            "name":"Harvey",
+            "preferredName: "Harvey Smith",
+            "number":"51",
+            "position":"Cutter",
+            "male":true
+         },
+         {
+            "name":"Alex",
+            "number":"4",
+			"preferredName: "Alex Johnson",
+            "position":"Cutter",
+            "male":true
+         },
+		. . .
+		
+See retrieveTeam for getting a single team

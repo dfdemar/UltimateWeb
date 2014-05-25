@@ -6,6 +6,7 @@ NOTES:
 "ours" and "theirs" are scores.
 
 http://www.ultianalytics.com/rest/view/team/{teamid}/games
+GET
 
 SAMPLE RESPONSE:
 

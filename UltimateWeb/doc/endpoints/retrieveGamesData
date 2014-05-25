@@ -2,6 +2,7 @@
 Retrieve the detailed game data (including events) for all games for the team
 
 http://www.ultianalytics.com/rest/view/team/{teamId}/gamesdata
+GET
 
 NOTE: the event data (an array of points) for each game is in a single string (escaped json).  See the retrieveGame for details.
 
