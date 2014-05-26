@@ -538,8 +538,10 @@ public class WebRestController extends AbstractController {
 	        if (!file.isEmpty()) {
 	           String userIdentifier = getUserIdentifier(request);
 	           GameExport gameExport = new ObjectMapper().readValue(file.getBytes(), GameExport.class);
-	           if (!gameExport.verifyHash()) {
-	        	   return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or altered since export", returnUrl);
+	           if (!gameExport.getHash().equals("666")) { // don't verify the hash if special code
+	        	   if (!gameExport.verifyHash()) {
+	        		   return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or altered since export", returnUrl);
+	        	   }
 	           }
 	           importGame(userIdentifier, team, gameExport);
 	           importPlayers(userIdentifier, team, gameExport);
