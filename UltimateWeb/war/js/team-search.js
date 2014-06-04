@@ -1,3 +1,4 @@
+
 // team search
 var teamsJson =_([
 {"id": 5182111044599808, "name": "Radicals", location: "Madison"},
@@ -24,6 +25,7 @@ var recentDaysPreferred = 7;
 var numberOfRecentGamesToDisplay = 20;
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
 var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=' + recentDays + '&max=100');
+var rootAppHref = "http://www.ultianalytics.com/app/#/"
 
 recentGamesPromise.then(function(recentGames){
   appendRecentGames(recentGames);
@@ -33,7 +35,7 @@ recentGamesPromise.then(function(recentGames){
 });
 var teamNodes = '';
 _.each(teamsJson, function(team){
-  teamNodes += '<li><a href="http://www.ultianalytics.com/app/index.html#/'+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
+  teamNodes += '<li><a href="'+rootAppHref+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
 });
 $('.audl-teams').append(teamNodes)
 function establishSearch(teams, recentGames){
@@ -87,13 +89,13 @@ function createRecentGameLink(game){
   var timezoneOffsetMinutes = (new Date()).getTimezoneOffset();
   var localDate = new Date(utcDate.getTime() - timezoneOffsetMinutes*60000);
   var timeSinceString = getTimeString(localDate);
-  return '<tr><td><a href="http://www.ultianalytics.com/app/index.html#/'+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + ', ' + game.date + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
+  return '<tr><td><a href="'+rootAppHref+game.teamId+'/games?'+game.gameId+'">' + game.teamInfo.name + ' vs. ' + game.opponentName + ', ' + game.date + '</a></td><td>'+ game.ours + ' - ' + game.theirs + '</td><td>'+ timeSinceString + ' ago</td></tr>';
 }
 function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
-  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="'+rootAppHref+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teamDropdownItem(cloudId,isPasswordProtected,name, gamesPlayed){
-  return '<li><a class="search-option" href="http://www.ultianalytics.com/app/index.html#/'+cloudId+'/players">'+ name + '<span class="games-played">('+ gamesPlayed +' games)</span>' +(isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="'+rootAppHref+cloudId+'/players">'+ name + '<span class="games-played">('+ gamesPlayed +' games)</span>' +(isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teardown($node){
   $node.empty()
@@ -137,7 +139,7 @@ function simpleSearch(teams, numberNeeded, searchText){
   var i = 0;
   var found = [];
   if (!_.isEmpty(searchText)) {
-    var searchTextLowerCase = searchText.toLowerCase();	  
+    var searchTextLowerCase = searchText.toLowerCase();
     while (found.length < numberNeeded && i < teams.length){
       if (_.contains(teams[i].name.toLowerCase(), searchTextLowerCase)) {
         found.push(teams[i]);
@@ -155,7 +157,7 @@ function parseDateString(formattedDate) {
 function reduceGames(recentGames) {
 	// try to reduce the games to a smaller set of the most recent (unless we don't have enough)
 	var preferredDateRangeBegin = new Date().getTime() - (recentDaysPreferred * 24 * 60 * 60 * 1000);
-	var mostRecentGames = _.filter(recentGames, function(game) { 
+	var mostRecentGames = _.filter(recentGames, function(game) {
 		var gameStartDate = parseDateString(game.timestamp);
 		return gameStartDate != null && gameStartDate.getTime() > preferredDateRangeBegin;
 	});
