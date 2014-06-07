@@ -95,7 +95,7 @@ function gameDropdownItem(cloudId,isPasswordProtected,teamName, opponentName){
   return '<li><a class="search-option" href="'+rootAppHref+cloudId+'/players">'+ teamName + ' vs ' + opponentName + (isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teamDropdownItem(cloudId,isPasswordProtected,name, gamesPlayed){
-  return '<li><a class="search-option" href="'+rootAppHref+cloudId+'/players">'+ name + '<span class="games-played">('+ gamesPlayed +' games)</span>' +(isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
+  return '<li><a class="search-option" href="'+rootAppHref+cloudId+'/players">'+ name + '<div class="games-played">('+ gamesPlayed +' games)</div>' +(isPasswordProtected ? '<i class="icon-lock lock-icon"></i>' : '') + '</a></li>';
 }
 function teardown($node){
   $node.empty()
