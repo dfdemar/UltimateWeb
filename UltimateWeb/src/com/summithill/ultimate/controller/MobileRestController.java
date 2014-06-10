@@ -128,7 +128,8 @@ public class MobileRestController extends AbstractController {
 		for (ParameterPlayer pPlayer : paramPlayers) {
 			Player existingPlayer = playerLookup.get(pPlayer.getName());
 			if (existingPlayer != null) {
-				pPlayer.setLongName(existingPlayer.getLongName());
+				pPlayer.setFirstName(existingPlayer.getFirstName());
+				pPlayer.setLastName(existingPlayer.getLastName());
 			}
 		}
 	}

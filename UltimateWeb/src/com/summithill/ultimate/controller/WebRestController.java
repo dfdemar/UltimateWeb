@@ -204,7 +204,8 @@ public class WebRestController extends AbstractController {
 	public void renamePlayer(@PathVariable String teamId, 
 			@RequestParam(value = "player", required = true) String playerToRename, 
 			@RequestParam(value = "replacement", required = true) String replacement, 
-			@RequestParam(value = "longName", required = false) String longName, 
+			@RequestParam(value = "firstName", required = false) String firstName, 
+			@RequestParam(value = "lastName", required = false) String lastName,
 			HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
@@ -220,7 +221,8 @@ public class WebRestController extends AbstractController {
 				for (Player player : players) {
 					if (player.getName().equals(playerToRename)) {
 						player.setName(replacement);
-						player.setLongName(longName);
+						player.setFirstName(firstName);
+						player.setLastName(lastName);
 						break;
 					}
 				}

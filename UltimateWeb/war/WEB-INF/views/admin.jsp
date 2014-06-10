@@ -239,7 +239,7 @@ import="com.google.appengine.api.users.*"
 				
 				<div>
 					<br>
-					<strong><span style="color: red;">NEW</span> - use "rename" to set a long "display name" for a player which will appear on the web site instead of their nickname.</strong>
+					<strong><span style="color: red;">NEW</span> - use "rename" to set a "display name" (first and last) for a player which will appear on the web site instead of their nickname.</strong>
 					<br><br><br>
 				</div>
 				
@@ -310,8 +310,11 @@ import="com.google.appengine.api.users.*"
 				<div id="player-change-dialog-player-new-name">
 					<label for="basic">New Nickname:</label>
     				<input type="text" name="name" id="player-change-dialog-player-new-nickname-field" value="" maxlength="8"/>
-    				<label for="basic">New Display Name:</label>
-    				<input type="text" name="longName" id="player-change-dialog-player-new-displayname-field" value="" maxlength="24"/>
+    				<br><br>
+    				<label for="player-change-dialog-player-new-displayfirstname-field">New Display First Name:</label>
+    				<input type="text" name="firstName" id="player-change-dialog-player-new-displayfirstname-field" value="" maxlength="12"/>
+    				<label for="player-change-dialog-player-new-displaylastname-field">New Display Last Name:</label>
+    				<input type="text" name="longName" id="player-change-dialog-player-new-displaylastname-field" value="" maxlength="14"/>    				
 				</div>
 			</div> 
 			<a id="player-change-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a"></a> 

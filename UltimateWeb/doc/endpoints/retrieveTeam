@@ -26,19 +26,20 @@ With players:
   "players" : [ 
       { "male" : true,
         "name" : "Alex",
-        "preferredName" : "Alex Johson",
+        "firstName" : "Alex",
+        "lastName" : "Johnson",
         "number" : "",
         "position" : "Cutter"
       },
       { "male" : true,
         "name" : "Amby",
-        "preferredName" : "Amby Behominia",
+        "firstName" : "Ambient",
+        "lastName" : "Smith",
         "number" : "10",
         "position" : "Handler"
       },
       { "male" : true,
         "name" : "Arty",
-        "preferredName" : "Artimus Jackson",
         "number" : "",
         "position" : "Any"
       }
@@ -46,4 +47,6 @@ With players:
   "playersAreLeaguevine" : false,
   "teamId" : "team-F574EC04-9F1C-40F9-A6D4-EFD099C72563"
 }
+
+NOTE: the name property is required but firstName and lastName are optional
 

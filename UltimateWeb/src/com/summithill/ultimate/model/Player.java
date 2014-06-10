@@ -6,7 +6,8 @@ import com.google.appengine.api.datastore.Key;
 public class Player extends ModelObject implements Comparable<Player> {
 	public static final String ENTITY_TYPE_NAME = "Player";
 	public static final String NAME_PROPERTY = "name";
-	public static final String LONG_NAME_PROPERTY = "longName";
+	public static final String FIRST_NAME_PROPERTY = "firstName";
+	public static final String LAST_NAME_PROPERTY = "lastName";
 	public static final String NUMBER_PROPERTY = "number";
 	public static final String IS_MALE_PROPERTY = "isMale";
 	public static final String POSITION_PROPERTY = "position";
@@ -38,12 +39,20 @@ public class Player extends ModelObject implements Comparable<Player> {
 		entity.setProperty(NAME_PROPERTY, name);
 	}
 	
-	public String getLongName() {
-		return (String)entity.getProperty(LONG_NAME_PROPERTY);
+	public String getLastName() {
+		return (String)entity.getProperty(LAST_NAME_PROPERTY);
 	}
 	
-	public void setLongName(String name) {
-		entity.setProperty(LONG_NAME_PROPERTY, name);
+	public void setLastName(String name) {
+		entity.setProperty(LAST_NAME_PROPERTY, name);
+	}
+	
+	public String getFirstName() {
+		return (String)entity.getProperty(FIRST_NAME_PROPERTY);
+	}
+	
+	public void setFirstName(String name) {
+		entity.setProperty(FIRST_NAME_PROPERTY, name);
 	}
 
 	public String getNumber() {

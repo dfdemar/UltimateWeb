@@ -148,30 +148,32 @@ function renderDeletePlayerDialog(team, player, isMerge) {
 function renderRenamePlayerDialog(team, playerName) {
 	var player = playerNamed(playerName);
 	configurePlayerMoveDialogForRename(playerName);
-	var oldLongName = trimString(playerNamed(playerName).longName);
+	var oldFirstName = trimString(playerNamed(playerName).firstName);
+	var oldLastName = trimString(playerNamed(playerName).lastName);
 	$('.player-change-dialog-player').html(playerName);
 	$('#moveToPlayerList').html(createMoveToPlayerListHtml(team)).selectmenu('refresh');
 	$('#player-change-dialog-doit-button').unbind().on('click', function() {
 		var newName = trimString($('#player-change-dialog-player-new-nickname-field').val());
-		var longName = trimString($('#player-change-dialog-player-new-displayname-field').val());
+		var firstName = trimString($('#player-change-dialog-player-new-displayfirstname-field').val());
+		var lastName = trimString($('#player-change-dialog-player-new-displaylastname-field').val());
 		if (newName == '' || newName.toLowerCase() == 'anonymous' || newName.toLowerCase() == 'anon' || newName.toLowerCase() == 'unknown' ) {
 			alert('Sorry..that is an invalid nickname');
 		} else if (newName.length > 8) {  // text field has max chars set so should not ever hit this line
 			alert('Sorry...nickname must be less than 9 characters');	
-		} else if (newName == playerName && oldLongName == longName) {  // text field has max chars set so should not ever hit this line
+		} else if (newName == playerName && oldFirstName == firstName && oldLastName == lastName) {  
 			alert('You did not change the nick name or display name');				
 		} else {
-			renamePlayer(Ultimate.teamId, playerName, newName, longName, function() {
+			renamePlayer(Ultimate.teamId, playerName, newName, firstName, lastName, function() {
 				var message = 'No changes made';
 				if (newName != playerName) {
 					message = 'Player ' + playerName + ' renamed to ' + newName +
 					'. If you still have games on your mobile device with player ' + playerName + 
 					' you should now download the team and those games to your device (otherwise ' 
 					+ playerName + ' will re-appear when you next upload those games).';
-				} else if (longName != oldLongName) {
-					message =  longName ==  '' ? 
+				} else if (firstName != oldFirstName || lastName != oldLastName) {
+					message = (firstName ==  '' && lastName ==  '') ? 
 							'Player ' + playerName + ' display name removed.' :
-							'Player ' + playerName + ' display name changed to ' + longName + '.';
+							'Player ' + playerName + ' display name changed to ' + firstName + ' ' + lastName + '.';
 				}
 				alert(message);
 				resetCacheBuster();
@@ -238,8 +240,18 @@ function populateTeam(successFunction) {
 				if (player.inactive) {
 					$('.inactive-player-footnote').css('display', 'block');
 					player.description += ' (inactive<sup>1</sup>)';
-				} else if (player.longName) {
-					player.description += ' (' + player.longName + ')';
+				} else if (player.firstName || player.lastName) {
+					player.description += ' (';
+					if (player.firstName) {
+						player.description += player.firstName;
+					}
+					if (player.lastName) {
+						if (player.firstName) {
+							player.description += ' ';
+						}
+						player.description += player.lastName;
+					}
+					player.description += ')';
 				} 
 			}
 		}
@@ -396,7 +408,8 @@ function configurePlayerMoveDialogForRename(playerName) {
 	$('#player-change-dialog-action-description').html("Rename");
 	$('#player-change-dialog-doit-button .ui-btn-text').html("Rename");
 	$('#player-change-dialog-player-new-nickname-field').val(player.name);
-	$('#player-change-dialog-player-new-displayname-field').val(player.longName == null ? "" : player.longName);
+	$('#player-change-dialog-player-new-displayfirstname-field').val(player.firstName == null ? "" : player.firstName);
+	$('#player-change-dialog-player-new-displaylastname-field').val(player.lastName == null ? "" : player.lastName);
 	$('#player-change-dialog-instructions').hide();
 	$('#player-change-dialog-target-select').hide();
 	$('#player-change-dialog-player-new-name').show();

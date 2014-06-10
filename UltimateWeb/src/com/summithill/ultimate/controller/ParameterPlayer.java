@@ -1,13 +1,13 @@
 package com.summithill.ultimate.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.summithill.ultimate.model.Player;
 
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	private String name;
-	private String longName;
+	private String lastName;
+	private String firstName;
 	private String number;
 	private String position;
 	private boolean isMale;
@@ -18,7 +18,8 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 		ParameterPlayer pPlayer = new ParameterPlayer();
 		pPlayer.setMale(player.isMale());
 		pPlayer.setName(player.getName());
-		pPlayer.setLongName(player.getLongName());
+		pPlayer.setLastName(player.getLastName());
+		pPlayer.setFirstName(player.getFirstName());		
 		pPlayer.setNumber(player.getNumber());
 		pPlayer.setPosition(player.getPosition());
 		pPlayer.setLeaguevinePlayer(player.getLeaguevinePlayerJson());
@@ -27,7 +28,8 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	
 	public void copyToPlayer(Player modelPlayer) {
 		modelPlayer.setName(name);
-		modelPlayer.setLongName(longName);
+		modelPlayer.setLastName(lastName);
+		modelPlayer.setFirstName(firstName);
 		modelPlayer.setNumber(number);
 		modelPlayer.setPosition(position);
 		modelPlayer.setIsMale(isMale);
@@ -48,18 +50,21 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getLongName() {
-		return longName;
-	}
-
-	public void setLongName(String longName) {
-		this.longName = longName;
-	}
 	
-	@JsonProperty
-	public String getPreferredName() {
-		return this.longName != null && !this.longName.isEmpty() ? longName : name;
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	public String getNumber() {
@@ -128,5 +133,7 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 			return false;
 		return true;
 	}
+
+
 
 }
