@@ -14,10 +14,10 @@ angular.module('newBetaApp', [
       function logRoute($location){
         if (_.contains($location.host().toLowerCase(), 'ultimate-numbers') || _.contains($location.host().toLowerCase(), 'ultianalytics')){
           var pageRoute = $location.url().replace(/\/\d+\//, '').match(/\w+/)[0]
-          ga('send', 'pageview', {
-            'page': pageRoute,
-            'title': pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)
-          });
+//          ga('send', 'pageview', {
+//            'page': pageRoute,
+//            'title': pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)
+//          });
         }
       }
 
