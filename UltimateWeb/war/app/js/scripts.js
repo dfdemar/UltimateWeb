@@ -13,11 +13,8 @@ angular.module('newBetaApp', [
       }
       function logRoute($location){
         if (_.contains($location.host().toLowerCase(), 'ultimate-numbers') || _.contains($location.host().toLowerCase(), 'ultianalytics')){
-          var pageRoute = $location.url().replace(/\/\d+\//, '').match(/\w+/)[0]
-//          ga('send', 'pageview', {
-//            'page': pageRoute,
-//            'title': pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)
-//          });
+          var pageRoute = $location.url().replace(/\/\d+\//, '').match(/\w+/)[0];
+          _gaq.push(['_trackPageview', pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)]);
         }
       }
 
@@ -739,7 +736,7 @@ angular.module('newBetaApp')
 
                 link.append('title')
                   .text(function(d) {
-                    return $rootScope.getName(d.source.name.slice(0, d.source.name.length - 1), 'shortened') + ' → ' + $rootScope.getName(d.target.name.slice(0, d.target.name.length - 1), 'shortened') + '\n' + format(d.value);
+                    return $rootScope.getName(d.source.name.slice(0, d.source.name.length - 1), 'shortened') + ' --> ' + $rootScope.getName(d.target.name.slice(0, d.target.name.length - 1), 'shortened') + '\n' + format(d.value);
                   });
                 var node = scope.svg.append('g').selectAll('.node')
                   .data(scope.dataset.nodes)
@@ -3272,8 +3269,7 @@ angular.module('newBetaApp')
 
     function sendAnalyticsEvent(restEndpointName) {
       // NOTE: You can add another property for more detail
-      // commented out for testing
-      //_gaq.push(['_trackEvent', Ultimate.isAdminSite ? 'WebRestRequest-Admin' : 'WebRestRequest', restEndpointName]);
+      _gaq.push(['_trackEvent', Ultimate.isAdminSite ? 'WebRestRequest-Admin' : 'WebRestRequest', restEndpointName]);
     }
 
     function defaultError(e){
