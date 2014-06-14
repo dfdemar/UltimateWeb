@@ -19,6 +19,7 @@ public class GameExport {
 	private String gameJson;
 	private String hash;
 	private String dateExported;
+	private String userIdentifier;
 	private String userThatExported;
 	
 	public String getTeamJson() {
@@ -45,6 +46,12 @@ public class GameExport {
 	public void setUserThatExported(String userThatExported) {
 		this.userThatExported = userThatExported;
 	}
+	public String getUserIdentifier() {
+		return userIdentifier;
+	}
+	public void setUserIdentifier(String userIdentifier) {
+		this.userIdentifier = userIdentifier;
+	}
 	public String getHash() {
 		return hash;
 	}
@@ -54,12 +61,18 @@ public class GameExport {
 	
 	@JsonIgnore
 	public static GameExport from(ParameterTeam team, ParameterGame game, String userEmail) {
+	    return from(team, game, userEmail, null);
+	}
+	
+	@JsonIgnore
+	public static GameExport from(ParameterTeam team, ParameterGame game, String userEmail, String userIdentifier) {
 	    try {
 			GameExport export = new GameExport();
 			export.setTeamJson(new ObjectMapper().writeValueAsString(team));
 			export.setGameJson(new ObjectMapper().writeValueAsString(game));
 			export.setDateExported(new Date().toString());
 			export.setUserThatExported(userEmail);
+			export.setUserIdentifier(userIdentifier);
 			export.updateHash();
 			return export;
 		} catch (Exception e) {
@@ -144,4 +157,5 @@ public class GameExport {
 			throw new RuntimeException("Error calculating hash of export", e);
 		}
 	}
+
 }

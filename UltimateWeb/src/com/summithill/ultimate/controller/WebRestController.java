@@ -509,9 +509,7 @@ public class WebRestController extends AbstractController {
 			
 			this.addStandardExpireHeader(response);  
 			response.setContentType("application/x-download");
-			String name = "iUltimateGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
-			String safeName = StringUtils.deleteWhitespace(name);
-			safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+			String safeName = createGameExportFileName(teamId, team, game);
 			response.setHeader( "Content-Disposition", "attachment; filename=\"" + safeName + ".iexport\"" );
 			export.writeJsonString(response.getWriter());
 		} catch (Exception e) {
@@ -519,6 +517,25 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	// this is a master admin method (allows site admin to export a game for backup purposes)
+	// only master admin has security rights for this
+	@RequestMapping(value = "/admin/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
+	public void getGameExportForSupport(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, final HttpServletResponse response) {
+		try {
+			Team team = service.getTeam(teamId);
+			ParameterTeam pTeam = getParameterTeam(teamId, request, true, false);
+			ParameterGame game = getParameterGame(teamId, gameId, request, false);
+			String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
+			GameExport export = GameExport.from(pTeam, game, email, team.getUserIdentifier()); 
+			
+			this.addStandardExpireHeader(response);  
+			response.setContentType("application/json");
+			export.writeJsonString(response.getWriter());
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGameExportForSupport", e);
+		}
+	}
+
 	@RequestMapping(value = "/team/{teamId}/import/game", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadGameExport(@PathVariable String teamId, @RequestParam("file") MultipartFile file, @RequestParam(value = "return", required = true) String returnUrl, HttpServletRequest request) {
@@ -601,5 +618,13 @@ public class WebRestController extends AbstractController {
 	private String fileUploadResponseHtml(String message, String returnUrl) {
 		String html = "<html><body><br>&nbsp;" + message + "<br><br>&nbsp;<a href=\"" + returnUrl + "\">Return to iUltimate Admin</a></body></html>";
 		return html;
+	}
+	
+	private String createGameExportFileName(String teamId, ParameterTeam team,
+			ParameterGame game) {
+		String name = "iUltimateGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
+		String safeName = StringUtils.deleteWhitespace(name);
+		safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+		return safeName;
 	}
 }
