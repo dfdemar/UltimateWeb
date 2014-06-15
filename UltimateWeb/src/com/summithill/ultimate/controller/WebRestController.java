@@ -3,6 +3,7 @@ package com.summithill.ultimate.controller;
 import static java.util.logging.Level.SEVERE;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -498,6 +499,11 @@ public class WebRestController extends AbstractController {
 				response.setContentType("application/x-download");
 				String safeName = StringUtils.deleteWhitespace(team.getName());
 				safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+				try {
+					safeName =  java.net.URLEncoder.encode(safeName, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// no-op
+				}
 				response.setHeader( "Content-Disposition", "attachment; filename=\"" + safeName + "-stats.csv\"" );
 				new RawStatisticsExporter(service).writeStats(response.getWriter(), team, gameIdsToInclude);
 			}
@@ -576,7 +582,7 @@ public class WebRestController extends AbstractController {
 			return fileUploadResponseHtml("Game imported successsfully", returnUrl);
 		} catch (Exception e) {
 			log.log(SEVERE, "Error on game import", e);
-			return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from iUltimate", returnUrl);
+			return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from UltiAnalytics", returnUrl);
 		}
 	}
 
@@ -622,15 +628,20 @@ public class WebRestController extends AbstractController {
 	}
 	
 	private String fileUploadResponseHtml(String message, String returnUrl) {
-		String html = "<html><body><br>&nbsp;" + message + "<br><br>&nbsp;<a href=\"" + returnUrl + "\">Return to iUltimate Admin</a></body></html>";
+		String html = "<html><body><br>&nbsp;" + message + "<br><br>&nbsp;<a href=\"" + returnUrl + "\">Return to UltiAnalytics Admin</a></body></html>";
 		return html;
 	}
 	
 	private String createGameExportFileName(String teamId, ParameterTeam team,
 			ParameterGame game) {
-		String name = "iUltimateGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
+		String name = "UltiAnalyticsGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
 		String safeName = StringUtils.deleteWhitespace(name);
 		safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
+		try {
+			safeName =  java.net.URLEncoder.encode(safeName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// no-op
+		}
 		return safeName;
 	}
 }

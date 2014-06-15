@@ -49,7 +49,7 @@ public class AbstractController {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler({ UnauthorizedException.class })
 	public void handleUnathorizedException(HttpServletResponse response) {
-		response.setHeader("WWW-Authenticate","Basic realm=\"iUltimate Protected API\"");
+		response.setHeader("WWW-Authenticate","Basic realm=\"UltiAnalytics Protected API\"");
 	}
     
 	protected ParameterTeam getParameterTeam(@PathVariable String id, HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
