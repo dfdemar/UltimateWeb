@@ -157,6 +157,13 @@ public class WebRestController extends AbstractController {
 		return getParameterGames(teamId, request);
 	}
 	
+	@RequestMapping(value = "/support/team/{teamId}/games", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterGame> getGamesForSupport(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException{
+		this.addStandardExpireHeader(response);
+		return getParameterGames(teamId, request, false, false);
+	}
+	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
 	@ResponseBody
 	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
@@ -519,14 +526,13 @@ public class WebRestController extends AbstractController {
 	
 	// this is a master admin method (allows site admin to export a game for backup purposes)
 	// only master admin has security rights for this
-	@RequestMapping(value = "/admin/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/support/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
 	public void getGameExportForSupport(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, final HttpServletResponse response) {
 		try {
 			Team team = service.getTeam(teamId);
 			ParameterTeam pTeam = getParameterTeam(teamId, request, true, false);
 			ParameterGame game = getParameterGame(teamId, gameId, request, false);
-			String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
-			GameExport export = GameExport.from(pTeam, game, email, team.getUserIdentifier()); 
+			GameExport export = GameExport.from(pTeam, game, null, team.getUserIdentifier()); 
 			
 			this.addStandardExpireHeader(response);  
 			response.setContentType("application/json");
