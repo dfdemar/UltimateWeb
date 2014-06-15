@@ -634,14 +634,19 @@ public class WebRestController extends AbstractController {
 	
 	private String createGameExportFileName(String teamId, ParameterTeam team,
 			ParameterGame game) {
-		String name = "UltiAnalyticsGame_" + team.getName() + "-" + teamId + "_v_" + game.getOpponentName() + "_" + game.getTimestamp();
-		String safeName = StringUtils.deleteWhitespace(name);
+		return "UltiAnalyticsGame_" + 
+			fileSafeString(team.getName(),60) + "-" + teamId + "_v_" + 
+			fileSafeString(game.getOpponentName(),60) + "_" + game.getTimestamp();
+	}
+	
+	private String fileSafeString(String s, int max) {
+		String safeName = StringUtils.deleteWhitespace(s);
 		safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
 		try {
 			safeName =  java.net.URLEncoder.encode(safeName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// no-op
 		}
-		return safeName;
+		return safeName.length() > max ? safeName.substring(0, 60) : safeName;
 	}
 }
