@@ -27,11 +27,11 @@ UltiAnalytics.explanations =
 	 "description" : "<ul><li>total number of o-linepoints the player played.  A player that subs in/out is credited a half point.</li></ul>"}]
  }, 
  {"name" : "oLineEfficiency", "explanations" : [{"lang" : "en", 
-	 "title" : "O-Line Efficiency", 
+	 "title" : "o-Line officiency", 
 	 "description" : "<ul><li>+1 for an O-line<sup>2</sup> goal for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the O-line<sup>2</sup> (a break) in which the player was on the field<sup>1</sup>.</li></ul>"}]
  },
  {"name" : "dLineEfficiency", "explanations" : [{"lang" : "en", 
-	 "title" : "D-Line Efficiency", 
+	 "title" : "d-Line efficiency", 
 	 "description" : "<li>+1 for a D-line<sup>2</sup> goal (a break) for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the D-line<sup>2</sup> for a point in which the player was on the field<sup>1</sup>.</li>"}]
  },
  {"name" : "minutesPlayed", "explanations" : [{"lang" : "en", 
