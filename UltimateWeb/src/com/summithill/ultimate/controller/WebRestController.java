@@ -640,6 +640,9 @@ public class WebRestController extends AbstractController {
 	}
 	
 	private String fileSafeString(String s, int max) {
+		if (s == null) {
+			return "";
+		}
 		String safeName = StringUtils.deleteWhitespace(s);
 		safeName = StringUtils.replaceChars(safeName, "`~!@#$%^&*()+=[]{}:;'\"<>?,./|\\", "-");
 		try {
