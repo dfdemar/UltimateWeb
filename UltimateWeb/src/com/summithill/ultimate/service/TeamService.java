@@ -137,6 +137,21 @@ public class TeamService {
 		}
 		return gameList;
 	}
+	
+	public List<Game> getGamesForTeamSince(Team team, String utcDateInclusive) {
+		Query query = new Query(Game.ENTITY_TYPE_NAME, null); 
+		query.setAncestor(team.asEntity().getKey());
+		if (utcDateInclusive != null) {
+			Query.Filter dateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN_OR_EQUAL, utcDateInclusive);
+			query.setFilter(dateFilter);
+		}
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
+		List<Game> gameList = new ArrayList<Game>();
+		for (Entity gameEntity : gameEntities) {
+			gameList.add(Game.fromEntity(gameEntity));
+		}
+		return gameList;
+	}
 
 	public List<Game> getGamesSince(int days, int max) {
 		Date firstDate = DateUtils.addDays(new Date(), -1 * days);

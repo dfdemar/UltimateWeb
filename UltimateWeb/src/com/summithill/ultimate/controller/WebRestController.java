@@ -160,9 +160,9 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/support/team/{teamId}/games", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterGame> getGamesForSupport(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException{
+	public List<ParameterGame> getGamesForSupport(@PathVariable String teamId, @RequestParam(value = "sinceUtc", required = false) String utcDateInclusive, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException{
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId, request, false, false);
+		return getParameterGamesForSupportSince(teamId, utcDateInclusive, request);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)

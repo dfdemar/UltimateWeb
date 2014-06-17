@@ -192,6 +192,28 @@ public class AbstractController {
 		}
 	}
 	
+	protected List<ParameterGame> getParameterGamesForSupportSince(String teamId, String utcDateInclusive, HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new NoSuchRequestHandlingMethodException(request);
+			} else {
+				List<Game> games = service.getGamesForTeamSince(team, utcDateInclusive);
+				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
+					for (Game game : games) {
+							game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
+						pGames.add(ParameterGame.fromGame(game));
+					}
+				return pGames;
+			}
+		} catch (NoSuchRequestHandlingMethodException e) {  
+			throw e;  // 404						
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getParameterGamesForSupport", e);
+			return null;
+		}
+	}
+	
 	protected List<ParameterGame> getParameterGamesSince(int numberOfDays, int max)  {
 		try {
 			List<Game> games = service.getGamesSince(numberOfDays, max);
