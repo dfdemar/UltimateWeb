@@ -64,8 +64,8 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/teams", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterTeam> getTeamsForUser(HttpServletRequest request) {
-		return getParameterTeamsForUser(request);
+	public List<ParameterTeam> getTeamsForUser(HttpServletRequest request, @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") boolean includeDeleted) {
+		return getParameterTeamsForUser(request, includeDeleted);
 	}
 	
 	@RequestMapping(value = "/teams/anyuser", method = RequestMethod.POST)
@@ -181,7 +181,26 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
-				service.deleteTeam(team);
+				team.setDeleted(true);
+				service.saveTeam(userIdentifier, team);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on deleteTeam", e);
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/undelete", method = RequestMethod.POST)
+	@ResponseBody
+	public void undeleteTeam(@PathVariable String teamId, HttpServletRequest request) {
+		//if (true) {throw new UnauthorizedException();} 
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				team.setDeleted(false);
+				service.saveTeam(userIdentifier, team);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteTeam", e);

@@ -186,7 +186,7 @@ function renderRenamePlayerDialog(team, playerName) {
 }
 
 function populateTeamsList(successFunction) {
-	retrieveTeams(function(teams) {
+	retrieveTeamsIncludingDeleted(function(teams) {
 		Ultimate.teams = teams;
 		updateTeamsList(Ultimate.teams);
 		if (successFunction) {
@@ -199,9 +199,11 @@ function updateTeamsList(teams) {
 		var html = [];
 		for ( var i = 0; i < teams.length; i++) {
 			var team = teams[i];
-			html[html.length] = '<li><a href="#teamsettingspage?team=';
+			var deleteUndeleteImage = team.deleted ? 'undelete-entity.png' : 'delete-entity.png';
+			var decorationClass = team.deleted ? 'deleted-entity' : '';
+			html[html.length] = '<li class="' + decorationClass + '"><a href="#teamsettingspage?team=';
 			html[html.length] = team.cloudId;
-			html[html.length] = '"><img class="teamDeleteButton"src="/images/delete.png" data-teamname="';
+			html[html.length] = '"><img class="teamDeleteButton listImage" src="/images/' + deleteUndeleteImage + '" data-teamname="';
 			html[html.length] = team.name + ' (team ID ' + team.cloudId + ')';
 			html[html.length] = '" data-teamid="';
 			html[html.length] = team.cloudId;
@@ -216,15 +218,24 @@ function updateTeamsList(teams) {
 			$deleteButton = $(this);
 			Ultimate.itemToDeleteDescription = $deleteButton.data('teamname');
 			Ultimate.itemToDeleteId = $deleteButton.data('teamid');
-			Ultimate.deleteConfirmedFn = function() {
-				deleteTeam(Ultimate.itemToDeleteId, function() {
+			var team = getTeam(Ultimate.itemToDeleteId);
+			if (team.deleted) {
+				undeleteTeam(Ultimate.itemToDeleteId, function() {
 					resetCacheBuster();
+					alert('Team un-deleted');
 					$.mobile.changePage('#mainpage', {transition: 'pop'});
 				},handleRestError);
-			};
-			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
-			
-			return false;
+			} else {
+				Ultimate.deleteConfirmedFn = function() {
+					deleteTeam(Ultimate.itemToDeleteId, function() {
+						resetCacheBuster();
+						$.mobile.changePage('#mainpage', {transition: 'pop'});
+					},handleRestError);
+				};
+				$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
+				
+				return false;
+			}
 		})
 }
 
@@ -288,8 +299,9 @@ function updateGamesList(games) {
 	for ( var i = 0; i < sortedGames.length; i++) {
 		var game = sortedGames[i];
 		var shortGameDesc = game.date + ' ' + game.time + ' vs. ' + game.opponentName;
+		var deleteUndeleteImage = game.deleted ? 'undelete-entity.png' : 'delete-entity.png';
 		html[html.length] = '<li>';
-		html[html.length] = '<img src="/images/delete.png" class="listImage gameDeleteButton" data-game="';
+		html[html.length] = '<img src="/images/' + deleteUndeleteImage + '" class="listImage gameDeleteButton" data-game="';
         html[html.length] =  game.gameId;
 		html[html.length] = '" data-description="';
         html[html.length] = encodeURIComponent(shortGameDesc);       
@@ -434,4 +446,14 @@ function trimString(s) {
 		return '';
 	}
 	return jQuery.trim(s);
+}
+
+function getTeam(cloudId) {
+	for (var i = 0; i < Ultimate.teams.length; i++) {
+		var team = Ultimate.teams[i];
+		if (team.cloudId == cloudId) {
+			return team;
+		}
+	}
+	return null;
 }

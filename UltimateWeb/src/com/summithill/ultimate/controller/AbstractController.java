@@ -117,14 +117,20 @@ public class AbstractController {
 	}
 	
 	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request) {
+		return getParameterTeamsForUser(request, false);
+	}
+	
+	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request, boolean includeDeleted) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
 			List<ParameterTeam> teamsResponseList = new ArrayList<ParameterTeam>();
 			List<Team> teams = service.getTeams(userIdentifier);
 			for (Team team : teams) {
 				ParameterTeam pTeam = ParameterTeam.fromTeam(team);
-				pTeam.setPassword(team.getPassword());
-				teamsResponseList.add(pTeam);
+				if (includeDeleted || !pTeam.isDeleted()) {
+					pTeam.setPassword(team.getPassword());
+					teamsResponseList.add(pTeam);
+				}
 			}
 			return teamsResponseList;
 		} catch (Exception e) {

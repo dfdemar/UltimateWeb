@@ -22,6 +22,7 @@ public class ParameterTeam {
 	private String firstGameDate;
 	private String lastGameDate;
 	private boolean isPrivate;
+	private boolean isDeleted;
 	
 	
 	public static ParameterTeam fromTeam(Team team) {
@@ -39,6 +40,7 @@ public class ParameterTeam {
 		pTeam.setFirstGameDate(team.getFirstGameDate());
 		pTeam.setLastGameDate(team.getLastGameDate());
 		pTeam.setPrivate(team.hasPassword());
+		pTeam.setDeleted(team.isDelected());
 		return pTeam;
 	}
 	
@@ -169,6 +171,14 @@ public class ParameterTeam {
 
 	public void setPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

@@ -256,7 +256,7 @@ public class TeamService {
 	}
 
 	public void deleteTeam(Team team) {
-		getDatastore().delete(team.asEntity().getKey());
+		team.setDeleted(true);
 	}
 
 	public void deleteAllGames(String userIdentifier, Team team) {

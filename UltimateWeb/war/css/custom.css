@@ -257,3 +257,7 @@
 .underline {
   text-decoration: underline; /* Makes underline */
 }
+
+.deleted-entity {
+  text-decoration:line-through  !important;
+}

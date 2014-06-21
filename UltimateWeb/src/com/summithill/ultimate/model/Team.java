@@ -13,6 +13,7 @@ public class Team extends ModelObject {
 	public static final String NUMBER_OF_GAMES = "numberOfGames";
 	public static final String FIRST_GAME_DATE = "firstGameDate";
 	public static final String LAST_GAME_DATE = "lastGameDate";
+	public static final String IS_DELETED = "isDeleted";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -130,6 +131,15 @@ public class Team extends ModelObject {
 	
 	public void setLeaguevineJson(String json) {
 		entity.setProperty(LEAGUEVINE_JSON_PROPERTY, json);
+	}
+	
+	public boolean isDelected() {
+		Boolean answer = (Boolean)entity.getProperty(IS_DELETED);
+		return answer == null ? false : answer.booleanValue();
+	}
+	
+	public void setDeleted(boolean isDeleted) {
+		entity.setProperty(IS_DELETED, Boolean.valueOf(isDeleted));
 	}
 	
 	public boolean hasPassword() {
