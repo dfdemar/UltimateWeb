@@ -51,6 +51,12 @@ function deleteGame(teamId, gameId, successFunction, errorFunction) {
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }
 
+function undeleteGame(teamId, gameId, successFunction, errorFunction) {
+	sendAnalyticsEvent("undeleteGame");
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/undelete'; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
 function deleteTeam(teamId, successFunction, errorFunction) {
 	sendAnalyticsEvent("deleteTeam");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/delete'; 
@@ -58,7 +64,7 @@ function deleteTeam(teamId, successFunction, errorFunction) {
 }
 
 function undeleteTeam(teamId, successFunction, errorFunction) {
-	sendAnalyticsEvent("deleteTeam");
+	sendAnalyticsEvent("undeleteTeam");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/undelete'; 
 	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
 }

@@ -31,6 +31,7 @@ public class Game extends ModelObject {
 	public static final String TIMEOUT_DETAILS_JSON_PROPERTY = "timeoutDetailsJson";
 	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
 	public static final String LAST_UPDATE_HASH_PROPERTY = "lastUpdateHash";
+	public static final String IS_DELETED = "isDeleted";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -110,6 +111,7 @@ public class Game extends ModelObject {
 	public void resetHash() {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
+			JsonUtil.updateDigest(md, isDeleted());
 			JsonUtil.updateDigest(md, getOpponentName());
 			JsonUtil.updateDigest(md, getTournamentName());
 			JsonUtil.updateDigest(md, isFirstPointOline());
@@ -167,6 +169,15 @@ public class Game extends ModelObject {
 	
 	public void setLeaguevineJson(String json) {
 		entity.setProperty(LEAGUEVINE_JSON_PROPERTY, json);
+	}
+	
+	public boolean isDeleted() {
+		Boolean answer = (Boolean)entity.getProperty(IS_DELETED);
+		return answer == null ? false : answer.booleanValue();
+	}
+	
+	public void setDeleted(boolean isDeleted) {
+		entity.setProperty(IS_DELETED, Boolean.valueOf(isDeleted));
 	}
 	
 	@SuppressWarnings("unchecked")

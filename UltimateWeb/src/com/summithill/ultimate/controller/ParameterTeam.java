@@ -40,7 +40,7 @@ public class ParameterTeam {
 		pTeam.setFirstGameDate(team.getFirstGameDate());
 		pTeam.setLastGameDate(team.getLastGameDate());
 		pTeam.setPrivate(team.hasPassword());
-		pTeam.setDeleted(team.isDelected());
+		pTeam.setDeleted(team.isDeleted());
 		return pTeam;
 	}
 	

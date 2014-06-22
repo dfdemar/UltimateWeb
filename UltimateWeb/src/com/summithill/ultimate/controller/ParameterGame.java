@@ -29,6 +29,7 @@ public class ParameterGame {
 	private String timeoutDetailsJson;
 	private ParameterTeamInfo teamInfo;
 	private String lastUpdateUtc;
+	private boolean isDeleted;
 	
 	public String getGameId() {
 		return gameId;
@@ -63,6 +64,7 @@ public class ParameterGame {
 		pGame.setTimeoutDetailsJson(game.getTimeoutDetailsJson());
 		pGame.setWind(game.getWind());
 		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
+		pGame.setDeleted(game.isDeleted());
 		return pGame;
 	}
 
@@ -213,6 +215,14 @@ public class ParameterGame {
 
 	public void setLastUpdateUtc(String lastUpdateUtc) {
 		this.lastUpdateUtc = lastUpdateUtc;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

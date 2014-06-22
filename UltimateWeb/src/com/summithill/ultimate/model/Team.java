@@ -133,7 +133,7 @@ public class Team extends ModelObject {
 		entity.setProperty(LEAGUEVINE_JSON_PROPERTY, json);
 	}
 	
-	public boolean isDelected() {
+	public boolean isDeleted() {
 		Boolean answer = (Boolean)entity.getProperty(IS_DELETED);
 		return answer == null ? false : answer.booleanValue();
 	}

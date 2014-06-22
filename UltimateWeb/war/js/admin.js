@@ -283,12 +283,20 @@ function populateGamesList() {
 			$deleteButton = $(this);
 			Ultimate.itemToDeleteDescription = 'game ' + decodeURIComponent($deleteButton.data('description'));
 			Ultimate.itemToDeleteId = $deleteButton.data('game');
-			Ultimate.deleteConfirmedFn = function() {
-				deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
+			var game = getGame(Ultimate.itemToDeleteId);
+			if (game.deleted) {
+				undeleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
+					alert("Game undeleted");
 					$.mobile.changePage('#teamsettingspage?team=' + Ultimate.teamId, {transition: 'pop'});
 				},handleRestError);
-			};
-			$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});   
+			} else {
+				Ultimate.deleteConfirmedFn = function() {
+					deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
+						$.mobile.changePage('#teamsettingspage?team=' + Ultimate.teamId, {transition: 'pop'});
+					},handleRestError);
+				};
+				$.mobile.changePage('#confirmDeleteDialog', {transition: 'pop', role: 'dialog'});  
+			}
 		})
 	}) 
 }
@@ -300,15 +308,20 @@ function updateGamesList(games) {
 		var game = sortedGames[i];
 		var shortGameDesc = game.date + ' ' + game.time + ' vs. ' + game.opponentName;
 		var deleteUndeleteImage = game.deleted ? 'undelete-entity.png' : 'delete-entity.png';
-		html[html.length] = '<li>';
+		var decorationClass = game.deleted ? 'deleted-entity' : '';
+		html[html.length] = '<li class="' + decorationClass + '">';
 		html[html.length] = '<img src="/images/' + deleteUndeleteImage + '" class="listImage gameDeleteButton" data-game="';
         html[html.length] =  game.gameId;
 		html[html.length] = '" data-description="';
         html[html.length] = encodeURIComponent(shortGameDesc);       
 		html[html.length] = '">';
-		html[html.length] = '<span class="gameActionLink"><a class="gameExportLink" href="javascript:void(0)" data-role="button" data-game="';
-        html[html.length] =  game.gameId;
-		html[html.length] = '">Export</a></span>';		
+		html[html.length] = '<span class="gameActionLink">';
+		if (!game.deleted) {
+			html[html.length] = '<a class="gameExportLink" href="javascript:void(0)" data-role="button" data-game="';
+			html[html.length] =  game.gameId;
+			html[html.length] = '">Export</a>';	
+		}
+		html[html.length] = '</span>';			
 		html[html.length] = '<span class="game-date">';
 		html[html.length] = game.date;
 		html[html.length] = '&nbsp;&nbsp;';
@@ -453,6 +466,16 @@ function getTeam(cloudId) {
 		var team = Ultimate.teams[i];
 		if (team.cloudId == cloudId) {
 			return team;
+		}
+	}
+	return null;
+}
+
+function getGame(gameId) {
+	for (var i = 0; i < Ultimate.games.length; i++) {
+		var game = Ultimate.games[i];
+		if (game.gameId == gameId) {
+			return game;
 		}
 	}
 	return null;

@@ -166,11 +166,7 @@ public class AbstractController {
 		}
 	}
 	
-	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
-		return getParameterGames(teamId, request, false, false);
-	}
-	
-	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword, boolean includePoints) throws NoSuchRequestHandlingMethodException {
+	protected List<ParameterGame> getParameterGames(String teamId, HttpServletRequest request,boolean verifyWebsitePassword, boolean includePoints, boolean includeDeleted) throws NoSuchRequestHandlingMethodException {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
@@ -180,9 +176,9 @@ public class AbstractController {
 					this.verifyAccess(team, request);
 				}
 				// note: assuming that Text objects are not pulled from the DB until referenced.  Therefore we aren't creating a memory burden by reading in a 100 games
-				List<Game> games = service.getGames(team);
+				List<Game> games = service.getGames(team, includeDeleted);
 				List<ParameterGame> pGames = new ArrayList<ParameterGame>();
-					for (Game game : games) {
+					for (Game game : games) {  
 						if (!includePoints) {
 							game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
 						}

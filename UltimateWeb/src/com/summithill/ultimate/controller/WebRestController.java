@@ -130,14 +130,14 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId, request, true, false);
+		return getParameterGames(teamId, request, true, false, false);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/gamesdata", method = RequestMethod.GET)
 	public void getGamesData(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchRequestHandlingMethodException {
 		this.addStandardExpireHeader(response);
 		response.setContentType("application/json");
-		List<ParameterGame> games = getParameterGames(teamId, request, true, true);
+		List<ParameterGame> games = getParameterGames(teamId, request, true, true, false);
 		ObjectMapper jsonMapper = new ObjectMapper();
 		jsonMapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
 		Writer responseWriter = response.getWriter();
@@ -155,7 +155,7 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGamesForAdmin(@PathVariable String teamId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException{
 		this.addStandardExpireHeader(response);
-		return getParameterGames(teamId, request);
+		return getParameterGames(teamId, request, false, false, true);
 	}
 	
 	@RequestMapping(value = "/support/team/{teamId}/games", method = RequestMethod.GET)
@@ -203,7 +203,7 @@ public class WebRestController extends AbstractController {
 				service.saveTeam(userIdentifier, team);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow(userIdentifier, "Error on deleteTeam", e);
+			logErrorAndThrow(userIdentifier, "Error on undeleteTeam", e);
 		}
 	}
 	
@@ -296,10 +296,29 @@ public class WebRestController extends AbstractController {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				Game game = service.getGame(team, gameId);
-				service.deleteGame(userIdentifier, game);
+				game.setDeleted(true);
+				service.saveGame(userIdentifier, game);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/game/{gameId}/undelete", method = RequestMethod.POST)
+	@ResponseBody
+	public void undeleteGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				Game game = service.getGame(team, gameId);
+				game.setDeleted(false);
+				service.saveGame(userIdentifier, game);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on undeleteGame", e);
 		}
 	}
 	

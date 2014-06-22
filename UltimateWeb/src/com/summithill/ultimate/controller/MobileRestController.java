@@ -64,7 +64,7 @@ public class MobileRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		getUserIdentifier(request);
-		return getParameterGames(teamId, request);
+		return getParameterGames(teamId, request, false, false, false);
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)

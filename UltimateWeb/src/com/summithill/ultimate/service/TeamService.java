@@ -126,11 +126,18 @@ public class TeamService {
 	}
 
 	public List<Game> getGames(Team team) {
+		return getGames(team, false);
+	}
+	
+	public List<Game> getGames(Team team, boolean includeDeleted) {
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null); // .addSort("timestamp",
 																// Query.SortDirection.DESCENDING);
 		query.setAncestor(team.asEntity().getKey());
-		Iterable<Entity> gameEntities = getDatastore().prepare(query)
-				.asIterable();
+		if (!includeDeleted) {
+			Query.Filter notDeletedFilter = new Query.FilterPredicate(Game.IS_DELETED, Query.FilterOperator.NOT_EQUAL, Boolean.TRUE);
+			query.setFilter(notDeletedFilter);
+		}
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
 			gameList.add(Game.fromEntity(gameEntity));
@@ -163,7 +170,9 @@ public class TeamService {
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
 		Query.Filter beginDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN, firstDateString);
 		Query.Filter endDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.LESS_THAN, tomorrowDateString);	
-		Query.Filter queryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
+		Query.Filter notDeletedFilter = new Query.FilterPredicate(Game.IS_DELETED, Query.FilterOperator.NOT_EQUAL, Boolean.TRUE);
+		Query.Filter dateRangeQueryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
+		Query.Filter queryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(notDeletedFilter, dateRangeQueryFilter));
 		query.setFilter(queryFilter);
 		query.addSort(Game.LAST_UPDATE_UTC_PROPERTY, SortDirection.DESCENDING);
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(max));
@@ -256,7 +265,7 @@ public class TeamService {
 	}
 
 	public void deleteTeam(Team team) {
-		team.setDeleted(true);
+		getDatastore().delete(team.asEntity().getKey());
 	}
 
 	public void deleteAllGames(String userIdentifier, Team team) {
