@@ -221,13 +221,14 @@ function updateTeamsList(teams) {
 			var team = getTeam(Ultimate.itemToDeleteId);
 			if (team.deleted) {
 				undeleteTeam(Ultimate.itemToDeleteId, function() {
+					alert('Team restored');
 					resetCacheBuster();
-					alert('Team un-deleted');
 					$.mobile.changePage('#mainpage', {transition: 'pop'});
 				},handleRestError);
 			} else {
 				Ultimate.deleteConfirmedFn = function() {
 					deleteTeam(Ultimate.itemToDeleteId, function() {
+						alert("Team deleted.  You may undo the deletion at any time");
 						resetCacheBuster();
 						$.mobile.changePage('#mainpage', {transition: 'pop'});
 					},handleRestError);
@@ -286,12 +287,15 @@ function populateGamesList() {
 			var game = getGame(Ultimate.itemToDeleteId);
 			if (game.deleted) {
 				undeleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
-					alert("Game undeleted");
+					alert("Game restored");
+					resetCacheBuster();
 					$.mobile.changePage('#teamsettingspage?team=' + Ultimate.teamId, {transition: 'pop'});
 				},handleRestError);
 			} else {
 				Ultimate.deleteConfirmedFn = function() {
 					deleteGame(Ultimate.teamId, Ultimate.itemToDeleteId, function() {
+						alert("Game deleted.  You may undo the deletion at any time");
+						resetCacheBuster();
 						$.mobile.changePage('#teamsettingspage?team=' + Ultimate.teamId, {transition: 'pop'});
 					},handleRestError);
 				};

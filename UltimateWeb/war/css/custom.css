@@ -261,3 +261,9 @@
 .deleted-entity {
   text-decoration:line-through  !important;
 }
+
+.teamDeleteButton, .gameDeleteButton {
+   margin-left: 6px;
+   margin-top: 3px;
+}
+

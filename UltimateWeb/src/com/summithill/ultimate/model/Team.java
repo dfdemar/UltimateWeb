@@ -43,7 +43,7 @@ public class Team extends ModelObject {
 	
 	public String getNameWithSeason() {
 		String name = getName();
-		if (!name.matches(".*201[0-9].*")) {
+		if (!name.matches(".*1[0-9].*")) {
 			String season = getSeason();
 			if (season.length() > 0) {
 				name = name + " " + season;
