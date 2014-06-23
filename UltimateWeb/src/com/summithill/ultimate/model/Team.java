@@ -163,5 +163,3 @@ public class Team extends ModelObject {
 	}
 
 }
-
-;;

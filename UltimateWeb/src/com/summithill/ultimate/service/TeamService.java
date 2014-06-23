@@ -174,6 +174,7 @@ public class TeamService {
 		Query.Filter dateRangeQueryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
 		Query.Filter queryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(notDeletedFilter, dateRangeQueryFilter));
 		query.setFilter(queryFilter);
+		query.addSort(Game.IS_DELETED, SortDirection.DESCENDING);
 		query.addSort(Game.LAST_UPDATE_UTC_PROPERTY, SortDirection.DESCENDING);
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(max));
 		
