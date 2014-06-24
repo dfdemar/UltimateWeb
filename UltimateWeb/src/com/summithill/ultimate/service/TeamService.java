@@ -125,22 +125,17 @@ public class TeamService {
 		return false;
 	}
 
-	public List<Game> getGames(Team team) {
-		return getGames(team, false);
-	}
-	
 	public List<Game> getGames(Team team, boolean includeDeleted) {
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null); // .addSort("timestamp",
 																// Query.SortDirection.DESCENDING);
 		query.setAncestor(team.asEntity().getKey());
-		if (!includeDeleted) {
-			Query.Filter notDeletedFilter = new Query.FilterPredicate(Game.IS_DELETED, Query.FilterOperator.NOT_EQUAL, Boolean.TRUE);
-			query.setFilter(notDeletedFilter);
-		}
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
-			gameList.add(Game.fromEntity(gameEntity));
+			Game game = Game.fromEntity(gameEntity);
+			if (includeDeleted || !game.isDeleted()) {
+				gameList.add(game);
+			}
 		}
 		return gameList;
 	}
@@ -168,29 +163,37 @@ public class TeamService {
 		String tomorrowDateString = formatter.format(tommorrow);
 		
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
+		
 		Query.Filter beginDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN, firstDateString);
 		Query.Filter endDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.LESS_THAN, tomorrowDateString);	
-		Query.Filter notDeletedFilter = new Query.FilterPredicate(Game.IS_DELETED, Query.FilterOperator.NOT_EQUAL, Boolean.TRUE);
 		Query.Filter dateRangeQueryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
-		Query.Filter queryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(notDeletedFilter, dateRangeQueryFilter));
-		query.setFilter(queryFilter);
-		query.addSort(Game.IS_DELETED, SortDirection.DESCENDING);
+
+		query.setFilter(dateRangeQueryFilter);
 		query.addSort(Game.LAST_UPDATE_UTC_PROPERTY, SortDirection.DESCENDING);
-		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(max));
+		int queryMax = (int)((float)max * 1.2);  // terrible hack but we can't query on the IS_DELETED property because it was added late so we just add some extra results to accommodate them and then filter them out later
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(queryMax));
 		
 		List<Game> gameList = new ArrayList<Game>();
+		int gameCount = 0;
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
-			if (game.getTimestamp() != null && game.getTimestamp().compareTo(firstDateString) >= 0) {
-				gameList.add(game);
+			if (!game.isDeleted()) {
+				if (game.getTimestamp() != null && game.getTimestamp().compareTo(firstDateString) >= 0) {
+					gameList.add(game);
+				}
+				gameCount++;
+				if (gameCount >= max) {
+					break;
+				}
 			}
 		}
+		
 		return gameList;
 	}
 
 	public List<String> getGameIDs(Team team) {
 		List<String> idList = new ArrayList<String>();
-		List<Game> games = this.getGames(team);
+		List<Game> games = this.getGames(team, false);
 		for (Game game : games) {
 			idList.add(game.getGameId());
 		}
@@ -270,7 +273,7 @@ public class TeamService {
 	}
 
 	public void deleteAllGames(String userIdentifier, Team team) {
-		List<Game> games = getGames(team);
+		List<Game> games = getGames(team, true);
 		List<Key> gameKeys = new ArrayList<Key>();
 		for (Game game : games) {
 			gameKeys.add(game.asEntity().getKey());
@@ -390,7 +393,7 @@ public class TeamService {
 	}
 	
     private void updateTeamSummaryData(Team team) {
-        List<Game> games = getGames(team);
+        List<Game> games = getGames(team, false);
         team.setNumberOfGames(games.size());
     	String firstGame = null;
     	String lastGame = null;

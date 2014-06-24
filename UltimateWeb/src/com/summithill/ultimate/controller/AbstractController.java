@@ -71,6 +71,8 @@ public class AbstractController {
 			Team team = service.getTeam(id);
 			if (team == null) {
 				throw new NoSuchRequestHandlingMethodException(request);
+			} else if (team.isDeleted()) {
+				return null;
 			} else {
 				if (verifyWebsitePassword) {
 					this.verifyAccess(team, request);
@@ -114,10 +116,6 @@ public class AbstractController {
 		List<ParameterPlayer> answer = new ArrayList<ParameterPlayer>(paramPlayers);
 		Collections.sort(answer);
 		return answer;
-	}
-	
-	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request) {
-		return getParameterTeamsForUser(request, false);
 	}
 	
 	protected List<ParameterTeam> getParameterTeamsForUser(HttpServletRequest request, boolean includeDeleted) {
@@ -373,7 +371,7 @@ public class AbstractController {
 			if (team == null) {
 				return Collections.emptySet();
 			} else {
-				List<Game> games = service.getGames(team);
+				List<Game> games = service.getGames(team, false);
 				Set<String> playerNames = new HashSet<String>();
 				for (Game game : games) {
 					extractPlayerNames(game, playerNames);
