@@ -736,7 +736,7 @@ angular.module('newBetaApp')
 
                 link.append('title')
                   .text(function(d) {
-                    return $rootScope.getName(d.source.name.slice(0, d.source.name.length - 1), 'shortened') + ' --> ' + $rootScope.getName(d.target.name.slice(0, d.target.name.length - 1), 'shortened') + '\n' + format(d.value);
+                    return $rootScope.getName(d.source.name.slice(0, d.source.name.length - 1), 'shortened') + ' → ' + $rootScope.getName(d.target.name.slice(0, d.target.name.length - 1), 'shortened') + '\n' + format(d.value);
                   });
                 var node = scope.svg.append('g').selectAll('.node')
                   .data(scope.dataset.nodes)
@@ -866,6 +866,7 @@ angular.module('newBetaApp')
         page: '=',
       },
       link: function postLink(scope) {
+        scope.getName = $rootScope.getName
         scope.playerName = decodeURI($routeParams.playerNameUri);
         $rootScope.isMobile = viewer.isMobile();
         scope.isMobileSized = viewer.isMobileSized;
@@ -1173,11 +1174,24 @@ angular.module('newBetaApp')
     return {
       templateUrl: 'includes/partials/title-bar.html',
       restrict: 'EA',
-      link: function postLink(scope) {
+      link: function postLink(scope, element) {
+        var positionLogo = _.debounce(function(){
+          var $uaLogo = $(element).find('.ua-logo');
+          var $teamName = $(element).find('.navbar-brand');
+          if ($($teamName.offsetParent()).width() - $teamName.offset().left - $teamName.outerWidth() - 22 < $uaLogo.outerWidth() ) { // I'm sorry father for I ahve sinned.
+            $uaLogo.addClass('small-screen')
+          } else {
+            $uaLogo.removeClass('small-screen')
+          }
+        }, 75);
         if ( !_($routeParams).isEmpty() ){
           teamName.then(function(name){
             scope.teamName = name;
-            window.document.title = name || 'iUltimate';
+            window.document.title = name || 'ultiAnalytics';
+            $(window).on('resize',function(){
+              positionLogo();
+            });
+            positionLogo()
           });
         }
       }
