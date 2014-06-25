@@ -231,7 +231,7 @@ public class AbstractController {
 					String teamPersistenceId = game.getParentPersistenceId();
 					if (teamPersistenceId != null) {
 						Team team = teamLookup.get(teamPersistenceId);
-						if (team != null && !team.getName().contains(TEST_TEAM_NAME_MARKER)) {
+						if (team != null && !team.getName().contains(TEST_TEAM_NAME_MARKER) && !team.isDeleted()) {
 							pGame.setTeamInfo(ParameterTeamInfo.fromTeam(team));
 							parameterGames.add(pGame);
 						}
