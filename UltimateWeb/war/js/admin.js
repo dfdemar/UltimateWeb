@@ -201,8 +201,8 @@ function updateTeamsList(teams) {
 			var team = teams[i];
 			var deleteUndeleteImage = team.deleted ? 'undelete-entity.png' : 'delete-entity.png';
 			var decorationClass = team.deleted ? 'deleted-entity' : '';
-			html[html.length] = '<li class="' + decorationClass + '"><a href="#teamsettingspage?team=';
-			html[html.length] = team.cloudId;
+			var teamUrl =  team.deleted ? '' : '#teamsettingspage?team=' + team.cloudId;
+			html[html.length] = '<li class="' + decorationClass + '"><a href="' + teamUrl;
 			html[html.length] = '"><img class="teamDeleteButton listImage" src="/images/' + deleteUndeleteImage + '" data-teamname="';
 			html[html.length] = team.name + ' (team ID ' + team.cloudId + ')';
 			html[html.length] = '" data-teamid="';
