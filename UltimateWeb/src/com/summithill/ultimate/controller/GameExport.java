@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.summithill.ultimate.model.Game;
+import com.summithill.ultimate.model.Team;
 
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -62,6 +64,13 @@ public class GameExport {
 	@JsonIgnore
 	public static GameExport from(ParameterTeam team, ParameterGame game, String userEmail) {
 	    return from(team, game, userEmail, null);
+	}
+	
+	@JsonIgnore
+	public static GameExport from(Team team, Game game, String userEmail, String userIdentifier) {
+		ParameterTeam pTeam = ParameterTeam.fromTeam(team);
+		ParameterGame pGame = ParameterGame.fromGame(game);
+	    return from(pTeam, pGame, userEmail, userIdentifier);
 	}
 	
 	@JsonIgnore
