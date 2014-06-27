@@ -29,8 +29,10 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.summithill.ultimate.controller.GameExport;
 import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
+import com.summithill.ultimate.model.GameVersion;
 import com.summithill.ultimate.model.ModelObject;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.State;
@@ -178,7 +180,7 @@ public class TeamService {
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
 			if (!game.isDeleted()) {
-				if (game.getTimestamp() != null && game.getTimestamp().compareTo(firstDateString) >= 0) {
+				if (game.getTimestamp() != null && game.getTimestamp().compareTo(firstDateString) >= 0 && (game.getOurScore() > 0 || game.getTheirScore() > 0)) {
 					gameList.add(game);
 				}
 				gameCount++;
@@ -240,6 +242,38 @@ public class TeamService {
 			// update the associated team (which will recalulate first/last game, etc.)
 			saveTeam(userIdentifier, team);  
 		}
+	}
+
+	public void addGameVersion(String userIdentifier, Team team, Game game, String description) {
+		GameExport gameExport = GameExport.from(team, game, null, userIdentifier);
+		
+		GameVersion gameVersion = new GameVersion(game);
+		gameVersion.setExportData(gameExport.asJsonString());
+		gameVersion.setOurScore(game.getOurScore());
+		gameVersion.setTheirScore(game.getTheirScore());
+		gameVersion.setLastUpdateUtc(game.getLastUpdateUtc());
+		if (description != null) {
+			gameVersion.setDescription(description);
+		}
+		saveGameVersion(userIdentifier, gameVersion);
+	}
+	
+	private void saveGameVersion(String userIdentifier, GameVersion gameVersion) {
+		Entity entity = gameVersion.asEntity();
+		this.addUserToEntity(entity, userIdentifier);
+		getDatastore().put(entity);
+	}
+	
+	public List<GameVersion> getGameVersions(Game game) {
+		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
+		query.setAncestor(game.asEntity().getKey());
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
+		List<GameVersion> gameVersionsList = new ArrayList<GameVersion>();
+		for (Entity gameEntity : gameEntities) {
+			GameVersion gameVersion = GameVersion.fromEntity(gameEntity);
+			gameVersionsList.add(gameVersion);
+		}
+		return gameVersionsList;
 	}
 	
 	public String saveState(State state) {
