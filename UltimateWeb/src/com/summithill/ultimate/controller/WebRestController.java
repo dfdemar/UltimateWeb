@@ -32,6 +32,7 @@ import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.State;
 import com.summithill.ultimate.model.Team;
+import com.summithill.ultimate.service.GameVersionInfo;
 import com.summithill.ultimate.statistics.AllStatisticsCalculator;
 import com.summithill.ultimate.statistics.AllStats;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
@@ -169,6 +170,32 @@ public class WebRestController extends AbstractController {
 	@ResponseBody
 	public ParameterGame getGame(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		return getParameterGame(teamId, gameId, request, true);
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/game/{gameId}/versions", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ParameterGameVersion> getGameVersions(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
+		this.addStandardExpireHeader(response);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new NoSuchRequestHandlingMethodException(request);
+			} else {
+				verifyAccess(team, request);
+				Game game = service.getGame(team, gameId);
+				List<GameVersionInfo> gameVersions = service.getGameVersionInfos(game);
+				List<ParameterGameVersion> pGameVersions = new ArrayList<ParameterGameVersion>();
+				for (GameVersionInfo gameVersionInfo : gameVersions) {
+					pGameVersions.add(ParameterGameVersion.fromGameVersionInfo(gameVersionInfo));
+				}
+				return pGameVersions;
+			}
+		} catch (NoSuchRequestHandlingMethodException e) {  // 404
+			throw e;  // 404
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGameVersions", e);
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/delete", method = RequestMethod.POST)

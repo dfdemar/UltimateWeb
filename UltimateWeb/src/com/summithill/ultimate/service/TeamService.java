@@ -25,10 +25,12 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.User;
 import com.summithill.ultimate.controller.GameExport;
 import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
@@ -264,16 +266,32 @@ public class TeamService {
 		getDatastore().put(entity);
 	}
 	
-	public List<GameVersion> getGameVersions(Game game) {
-		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
-		query.setAncestor(game.asEntity().getKey());
+	public List<GameVersionInfo> getGameVersionInfos(Game game) {
+		// retrieve all of the versions for this game
+		Query query = new Query(GameVersion.ENTITY_TYPE_NAME, game.asEntity().getKey());
+		// only retrieve the meta information about the version
+		query.addProjection(new PropertyProjection(GameVersion.LAST_UPDATE_UTC_PROPERTY, String.class));
+		query.addProjection(new PropertyProjection(GameVersion.DESCRIPTION_PROPERTY, String.class));
+		query.addProjection(new PropertyProjection(GameVersion.SCORE_OURS_PROPERTY, Long.class));
+		query.addProjection(new PropertyProjection(GameVersion.SCORE_THEIRS_PROPERTY, Long.class));
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
-		List<GameVersion> gameVersionsList = new ArrayList<GameVersion>();
-		for (Entity gameEntity : gameEntities) {
-			GameVersion gameVersion = GameVersion.fromEntity(gameEntity);
-			gameVersionsList.add(gameVersion);
+		List<GameVersionInfo> gameVersionInfosList = new ArrayList<GameVersionInfo>();
+		for (Entity gameVersionEntity : gameEntities) {
+			GameVersionInfo gameVersionInfo = GameVersionInfo.fromEntity(gameVersionEntity);
+			gameVersionInfosList.add(gameVersionInfo);
 		}
-		return gameVersionsList;
+		return gameVersionInfosList;
+	}
+	
+	public GameVersion getGameVersion(Long gameVersionIdentifier) {
+		Key key = KeyFactory.createKey(GameVersion.ENTITY_TYPE_NAME, gameVersionIdentifier);
+		try {
+			Entity gameVersionEntity = getDatastore().get(key);
+			GameVersion gameVersion = GameVersion.fromEntity(gameVersionEntity);
+			return gameVersion;
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
 	}
 	
 	public String saveState(State state) {
