@@ -368,14 +368,18 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/team/{teamId}/state/{stateType}", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveState(@PathVariable String teamId, @PathVariable String stateType, @RequestBody String stateJson) {
+	public ParameterState saveState(@PathVariable String teamId, @PathVariable String stateType, @RequestBody String stateJson) {
 		try {
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				State state = new State(team, stateType, stateJson);
-				return service.saveState(state);
+				service.saveState(state);
+				ParameterState pState = ParameterState.fromState(state);
+				pState.setJson(null); // don't return the same thing we just got
+				pState.setTeamNameWithSeason(team.getNameWithSeason());
+				return pState;
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on saveState", e);
@@ -411,7 +415,7 @@ public class WebRestController extends AbstractController {
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
-			logErrorAndThrow("Error on g", e);
+			logErrorAndThrow("Error on getState", e);
 			return null;
 		}
 	}
