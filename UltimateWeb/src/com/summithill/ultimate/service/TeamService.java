@@ -253,14 +253,12 @@ public class TeamService {
 		gameVersion.setExportData(gameExport.asJsonString());
 		gameVersion.setOurScore(game.getOurScore());
 		gameVersion.setTheirScore(game.getTheirScore());
-		gameVersion.setLastUpdateUtc(game.getLastUpdateUtc());
+		gameVersion.setUpdateUtc(game.getLastUpdateUtc());
+		gameVersion.setUpdateHash(game.getLastUpdateHash());
 		if (description != null) {
 			gameVersion.setDescription(description);
 		}
-		saveGameVersion(userIdentifier, gameVersion);
-	}
-	
-	private void saveGameVersion(String userIdentifier, GameVersion gameVersion) {
+		
 		Entity entity = gameVersion.asEntity();
 		this.addUserToEntity(entity, userIdentifier);
 		getDatastore().put(entity);
@@ -270,7 +268,8 @@ public class TeamService {
 		// retrieve all of the versions for this game
 		Query query = new Query(GameVersion.ENTITY_TYPE_NAME, game.asEntity().getKey());
 		// only retrieve the meta information about the version
-		query.addProjection(new PropertyProjection(GameVersion.LAST_UPDATE_UTC_PROPERTY, String.class));
+		query.addProjection(new PropertyProjection(GameVersion.UPDATE_UTC_PROPERTY, String.class));
+		query.addProjection(new PropertyProjection(GameVersion.UPDATE_HASH_PROPERTY, String.class));
 		query.addProjection(new PropertyProjection(GameVersion.DESCRIPTION_PROPERTY, String.class));
 		query.addProjection(new PropertyProjection(GameVersion.SCORE_OURS_PROPERTY, Long.class));
 		query.addProjection(new PropertyProjection(GameVersion.SCORE_THEIRS_PROPERTY, Long.class));

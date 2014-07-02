@@ -27,8 +27,10 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
+import com.summithill.ultimate.model.GameVersion;
 import com.summithill.ultimate.model.Player;
 import com.summithill.ultimate.model.State;
 import com.summithill.ultimate.model.Team;
@@ -195,6 +197,36 @@ public class WebRestController extends AbstractController {
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getGameVersions", e);
 			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/game/{gameId}/version/{versionId}/restore", method = RequestMethod.POST)
+	public void restoreGameVersion(@PathVariable String teamId, @PathVariable String gameId, @PathVariable Long versionId, HttpServletRequest request) {
+		String userIdentifier = getUserIdentifier(request);
+		try {
+			Team team = service.getTeam(teamId);
+			if (team == null) {
+				throw new RuntimeException("Team " + teamId + " not found");
+			} else {
+				Game game = service.getGame(team, gameId);
+				if (game == null) {
+					throw new RuntimeException("Game " + gameId + " not found");
+				} else {
+					GameVersion gameVersion = service.getGameVersion(versionId);
+					if (gameVersion == null) {
+						throw new RuntimeException("GameVersion " + versionId + " not found for Game " + game.getGameId());
+					} else {
+						GameExport gameExport = new ObjectMapper().readValue(gameVersion.getExportData(), GameExport.class);
+						ParameterGame parameterGame = new ObjectMapper().readValue(gameExport.getGameJson(), ParameterGame.class);
+						parameterGame.copyToGame(game);
+						game.setLastUpdateUtc(gameVersion.getUpdateUtc());
+						game.resetHash();
+						service.saveGame(userIdentifier, game);
+					}
+				}
+			}
+		} catch (Exception e) {
+			logErrorAndThrow(userIdentifier, "Error on restoreGameVersion", e);
 		}
 	}
 	
@@ -654,7 +686,7 @@ public class WebRestController extends AbstractController {
 			return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from UltiAnalytics", returnUrl);
 		}
 	}
-
+	
 	private void renamePlayerForTeam(String userIdentifier, Team team, String oldPlayerName, String newPlayerName) {
 		List<String> gameIds = service.getGameIDs(team);
 		for (String gameId : gameIds) {

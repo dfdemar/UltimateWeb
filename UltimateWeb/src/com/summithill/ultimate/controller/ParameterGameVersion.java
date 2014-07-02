@@ -7,14 +7,15 @@ import com.summithill.ultimate.service.GameVersionInfo;
 public class ParameterGameVersion  {
 	private long keyIdentifier;
 	private String description;
-	private String lastUpdtateUtc;
+	private String updateUtc;
 	private Long ourScore;
 	private Long theirScore;
+	private boolean isCurrentVersion;
 	
 	public static ParameterGameVersion fromGameVersionInfo(GameVersionInfo gameVersionInfo) {
 		ParameterGameVersion pGameVersion = new ParameterGameVersion();
 		pGameVersion.setKeyIdentifier(gameVersionInfo.getKeyIdentifier());
-		pGameVersion.setLastUpdtateUtc(gameVersionInfo.getLastUpdtateUtc());
+		pGameVersion.setUpdateUtc(gameVersionInfo.getUpdtateUtc());
 		pGameVersion.setDescription(gameVersionInfo.getDescription());
 		pGameVersion.setOurScore(gameVersionInfo.getOurScore());
 		pGameVersion.setTheirScore(gameVersionInfo.getTheirScore());
@@ -33,11 +34,11 @@ public class ParameterGameVersion  {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getLastUpdtateUtc() {
-		return lastUpdtateUtc;
+	public String getUpdateUtc() {
+		return updateUtc;
 	}
-	public void setLastUpdtateUtc(String lastUpdtateUtc) {
-		this.lastUpdtateUtc = lastUpdtateUtc;
+	public void setUpdateUtc(String lastUpdtateUtc) {
+		this.updateUtc = lastUpdtateUtc;
 	}
 	public Long getOurScore() {
 		return ourScore;
@@ -50,6 +51,12 @@ public class ParameterGameVersion  {
 	}
 	public void setTheirScore(Long theirScore) {
 		this.theirScore = theirScore;
+	}
+	public boolean isCurrentVersion() {
+		return isCurrentVersion;
+	}
+	public void setCurrentVersion(boolean isCurrentVersion) {
+		this.isCurrentVersion = isCurrentVersion;
 	}
 	
 }

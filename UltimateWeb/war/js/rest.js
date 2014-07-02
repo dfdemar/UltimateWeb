@@ -136,6 +136,18 @@ function retrievePlayerStatsForGame(options, successFunction, errorFunction) {
 	retrievePlayerStatsForGames(teamId, [options.gameId], successFunction, errorFunction);
 }
 
+function retrieveGameVersions(teamId, gameId, successFunction, errorFunction) {
+	sendAnalyticsEvent("retrieveGameVersions");
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/versions'; 
+	sendRequest({url: url, dataType: 'json', success: successFunction, error: errorFunction});
+}
+
+function restoreGameVersion(teamId, gameId, versionId, successFunction, errorFunction) {
+	sendAnalyticsEvent("restoreGameVersion");
+	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/game/' + gameId + '/version/' + versionId + '/restore'; 
+	sendRequest({url: url, dataType: 'json', isPost: true, success: successFunction, error: errorFunction});
+}
+
 function savePassword(teamId, password, successFunction, errorFunction) {
 	sendAnalyticsEvent("savePassword");
 	var url = Ultimate.baseRestUrl + '/team/' + teamId + '/password/' + (isNullOrEmpty(password) ? 'REMOVE-PASSWORD' : password); 

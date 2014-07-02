@@ -30,10 +30,7 @@ public class ParameterGame {
 	private ParameterTeamInfo teamInfo;
 	private String lastUpdateUtc;
 	private boolean isDeleted;
-	
-	public String getGameId() {
-		return gameId;
-	}
+	private boolean isPreviousVersionAvailable;
 	
 	public static ParameterGame fromGame(Game game) {
 		ParameterGame pGame = new ParameterGame();
@@ -65,6 +62,7 @@ public class ParameterGame {
 		pGame.setWind(game.getWind());
 		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
 		pGame.setDeleted(game.isDeleted());
+		pGame.setPreviousVersionAvailable(game.hasPreviousVersions());
 		return pGame;
 	}
 
@@ -82,7 +80,10 @@ public class ParameterGame {
 		game.setTimeoutDetailsJson(timeoutDetailsJson);
 		game.setWind(wind);
 	}
-		
+
+	public String getGameId() {
+		return gameId;
+	}
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
@@ -223,6 +224,14 @@ public class ParameterGame {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public boolean isPreviousVersionAvailable() {
+		return isPreviousVersionAvailable;
+	}
+
+	public void setPreviousVersionAvailable(boolean isPreviousVersionAvailable) {
+		this.isPreviousVersionAvailable = isPreviousVersionAvailable;
 	}
 
 }

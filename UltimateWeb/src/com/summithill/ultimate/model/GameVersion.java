@@ -8,7 +8,8 @@ public class GameVersion extends ModelObject {
 	public static final String SCORE_OURS_PROPERTY = "scoreOurs";
 	public static final String SCORE_THEIRS_PROPERTY = "scoreTheirs";
 	public static final String DESCRIPTION_PROPERTY = "description";
-	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
+	public static final String UPDATE_UTC_PROPERTY = "updateUtc";
+	public static final String UPDATE_HASH_PROPERTY = "updateHash";
 	public static final String EXPORT_PROPERTY = "exportData";
 	
 	private GameVersion(Entity entity) {
@@ -56,12 +57,20 @@ public class GameVersion extends ModelObject {
 		entity.setProperty(SCORE_THEIRS_PROPERTY, score);
 	}
 	
-	public String getLastUpdateUtc() {
-		return (String)entity.getProperty(LAST_UPDATE_UTC_PROPERTY);
+	public String getUpdateUtc() {
+		return (String)entity.getProperty(UPDATE_UTC_PROPERTY);
 	}
 	
-	public void setLastUpdateUtc(String timestamp) {
-		entity.setProperty(LAST_UPDATE_UTC_PROPERTY, timestamp);
+	public void setUpdateUtc(String timestamp) {
+		entity.setProperty(UPDATE_UTC_PROPERTY, timestamp);
+	}
+	
+	public String getUpdateHash() {
+		return (String)entity.getProperty(UPDATE_HASH_PROPERTY);
+	}
+	
+	public void setUpdateHash(String hash) {
+		entity.setProperty(UPDATE_HASH_PROPERTY, hash);
 	}
 	
 	public String getDescription() {
