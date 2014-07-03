@@ -107,7 +107,7 @@ public class MobileRestController extends AbstractController {
 				game = new Game(team);
 			}
 			parameterGame.copyToGame(game);
-			service.saveGame(userIdentifier, game);
+			service.saveGame(userIdentifier, game, true, "game upload from mobile device");
 		} catch (Exception e) {
 			logErrorAndThrow("error saving game", e);
 		}

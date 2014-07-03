@@ -235,14 +235,28 @@ public class TeamService {
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
+		saveGame(userIdentifier, game, false, null);
+	}
+	
+	public void saveGame(String userIdentifier, Game game, boolean addBackupVersion, String description) {
 		Team team = getTeam(game.getTeamPersistenceId());
 		boolean isGameNewOrChanged = updateLastUpdatedTimestamp(team, game);
 		if (isGameNewOrChanged) {
+			// save the game
 			Entity entity = game.asEntity();
 			this.addUserToEntity(entity, userIdentifier);
 			getDatastore().put(entity);
-			// update the associated team (which will recalulate first/last game, etc.)
-			saveTeam(userIdentifier, team);  
+			// update the associated team (which will recalculate first/last game, etc.)
+			saveTeam(userIdentifier, team); 
+			// create the version backup
+			if (addBackupVersion) {
+				try {
+					// TODO...Jim...uncomment to do game versions
+//					addGameVersion(userIdentifier, team, game, description);
+				} catch (Exception e) {
+					log.log(Level.SEVERE, "unable to create a game version while saving a game for team " + team.getName(), e);
+				}
+			}
 		}
 	}
 

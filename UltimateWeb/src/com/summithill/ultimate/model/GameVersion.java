@@ -2,6 +2,7 @@ package com.summithill.ultimate.model;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 public class GameVersion extends ModelObject {
 	public static final String ENTITY_TYPE_NAME = "GameVersion";
@@ -82,10 +83,13 @@ public class GameVersion extends ModelObject {
 	}
 	
 	public String getExportData() {
-		return (String)entity.getProperty(EXPORT_PROPERTY);
+		Text text = (Text)entity.getProperty(EXPORT_PROPERTY);
+		return text == null ? null : text.getValue();
 	}
 	
-	public void setExportData(String name) {
-		entity.setProperty(DESCRIPTION_PROPERTY, name);
+	public void setExportData(String json) {
+		Text text = json == null ? null : new Text(json);
+		entity.setProperty(EXPORT_PROPERTY, text);
 	}
+
 }

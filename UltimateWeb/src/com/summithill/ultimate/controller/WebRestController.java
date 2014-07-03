@@ -27,7 +27,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.GameVersion;
@@ -188,7 +187,11 @@ public class WebRestController extends AbstractController {
 				List<GameVersionInfo> gameVersions = service.getGameVersionInfos(game);
 				List<ParameterGameVersion> pGameVersions = new ArrayList<ParameterGameVersion>();
 				for (GameVersionInfo gameVersionInfo : gameVersions) {
-					pGameVersions.add(ParameterGameVersion.fromGameVersionInfo(gameVersionInfo));
+					ParameterGameVersion pGameVersion = ParameterGameVersion.fromGameVersionInfo(gameVersionInfo);
+					if (game.getLastUpdateHash() != null && game.getLastUpdateHash().equals(gameVersionInfo.getUpdateHash())) {
+						pGameVersion.setCurrentVersion(true);
+					}
+					pGameVersions.add(pGameVersion);
 				}
 				return pGameVersions;
 			}
