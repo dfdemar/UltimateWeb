@@ -2488,6 +2488,10 @@ angular.module('newBetaApp')
           return players[nickname].firstName + ' ' + players[nickname].lastName;
         if (type === 'shortened' && players[nickname].firstName && players[nickname].lastName)
           return players[nickname].firstName.slice(0,1).toUpperCase() + '. ' + players[nickname].lastName;
+        if (type === 'last' && players[nickname].firstName && players[nickname].lastName)
+          return players[nickname].lastName.slice(0,1).toUpperCase()
+        if (type === 'first' && players[nickname].firstName && players[nickname].lastName)
+          return players[nickname].firstName.slice(0,1).toUpperCase()
         return players[nickname][type] || nickname;
       }
       $rootScope.getName = getName;
@@ -2755,7 +2759,7 @@ angular.module('newBetaApp')
 'use strict';
 
 angular.module('newBetaApp')
-  .service('api', function Rest() {
+  .service('api', function Rest($location) {
     var exports = {};
     // init the global app object
     var Ultimate = {};
@@ -3283,7 +3287,8 @@ angular.module('newBetaApp')
 
     function sendAnalyticsEvent(restEndpointName) {
       // NOTE: You can add another property for more detail
-      _gaq.push(['_trackEvent', Ultimate.isAdminSite ? 'WebRestRequest-Admin' : 'WebRestRequest', restEndpointName]);
+      if (_.contains($location.host().toLowerCase(), 'ultimate-numbers') || _.contains($location.host().toLowerCase(), 'ultianalytics'))
+        _gaq.push(['_trackEvent', Ultimate.isAdminSite ? 'WebRestRequest-Admin' : 'WebRestRequest', restEndpointName]);
     }
 
     function defaultError(e){
