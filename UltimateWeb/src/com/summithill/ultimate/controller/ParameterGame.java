@@ -62,7 +62,7 @@ public class ParameterGame {
 		pGame.setWind(game.getWind());
 		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
 		pGame.setDeleted(game.isDeleted());
-		pGame.setPreviousVersionAvailable(game.hasPreviousVersions());
+		pGame.setPreviousVersionAvailable(game.getPreviousVersionsCount() > 0);
 		return pGame;
 	}
 

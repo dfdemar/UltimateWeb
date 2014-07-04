@@ -225,7 +225,7 @@ public class WebRestController extends AbstractController {
 						parameterGame.copyToGame(game);
 						game.setLastUpdateUtc(gameVersion.getUpdateUtc());
 						game.resetHash();
-						service.saveGame(userIdentifier, game);
+						service.saveGame(userIdentifier, game, false, null);
 					}
 				}
 			}
@@ -378,7 +378,7 @@ public class WebRestController extends AbstractController {
 			} else {
 				Game game = service.getGame(team, gameId);
 				game.setDeleted(false);
-				service.saveGame(userIdentifier, game);
+				service.saveGame(userIdentifier, game, false, null);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on undeleteGame", e);
@@ -696,7 +696,7 @@ public class WebRestController extends AbstractController {
 		for (String gameId : gameIds) {
 			Game game = service.getGame(team, gameId);
 			game.renamePlayer(oldPlayerName, newPlayerName);
-			service.saveGame(userIdentifier, game);
+			service.saveGame(userIdentifier, game, true, "player rename");
 		}
 	}
 	
@@ -705,7 +705,7 @@ public class WebRestController extends AbstractController {
 		Game game = new Game(toTeam);
 		parameterGame.copyToGame(game);
 		game.setGameId("game-" + UUID.randomUUID());  // give it a unique ID
-		service.saveGame(userIdentifier, game);
+		service.saveGame(userIdentifier, game, true, "import");
 	}
 	
 	private void importPlayers(String userIdentifier, Team toTeam, GameExport gameExport) throws Exception {

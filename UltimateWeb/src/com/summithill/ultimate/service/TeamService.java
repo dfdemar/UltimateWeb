@@ -239,42 +239,55 @@ public class TeamService {
 	
 	public void saveGame(String userIdentifier, Game game, boolean addBackupVersion, String description) {
 		Team team = getTeam(game.getTeamPersistenceId());
-		boolean isGameNewOrChanged = updateLastUpdatedTimestamp(team, game);
+    	Game oldGame = getGame(team, game.getGameId());
+		boolean isGameNewOrChanged = updateLastUpdatedTimestamp(team, game, oldGame);
 		if (isGameNewOrChanged) {
+	    	if (addBackupVersion) {
+	    		boolean backingUpOk = true;
+		    	// second save of a game that was last saved before the versions feature was added
+		    	if (oldGame != null && oldGame.getPreviousVersionsCount() == 0) {
+		    		// create a backup of the original game
+		    		backingUpOk = addGameVersion(userIdentifier, team, oldGame, "first save");
+		    	} 
+	    		// create the backup version
+		    	if (backingUpOk) {
+		    		backingUpOk = addGameVersion(userIdentifier, team, game, description);
+		    	};
+		    	if (backingUpOk) {
+		    		game.incrementPreviousVersionsCount();
+		    	};
+	    	}
 			// save the game
 			Entity entity = game.asEntity();
 			this.addUserToEntity(entity, userIdentifier);
 			getDatastore().put(entity);
 			// update the associated team (which will recalculate first/last game, etc.)
 			saveTeam(userIdentifier, team); 
-			// create the version backup
-			if (addBackupVersion) {
-				try {
-					// TODO...Jim...uncomment to do game versions
-//					addGameVersion(userIdentifier, team, game, description);
-				} catch (Exception e) {
-					log.log(Level.SEVERE, "unable to create a game version while saving a game for team " + team.getName(), e);
-				}
-			}
 		}
 	}
 
-	public void addGameVersion(String userIdentifier, Team team, Game game, String description) {
-		GameExport gameExport = GameExport.from(team, game, null, userIdentifier);
-		
-		GameVersion gameVersion = new GameVersion(game);
-		gameVersion.setExportData(gameExport.asJsonString());
-		gameVersion.setOurScore(game.getOurScore());
-		gameVersion.setTheirScore(game.getTheirScore());
-		gameVersion.setUpdateUtc(game.getLastUpdateUtc());
-		gameVersion.setUpdateHash(game.getLastUpdateHash());
-		if (description != null) {
-			gameVersion.setDescription(description);
+	public boolean addGameVersion(String userIdentifier, Team team, Game game, String description) {
+		try {
+			GameExport gameExport = GameExport.from(team, game, null, userIdentifier);
+			
+			GameVersion gameVersion = new GameVersion(game);
+			gameVersion.setExportData(gameExport.asJsonString());
+			gameVersion.setOurScore(game.getOurScore());
+			gameVersion.setTheirScore(game.getTheirScore());
+			gameVersion.setUpdateUtc(game.getLastUpdateUtc());
+			gameVersion.setUpdateHash(game.getLastUpdateHash());
+			if (description != null) {
+				gameVersion.setDescription(description);
+			}
+			
+			Entity entity = gameVersion.asEntity();
+			this.addUserToEntity(entity, userIdentifier);
+			getDatastore().put(entity);
+			return true;
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "unable to create a game version while saving a game for team " + team.getName(), e);
+			return false;
 		}
-		
-		Entity entity = gameVersion.asEntity();
-		this.addUserToEntity(entity, userIdentifier);
-		getDatastore().put(entity);
 	}
 	
 	public List<GameVersionInfo> getGameVersionInfos(Game game) {
@@ -417,7 +430,7 @@ public class TeamService {
 		for (String gameId : gameIds) {
 			Game game = getGame(team, gameId);
 			Game gameCopy = game.clone(userIdentifier, teamCopy);
-			saveGame(userIdentifier, gameCopy);
+			saveGame(userIdentifier, gameCopy, false, null);
 		}
 
 		return newTeamId;
@@ -489,9 +502,8 @@ public class TeamService {
     	}
     }
     
-    private boolean updateLastUpdatedTimestamp(Team team, Game game) {
+    private boolean updateLastUpdatedTimestamp(Team team, Game game, Game oldGame) {
 		game.resetHash();
-    	Game oldGame = getGame(team, game.getGameId());
     	if (oldGame == null || !game.hasSameHash(oldGame.getLastUpdateHash())) {
     		TimeZone utc = TimeZone.getTimeZone("UTC");
     		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");

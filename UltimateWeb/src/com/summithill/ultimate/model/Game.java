@@ -32,7 +32,7 @@ public class Game extends ModelObject {
 	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
 	public static final String LAST_UPDATE_HASH_PROPERTY = "lastUpdateHash";
 	public static final String IS_DELETED = "isDeleted";
-	public static final String HAS_PREVIOUS_VERSIONS_PROPERTY = "hasPreviousVersions";
+	public static final String PREVIOUS_VERSIONS_COUNT_PROPERTY = "previousVersionsCount";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -182,13 +182,17 @@ public class Game extends ModelObject {
 	}
 	
 	
-	public boolean hasPreviousVersions() {
-		Boolean answer = (Boolean)entity.getProperty(HAS_PREVIOUS_VERSIONS_PROPERTY);
-		return answer == null ? false : answer.booleanValue();
+	public long getPreviousVersionsCount() {
+		Long answer = (Long)entity.getProperty(PREVIOUS_VERSIONS_COUNT_PROPERTY);
+		return answer == null ? 0 : answer.longValue();
 	}
 	
-	public void setHasPreviousVersions(boolean hasPreviousVersions) {
-		entity.setProperty(HAS_PREVIOUS_VERSIONS_PROPERTY, Boolean.valueOf(hasPreviousVersions));
+	public void setPreviousVersionsCount(long hasPreviousVersions) {
+		entity.setProperty(PREVIOUS_VERSIONS_COUNT_PROPERTY, Long.valueOf(hasPreviousVersions));
+	}
+	
+	public void incrementPreviousVersionsCount() {
+		setPreviousVersionsCount(getPreviousVersionsCount() + 1);
 	}
 	
 	@SuppressWarnings("unchecked")
