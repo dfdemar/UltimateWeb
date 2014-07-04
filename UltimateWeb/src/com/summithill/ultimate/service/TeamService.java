@@ -30,7 +30,6 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.users.User;
 import com.summithill.ultimate.controller.GameExport;
 import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
@@ -296,8 +295,8 @@ public class TeamService {
 		return gameVersionInfosList;
 	}
 	
-	public GameVersion getGameVersion(Long gameVersionIdentifier) {
-		Key key = KeyFactory.createKey(GameVersion.ENTITY_TYPE_NAME, gameVersionIdentifier);
+	public GameVersion getGameVersion(Game game, Long gameVersionIdentifier) {
+		Key key = KeyFactory.createKey(game.getPersistenceKey(), GameVersion.ENTITY_TYPE_NAME, gameVersionIdentifier);
 		try {
 			Entity gameVersionEntity = getDatastore().get(key);
 			GameVersion gameVersion = GameVersion.fromEntity(gameVersionEntity);

@@ -34,6 +34,13 @@ public class ModelObject {
 		return null;
 	}
 	
+	public Key getPersistenceKey() {
+		if (entity != null) {
+			return entity.getKey();
+		}
+		return null;
+	}
+	
 	public Key getParentPersistenceKey() {
 		if (entity != null) {
 			Key parentKey = entity.getParent();

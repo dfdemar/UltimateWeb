@@ -204,6 +204,7 @@ public class WebRestController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/version/{versionId}/restore", method = RequestMethod.POST)
+	@ResponseBody
 	public void restoreGameVersion(@PathVariable String teamId, @PathVariable String gameId, @PathVariable Long versionId, HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
@@ -215,7 +216,7 @@ public class WebRestController extends AbstractController {
 				if (game == null) {
 					throw new RuntimeException("Game " + gameId + " not found");
 				} else {
-					GameVersion gameVersion = service.getGameVersion(versionId);
+					GameVersion gameVersion = service.getGameVersion(game, versionId);
 					if (gameVersion == null) {
 						throw new RuntimeException("GameVersion " + versionId + " not found for Game " + game.getGameId());
 					} else {
