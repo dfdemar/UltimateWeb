@@ -26,6 +26,7 @@ import="com.google.appengine.api.users.*"
 	<script src="../../js/jquery.mobile-1.1.0.min.js"></script>
 	<script src="../../js/page-params.js"></script>
 	<script src="../../js/handlebars-1.0.0.beta.6.js"></script>	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
 	<script type="text/javascript">
 	Ultimate = {};
 	Ultimate.userName = "${userName}";

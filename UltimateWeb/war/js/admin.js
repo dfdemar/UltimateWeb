@@ -325,7 +325,14 @@ function updateGamesList(games) {
 			html[html.length] =  game.gameId;
 			html[html.length] = '">Export</a>';	
 		}
-		html[html.length] = '</span>';			
+		html[html.length] = '</span>';		
+		html[html.length] = '<span class="gameActionLink">';
+		if (!game.deleted) {
+			html[html.length] = '<a class="gamePreviousVersionLink" href="javascript:void(0)" data-role="button" data-game="';
+			html[html.length] =  game.gameId;
+			html[html.length] = '">Versions</a>';	
+		}
+		html[html.length] = '</span>';				
 		html[html.length] = '<span class="game-date">';
 		html[html.length] = game.date;
 		html[html.length] = '&nbsp;&nbsp;';
@@ -354,6 +361,21 @@ function updateGamesList(games) {
 	$(".gameExportLink").on('click', function() {
 		var gameId = $(this).data('game');
 		location.href = urlForGameExportFileDownload(Ultimate.teamId,gameId);
+	});
+	$(".gamePreviousVersionLink").on('click', function() {
+		Ultimate.gameVersions = [];
+		var gameId = $(this).data('game');
+		retrieveGameVersions(Ultimate.teamId, gameId, function(versions) {
+			Ultimate.gameVersions = _.filter(versions, function(versionInfo) { 
+				return !versionInfo.currentVersion; 
+			});
+			if (Ultimate.gameVersions.length == 0) {
+				alert('No previous versions for this game');
+			} else {
+				// TODO...JIM...open a dialog that allows user to restore a previous version 
+				alert(JSON.stringify(Ultimate.gameVersions));
+			}
+		},handleRestError);
 	});
 }
 
