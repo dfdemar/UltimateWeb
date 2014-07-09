@@ -30,7 +30,10 @@ $(document).live('pagechange', function(event, data) {
 			break;		
 		case 'playerChangeDialog':
 			renderPlayerChangeDialog(data);
-			break;			
+			break;	
+		case 'gameVersionsDialog':
+			renderGameVersionDialog(data);
+			break;				
 		default:
 			//
 	}
@@ -107,6 +110,10 @@ function renderTeamPasswordDialog(data) {
 		var newPwd = $('#teamPasswordInput').val();
 		submitPassword(Ultimate.team.cloudId, newPwd);
 	});
+}
+
+function renderGameVersionDialog(data) {
+	// TODO...JIM...populate the game versions dialog 
 }
 
 function renderPlayerChangeDialog(data) {
@@ -372,8 +379,7 @@ function updateGamesList(games) {
 			if (Ultimate.gameVersions.length == 0) {
 				alert('No previous versions for this game');
 			} else {
-				// TODO...JIM...open a dialog that allows user to restore a previous version 
-				alert(JSON.stringify(Ultimate.gameVersions));
+				$.mobile.changePage('#gameVersionsDialog', {transition: 'pop', role: 'dialog'}); 
 			}
 		},handleRestError);
 	});

@@ -324,6 +324,29 @@ import="com.google.appengine.api.users.*"
 		<img class="spinner hidden" src="/images/spinner.gif" />
 	</div>
 	
+	<div id="gameVersionsDialog" class="pagediv" data-role="dialog"
+		data-theme="b">
+ 
+		<div data-role="header">
+			<h1>Game Versions</h1>
+		</div>
+ 
+		<div data-role="content" data-tem="c">
+			<div class="dialogInstructions">
+				<div>You can replace this game&apos;s data with a version previously stored.  To replace this game, pick a version from the list and click the Replace button.</div>
+				<br>
+				<div id="game-version-dialog-target-select">		
+					<label for="gameVersionList" class="select" id="game-version-dialog-target-select">Other Versions:</label>
+					<select name="gameVersionList" id="gameVersionList">
+					</select>
+				</div><br>
+			</div> 
+			<a id="game-version-dialog-doit-button" href="#" data-role="button" data-inline="true" data-theme="a">Replace</a> 
+			<a href="#" data-role="button" data-inline="true" data-rel="back">Cancel</a>
+		</div>
+		<img class="spinner hidden" src="/images/spinner.gif" />
+	</div>
+	
 	<div id="importGameDialog" class="pagediv" data-role="dialog"
 		data-theme="b">
 
