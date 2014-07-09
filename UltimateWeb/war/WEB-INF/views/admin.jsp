@@ -60,6 +60,12 @@ import="com.google.appengine.api.users.*"
 		<option value="{{name}}">{{name}}</option>
 		{{/each}}
 	</script>
+	
+	<script id="gameVersionsListTemplate" type="text/x-handlebars-template">
+		{{#each versions}}
+		<option value="{{keyIdentifier}}">Saved {{updateUtc}} GMT, score: {{ourScore}}-{{theirScore}}</option>
+		{{/each}}
+	</script>
 
 </head>
 <body>
@@ -335,9 +341,9 @@ import="com.google.appengine.api.users.*"
 			<div class="dialogInstructions">
 				<div>You can replace this game&apos;s data with a version previously stored.  To replace this game, pick a version from the list and click the Replace button.</div>
 				<br>
-				<div id="game-version-dialog-target-select">		
-					<label for="gameVersionList" class="select" id="game-version-dialog-target-select">Other Versions:</label>
-					<select name="gameVersionList" id="gameVersionList">
+				<div id="game-versions-dialog-target-select">		
+					<label for="gameVersionsList" class="select" id="game-versions-dialog-target-select">Other Versions:</label>
+					<select name="gameVersionsList" id="gameVersionsList">
 					</select>
 				</div><br>
 			</div> 

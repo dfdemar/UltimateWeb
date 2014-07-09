@@ -113,7 +113,10 @@ function renderTeamPasswordDialog(data) {
 }
 
 function renderGameVersionDialog(data) {
-	// TODO...JIM...populate the game versions dialog 
+	var game = {};
+	game.versions = Ultimate.gameVersions;
+	$('#gameVersionsList').html(createGameVersionsListHtml(game)).selectmenu('refresh');
+	// TODO...JIM...handle game version selection 
 }
 
 function renderPlayerChangeDialog(data) {
@@ -423,6 +426,13 @@ function createMoveToPlayerListHtml(team) {
 		Ultimate.moveToPlayersTemplate = Handlebars.compile($("#moveToPlayerListTemplate").html());
 	}
 	return Ultimate.moveToPlayersTemplate(team);
+}
+
+function createGameVersionsListHtml(game) {
+	if (Ultimate.gameVersionsTemplate == null) {
+		Ultimate.gameVersionsTemplate = Handlebars.compile($("#gameVersionsListTemplate").html());
+	}
+	return Ultimate.gameVersionsTemplate(game);
 }
 
 function registerTeamPageRadioButtonHandler(page) {
