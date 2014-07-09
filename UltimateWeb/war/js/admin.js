@@ -116,7 +116,16 @@ function renderGameVersionDialog(data) {
 	var game = {};
 	game.versions = Ultimate.gameVersions;
 	$('#gameVersionsList').html(createGameVersionsListHtml(game)).selectmenu('refresh');
-	// TODO...JIM...handle game version selection 
+	$('#game-version-dialog-doit-button').unbind().on('click', function() {
+		var versionId = $('#gameVersionsList option:selected').val();
+		restoreGameVersion(Ultimate.teamId, Ultimate.gameId, versionId, function() {
+			alert('You have replaced the current version of this game with a different version.');
+			resetCacheBuster();
+			populateTeam(function() {
+				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+			}, handleRestError);
+		})
+	});
 }
 
 function renderPlayerChangeDialog(data) {
@@ -375,6 +384,7 @@ function updateGamesList(games) {
 	$(".gamePreviousVersionLink").on('click', function() {
 		Ultimate.gameVersions = [];
 		var gameId = $(this).data('game');
+		Ultimate.gameId = gameId;
 		retrieveGameVersions(Ultimate.teamId, gameId, function(versions) {
 			Ultimate.gameVersions = _.filter(versions, function(versionInfo) { 
 				return !versionInfo.currentVersion; 
