@@ -341,6 +341,8 @@ import="com.google.appengine.api.users.*"
 			<div class="dialogInstructions">
 				<div>You can replace this game&apos;s data with a version previously stored.  To replace this game, pick a version from the list and click the Replace button.</div>
 				<br>
+				<div>NOTE: You will not lose the current version of this game if you replace it.  To undo your action simply replace the version with the original you replaced.</div>
+				<br>
 				<div id="game-versions-dialog-target-select">		
 					<label for="gameVersionsList" class="select" id="game-versions-dialog-target-select-label">Other Versions:</label>
 					<select name="gameVersionsList" id="gameVersionsList">

@@ -119,10 +119,10 @@ function renderGameVersionDialog(data) {
 	$('#game-version-dialog-doit-button').unbind().on('click', function() {
 		var versionId = $('#gameVersionsList option:selected').val();
 		restoreGameVersion(Ultimate.teamId, Ultimate.gameId, versionId, function() {
-			alert('You have replaced the current version of this game with a different version.');
+			alert('Game version updated.');
 			resetCacheBuster();
 			populateTeam(function() {
-				$.mobile.changePage('#teamplayerspage?team=' + Ultimate.teamId, {transition: 'pop'});
+				$.mobile.changePage('#teamgamespage?team=' + Ultimate.teamId, {transition: 'pop'});
 			}, handleRestError);
 		})
 	});
