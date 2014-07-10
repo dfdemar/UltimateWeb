@@ -63,7 +63,7 @@ import="com.google.appengine.api.users.*"
 	
 	<script id="gameVersionsListTemplate" type="text/x-handlebars-template">
 		{{#each versions}}
-		<option value="{{keyIdentifier}}">Saved {{updateUtc}} GMT, score: {{ourScore}}-{{theirScore}}</option>
+		<option value="{{keyIdentifier}}">Saved {{updateUtc}} GMT, score: {{ourScore}}-{{theirScore}}, {{description}}</option>
 		{{/each}}
 	</script>
 

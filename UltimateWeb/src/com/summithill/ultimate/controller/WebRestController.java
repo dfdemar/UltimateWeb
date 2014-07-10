@@ -696,7 +696,7 @@ public class WebRestController extends AbstractController {
 		for (String gameId : gameIds) {
 			Game game = service.getGame(team, gameId);
 			game.renamePlayer(oldPlayerName, newPlayerName);
-			service.saveGame(userIdentifier, game, true, "player rename");
+			service.saveGame(userIdentifier, game, true, "player rename from " + oldPlayerName + " to " + newPlayerName);
 		}
 	}
 	

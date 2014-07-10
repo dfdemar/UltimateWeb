@@ -267,30 +267,27 @@ public class TeamService {
 	}
 
 	public boolean addGameVersion(String userIdentifier, Team team, Game game, String description) {
-		// TODO...JIM...turn on to do versioning
-		
-		return false;
-//		try {
-//			GameExport gameExport = GameExport.from(team, game, null, userIdentifier);
-//			
-//			GameVersion gameVersion = new GameVersion(game);
-//			gameVersion.setExportData(gameExport.asJsonString());
-//			gameVersion.setOurScore(game.getOurScore());
-//			gameVersion.setTheirScore(game.getTheirScore());
-//			gameVersion.setUpdateUtc(game.getLastUpdateUtc());
-//			gameVersion.setUpdateHash(game.getLastUpdateHash());
-//			if (description != null) {
-//				gameVersion.setDescription(description);
-//			}
-//			
-//			Entity entity = gameVersion.asEntity();
-//			this.addUserToEntity(entity, userIdentifier);
-//			getDatastore().put(entity);
-//			return true;
-//		} catch (Exception e) {
-//			log.log(Level.SEVERE, "unable to create a game version while saving a game for team " + team.getName(), e);
-//			return false;
-//		}
+		try {
+			GameExport gameExport = GameExport.from(team, game, null, userIdentifier);
+			
+			GameVersion gameVersion = new GameVersion(game);
+			gameVersion.setExportData(gameExport.asJsonString());
+			gameVersion.setOurScore(game.getOurScore());
+			gameVersion.setTheirScore(game.getTheirScore());
+			gameVersion.setUpdateUtc(game.getLastUpdateUtc());
+			gameVersion.setUpdateHash(game.getLastUpdateHash());
+			if (description != null) {
+				gameVersion.setDescription(description);
+			}
+			
+			Entity entity = gameVersion.asEntity();
+			this.addUserToEntity(entity, userIdentifier);
+			getDatastore().put(entity);
+			return true;
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "unable to create a game version while saving a game for team " + team.getName(), e);
+			return false;
+		}
 	}
 	
 	public List<GameVersionInfo> getGameVersionInfos(Game game) {
