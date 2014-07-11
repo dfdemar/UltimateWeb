@@ -176,13 +176,13 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}/versions", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterGameVersion> getGameVersions(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
-		this.addStandardExpireHeader(response);
 		try {
+			addStandardExpireHeader(response);
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				throw new NoSuchRequestHandlingMethodException(request);
 			} else {
-				verifyAccess(team, request);
+				verifyAdminUserAccessToTeam(request, teamId);
 				Game game = service.getGame(team, gameId);
 				List<GameVersionInfo> gameVersions = service.getGameVersionInfos(game);
 				List<ParameterGameVersion> pGameVersions = new ArrayList<ParameterGameVersion>();
@@ -212,6 +212,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				Game game = service.getGame(team, gameId);
 				if (game == null) {
 					throw new RuntimeException("Game " + gameId + " not found");
@@ -244,6 +245,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				team.setDeleted(true);
 				service.saveTeam(userIdentifier, team);
 			}
@@ -262,6 +264,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				team.setDeleted(false);
 				service.saveTeam(userIdentifier, team);
 			}
@@ -280,6 +283,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				renamePlayerForTeam(userIdentifier, team, playerToDelete, replacement);
 				service.deletePlayer(team, playerToDelete);
 			}
@@ -299,10 +303,12 @@ public class WebRestController extends AbstractController {
 			HttpServletRequest request) {
 		String userIdentifier = getUserIdentifier(request);
 		try {
+			verifyAdminUserAccessToTeam(request, teamId);
 			Team team = service.getTeam(teamId);
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				// fix the name in game data
 				renamePlayerForTeam(userIdentifier, team, playerToRename, replacement);
 				
@@ -358,6 +364,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				Game game = service.getGame(team, gameId);
 				game.setDeleted(true);
 				service.saveGame(userIdentifier, game);
@@ -376,6 +383,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				Game game = service.getGame(team, gameId);
 				game.setDeleted(false);
 				service.saveGame(userIdentifier, game, false, null);
@@ -394,6 +402,7 @@ public class WebRestController extends AbstractController {
 			if (team == null) {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
+				verifyAdminUserAccessToTeam(request, teamId);
 				team.setPassword("REMOVE-PASSWORD".equals(password) ? null : password);
 				service.saveTeam(userIdentifier, team);
 			}
@@ -620,8 +629,9 @@ public class WebRestController extends AbstractController {
 	@RequestMapping(value = "/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
 	public void getGameExport(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, final HttpServletResponse response) {
 		try {
-			ParameterTeam team = getParameterTeamAfterVerifyingWebsiteAccess(teamId, request);
-			ParameterGame game = getParameterGame(teamId, gameId, request, true);
+			verifyAdminUserAccessToTeam(request, teamId);
+			ParameterTeam team = getParameterTeam(teamId, request, false, false);
+			ParameterGame game = getParameterGame(teamId, gameId, request, false);
 			String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
 			GameExport export = GameExport.from(team, game, email); 
 			
@@ -662,7 +672,7 @@ public class WebRestController extends AbstractController {
 		try {
 			team = service.getTeam(teamId);
 			if (team != null) {
-				verifyAccess(team, request);
+				verifyAdminUserAccessToTeam(request, teamId);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow("Error on getGameExport", e);

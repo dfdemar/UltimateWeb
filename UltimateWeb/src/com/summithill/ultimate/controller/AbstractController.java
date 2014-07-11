@@ -269,6 +269,14 @@ public class AbstractController {
 		this.getUserIdentifier(request);
 	}
 	
+	protected void verifyAdminUserAccessToTeam(HttpServletRequest request, String teamId) {
+		Team team = service.getTeam(teamId);
+		String userIdentifier = this.getUserIdentifier(request);
+		if (!team.getUserIdentifier().equals(userIdentifier)) {
+			throw new UnauthorizedException();
+		}
+	}
+	
 	protected String getUserIdentifier(HttpServletRequest request) {
 		//if (true) {throw new UnauthorizedException();} // force authorization error
 		if (request.getRequestURL().toString().contains("//local")) {
