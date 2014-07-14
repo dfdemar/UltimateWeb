@@ -113,6 +113,9 @@ function renderTeamPasswordDialog(data) {
 }
 
 function renderGameVersionDialog(data) {
+	var currentVersion = Ultimate.gameVersions.current;
+	$('#game-version_current-description').html(currentVersion.updateUtc + ' GMT, score: ' + currentVersion.ourScore + '-' + currentVersion.theirScore + ', ' + currentVersion.description);
+	
 	var game = {};
 	game.versions = Ultimate.gameVersions;
 	$('#gameVersionsList').html(createGameVersionsListHtml(game)).selectmenu('refresh');
@@ -386,10 +389,13 @@ function updateGamesList(games) {
 		var gameId = $(this).data('game');
 		Ultimate.gameId = gameId;
 		retrieveGameVersions(Ultimate.teamId, gameId, function(versions) {
-			Ultimate.gameVersions = _.filter(versions, function(versionInfo) { 
+			Ultimate.gameVersions.other = _.filter(versions, function(versionInfo) { 
 				return !versionInfo.currentVersion; 
 			});
-			if (Ultimate.gameVersions.length == 0) {
+			Ultimate.gameVersions.current = _.find(versions, function(versionInfo) {
+				  return versionInfo.currentVersion;
+			});
+			if (Ultimate.gameVersions.other.length == 0) {
 				alert('No previous versions for this game');
 			} else {
 				$.mobile.changePage('#gameVersionsDialog', {transition: 'pop', role: 'dialog'}); 

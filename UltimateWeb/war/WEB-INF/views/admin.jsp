@@ -62,7 +62,7 @@ import="com.google.appengine.api.users.*"
 	</script>
 	
 	<script id="gameVersionsListTemplate" type="text/x-handlebars-template">
-		{{#each versions}}
+		{{#each versions.other}}
 		<option value="{{keyIdentifier}}">Saved {{updateUtc}} GMT, score: {{ourScore}}-{{theirScore}}, {{description}}</option>
 		{{/each}}
 	</script>
@@ -343,6 +343,10 @@ import="com.google.appengine.api.users.*"
 				<br>
 				<div>NOTE: You will not lose the current version of this game if you replace it.  To undo your action simply replace the version with the original you replaced.</div>
 				<br>
+				<div>		
+					Current Version:<br>
+					<b><span id="game-version_current-description"></span></b>
+				</div><br>
 				<div id="game-versions-dialog-target-select">		
 					<label for="gameVersionsList" class="select" id="game-versions-dialog-target-select-label">Other Versions:</label>
 					<select name="gameVersionsList" id="gameVersionsList">
