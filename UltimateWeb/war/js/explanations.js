@@ -18,19 +18,19 @@ UltiAnalytics.explanations =
    "title" : "points played",
    "description" : "<ul><li>total number of points played.  A player that subs in/out is credited half a point.</li></ul>"}]
  },
- {"name" : "oLinePointsPlayed", "explanations" : [{"lang" : "en",
+ {"name" : "oPoints", "explanations" : [{"lang" : "en",
    "title" : "o-line points played",
    "description" : "<ul><li>total number of o-linepoints the player played.  A player that subs in/out is credited a half point.</li></ul>"}]
  },
- {"name" : "dLinePointsPlayed", "explanations" : [{"lang" : "en",
+ {"name" : "dPoints", "explanations" : [{"lang" : "en",
    "title" : "d-line points played",
    "description" : "<ul><li>total number of o-linepoints the player played.  A player that subs in/out is credited a half point.</li></ul>"}]
  },
- {"name" : "oLineEfficiency", "explanations" : [{"lang" : "en",
+ {"name" : "oEfficiency", "explanations" : [{"lang" : "en",
    "title" : "o-Line officiency",
    "description" : "<ul><li>+1 for an O-line<sup>2</sup> goal for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the O-line<sup>2</sup> (a break) in which the player was on the field<sup>1</sup>.</li></ul>"}]
  },
- {"name" : "dLineEfficiency", "explanations" : [{"lang" : "en",
+ {"name" : "dEfficiency", "explanations" : [{"lang" : "en",
    "title" : "d-Line efficiency",
    "description" : "<li>+1 for a D-line<sup>2</sup> goal (a break) for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the D-line<sup>2</sup> for a point in which the player was on the field<sup>1</sup>.</li>"}]
  },
@@ -50,11 +50,11 @@ UltiAnalytics.explanations =
    "title" : "throws",
    "description" : "<ul><li>+1 when offense player passes to another player (including for a goal) regardless of whether the pass is caught, i.e., includes drops and throwaways.</li></ul>"}]
  },
- {"name" : "throwPercent", "explanations" : [{"lang" : "en",
+ {"name" : "passingPercentage", "explanations" : [{"lang" : "en",
    "title" : "throw %",
    "description" : "<ul><li>(throws - passer turnovers) &#247; throws</li></ul>"}]
  },
- {"name" : "catchPercent", "explanations" : [{"lang" : "en",
+ {"name" : "catchingPercentage", "explanations" : [{"lang" : "en",
    "title" : "catch %",
    "description" : "<ul><li>catches &#247; (catches + drops)</li></ul>"}]
  },
@@ -77,6 +77,10 @@ UltiAnalytics.explanations =
   {"name" : "oProductivity", "explanations" : [{"lang" : "en",
    "title" : "offensive productivity",
    "description" : "<ul><li>The number of offensive points scored / The number of offensive points played</li></ul>"}]
+ },
+  {"name" : "dProductivity", "explanations" : [{"lang" : "en",
+   "title" : "defensive productivity",
+   "description" : "<ul><li>The number of defensive points scored / The number of defensive points played</li></ul>"}]
  },
   {"name" : "conversionRate", "explanations" : [{"lang" : "en",
    "title" : "conversion rate",
