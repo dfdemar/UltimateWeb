@@ -11,12 +11,14 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	private String number;
 	private String position;
 	private boolean isMale;
+	private boolean isAbsent;
 	private String leaguevinePlayer;
 	private boolean isInactive;
 	
 	public static ParameterPlayer fromPlayer(Player player) {
 		ParameterPlayer pPlayer = new ParameterPlayer();
 		pPlayer.setMale(player.isMale());
+		pPlayer.setAbsent(player.isAbsent());
 		pPlayer.setName(player.getName());
 		pPlayer.setLastName(player.getLastName());
 		pPlayer.setFirstName(player.getFirstName());		
@@ -33,6 +35,7 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 		modelPlayer.setNumber(number);
 		modelPlayer.setPosition(position);
 		modelPlayer.setIsMale(isMale);
+		modelPlayer.setIsAbsent(isAbsent);
 		modelPlayer.setLeaguevinePlayerJson(leaguevinePlayer);
 	}
 	
@@ -107,6 +110,14 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 		this.isInactive = isInactive;
 	}
 	
+	public boolean isAbsent() {
+		return isAbsent;
+	}
+
+	public void setAbsent(boolean isAbsent) {
+		this.isAbsent = isAbsent;
+	}
+	
 	@Override
 	public int compareTo(ParameterPlayer otherPlayer) {
 		return this.getName().compareToIgnoreCase(otherPlayer.getName());
@@ -133,7 +144,6 @@ public class ParameterPlayer implements Comparable<ParameterPlayer> {
 			return false;
 		return true;
 	}
-
 
 
 }
