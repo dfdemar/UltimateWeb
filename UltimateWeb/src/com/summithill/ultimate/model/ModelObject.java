@@ -34,6 +34,13 @@ public class ModelObject {
 		return null;
 	}
 	
+	public boolean hasBeenSaved() {
+		if (entity == null || (entity.getKey() == null)) {
+			return false;
+		}
+		return entity.getKey().getId() != 0; 
+	}
+	
 	public Key getPersistenceKey() {
 		if (entity != null) {
 			return entity.getKey();

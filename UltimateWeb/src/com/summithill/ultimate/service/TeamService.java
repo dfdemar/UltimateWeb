@@ -47,7 +47,9 @@ public class TeamService {
 
 	public long saveTeam(String userIdentifier, Team team) {
 		try {
-			updateTeamSummaryData(team);
+			if (team.hasBeenSaved()) {
+				updateTeamSummaryData(team);
+			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "unable to update team summary data for team " + team.getName(), e);
 			// don't prevent team save if the summary upate fails
