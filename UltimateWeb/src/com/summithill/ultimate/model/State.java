@@ -10,12 +10,13 @@ import com.google.appengine.api.datastore.Entity;
  * A generic state object which can be used to store session state or other state data
  * The State is owned by a Team and cannot be moved to another team
  */
+import com.google.appengine.api.datastore.Text;
 
 public class State extends ModelObject implements Comparable<State> {
 	public static final String ENTITY_TYPE_NAME = "State";
 	public static final String TEAM_ID_PROPERTY = "teamId";
 	public static final String TYPE_PROPERTY = "type";
-	public static final String JSON_PROPERTY = "json";
+	public static final String DATA_PROPERTY = "data";
 	public static final String LAST_UPDATE_UTC_PROPERTY = "lastUpdateUtc";
 	
 	private State(Entity entity) {
@@ -45,13 +46,14 @@ public class State extends ModelObject implements Comparable<State> {
 	public void setTeamId(String type) {
 		entity.setProperty(TEAM_ID_PROPERTY, type);
 	}
-	
 	public String getJson() {
-		return (String)entity.getProperty(JSON_PROPERTY);
+		Text text = (Text)entity.getProperty(DATA_PROPERTY);
+		return text == null ? null : text.getValue();
 	}
 	
 	public void setJson(String json) {
-		entity.setProperty(JSON_PROPERTY, json);
+		Text text = json == null ? null : new Text(json);
+		entity.setProperty(DATA_PROPERTY, text);
 	}
 	
 	public String getType() {
