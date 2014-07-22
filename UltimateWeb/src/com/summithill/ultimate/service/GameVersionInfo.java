@@ -1,6 +1,10 @@
 package com.summithill.ultimate.service;
 
-import static com.summithill.ultimate.model.GameVersion.*;
+import static com.summithill.ultimate.model.GameVersion.DESCRIPTION_PROPERTY;
+import static com.summithill.ultimate.model.GameVersion.SCORE_OURS_PROPERTY;
+import static com.summithill.ultimate.model.GameVersion.SCORE_THEIRS_PROPERTY;
+import static com.summithill.ultimate.model.GameVersion.UPDATE_HASH_PROPERTY;
+import static com.summithill.ultimate.model.GameVersion.UPDATE_UTC_PROPERTY;
 
 import com.google.appengine.api.datastore.Entity;
 

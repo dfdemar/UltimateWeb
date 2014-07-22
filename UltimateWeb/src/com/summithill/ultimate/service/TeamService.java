@@ -242,14 +242,14 @@ public class TeamService {
     	Game oldGame = getGame(team, game.getGameId());
 		boolean isGameNewOrChanged = updateLastUpdatedTimestamp(team, game, oldGame);
 		if (isGameNewOrChanged) {
-	    	if (addBackupVersion) {
+	    	if (addBackupVersion && (oldGame != null)) {
 	    		boolean backingUpOk = true;
-		    	// second save of a game that was last saved before the versions feature was added
-		    	if (oldGame != null && oldGame.getPreviousVersionsCount() == 0) {
-		    		// create a backup of the original game
+		    	// if the original version has not been saved yet...save it now before continuing
+		    	if (oldGame.getPreviousVersionsCount() == 0) {
+		    		// create a backup of the original version of the game
 		    		backingUpOk = addGameVersion(userIdentifier, team, oldGame, "first save");
 		    	} 
-	    		// create the backup version
+	    		// create the backup of the new version of the game
 		    	if (backingUpOk) {
 		    		backingUpOk = addGameVersion(userIdentifier, team, game, description);
 		    	};
