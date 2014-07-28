@@ -273,7 +273,6 @@ angular.module('newBetaApp')
         data.lines = [];
         _.each(scope.lineViews, function(view, lvIndex) {
           return _.each(view.lines, function(line) {
-            console.log(line.getPlayers());
             return data.lines.push({
               players: line.getPlayers(),
               index: lvIndex,
@@ -1295,7 +1294,7 @@ angular.module('newBetaApp')
           stateType = $location.path().match(/\/[^\/]+\/\w+/)[0].replace(/\/[^\/]+\//, '');
           api.saveState($routeParams.teamId, stateType, JSON.stringify(scope.getSharedData() || {}), function(response) {
             return scope.$apply(function() {
-              return scope.shareUrl = "" + window.location.host + "/#/" + $routeParams.teamId + "/share/" + response.type + "/" + response.stateId;
+              return scope.shareUrl = "" + window.location.host + "/app/#/" + $routeParams.teamId + "/share/" + response.type + "/" + response.stateId;
             });
           });
           return FB.init({
