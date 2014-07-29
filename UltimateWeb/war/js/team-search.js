@@ -103,7 +103,8 @@ function teardown($node){
 }
 function search(tree, token, teams){
   var results = prefixSearch(tree, token).slice(0, 8);
-  return results.concat(simpleSearch(teams, 8 - results.length, token));
+  results = results.concat(simpleSearch(teams, 8 - results.length, token));
+  return _.uniq(results, 'cloudId');
 }
 function prefixSearch(tree, token){
   if (!token) {return tree.children || []; }
