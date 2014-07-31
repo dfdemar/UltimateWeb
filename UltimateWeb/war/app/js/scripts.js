@@ -3001,10 +3001,12 @@ angular.module('newBetaApp')
         var results = _.reduce(['us', 'them'], function(result, team){
           result[teamLookup[team]] = _.reduce(pointsIndexedByWind, function(memo, points, windSpeed){
             var pointSummary = _this.getPointSummary(points)
-            memo.push({
-              x:windSpeed,
-              y:_this.getConversionRate(points, pointSummary[team].defense + pointSummary[team].offense )
-            });
+            if (windSpeed !== "0"){
+              memo.push({
+                x:windSpeed,
+                y:_this.getConversionRate(points, pointSummary[team].defense + pointSummary[team].offense )
+              });
+            }
             return memo;
           }, [])
           return result;
