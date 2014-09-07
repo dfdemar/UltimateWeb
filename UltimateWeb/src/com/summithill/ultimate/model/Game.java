@@ -123,6 +123,7 @@ public class Game extends ModelObject {
 			JsonUtil.updateDigestWithJsonString(md, getWindJson());
 			JsonUtil.updateDigestWithJsonString(md, getPointsJson());
 			JsonUtil.updateDigestWithJsonString(md, getTimeoutDetailsJson());
+			JsonUtil.updateDigest(md, isPositional());
 			setLastUpdateHash(JsonUtil.digestAsString(md));
 		} catch (Exception e) {
 			// if we have an error...assume that things have changed...force a new hash value

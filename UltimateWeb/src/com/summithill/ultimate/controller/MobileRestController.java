@@ -1,11 +1,13 @@
 package com.summithill.ultimate.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +66,20 @@ public class MobileRestController extends AbstractController {
 	@ResponseBody
 	public List<ParameterGame> getGames(@PathVariable String teamId, HttpServletRequest request)  throws NoSuchRequestHandlingMethodException {
 		getUserIdentifier(request);
-		return getParameterGames(teamId, request, false, false, false);
+		List<ParameterGame> games = getParameterGames(teamId, request, false, false, false);
+		
+		// drop positional games if app is old version
+		if (!canDeviceSupportPositional(request)) {
+			List<ParameterGame> filteredGames = new ArrayList<ParameterGame>();
+			for (ParameterGame parameterGame : games) {
+				if (!parameterGame.isPositional()) {
+					filteredGames.add(parameterGame);
+				}
+			}
+			games = filteredGames;
+		}
+		
+		return games;
 	}
 	
 	@RequestMapping(value = "/team/{teamId}/game/{gameId}", method = RequestMethod.GET)
@@ -149,5 +164,57 @@ public class MobileRestController extends AbstractController {
 		}
 		return normalizedString;
 	}
-
+	
+	private boolean canDeviceSupportPositional(HttpServletRequest request) {
+		if (isRequestFromIOSDevice(request)) {
+			String iosVersion = iosAppVersion(request);
+			if (iosVersion != null & iosVersion.compareTo("3.") > 0) { // first iPhone release with awareness of positional is 3.0.0
+				return true;
+			}
+		} else {
+			String androidVersion = androidAppVersion(request);  // introduced this param from android when added awareness of positional
+			if (androidVersion != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isRequestFromIOSDevice(HttpServletRequest request) {
+		String userAgent = request.getHeader("User-Agent");
+		return userAgent.contains("UltimateIPhone");
+	}
+	
+	private String iosAppVersion(HttpServletRequest request) {
+		/*
+		 On iOS the app version is in the user agent string (iOS puts it there)
+		 Example:
+			UltimateIPhone/3.0.0 CFNetwork/672.1.13 Darwin/13.3.0
+		 */
+		if (isRequestFromIOSDevice(request)) {
+			String userAgent = request.getHeader("User-Agent");
+			String afterAppName = StringUtils.substringAfter(userAgent, "UltimateIPhone/");
+			if (afterAppName != null) {
+				return StringUtils.substringBefore(afterAppName, " ");
+			}
+		} 
+		return null;
+	}
+	
+	private String androidAppVersion(HttpServletRequest request) {
+		/* 
+		On Android the version is every request as a query string parameter.
+		Example:
+			ulti_version=android_1_2_2
+		*/	
+		String androidVersionParam = request.getParameter("ulti_version");
+		if (androidVersionParam != null && androidVersionParam.contains("android")) {
+			String versionWithUnderscores = StringUtils.substringAfter(androidVersionParam, "android_");
+			if (versionWithUnderscores != null) {
+				return versionWithUnderscores.replace("_",  ".");
+			}
+		}
+		return null;
+	}
+	
 }
