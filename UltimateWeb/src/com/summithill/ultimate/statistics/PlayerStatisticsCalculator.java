@@ -47,84 +47,86 @@ public class PlayerStatisticsCalculator extends AbstractStatisticsCalculator {
 			List<Event> events = point.getEvents();
 			Event lastEvent = null;
 			for (Event event : events) {
-				PlayerStats passer = event.isOffense() && event.getPasser() != null ? getStats(event.getPasser()) : null;
-				PlayerStats receiver = event.isOffense() && event.getReceiver() != null ? getStats(event.getReceiver()) : null;
-				PlayerStats defender = event.isDefense() && event.getDefender() != null ? getStats(event.getDefender()) : null;
-				if (event.isCatch()) {
-					passer.incPasses();
-					receiver.incCatches();
-					receiver.incTouches();
-					if (event.isFirstOffenseEvent(lastEvent)) {
-						passer.incTouches();
-					}
-				} else if (event.isDrop()) {
-					passer.incPasses();
-					receiver.incDrops();
-					receiver.decPlusMinusCount();
-					if (event.isFirstOffenseEvent(lastEvent)) {
-						passer.incTouches();
-					}
-				} else if (event.isOffense() && (event.isThrowaway() || event.isStall() || event.isMiscPenalty())) {
-					passer.incPasses();
-					if (event.isThrowaway()) {
-						passer.incThrowaways();
-					} else if (event.isStall()) {
-						passer.incStalls();
-					} else if (event.isMiscPenalty()) {
-						passer.incMiscPenalties();
-					}
-					passer.decPlusMinusCount();
-					if (event.isFirstOffenseEvent(lastEvent)) {
-						passer.incTouches();
-					}
-				} else if (event.isPull()) {
-					int hangtimeMilliseconds = event.getDetails() == null ? 0 : event.getDetails().getHangtime();
-					defender.incPulls(hangtimeMilliseconds);		
-				} else if (event.isPullOb()) {
-					defender.incPullOBs();		
-				} else if (event.isD()) {
-					defender.incDs();
-					defender.incPlusMinusCount();
-				} else if (event.isCallahan()) {
-					if (event.isDefense()) {
-						defender.incCallahans();
-						defender.incGoals();					
-						defender.incDs();
-						defender.incTouches();
-						defender.incPlusMinusCount();
-						defender.incPlusMinusCount();
-						updatePlusMinusLine(point, true, point.isOline());
-					} else {
+				if (!event.isOpponentEvent()) {
+					PlayerStats passer = event.isOffense() && event.getPasser() != null ? getStats(event.getPasser()) : null;
+					PlayerStats receiver = event.isOffense() && event.getReceiver() != null ? getStats(event.getReceiver()) : null;
+					PlayerStats defender = event.isDefense() && event.getDefender() != null ? getStats(event.getDefender()) : null;
+					if (event.isCatch()) {
 						passer.incPasses();
-						passer.incThrowaways();
-						passer.incCallahaneds();
-						passer.decPlusMinusCount(); 
-						updatePlusMinusLine(point, false, point.isOline());						
-					}
-				} else if (event.isGoal()) {
-					if (event.isOffense()) {
-						passer.incAssists();
-						passer.incPasses();
-						receiver.incTouches();
-						receiver.incGoals();
 						receiver.incCatches();
-						passer.incPlusMinusCount();
-						receiver.incPlusMinusCount();
+						receiver.incTouches();
 						if (event.isFirstOffenseEvent(lastEvent)) {
 							passer.incTouches();
 						}
+					} else if (event.isDrop()) {
+						passer.incPasses();
+						receiver.incDrops();
+						receiver.decPlusMinusCount();
+						if (event.isFirstOffenseEvent(lastEvent)) {
+							passer.incTouches();
+						}
+					} else if (event.isOffense() && (event.isThrowaway() || event.isStall() || event.isMiscPenalty())) {
+						passer.incPasses();
+						if (event.isThrowaway()) {
+							passer.incThrowaways();
+						} else if (event.isStall()) {
+							passer.incStalls();
+						} else if (event.isMiscPenalty()) {
+							passer.incMiscPenalties();
+						}
+						passer.decPlusMinusCount();
+						if (event.isFirstOffenseEvent(lastEvent)) {
+							passer.incTouches();
+						}
+					} else if (event.isPull()) {
+						int hangtimeMilliseconds = event.getDetails() == null ? 0 : event.getDetails().getHangtime();
+						defender.incPulls(hangtimeMilliseconds);		
+					} else if (event.isPullOb()) {
+						defender.incPullOBs();		
+					} else if (event.isD()) {
+						defender.incDs();
+						defender.incPlusMinusCount();
+					} else if (event.isCallahan()) {
+						if (event.isDefense()) {
+							defender.incCallahans();
+							defender.incGoals();					
+							defender.incDs();
+							defender.incTouches();
+							defender.incPlusMinusCount();
+							defender.incPlusMinusCount();
+							updatePlusMinusLine(point, true, point.isOline());
+						} else {
+							passer.incPasses();
+							passer.incThrowaways();
+							passer.incCallahaneds();
+							passer.decPlusMinusCount(); 
+							updatePlusMinusLine(point, false, point.isOline());						
+						}
+					} else if (event.isGoal()) {
+						if (event.isOffense()) {
+							passer.incAssists();
+							passer.incPasses();
+							receiver.incTouches();
+							receiver.incGoals();
+							receiver.incCatches();
+							passer.incPlusMinusCount();
+							receiver.incPlusMinusCount();
+							if (event.isFirstOffenseEvent(lastEvent)) {
+								passer.incTouches();
+							}
+						}
+						updatePlusMinusLine(point, event.isOffense(), point.isOline());
 					}
-					updatePlusMinusLine(point, event.isOffense(), point.isOline());
+					if (event.isOffense() && passer != null && passer.getPasses() > 0) {
+						float passPercent = ((float)passer.getPasses() - (float)passer.getPasserTurnovers()) / (float)passer.getPasses() * 100f;
+						passer.setPassSuccess(Math.round(passPercent));
+					}
+					if (event.isOffense() && receiver != null && receiver.getCatches() > 0) {
+						float catchPercent = (float)receiver.getCatches() / ((float)receiver.getCatches() + (float)receiver.getDrops()) * 100f;
+						receiver.setCatchSuccess(Math.round(catchPercent));	
+					}
+					lastEvent = event;
 				}
-				if (event.isOffense() && passer != null && passer.getPasses() > 0) {
-					float passPercent = ((float)passer.getPasses() - (float)passer.getPasserTurnovers()) / (float)passer.getPasses() * 100f;
-					passer.setPassSuccess(Math.round(passPercent));
-				}
-				if (event.isOffense() && receiver != null && receiver.getCatches() > 0) {
-					float catchPercent = (float)receiver.getCatches() / ((float)receiver.getCatches() + (float)receiver.getDrops()) * 100f;
-					receiver.setCatchSuccess(Math.round(catchPercent));	
-				}
-				lastEvent = event;
 			}
 			updateTimePlayedStats(point, playedInGame);
 		}

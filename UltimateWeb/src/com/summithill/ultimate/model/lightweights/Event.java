@@ -25,6 +25,10 @@ public class Event {
 	public static String PULL = "Pull";
 	public static String PULL_OB = "PullOb";
 	
+	public static String OPPONENT_PULL = "OpponentPull";
+	public static String OPPONENT_PULL_OB = "OpponentPullOb";
+	public static String OPPONENT_CATCH = "OpponentCatch";
+	
 	public static String EO_1Q = "EndOfFirstQuarter";
 	public static String EO_3Q = "EndOfThirdQuarter";
 	public static String EO_4Q = "EndOfFourthQuarter";
@@ -115,6 +119,11 @@ public class Event {
 	@JsonIgnore
 	public boolean isPullOb() {
 		return action.equals(PULL_OB);
+	}
+	
+	@JsonIgnore
+	public boolean isOpponentEvent() {
+		return action.startsWith("Opponent");
 	}
 	
 	@JsonIgnore
