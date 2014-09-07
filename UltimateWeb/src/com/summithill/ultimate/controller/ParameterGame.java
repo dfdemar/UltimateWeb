@@ -31,6 +31,7 @@ public class ParameterGame {
 	private String lastUpdateUtc;
 	private boolean isDeleted;
 	private boolean isPreviousVersionAvailable;
+	private boolean isPositional;
 	
 	public static ParameterGame fromGame(Game game) {
 		ParameterGame pGame = new ParameterGame();
@@ -63,6 +64,7 @@ public class ParameterGame {
 		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
 		pGame.setDeleted(game.isDeleted());
 		pGame.setPreviousVersionAvailable(game.getPreviousVersionsCount() > 0);
+		pGame.setPositional(game.isPositional());;
 		return pGame;
 	}
 
@@ -79,6 +81,7 @@ public class ParameterGame {
 		game.setLeaguevineJson(leaguevineJson);
 		game.setTimeoutDetailsJson(timeoutDetailsJson);
 		game.setWind(wind);
+		game.setPositional(isPositional);
 	}
 
 	public String getGameId() {
@@ -232,6 +235,14 @@ public class ParameterGame {
 
 	public void setPreviousVersionAvailable(boolean isPreviousVersionAvailable) {
 		this.isPreviousVersionAvailable = isPreviousVersionAvailable;
+	}
+
+	public boolean isPositional() {
+		return isPositional;
+	}
+
+	public void setPositional(boolean isPositional) {
+		this.isPositional = isPositional;
 	}
 
 }

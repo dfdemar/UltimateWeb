@@ -33,6 +33,7 @@ public class Game extends ModelObject {
 	public static final String LAST_UPDATE_HASH_PROPERTY = "lastUpdateHash";
 	public static final String IS_DELETED = "isDeleted";
 	public static final String PREVIOUS_VERSIONS_COUNT_PROPERTY = "previousVersionsCount";
+	public static final String IS_POSITIONAL_PROPERTY = "isPositional";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -235,6 +236,15 @@ public class Game extends ModelObject {
 
 	public void setFirstPointOline(boolean isFirstPointOline) {
 		entity.setProperty(IS_FIRST_POINT_OLINE_PROPERTY, Boolean.valueOf(isFirstPointOline));
+	}
+	
+	public boolean isPositional() {
+		Boolean positional = (Boolean)entity.getProperty(IS_POSITIONAL_PROPERTY);
+		return positional == null ? false : positional.booleanValue();
+	}
+
+	public void setPositional(boolean isPositional) {
+		entity.setProperty(IS_POSITIONAL_PROPERTY, Boolean.valueOf(isPositional));
 	}
 
 	public Wind getWind() {
