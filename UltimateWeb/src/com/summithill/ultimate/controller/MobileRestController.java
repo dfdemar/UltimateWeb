@@ -217,4 +217,13 @@ public class MobileRestController extends AbstractController {
 		return null;
 	}
 	
+    protected boolean isOAuth2Client(HttpServletRequest request) {
+    	if (isRequestFromIOSDevice(request)) {
+    		String iosAppVersion = iosAppVersion(request);
+    		return iosAppVersion != null & iosAppVersion.compareTo("3.") > 0 && hasOAuth2Header(request);
+    	} else {
+    		return false;
+    	}
+    }
+
 }

@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,8 +40,6 @@ import com.summithill.ultimate.service.TeamService;
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
-	private final static String AUTH_TYPE_QUERY_STRING_PARAMETER = "auth-type";
-	private final static String AUTH_TYPE_OAUTH = "oauth";
 	private final static String TEST_TEAM_NAME_MARKER = "@test@";
 	
 	@Autowired
@@ -282,8 +281,7 @@ public class AbstractController {
 		if (request.getRequestURL().toString().contains("//local")) {
 			return "localtestuser";
 		}
-		String authorizationType = request.getParameter(AUTH_TYPE_QUERY_STRING_PARAMETER);
-		if (authorizationType != null && authorizationType.equals(AUTH_TYPE_OAUTH)) {
+		if (isOAuth2Client(request)) {
 			try {
 		        OAuthService oauth = OAuthServiceFactory.getOAuthService();
 		        User user = oauth.getCurrentUser();
@@ -322,6 +320,23 @@ public class AbstractController {
 	protected void logErrorAndThrow(String userIdentifier, String message, Throwable t) {
 		String userQualifiedMessage = "User " + userIdentifier + " experienced error: " + message;
 		logErrorAndThrow(userQualifiedMessage, t);
+	}
+	
+	protected void logRequest(HttpServletRequest req) {
+		StringBuffer buf = new StringBuffer("Http Request details:\n");
+		buf.append(req.getRequestURL().toString());
+		buf.append("\nHeaders:");
+		@SuppressWarnings("unchecked")
+		Enumeration<String> headerNames = req.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = headerNames.nextElement();
+			String headerValue = req.getHeader(headerName);
+			buf.append("\n");
+			buf.append(headerName);
+			buf.append(" = ");
+			buf.append(headerValue);
+		}
+		log.log(SEVERE, buf.toString());
 	}
 	
 	protected void addExpireHeader(HttpServletResponse response, long minutesBeforeExpire) {
@@ -426,6 +441,14 @@ public class AbstractController {
 	        md5hash = md.digest();
 	        return convertToHex(md5hash);
 	} 
-
+    
+    protected boolean isOAuth2Client(HttpServletRequest request) {
+    	// subclasses can re-implement
+    	return false;
+    }
+    
+    protected boolean hasOAuth2Header(HttpServletRequest request) {
+    	return request.getHeader("Authorization") != null;
+    }
 	
 }
