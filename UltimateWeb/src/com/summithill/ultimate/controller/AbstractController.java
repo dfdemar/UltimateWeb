@@ -41,6 +41,7 @@ public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
 	private final static String TEST_TEAM_NAME_MARKER = "@test@";
+	private final static String GOOGLE_OAUTH2_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
 	
 	@Autowired
 	protected TeamService service;
@@ -284,7 +285,7 @@ public class AbstractController {
 		if (isOAuth2Client(request)) {
 			try {
 		        OAuthService oauth = OAuthServiceFactory.getOAuthService();
-		        User user = oauth.getCurrentUser();
+		        User user = oauth.getCurrentUser(GOOGLE_OAUTH2_EMAIL_SCOPE);
 		        if (user == null) {
 		        	throw new UnauthorizedException();
 		        } else {
