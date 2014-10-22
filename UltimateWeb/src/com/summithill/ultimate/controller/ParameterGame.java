@@ -27,6 +27,7 @@ public class ParameterGame {
 	private long theirs;
 	private String leaguevineJson;
 	private String timeoutDetailsJson;
+	private String fieldDimensionsJson;
 	private ParameterTeamInfo teamInfo;
 	private String lastUpdateUtc;
 	private boolean isDeleted;
@@ -60,6 +61,7 @@ public class ParameterGame {
 		pGame.setGamePoint(game.getGamePoint());
 		pGame.setLeaguevineJson(game.getLeaguevineJson());
 		pGame.setTimeoutDetailsJson(game.getTimeoutDetailsJson());
+		pGame.setFieldDimensionsJson(game.getFieldDimensionsJson());
 		pGame.setWind(game.getWind());
 		pGame.setLastUpdateUtc(game.getLastUpdateUtc());
 		pGame.setDeleted(game.isDeleted());
@@ -80,6 +82,7 @@ public class ParameterGame {
 		game.setGamePoint(gamePoint);
 		game.setLeaguevineJson(leaguevineJson);
 		game.setTimeoutDetailsJson(timeoutDetailsJson);
+		game.setFieldDimensionsJson(fieldDimensionsJson);
 		game.setWind(wind);
 		game.setPositional(isPositional);
 	}
@@ -243,6 +246,14 @@ public class ParameterGame {
 
 	public void setPositional(boolean isPositional) {
 		this.isPositional = isPositional;
+	}
+
+	public String getFieldDimensionsJson() {
+		return fieldDimensionsJson;
+	}
+
+	public void setFieldDimensionsJson(String fieldDimensionsJson) {
+		this.fieldDimensionsJson = fieldDimensionsJson;
 	}
 
 }

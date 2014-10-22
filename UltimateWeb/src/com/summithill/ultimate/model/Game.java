@@ -34,6 +34,7 @@ public class Game extends ModelObject {
 	public static final String IS_DELETED = "isDeleted";
 	public static final String PREVIOUS_VERSIONS_COUNT_PROPERTY = "previousVersionsCount";
 	public static final String IS_POSITIONAL_PROPERTY = "isPositional";
+	public static final String FIELD_DIMENSIONS_JSON_PROPERTY = "fieldDimensionsJson";
 	private List<Point> points; // transient
 	private Wind wind; // transient
 	
@@ -281,6 +282,16 @@ public class Game extends ModelObject {
 	public void setTimeoutDetailsJson(String json) {
 		Text text = json == null ? null : new Text(json);
 		entity.setProperty(TIMEOUT_DETAILS_JSON_PROPERTY, text);
+	}
+	
+	public String getFieldDimensionsJson() {
+		Text text = (Text)entity.getProperty(FIELD_DIMENSIONS_JSON_PROPERTY);
+		return text == null ? null : text.getValue();
+	}
+	
+	public void setFieldDimensionsJson(String json) {
+		Text text = json == null ? null : new Text(json);
+		entity.setProperty(FIELD_DIMENSIONS_JSON_PROPERTY, text);
 	}
 	
 	public int halftimeHighestScore() {
