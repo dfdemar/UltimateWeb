@@ -14,6 +14,7 @@ public class Team extends ModelObject {
 	public static final String FIRST_GAME_DATE = "firstGameDate";
 	public static final String LAST_GAME_DATE = "lastGameDate";
 	public static final String IS_DELETED = "isDeleted";
+	public static final String NOTIFY_URL_PROPERTY = "notifyUrl";
 	
 	public Team(String name) {
 		this(new Entity(ENTITY_TYPE_NAME));
@@ -26,7 +27,12 @@ public class Team extends ModelObject {
 	}
 	
 	public static Team fromEntity(Entity entity) {
-		return new Team(entity);
+		Team team = new Team(entity);
+		// force a value into the URL field so it can be edited in the admin browser
+		if (team.getNotifyUrl() == null) {
+			team.setNotifyUrl("");
+		}
+		return team;
 	}
 	
 	public String getTeamId() {
@@ -123,6 +129,19 @@ public class Team extends ModelObject {
 	
 	public void setPassword(String password) {
 		entity.setProperty(WEBSITE_PASSWORD_PROPERTY, password == null ? null : password.trim());
+	}
+	
+	public String getNotifyUrl() {
+		return (String)entity.getProperty(NOTIFY_URL_PROPERTY);
+	}
+	
+	public void setNotifyUrl(String notifyUrl) {
+		String url = notifyUrl == null ? "" : notifyUrl.trim();
+		entity.setProperty(NOTIFY_URL_PROPERTY, url);
+	}
+	
+	public boolean wantsGameUpdateNotification() {
+		return getNotifyUrl() != null && !getNotifyUrl().isEmpty();
 	}
 	
 	public String getLeaguevineJson() {

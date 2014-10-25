@@ -33,6 +33,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.summithill.ultimate.controller.GameExport;
 import com.summithill.ultimate.controller.MobileRestController;
 import com.summithill.ultimate.model.Game;
+import com.summithill.ultimate.model.GameUpdateEvent;
 import com.summithill.ultimate.model.GameVersion;
 import com.summithill.ultimate.model.ModelObject;
 import com.summithill.ultimate.model.Player;
@@ -265,6 +266,10 @@ public class TeamService {
 			getDatastore().put(entity);
 			// update the associated team (which will recalculate first/last game, etc.)
 			saveTeam(userIdentifier, team); 
+			// if we are notifying about this game's updates...add an event
+			if (team.wantsGameUpdateNotification()) {
+				saveGameUpdateEvent(team, game);
+			}
 		}
 	}
 
@@ -454,6 +459,33 @@ public class TeamService {
 			}
 			log.log(Level.INFO, "teams updated count = " + count);
 		}
+	}
+	
+	private void saveGameUpdateEvent(Team team, Game game) {
+		GameUpdateEvent updateEvent = new GameUpdateEvent(team.getTeamId(), game.getGameId());
+		updateEvent.setLastUpdateUtc(game.getLastUpdateUtc());
+		updateEvent.setNotifyUrl(team.getNotifyUrl());
+		saveGameUpdateEvent(updateEvent);
+	}
+	
+	private void saveGameUpdateEvent(GameUpdateEvent event) {
+		Entity entity = event.asEntity();
+		getDatastore().put(entity);
+	}
+	
+	public List<GameUpdateEvent> getAllGamesUpdateEvents() {
+		Query query = new Query(GameUpdateEvent.ENTITY_TYPE_NAME, null); 
+		Iterable<Entity> gameUpdateEntities = getDatastore().prepare(query).asIterable();
+		List<GameUpdateEvent> gameUpdateList = new ArrayList<GameUpdateEvent>();
+		for (Entity gameEntity : gameUpdateEntities) {
+			GameUpdateEvent game = GameUpdateEvent.fromEntity(gameEntity);
+			gameUpdateList.add(game);
+		}
+		return gameUpdateList;
+	}
+	
+	public void deleteGameUpdateEvent(GameUpdateEvent gameUpdateInfo) {
+		getDatastore().delete(gameUpdateInfo.asEntity().getKey());
 	}
 
 	private DatastoreService getDatastore() {
