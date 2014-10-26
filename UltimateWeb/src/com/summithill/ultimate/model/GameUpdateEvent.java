@@ -55,4 +55,11 @@ public class GameUpdateEvent extends ModelObject {
 	public void setNotifyUrl(String url) {
 		entity.setProperty(NOTIFY_URL_PROPERTY, url);
 	}
+	
+	public String getNotifyUrlWithTeamAndGameParameters() {
+		String additionalQueryString = (getNotifyUrl().contains("?") ? "&" : "?") + "team=" + getTeamId() + "&game=" + getGameId();
+		return getNotifyUrl() + additionalQueryString;
+	}
+	
+
 }

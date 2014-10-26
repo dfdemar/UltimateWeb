@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/rest/internal/notify-game-update-listeners</url>
+    <description>Notify game update listeners of game updates</description>
+    <schedule>every 2 minutes</schedule>
+  </cron>
+</cronentries>

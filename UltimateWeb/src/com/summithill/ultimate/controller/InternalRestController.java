@@ -2,10 +2,7 @@ package com.summithill.ultimate.controller;
 
 import static java.util.logging.Level.SEVERE;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -46,13 +43,15 @@ public class InternalRestController extends AbstractController {
 	}
 	
 	private void notifyGameUpdateListener(GameUpdateEvent updateEvent) {
+		String url = updateEvent.getNotifyUrlWithTeamAndGameParameters();		
 		try {
-		    URL url = new URL(updateEvent.getNotifyUrl());
-		    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-		    reader.readLine();
-		    reader.close();
+			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+			int responseCode = con.getResponseCode();
+			if (responseCode != 200) {
+				log.log(SEVERE, "Unable to notify game listener due to HTTP request error to URL " + url + ". HTTP response code was " + responseCode + ". Notify event skipped.");
+			}
 		} catch (Exception e) {
-			log.log(SEVERE, "Unable to notify game listener due to HTTP request error to URL " + updateEvent.getNotifyUrl() + ". Notify event skipped", e);
+			log.log(SEVERE, "Unable to notify game listener due to HTTP request error to URL " + url + ". Notify event skipped", e);
 		}
 	}
 
