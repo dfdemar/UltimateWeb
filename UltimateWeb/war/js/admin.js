@@ -270,7 +270,11 @@ function populateTeam(successFunction) {
 		if (team.players) {
 			for (var i = 0; i < team.players.length; i++) {
 				var player = team.players[i];
-				player.description = $('<div/>').text(player.name).html(); // escape the name
+				var playerNumberName = player.name;
+				if (player.number != null && player.number != '') {
+					playerNumberName = '#' + player.number + ' ' + playerNumberName;
+				}
+				player.description = $('<div/>').text(playerNumberName).html(); // escape the name/number
 				if (player.inactive) {
 					$('.inactive-player-footnote').css('display', 'block');
 					player.description += ' (inactive<sup>1</sup>)';
