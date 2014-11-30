@@ -13,13 +13,21 @@ import com.summithill.ultimate.service.TeamService;
 
 public class RawStatisticsExporter extends AbstractStatisticsCalculator {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
+	private String teamId;  // optional...team ID will be first column of data if set
+	private Anonymizer anonymizer;
 		
 	public RawStatisticsExporter(TeamService service) {
+		this(service, null, null);
+	}
+	
+	public RawStatisticsExporter(TeamService service, String teamId, Anonymizer anonymizer) {
 		super(service);
+		this.teamId = teamId;
+		this.anonymizer = anonymizer;
 	}
 	
 	public void writeStats(Writer writer, Team team, List<String> gameIds) {
-		EventWriter eventWriter = new EventWriter(writer);
+		EventWriter eventWriter = new EventWriter(writer, anonymizer, teamId);
 		for (String gameId : gameIds) {
 			Game game = getGame(team, gameId);
 			this.writeStatsForGame(eventWriter, game);

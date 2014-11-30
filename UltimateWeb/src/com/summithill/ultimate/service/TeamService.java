@@ -132,14 +132,20 @@ public class TeamService {
 	}
 
 	public List<Game> getGames(Team team, boolean includeDeleted) {
-		Query query = new Query(Game.ENTITY_TYPE_NAME, null); // .addSort("timestamp",
-																// Query.SortDirection.DESCENDING);
+		return getGames(team, includeDeleted, true);
+	}
+	
+	public List<Game> getGames(Team team, boolean includeDeleted, boolean includePointsJson) {
+		Query query = new Query(Game.ENTITY_TYPE_NAME, null); 
 		query.setAncestor(team.asEntity().getKey());
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
 			if (includeDeleted || !game.isDeleted()) {
+				if (!includePointsJson) {
+					game.setPointsJson(null);
+				}
 				gameList.add(game);
 			}
 		}

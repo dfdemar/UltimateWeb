@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +37,7 @@ import com.summithill.ultimate.model.Team;
 import com.summithill.ultimate.service.GameVersionInfo;
 import com.summithill.ultimate.statistics.AllStatisticsCalculator;
 import com.summithill.ultimate.statistics.AllStats;
+import com.summithill.ultimate.statistics.Anonymizer;
 import com.summithill.ultimate.statistics.PlayerStatisticsCalculator;
 import com.summithill.ultimate.statistics.PlayerStats;
 import com.summithill.ultimate.statistics.RawStatisticsExporter;
@@ -626,6 +628,21 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	@RequestMapping(value = "/team/{teamId}/stats/export/anonymized", method = RequestMethod.GET)
+	public void getRawStatsExportAnonymized(@PathVariable String teamId, HttpServletRequest request, final HttpServletResponse response) {
+		try {
+			Team team = service.getTeam(teamId);
+			if (team != null) {
+				this.addStandardExpireHeader(response);  
+				response.setContentType("text/plain");
+				Writer responseWriter = response.getWriter();
+				writeAnonymizedGameData(team, responseWriter);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getRawStatsExport", e);
+		}
+	}
+	
 	@RequestMapping(value = "/team/{teamId}/export/game/{gameId}", method = RequestMethod.GET)
 	public void getGameExport(@PathVariable String teamId, @PathVariable String gameId, HttpServletRequest request, final HttpServletResponse response) {
 		try {
@@ -766,5 +783,21 @@ public class WebRestController extends AbstractController {
 			// no-op
 		}
 		return safeName.length() > max ? safeName.substring(0, 60) : safeName;
+	}
+	
+	private void writeAnonymizedGameData(Team team, Writer writer) {
+		List<Game> games = service.getGames(team, false, false);
+		Collections.sort(games, new Game.GameTimestampComparator());
+		
+		Anonymizer anonymizer = new Anonymizer();
+		anonymizer.generateAnonymizedGameDates(games);
+		
+		RawStatisticsExporter statsExporter = new RawStatisticsExporter(service, team.getTeamId(), anonymizer);
+
+		List<String>gameIds = new ArrayList<String>();
+		for (Game game : games) {
+			gameIds.add(game.getGameId());
+		}
+		statsExporter.writeStats(writer, team, gameIds);
 	}
 }

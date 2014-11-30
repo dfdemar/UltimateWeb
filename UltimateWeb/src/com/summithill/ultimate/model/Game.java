@@ -1,11 +1,18 @@
 package com.summithill.ultimate.model;
 
+import static java.util.logging.Level.SEVERE;
+
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +24,8 @@ import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.util.JsonUtil;
 
 public class Game extends ModelObject {
+	private Logger log = Logger.getLogger(Game.class.getName());
+	
 	public static final String ENTITY_TYPE_NAME = "Game";
 	public static final String TIMESTAMP_PROPERTY = "timestamp";
 	public static final String SCORE_OURS_PROPERTY = "scoreOurs";
@@ -37,6 +46,10 @@ public class Game extends ModelObject {
 	public static final String FIELD_DIMENSIONS_JSON_PROPERTY = "fieldDimensionsJson";
 	private List<Point> points; // transient
 	private Wind wind; // transient
+	
+	public static DateFormat getTimestampDateFormatter() {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	}
 	
 	private Game(Entity entity) {
 		super();
@@ -328,9 +341,34 @@ public class Game extends ModelObject {
 		}
 	}
 	
+	public Date getTimestampAsDate() {
+		DateFormat parser = Game.getTimestampDateFormatter();
+		try {
+			return parser.parse(this.getTimestamp());
+		} catch (Exception e) {
+			log.log(SEVERE, "Cannot parse/format date: " + getTimestamp(), e);
+			return null;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Game v. " + getOpponentName();
 	}
 	
+	
+	public static class GameTimestampComparator implements Comparator<Game> {
+
+		@Override
+		public int compare(Game game1, Game game2) {
+			if (game1 == null && game2 == null) {
+				return 0;
+			} else if (game1 == null) {
+				return -1;
+			} else if (game2 == null) {
+				return 1;
+			}
+			return game1.getTimestamp().compareTo(game2.getTimestamp());
+		}
+	}
 }

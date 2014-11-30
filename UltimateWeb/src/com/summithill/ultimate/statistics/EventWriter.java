@@ -13,28 +13,39 @@ public class EventWriter {
 	private static String DELIMITER_REPLACEMENT = "-";
 	private int MAX_PLAYERS_IN_POINT = 28;
 	private Writer writer;
+	private Anonymizer anonymizer;
+	private String teamId;
 	
 	public EventWriter(Writer writer) {
+		this(writer, null, null);
+	}
+	
+	public EventWriter(Writer writer, Anonymizer anonymizer, String teamId) {
 		super();
 		this.writer = writer;
+		this.anonymizer = anonymizer;
+		this.teamId = teamId;
 		this.writeHeader();
 	}
 
 	public void writeEvent(Event event, Game game, Point point) {
 		PointSummary pointSummary = point.getSummary();
 		try {
-			this.writeWithDelimiterAfter(game.getTimestamp());
-			this.writeWithDelimiterAfter(this.replaceDelims(game.getTournamentName()));
-			this.writeWithDelimiterAfter(this.replaceDelims(game.getOpponentName()));
+			if (this.teamId != null) {
+				this.writeWithDelimiterAfter(teamDisplayName(this.teamId));
+			}
+			this.writeWithDelimiterAfter(displayableTimestamp(game.getTimestamp()));
+			this.writeWithDelimiterAfter(this.replaceDelims(tournamentDisplayName(game.getTournamentName())));
+			this.writeWithDelimiterAfter(this.replaceDelims(opponentDisplayName(game.getOpponentName())));
 			this.writeWithDelimiterAfter(asString(pointSummary.getElapsedTime()));
 			this.writeWithDelimiterAfter(pointSummary.getLineType());
 			this.writeWithDelimiterAfter(asString(pointSummary.getScore().getOurs()));
 			this.writeWithDelimiterAfter(asString(pointSummary.getScore().getTheirs()));
 			this.writeWithDelimiterAfter(event.getType());
 			this.writeWithDelimiterAfter(event.getAction());
-			this.writeWithDelimiterAfter(replaceDelims(event.getPasser()));
-			this.writeWithDelimiterAfter(replaceDelims(event.getReceiver()));
-			this.writeWithoutDelimiter(replaceDelims(event.getDefender()));
+			this.writeWithDelimiterAfter(replaceDelims(playerDisplayName(event.getPasser())));
+			this.writeWithDelimiterAfter(replaceDelims(playerDisplayName(event.getReceiver())));
+			this.writeWithoutDelimiter(replaceDelims(playerDisplayName(event.getDefender())));
 			String hangTime = "";
 			if (event.getDetails() != null && event.getDetails().getHangtime() > 0) {
 				float hangTimeSeconds = (float)event.getDetails().getHangtime()  / 1000f;
@@ -46,7 +57,7 @@ public class EventWriter {
 				for (String playerName : point.playersInPoint()) {
 					i++;
 					if (i < MAX_PLAYERS_IN_POINT) {
-						this.writeWithDelimiterBefore(replaceDelims(playerName));
+						this.writeWithDelimiterBefore(replaceDelims(playerDisplayName(playerName)));
 					}
 				}
 				while (i < MAX_PLAYERS_IN_POINT) {
@@ -62,6 +73,10 @@ public class EventWriter {
 
 	private void writeHeader() {
 		try {
+			if (teamId != null) {
+				writer.write("Team");
+				writer.write(DELIMITER);
+			}
 			writer.write("Date/Time");
 			writer.write(DELIMITER);
 			writer.write("Tournamemnt");
@@ -125,6 +140,25 @@ public class EventWriter {
 	private String asString(float f) {
 		return Float.toString(f);
 	}
-
+	
+	private String teamDisplayName(String teamId) {
+		return anonymizer == null ? teamId : anonymizer.anonymizeTeamName(teamId);
+	}
+	
+	private String playerDisplayName(String nickname) {
+		return anonymizer == null ? nickname : anonymizer.anonymizeNickname(nickname);
+	}
+	
+	private String opponentDisplayName(String opponentName) {
+		return anonymizer == null ? opponentName : anonymizer.anonymizeOpponentName(opponentName);
+	}
+	
+	private String tournamentDisplayName(String tournamentName) {
+		return anonymizer == null ? tournamentName : anonymizer.anonymizeTournamentName(teamId, tournamentName);
+	}
+	
+	private String displayableTimestamp(String timestamp) {
+		return anonymizer == null ? timestamp : anonymizer.anonymizeTimestamp(timestamp);
+	}
 
 }
