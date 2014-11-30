@@ -148,7 +148,11 @@ public class Anonymizer {
 				e.printStackTrace();
 			}
 			Date newAnonDate = firstDate;
-			Date lastOrigDateAtMidnight = DateUtils.truncate(games.get(0).getTimestampAsDate(), Calendar.DAY_OF_MONTH);
+			Date firstGameDate = games.get(0).getTimestampAsDate();
+			if (firstGameDate == null) {
+				firstGameDate = firstDate;
+			}
+			Date lastOrigDateAtMidnight = DateUtils.truncate(firstGameDate, Calendar.DAY_OF_MONTH);
 			int hours = 0;
 			int days = 0;
 			for (Game game : games) {
@@ -156,6 +160,9 @@ public class Anonymizer {
 					hours += 2;
 				}
 				Date date = game.getTimestampAsDate();
+				if (date == null) {
+					date = lastOrigDateAtMidnight;
+				}
 				Date origDateAtMidnight = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);  // truncate to date only
 				// if date has changed...move to a new anon date
 				if (!lastOrigDateAtMidnight.equals(origDateAtMidnight)) {

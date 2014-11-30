@@ -342,6 +342,9 @@ public class Game extends ModelObject {
 	}
 	
 	public Date getTimestampAsDate() {
+		if (this.getTimestamp() == null) {
+			return null;
+		}
 		DateFormat parser = Game.getTimestampDateFormatter();
 		try {
 			return parser.parse(this.getTimestamp());
@@ -361,11 +364,11 @@ public class Game extends ModelObject {
 
 		@Override
 		public int compare(Game game1, Game game2) {
-			if (game1 == null && game2 == null) {
+			if (game1.getTimestamp() == null && game2.getTimestamp() == null) {
 				return 0;
-			} else if (game1 == null) {
+			} else if (game1.getTimestamp() == null) {
 				return -1;
-			} else if (game2 == null) {
+			} else if (game2.getTimestamp() == null) {
 				return 1;
 			}
 			return game1.getTimestamp().compareTo(game2.getTimestamp());

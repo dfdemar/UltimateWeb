@@ -152,7 +152,7 @@ public class AbstractController {
 			List<ParameterTeamInfo> teamsResponseList = new ArrayList<ParameterTeamInfo>();
 			List<Team> teams = service.getAllTeams();
 			for (Team team : teams) {
-				if (!team.getName().contains(TEST_TEAM_NAME_MARKER)) {
+				if (!isTestTeam(team)) {
 					ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
 					teamsResponseList.add(pTeam);
 				}
@@ -451,5 +451,9 @@ public class AbstractController {
     protected boolean hasOAuth2Header(HttpServletRequest request) {
     	return request.getHeader("Authorization") != null;
     }
+    
+	private boolean isTestTeam(Team team) {
+		return team.getName().contains(TEST_TEAM_NAME_MARKER) || team.getName().toLowerCase().contains("anonymous");
+	}
 	
 }
