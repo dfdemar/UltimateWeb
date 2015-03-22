@@ -1,6 +1,6 @@
 
 // team search
-var teamsJson =_([
+var teamsJson2014 =_([
 {"id": 5182111044599808, "name": "Radicals", location: "Madison"},
 {"id": 5638404075159552, "name": "Wind Chill", location: "Minnesota"},
 {"id": 6220853180104704, "name": "Empire", location: "New York"},
@@ -62,7 +62,7 @@ recentGamesPromise.then(function(recentGames){
   });
 });
 var teamNodes = '';
-_.each(teamsJson, function(team){
+_.each(teamsJson2015, function(team){
   teamNodes += '<li><a href="'+rootAppHref+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
 });
 $('.audl-teams').append(teamNodes)
