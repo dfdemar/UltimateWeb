@@ -20,6 +20,34 @@ var teamsJson =_([
 {"id": 5094953273262080, "name": "FlameThrowers", location: "San Francisco"}
 ]).sortBy('location').valueOf();
 
+var teamsJson2015 =_([
+{"id": 5708939920408576, "name": "Hustle", location: "Atlanta"},
+{"id": 5643517367943168, "name": "Express", location: "Charlotte"},
+{"id": 5671617594130432, "name": "Wildfire", location: "Chicago"},
+{"id": 5674069752020992, "name": "Revolution", location: "Cincinnati"},
+{"id": 5635093192245248, "name": "Breeze", location: "DC"},
+{"id": 5738275486564352, "name": "Mechanix", location: "Detroit"},
+{"id": 5724822843686912, "name": "AlleyCats", location: "Indianapolis"},
+{"id": 5633494390669312, "name": "Cannons", location: "Jacksonville"},
+{"id": 5118639615246336, "name": "Aviators", location: "Los Angeles"},
+{"id": 5070544437248000, "name": "Radicals ", location: "Madison"},
+{"id": 5683257223938048, "name": "Wind Chill ", location: "Minnesota"},
+{"id": 5713274213498880, "name": "Royal", location: "Montreal"},
+{"id": 5705718560718848, "name": "Nightwatch", location: "Nashville"},
+{"id": 5704221898833920, "name": "Empire", location: "New York"},
+{"id": 5751646390845440, "name": "Outlaws ", location: "Ottawa"},
+{"id": 5641462360309760, "name": "Phoenix", location: "Philadelphia"},
+{"id": 5651757665353728, "name": "Thunderbirds", location: "Pittsburgh"},
+{"id": 5684793748488192, "name": "Flyers ", location: "Raleigh"},
+{"id": 5670377556541440, "name": "Dragons", location: "Rochester"},
+{"id": 5734743547052032, "name": "Growlers", location: "San Diego"},
+{"id": 5758048710688768, "name": "FlameThrowers", location: "San Francisco"},
+{"id": 5722152447770624, "name": "Spiders", location: "San Jose"},
+{"id": 5681589568667648, "name": "Cascades", location: "Seattle"},
+{"id": 5754980359208960, "name": "Rush ", location: "Toronto"},
+{"id": 5701751084679168, "name": "Riptide", location: "Vancouver"}
+]).sortBy('location').valueOf();
+
 var recentDays = 14;
 var recentDaysPreferred = 7;
 var numberOfRecentGamesToDisplay = 20;
