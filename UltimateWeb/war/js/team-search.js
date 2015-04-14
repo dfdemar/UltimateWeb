@@ -32,7 +32,7 @@ var teamsJson2015 =_([
 {"id": 5118639615246336, "name": "Aviators", location: "Los Angeles"},
 {"id": 5070544437248000, "name": "Radicals ", location: "Madison"},
 {"id": 5683257223938048, "name": "Wind Chill ", location: "Minnesota"},
-{"id": 5713274213498880, "name": "Royal", location: "Montreal"},
+{"id": 5753050442498048, "name": "Royal", location: "Montreal"},
 {"id": 5705718560718848, "name": "Nightwatch", location: "Nashville"},
 {"id": 5704221898833920, "name": "Empire", location: "New York"},
 {"id": 5751646390845440, "name": "Outlaws ", location: "Ottawa"},
