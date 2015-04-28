@@ -23,7 +23,7 @@ var teamsJson2014 =_([
 var teamsJson2015 =_([
 {"id": 5708939920408576, "name": "Hustle", location: "Atlanta"},
 {"id": 5643517367943168, "name": "Express", location: "Charlotte"},
-{"id": 5671617594130432, "name": "Wildfire", location: "Chicago"},
+{"id": 5671536392404992, "name": "Wildfire", location: "Chicago"},
 {"id": 5674069752020992, "name": "Revolution", location: "Cincinnati"},
 {"id": 5635093192245248, "name": "Breeze", location: "DC"},
 {"id": 5738275486564352, "name": "Mechanix", location: "Detroit"},
