@@ -46,6 +46,8 @@ public class Event {
 	private String receiver;
 	private double	timestamp; 
 	private EventDetails details;
+	private EventPosition pos;
+	private EventPosition posBegin;
 	
 	public String getType() {
 		return type;
@@ -220,6 +222,22 @@ public class Event {
 		if (this.receiver != null) {
 			playerNames.add(this.receiver);
 		}
+	}
+
+	public EventPosition getPos() {
+		return pos;
+	}
+
+	public void setPos(EventPosition pos) {
+		this.pos = pos;
+	}
+
+	public EventPosition getPosBegin() {
+		return posBegin;
+	}
+
+	public void setPosBegin(EventPosition posBegin) {
+		this.posBegin = posBegin;
 	}
 
 }
