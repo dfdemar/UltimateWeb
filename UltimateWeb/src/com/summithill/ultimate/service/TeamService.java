@@ -63,8 +63,19 @@ public class TeamService {
 	}
 
 	public List<Team> getTeams(String userIdentifier) {
+//		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
+//		addUserFilter(userIdentifier, query);
+//		Iterable<Entity> teamEntities = getDatastore().prepare(query)
+//				.asIterable();
+//		List<Team> teamList = new ArrayList<Team>();
+//		for (Entity teamEntity : teamEntities) {
+//			teamList.add(Team.fromEntity(teamEntity));
+//		}
+//		return teamList;
+		
 		Query query = new Query(Team.ENTITY_TYPE_NAME, null);
-		addUserFilter(userIdentifier, query);
+		Query.Filter userFilter = createUserFilter(userIdentifier);
+		query.setFilter(userFilter);
 		Iterable<Entity> teamEntities = getDatastore().prepare(query)
 				.asIterable();
 		List<Team> teamList = new ArrayList<Team>();
@@ -232,14 +243,24 @@ public class TeamService {
 	}
 
 	public Game getGame(Team team, String gameId) {
+//		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
+//		query.setAncestor(team.asEntity().getKey());
+//		query.addFilter(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL,
+//				gameId);
+//		Iterator<Entity> gameEntities = getDatastore().prepare(query)
+//				.asIterator();
+//		return gameEntities.hasNext() ? Game.fromEntity(gameEntities.next())
+//				: null;
+		
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
 		query.setAncestor(team.asEntity().getKey());
-		query.addFilter(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL,
-				gameId);
+		Query.Filter gameIdFilter = new Query.FilterPredicate(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL, gameId);
+		query.setFilter(gameIdFilter);
 		Iterator<Entity> gameEntities = getDatastore().prepare(query)
 				.asIterator();
 		return gameEntities.hasNext() ? Game.fromEntity(gameEntities.next())
 				: null;
+		
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
@@ -373,10 +394,21 @@ public class TeamService {
 	}
 
 	public Team getTeam(String userIdentifier, String teamName) {
+//		Query query = new Query(Team.ENTITY_TYPE_NAME);
+//		addUserFilter(userIdentifier, query);
+//		query.addFilter(Team.NAME_PROPERTY, Query.FilterOperator.EQUAL,
+//				teamName);
+//		List<Entity> teamEntities = getDatastore().prepare(query).asList(
+//				FetchOptions.Builder.withLimit(1));
+//		return teamEntities.size() == 1 ? Team.fromEntity(teamEntities.get(0))
+//				: null;
+		
 		Query query = new Query(Team.ENTITY_TYPE_NAME);
-		addUserFilter(userIdentifier, query);
-		query.addFilter(Team.NAME_PROPERTY, Query.FilterOperator.EQUAL,
-				teamName);
+		Query.Filter userFilter = createUserFilter(userIdentifier);
+		Query.Filter teamNameFilter = new Query.FilterPredicate(Team.NAME_PROPERTY, Query.FilterOperator.EQUAL,
+				teamName);	
+		Query.Filter combinedFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(userFilter, teamNameFilter));
+		query.setFilter(combinedFilter);
 		List<Entity> teamEntities = getDatastore().prepare(query).asList(
 				FetchOptions.Builder.withLimit(1));
 		return teamEntities.size() == 1 ? Team.fromEntity(teamEntities.get(0))
@@ -500,9 +532,14 @@ public class TeamService {
 		return datastore;
 	}
 
-	private void addUserFilter(String userIdentifier, Query query) {
-		query.addFilter(USER_ID_PROPERTY, Query.FilterOperator.EQUAL,
-				userIdentifier);
+//	private void addUserFilter(String userIdentifier, Query query) {
+//		query.addFilter(USER_ID_PROPERTY, Query.FilterOperator.EQUAL,
+//				userIdentifier);
+//	}
+	
+	private Query.Filter createUserFilter(String userIdentifier) {
+		Query.Filter filter = new Query.FilterPredicate(USER_ID_PROPERTY, Query.FilterOperator.EQUAL, userIdentifier);
+		return filter;
 	}
 
 	private void addUserToEntity(Entity entity, String userIdentifier) {
