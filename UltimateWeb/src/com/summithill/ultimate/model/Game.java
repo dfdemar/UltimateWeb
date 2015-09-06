@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 import com.summithill.ultimate.controller.Wind;
+import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.util.JsonUtil;
 
@@ -352,6 +353,15 @@ public class Game extends ModelObject {
 			log.log(SEVERE, "Cannot parse/format date: " + getTimestamp(), e);
 			return null;
 		}
+	}
+	
+	public Event getFirstEvent() {
+		List<Point> points = getPoints();
+		if (points.isEmpty() ) {
+			return null;
+		}
+		List<Event> firstPointEvents = points.get(0).getEvents();
+		return firstPointEvents.isEmpty() ? null : firstPointEvents.get(0);
 	}
 	
 	@Override

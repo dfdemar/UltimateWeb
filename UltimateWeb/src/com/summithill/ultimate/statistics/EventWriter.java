@@ -28,7 +28,7 @@ public class EventWriter {
 		this.writeHeader();
 	}
 
-	public void writeEvent(Event event, Game game, Point point) {
+	public void writeEvent(Event event, Game game, Point point, Event firstEventOfGame) {
 		PointSummary pointSummary = point.getSummary();
 		try {
 			if (this.teamId != null) {
@@ -64,6 +64,12 @@ public class EventWriter {
 					this.writeWithDelimiterBefore("");
 					i++;
 				}
+			}
+			if (firstEventOfGame != null && firstEventOfGame.getTimestamp() != 0 && event.getTimestamp() >= firstEventOfGame.getTimestamp()) {
+				int elapsedTime = (int) (event.getTimestamp() - firstEventOfGame.getTimestamp());
+				this.writeWithDelimiterBefore(this.asString(elapsedTime));
+			} else {
+				this.writeWithDelimiterBefore("");
 			}
 			writer.write("\n");
 		} catch (IOException e) {
@@ -106,6 +112,8 @@ public class EventWriter {
 				writer.write(DELIMITER);
 				writer.write("Player " + Integer.toString(i));	
 			}
+			writer.write(DELIMITER);
+			writer.write("Elapsed Time (secs)");
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
