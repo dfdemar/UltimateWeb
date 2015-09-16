@@ -3,18 +3,21 @@ package com.summithill.ultimate.controller;
 import static java.util.logging.Level.SEVERE;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -682,7 +686,7 @@ public class WebRestController extends AbstractController {
 
 	@RequestMapping(value = "/team/{teamId}/import/game", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadGameExport(@PathVariable String teamId, @RequestParam("file") MultipartFile file, @RequestParam(value = "return", required = true) String returnUrl, HttpServletRequest request) {
+	public String uploadGameExportOLD(@PathVariable String teamId, @RequestParam("file") MultipartFile file, @RequestParam(value = "return", required = true) String returnUrl, HttpServletRequest request) {
 		Team team = service.getTeam(teamId);
 		
 		// get team and verify access
@@ -716,6 +720,53 @@ public class WebRestController extends AbstractController {
 			log.log(SEVERE, "Error on game import", e);
 			return fileUploadResponseHtml("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from UltiAnalytics", returnUrl);
 		}
+	}
+	
+	@RequestMapping(value = "/team/{teamId}/import2/game", method = RequestMethod.POST, produces = {"application/json"})
+	@ResponseBody
+	public HashMap<String, Object> uploadGameExport(@PathVariable String teamId, MultipartHttpServletRequest request, HttpServletResponse response) {
+		Team team = service.getTeam(teamId);
+		
+		// get team and verify access
+		try {
+			team = service.getTeam(teamId);
+			if (team != null) {
+				verifyAdminUserAccessToTeam(request, teamId);
+			}
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGameExport", e);
+		}
+
+		try {
+			// import the game found in the file
+	        MultipartFile multipartFile = request.getFile("file");
+	        InputStream stream = multipartFile.getInputStream();
+	        byte[] fileBytes = IOUtils.toByteArray(stream);
+	        if (fileBytes.length != 0) {
+	           String userIdentifier = getUserIdentifier(request);
+	           GameExport gameExport = new ObjectMapper().readValue(fileBytes, GameExport.class);
+	           if (!gameExport.getHash().equals("666")) { // don't verify the hash if special code
+	        	   if (!gameExport.verifyHash()) {
+	        		   return fileUploadResponseMap("Game import FAILED...Attempting to import a file which is corrupt or altered since export", false);
+	        	   }
+	           }
+	           importGame(userIdentifier, team, gameExport);
+	           importPlayers(userIdentifier, team, gameExport);
+	        } else {
+	    	   return fileUploadResponseMap("Game import FAILED...No file included in request for import", false);
+	        }
+	        return fileUploadResponseMap("Game imported successsfully", true);
+		} catch (Exception e) {
+			log.log(SEVERE, "Error on game import", e);
+			return fileUploadResponseMap("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from UltiAnalytics", false);
+		}
+	}
+	
+	private HashMap<String, Object> fileUploadResponseMap(String message, boolean isOK) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		responseMap.put("message", message); 
+		responseMap.put("status", isOK ? "ok" : "error");
+		return responseMap;
 	}
 	
 	private void renamePlayerForTeam(String userIdentifier, Team team, String oldPlayerName, String newPlayerName) {
