@@ -52,6 +52,14 @@ import com.summithill.ultimate.statistics.TeamStats;
 @RequestMapping("/view")
 public class WebRestController extends AbstractController {
 	private static final int MAX_DAYS_FOR_RECENT_GAMES = 90;
+	
+	@RequestMapping(value = "/admin/user", method = RequestMethod.GET)
+	@ResponseBody
+	public ParameterUser getAdminUser(HttpServletRequest request, HttpServletResponse response)  throws NoSuchRequestHandlingMethodException {
+		this.addStandardExpireHeader(response);
+		String email = getUserEmail(request);
+		return new ParameterUser(email);
+	}
 
 	@RequestMapping(value = "/team/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -603,7 +611,7 @@ public class WebRestController extends AbstractController {
 				return new AllStatisticsCalculator(service).calculateStats(team, gameIdsToInclude);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getTeamStats", e);
+			logErrorAndThrow("Error on getAllStats", e);
 			return null;
 		}
 	}
@@ -643,7 +651,7 @@ public class WebRestController extends AbstractController {
 				writeAnonymizedGameData(team, responseWriter);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getRawStatsExport", e);
+			logErrorAndThrow("Error on getRawStatsExportAnonymized", e);
 		}
 	}
 	
@@ -653,7 +661,7 @@ public class WebRestController extends AbstractController {
 			verifyAdminUserAccessToTeam(request, teamId);
 			ParameterTeam team = getParameterTeam(teamId, request, false, false);
 			ParameterGame game = getParameterGame(teamId, gameId, request, false);
-			String email = UserServiceFactory.getUserService().getCurrentUser().getEmail();
+			String email = getUserEmail(request);
 			GameExport export = GameExport.from(team, game, email); 
 			
 			this.addStandardExpireHeader(response);  
@@ -696,7 +704,7 @@ public class WebRestController extends AbstractController {
 				verifyAdminUserAccessToTeam(request, teamId);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getGameExport", e);
+			logErrorAndThrow("Error on uploadGameExportOLD", e);
 		}
 		
 		
@@ -734,7 +742,7 @@ public class WebRestController extends AbstractController {
 				verifyAdminUserAccessToTeam(request, teamId);
 			}
 		} catch (Exception e) {
-			logErrorAndThrow("Error on getGameExport", e);
+			logErrorAndThrow("Error on uploadGameExport", e);
 		}
 
 		try {
@@ -757,7 +765,7 @@ public class WebRestController extends AbstractController {
 	        }
 	        return fileUploadResponseMap("Game imported successsfully", true);
 		} catch (Exception e) {
-			log.log(SEVERE, "Error on game import", e);
+			log.log(SEVERE, "Error on uploadGameExport", e);
 			return fileUploadResponseMap("Game import FAILED...Attempting to import a file which is corrupt or not originally exported from UltiAnalytics", false);
 		}
 	}
@@ -851,4 +859,12 @@ public class WebRestController extends AbstractController {
 		}
 		statsExporter.writeStats(writer, team, gameIds);
 	}
+	
+	protected void handleUnauthorized(HttpServletResponse response) {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	}
+	
+    protected boolean isOAuth2Client(HttpServletRequest request) {
+    	return hasOAuth2Header(request) || request.getParameter("access_token") != null;
+    }
 }

@@ -49,6 +49,10 @@ public class AbstractController {
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler({ UnauthorizedException.class })
 	public void handleUnathorizedException(HttpServletResponse response) {
+		handleUnauthorized(response);
+	}
+	
+	protected void handleUnauthorized(HttpServletResponse response) {
 		response.setHeader("WWW-Authenticate","Basic realm=\"UltiAnalytics Protected API\"");
 	}
     
@@ -278,9 +282,17 @@ public class AbstractController {
 	}
 	
 	protected String getUserIdentifier(HttpServletRequest request) {
+		return getUser(request).getUserId();
+	}
+	
+	protected String getUserEmail(HttpServletRequest request) {
+		return getUser(request).getEmail();
+	}
+	
+	protected User getUser(HttpServletRequest request) {
 		//if (true) {throw new UnauthorizedException();} // force authorization error
 		if (request.getRequestURL().toString().contains("//local")) {
-			return "localtestuser";
+			return new User("Joe Schmoe", "", "localtestuser");
 		}
 		if (isOAuth2Client(request)) {
 			try {
@@ -289,7 +301,7 @@ public class AbstractController {
 		        if (user == null) {
 		        	throw new UnauthorizedException();
 		        } else {
-			        return user.getUserId();
+			        return user;
 		        }
 		    } catch (OAuthRequestException e) {
 		    	throw new UnauthorizedException();
@@ -297,7 +309,7 @@ public class AbstractController {
 		} else {
 			UserService userService = UserServiceFactory.getUserService();
 			if (userService != null && userService.isUserLoggedIn()) {
-				return userService.getCurrentUser().getUserId();
+				return userService.getCurrentUser();
 			} else {
 				throw new UnauthorizedException();
 			}
