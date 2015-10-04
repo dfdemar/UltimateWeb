@@ -100,7 +100,9 @@ public class MobileRestController extends AbstractController {
 			}
 			parameterTeam.copyToTeam(team);
 			long id = service.saveTeam(userIdentifier, team);
-			updatePlayers(userIdentifier, team, parameterTeam.getPlayers());
+			if (parameterTeam.getPlayers() != null) {
+				updatePlayers(userIdentifier, team, parameterTeam.getPlayers());
+			}
 			return new SaveTeamResponse(id);
 		} catch (Exception e) {
 			logErrorAndThrow("error saving team", e);
