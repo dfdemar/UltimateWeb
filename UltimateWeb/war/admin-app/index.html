@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--[if lt IE 10]><p class=chromeframe>Your browser is <b><em>ancient!</em></b> Please <a href="http://browsehappy.com/">upgrade to a more modern browser</a> to view this site.</p><![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="308589977906-f6gr28rqtlmnjtmoj6soc8rinlfqe2a1.apps.googleusercontent.com">
+    <link rel="icon" href="images/favicon.ico">
+
+    <title>UltiAnalytics Admin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/custom.css" rel="stylesheet">
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><img src="images/ultianalytics-logo-green.png"></a>
+            <span style="position:absolute; right: 5%;">
+                <button class="navbar-brand borderless-button" style="font-size: medium;display: none" ulti-logoff-button>Logoff</button>
+            </span>
+        </div>
+    </div>
+</nav>
+
+<div class="container" ulti-app>
+
+    <h1>Website Admin</h1>
+    <div style="color: gray" ulti-user></div>
+    <div ulti-signon style="margin-top: 40px">
+        <div>Sign in with the google identity you used to upload games</div>
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark" style="margin-top: 20px"></div>
+    </div>
+
+    <div ulti-app-content style="display: none">
+        <div ulti-teams-no-teams style="display:none">
+            <h4><br><br><b>No Data</b><br><br>This tool is for administering website data uploaded from your iOS or Android device but you don't have a team uploaded yet.<br><br>Upload from our phone or tablet and refresh this page.</h4>
+        </div>
+
+        <div ulti-teams-container>
+            <div ulti-team-header>
+                <div>
+                    <div ulti-team-selector style="margin-top: 20px"/>
+                </div>
+                <br>
+                <div ulti-team-basic-info>
+                    <div>Team ID: <b><span  ulti-team-cloudid/></b></div>
+                    <div><a ulti-stats-site-link>Team Website</a></div>
+                </div>
+            </div>
+            <br/>
+
+            <div ulti-team-detail>
+                <ul class="nav nav-pills" ulti-tab>
+                    <li role="presentation" class="active" ><a href="#" ulti-tab-choice="settings">Settings</a></li>
+                    <li role="presentation"><a href="#" ulti-tab-choice="games">Games</a></li>
+                    <li role="presentation"><a href="#"  ulti-tab-choice="players">Players</a></li>
+                </ul>
+                <div ulti-team-detail-content style="margin-top: 30px">
+                     <!-- Modal -->
+                    <div class="modal fade" id="ulti-dialog" role="dialog">
+                        <div class="modal-dialog" ulti-dialog-content>
+                            <!-- Modal content (replaced before displayed) -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- End Modal content -->
+                        </div>
+                    </div>
+                    <div ulti-team-detail-settings class="hidden"></div>
+                    <div ulti-team-detail-games class="hidden"></div>
+                    <div ulti-team-detail-players class="hidden"></div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>
+    </div>
+
+</div>
+
+<!-- ****************************** App Scripts  ****************************** -->
+
+<script type="application/javascript">
+
+    function onSignIn(googleUser) {
+        GoogleUser = googleUser;
+        require(['js/main']);
+    };
+
+</script>
+
+<!-- ****************************** Library Scripts  ****************************** -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/require.js"></script>
+<script src="https://apis.google.com/js/platform.js"></script>
+
+</body>
+</html>

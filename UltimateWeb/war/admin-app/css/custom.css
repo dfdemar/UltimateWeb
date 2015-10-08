@@ -1,0 +1,80 @@
+body {
+    padding-top: 50px;
+}
+
+.strike-through {
+    text-decoration: line-through;
+}
+
+.spinner {
+    font-size: 48px;
+    color:#6FB219;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    position: absolute;
+}
+
+.btn-delete {
+    color: #6FB219;
+    background-color: #ffffff;
+    border-color: #6FB219;
+}
+
+.btn-delete:hover {
+    color: #6FB219;
+    font-weight: bold;
+}
+
+.btn-delete:visited {
+    color: #6FB219;
+}
+
+.btn-delete:active {
+    color: #6FB219;
+}
+
+.btn-undelete {
+    color: #6FB219;
+    background-color: #ffffff;
+    border-color: #6FB219;
+}
+
+.btn-undelete:hover {
+    color: #6FB219;
+    font-weight: bold;
+}
+
+.btn-undelete:visited {
+    color: #6FB219;
+}
+
+.btn-undelete:active {
+    color: #6FB219;
+}
+
+.borderless-button {
+    border: none;
+    color: #6FB219;
+    background: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
