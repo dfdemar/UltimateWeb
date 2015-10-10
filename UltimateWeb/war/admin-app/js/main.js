@@ -655,13 +655,34 @@ define('views/TabView', [
 define('templates/modal.html', [], function () {
     return '<div class="modal-content">\n    <div class="modal-header">\n        <button type="button" class="close" data-dismiss="modal">&times;</button>\n        <h4 class="modal-title" style="color: white"><%= title %></h4>\n    </div>\n    <div ulti-dialog-view-content/>\n</div>';
 });
+define('views/UltiView', [
+    'jquery',
+    'underscore',
+    'backbone',
+    'bootbox'
+], function ($, _, Backbone, bootbox) {
+    var UltiView = Backbone.View.extend({
+        showServerErrorDialog: function () {
+            this.showErrorDialog('Server Error', 'Ouch...we experienced an error trying to talk to our server.<br/><br/>Please try again by refreshing your browser.<br/><br/>If the problem persists, please notify us at <a href="mailto:support@ultianalytics.com">support@ultianalytics.com</a>.');
+        },
+        showErrorDialog: function (title, message) {
+            bootbox.alert({
+                size: 'small',
+                title: title,
+                message: message
+            });
+        }
+    });
+    return UltiView;
+});
 define('views/AbstractDetailContentsView', [
     'jquery',
     'underscore',
     'backbone',
-    'templates/modal.html'
-], function ($, _, Backbone, modalHtml) {
-    var AbstractDetailContentsView = Backbone.View.extend({
+    'templates/modal.html',
+    'views/UltiView'
+], function ($, _, Backbone, modalHtml, UltiView) {
+    var AbstractDetailContentsView = UltiView.extend({
         modalTemplate: _.template(modalHtml),
         showModalDialog: function (title, contentViewCreator) {
             $('[ulti-dialog-content]').html(this.modalTemplate({ title: title }));
@@ -687,9 +708,10 @@ define('utility', ['jquery'], function ($) {
 define('views/DialogView', [
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
-    var DialogView = Backbone.View.extend({
+    'backbone',
+    'views/UltiView'
+], function ($, _, Backbone, UltiView) {
+    var DialogView = UltiView.extend({
         el: '[ulti-dialog-view-content]',
         initialize: function () {
         },
@@ -749,7 +771,7 @@ define('views/PasswordDialogView', [
                 }
                 view.dismiss();
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         }
     });
@@ -797,6 +819,7 @@ define('views/SettingView', [
             this.showPasswordChangeDialog();
         },
         deleteTapped: function () {
+            var view = this;
             bootbox.confirm({
                 size: 'small',
                 title: 'Confirm Delete',
@@ -806,33 +829,35 @@ define('views/SettingView', [
                         restService.promiseDeleteTeam(appContext.currentTeamId()).then(function () {
                             appContext.refreshTeams(function () {
                             }, function () {
-                                alert('bad thang');
+                                view.showServerErrorDialog();
                             });
                         }, function () {
-                            alert('bad thang happened');
+                            view.showServerErrorDialog();
                         });
                     }
                 }
             });
         },
         undeleteTapped: function () {
+            var view = this;
             restService.promiseUndeleteTeam(appContext.currentTeamId()).then(function () {
                 appContext.refreshTeams(function () {
                 }, function () {
-                    alert('bad thang');
+                    view.showServerErrorDialog();
                 });
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         showPasswordChangeDialog: function () {
+            var view = this;
             this.showModalDialog('Set Team Password', function () {
                 var passwordDialog = new PasswordDialogView();
                 passwordDialog.passwordChanged = function () {
                     appContext.refreshTeams(function () {
                         this.render();
                     }, function () {
-                        alert('bad thang');
+                        view.showServerErrorDialog();
                     });
                 };
                 return passwordDialog;
@@ -943,7 +968,7 @@ define('views/GameImportDialogView', [
                     view.dismiss();
                 }
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         cancelTapped: function () {
@@ -1074,7 +1099,7 @@ define('views/GamesView', [
                 gameCollection.populateFromRestResponse(games);
                 view.render();
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         exportTapped: function (e) {
@@ -1096,7 +1121,7 @@ define('views/GamesView', [
                     });
                 }
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         deleteTapped: function (e) {
@@ -1111,7 +1136,7 @@ define('views/GamesView', [
                         restService.promiseDeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                             view.refresh();
                         }, function () {
-                            alert('bad thang happened');
+                            view.showServerErrorDialog();
                         });
                     }
                 }
@@ -1123,7 +1148,7 @@ define('views/GamesView', [
             restService.promiseUndeleteGame(appContext.currentTeamId(), game.get('gameId')).then(function () {
                 view.refresh();
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         importTapped: function (e) {
@@ -1134,19 +1159,21 @@ define('views/GamesView', [
             return gameCollection.gameWithGameId(gameId);
         },
         showImportDialog: function () {
+            var view = this;
             this.showModalDialog('Import Game', function () {
                 var importDialog = new GameImportDialogView();
                 importDialog.importComplete = function () {
                     appContext.refreshTeams(function () {
                         this.refresh();
                     }, function () {
-                        alert('bad thang');
+                        view.showServerErrorDialog();
                     });
                 };
                 return importDialog;
             });
         },
         showGameVersionsDialog: function (game) {
+            var view = this;
             this.showModalDialog('Game Versions', function () {
                 var dialog = new GameVersionsDialogView();
                 dialog.game = game;
@@ -1154,7 +1181,7 @@ define('views/GamesView', [
                     appContext.refreshTeams(function () {
                         this.refresh();
                     }, function () {
-                        alert('bad thang');
+                        view.showServerErrorDialog();
                     });
                 };
                 return dialog;
@@ -1214,6 +1241,7 @@ define('views/PlayerMergeOrDeleteDialogView', [
             'click [ulti-players-button-cancel]': 'cancelTapped'
         },
         actionTapped: function () {
+            self = this;
             restService.promiseDeletePlayer(appContext.currentTeamId(), self.player.get('name'), self.selectedPlayer.get('name')).then(function () {
                 self.dismiss();
                 bootbox.alert({
@@ -1223,7 +1251,7 @@ define('views/PlayerMergeOrDeleteDialogView', [
                 });
                 self.actionComplete();
             }, function () {
-                alert('bad thang happened');
+                self.showServerErrorDialog();
             });
         },
         cancelTapped: function () {
@@ -1351,11 +1379,12 @@ define('views/PlayersView', [
             this.$el.html(this.template({ players: players }));
         },
         refresh: function () {
+            var view = this;
             restService.promiseRetrieveTeamForAdmin(appContext.currentTeamId(), true, true).then(function (team) {
                 playerCollection.populateFromRestResponse(team.players);
                 self.render();
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         editTapped: function (e) {
@@ -1466,14 +1495,15 @@ define('views/TeamDetailView', [
             restService.promiseRetrieveGamesForAdmin(appContext.currentTeamId()).then(function (games) {
                 gameCollection.populateFromRestResponse(games);
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         },
         renderPlayersView: function () {
+            var view = this;
             restService.promiseRetrieveTeamForAdmin(appContext.currentTeamId(), true, true).then(function (team) {
                 playerCollection.populateFromRestResponse(team.players);
             }, function () {
-                alert('bad thang happened');
+                view.showServerErrorDialog();
             });
         }
     });
@@ -1496,9 +1526,10 @@ define('views/AppView', [
     'views/TeamStatsBasicInfoView',
     'views/TeamDetailView',
     'appContext',
-    'models/user'
-], function ($, _, Backbone, teamCollection, TeamSelectorView, TeamStatsBasicInfoView, TeamDetailView, appContext, User) {
-    var AppView = Backbone.View.extend({
+    'models/user',
+    'views/UltiView'
+], function ($, _, Backbone, teamCollection, TeamSelectorView, TeamStatsBasicInfoView, TeamDetailView, appContext, User, UltiView) {
+    var AppView = UltiView.extend({
         el: '[ulti-app]',
         initialize: function () {
             this.teamSelectorView = new TeamSelectorView();
@@ -1508,6 +1539,7 @@ define('views/AppView', [
         render: function () {
             var selectedTeam = appContext.currentTeam();
             var selectedTab = appContext.currentTab();
+            var self = this;
             teamCollection.ensureFetched(function () {
                 var teams = teamCollection.models;
                 if (teams.length > 0) {
@@ -1525,7 +1557,7 @@ define('views/AppView', [
                     $('[ulti-teams-no-teams]').show();
                 }
             }, function () {
-                alert('bad thang happened');
+                self.showServerErrorDialog();
             });
             return this;
         }
@@ -1541,8 +1573,9 @@ define('router', [
     'collections/games',
     'collections/players',
     'views/AppView',
-    'appContext'
-], function ($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, appContext) {
+    'appContext',
+    'bootbox'
+], function ($, _, Backbone, appContext, teamCollection, gameCollection, playerCollection, AppView, appContext, bootbox) {
     var AppRouter = Backbone.Router.extend({
         appView: null,
         routes: {
@@ -1553,21 +1586,22 @@ define('router', [
             this.appView = new AppView();
         },
         defaultRoute: function (path) {
-            router = this;
+            var self = this;
             if (appContext.hasCurrentUser()) {
                 teamCollection.ensureFetched(function () {
                     if (!teamCollection.isEmpty()) {
                         appContext.selectDefaultTeam();
                         appContext.set('currentTab', 'settings');
                     }
-                    router.appView.render();
+                    self.appView.render();
                 }, function () {
-                    alert('bad thang');
+                    self.showServerErrorAlert();
                 });
             }
         },
         team: function (cloudId, tab) {
             console.log('routed to cloud = ' + cloudId + ' tab = ' + tab);
+            var self = this;
             teamCollection.ensureFetched(function () {
                 var teamChange = appContext.currentTeamId() != cloudId;
                 appContext.set('currentTeam', teamCollection.teamWithCloudId(cloudId));
@@ -1577,7 +1611,14 @@ define('router', [
                     playerCollection.reset();
                 }
             }, function () {
-                alert('bad thang');
+                self.showServerErrorAlert();
+            });
+        },
+        showServerErrorAlert: function () {
+            bootbox.alert({
+                size: 'small',
+                title: 'Server Error',
+                message: 'Ouch...we experienced an error trying to talk to our server.<br/><br/>Please try again by refreshing your browser.<br/><br/>If the problem persists, please notify us at <a href="mailto:support@ultianalytics.com">support@ultianalytics.com</a>.'
             });
         }
     });
