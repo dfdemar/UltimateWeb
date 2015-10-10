@@ -41,20 +41,7 @@ public class WebPageController extends AbstractController {
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String getAdminPage(ModelMap model, HttpServletRequest request) {
-
-		UserService userService = UserServiceFactory.getUserService();
-		String thisURL = request.getRequestURI();
-		String logonUrl = userService.createLoginURL(thisURL);
-		String logoutUrl = userService.createLogoutURL(thisURL);
-
-        if (request.getUserPrincipal() != null) {
-    		model.addAttribute("loginUrl", logonUrl);
-    		model.addAttribute("logoutUrl", logoutUrl);
-    		model.addAttribute("userName", request.getUserPrincipal().getName());
-    		return "admin"; // forward to jsp
-        } else {
-        	return "redirect:" + logonUrl;
-        }
+		return "redirect:/admin-app/index.html";
 	}
 	
 	@RequestMapping(value = "/admin-classic", method = RequestMethod.GET)
