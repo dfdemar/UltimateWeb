@@ -1659,22 +1659,8 @@ define('views/LogoffView', [
             this.render();
         },
         logoffClicked: function () {
-            appContext.set('currentUser', null);
-            this.signOutFromGoogle(function () {
-                location.reload();
-            });
-        },
-        signOutFromGoogle: function (completion) {
-            var options = {
-                success: function (data, textStatus, jqXHR) {
-                    completion();
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                    completion();
-                }
-            };
-            $.ajax('https://mail.google.com/mail/u/0/?logout', options);
+            var urlWithoutHashTag = window.location.href.split('#')[0];
+            document.location.href = 'https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=' + urlWithoutHashTag;
         },
         render: function () {
             if (appContext.hasCurrentUser()) {
