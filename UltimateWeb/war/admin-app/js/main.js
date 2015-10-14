@@ -564,22 +564,23 @@ define('views/TeamSelectorView', [
     'templates/teamSelector.html'
 ], function ($, _, Backbone, teamCollection, appContext, teamSelectorHtml) {
     var TeamSelectorView = Backbone.View.extend({
-        teams: teamCollection,
         el: '[ulti-team-selector]',
         initialize: function () {
-            this.teams.on('reset', this.teamsChanged, this);
+            teamCollection.on('reset', this.teamsChanged, this);
             appContext.on('change:currentTeam', this.selectedTeamChanged, this);
         },
         template: _.template(teamSelectorHtml),
         teamsChanged: function () {
-            this.render();
+            if (!teamCollection.isEmpty()) {
+                this.render();
+            }
         },
         selectedTeamChanged: function () {
             this.render();
         },
         render: function () {
             this.$el.html(this.template({
-                teams: this.teams.models,
+                teams: teamCollection.models,
                 selectedTeam: appContext.currentTeam()
             }));
             this.$('[ulti-team-choice]').click(function (e) {
@@ -1057,6 +1058,9 @@ define('views/GameVersionsDialogView', [
 define('templates/gameList.html', [], function () {
     return '<div class="container">\n    <% _.each(games, function(game) { %>\n    <div class="row" style="margin-bottom: 20px">\n        <div class="col-sm-6 <%= game.deleted ? \'strike-through\' : \'\' %>"><span><%= game.date + \' \' + game.time %></span>\n            <% if ( game.deleted ) { %>\n            <span> vs. <%= game.opponentName %></span>\n            <% } else { %>\n            <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>\n            <% } %>\n            <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? \'us\' : \'them\' %>)</span></div>\n        <div class="col-sm-6">\n            <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'\' : \'hidden\' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>\n            <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>\n        </div>\n    </div>\n    <% }); %>\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n';
 });
+define('templates/gameListEmpty.html', [], function () {
+    return '<div style="margin-left: 40px">\n    No games for this team\n</div>\n\n';
+});
 define('views/GamesView', [
     'jquery',
     'underscore',
@@ -1069,8 +1073,9 @@ define('views/GamesView', [
     'appContext',
     'bootbox',
     'restService',
-    'templates/gameList.html'
-], function ($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService, gameListHtml) {
+    'templates/gameList.html',
+    'templates/gameListEmpty.html'
+], function ($, _, Backbone, gameCollection, gameVersionsCollection, AbstractDetailContentsView, GameImportDialogView, GameVersionsDialogView, appContext, bootbox, restService, gameListHtml, gameListEmptyHtml) {
     var GamesView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-games]',
         initialize: function () {
@@ -1084,14 +1089,19 @@ define('views/GamesView', [
             'click [ulti-game-import-button]': 'importTapped'
         },
         template: _.template(gameListHtml),
+        noGamesTemplate: _.template(gameListEmptyHtml),
         render: function () {
-            var games = _.map(gameCollection.sortedGames(), function (game) {
-                return game.toJSON();
-            });
-            this.$el.html(this.template({
-                games: games,
-                teamId: appContext.currentTeamId()
-            }));
+            if (gameCollection.isEmpty()) {
+                this.$el.html(this.noGamesTemplate());
+            } else {
+                var games = _.map(gameCollection.sortedGames(), function (game) {
+                    return game.toJSON();
+                });
+                this.$el.html(this.template({
+                    games: games,
+                    teamId: appContext.currentTeamId()
+                }));
+            }
         },
         refresh: function () {
             var view = this;
@@ -1348,6 +1358,9 @@ define('views/PlayerNameEditDialogView', [
 define('templates/playerList.html', [], function () {
     return '<div class="container">\n    <% _.each(players, function(player) { %>\n    <div class="row" style="margin-bottom: 20px">\n        <div class="col-md-2">\n            <%= (isEmpty(player.number) ? \'\' : \'#\' + player.number + \' \') + player.name + (!isEmpty(player.lastName) || !isEmpty(player.firstName) ? \' (\' + player.firstName + \' \' + player.lastName + \')\' : \'\')%>\n        </div>\n        <div class="col-md-5">\n            <button ulti-player-list-button-editname ulti-player-nickname="<%= player.name %>" class="borderless-button" title="edit player\'s nick name or display name">Edit Name</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-player-list-button-merge ulti-player-nickname="<%= player.name %>" class="borderless-button" title="merge player with other player">Merge</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-player-list-button-delete ulti-player-nickname="<%= player.name %>" class="borderless-button" title="delete player"><i class="fa fa-trash-o" style="font-size: large"></i></button>\n        </div>\n    </div>\n    <% }); %>\n</div>';
 });
+define('templates/playerListEmpty.html', [], function () {
+    return '<div style="margin-left: 40px">\n    No players for this team\n</div>\n\n';
+});
 define('views/PlayersView', [
     'jquery',
     'underscore',
@@ -1358,8 +1371,9 @@ define('views/PlayersView', [
     'views/PlayerNameEditDialogView',
     'appContext',
     'restService',
-    'templates/playerList.html'
-], function ($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService, playerListHtml) {
+    'templates/playerList.html',
+    'templates/playerListEmpty.html'
+], function ($, _, Backbone, playerCollection, AbstractDetailContentsView, PlayerMergeOrDeleteDialogView, PlayerNameEditDialogView, appContext, restService, playerListHtml, playerListEmptyHtml) {
     var PlayersView = AbstractDetailContentsView.extend({
         el: '[ulti-team-detail-players]',
         initialize: function () {
@@ -1372,11 +1386,16 @@ define('views/PlayersView', [
             'click [ulti-player-list-button-delete]': 'deleteTapped'
         },
         template: _.template(playerListHtml),
+        noPlayersTemplate: _.template(playerListEmptyHtml),
         render: function () {
-            var players = _.map(playerCollection.models, function (player) {
-                return player.toJSON();
-            });
-            this.$el.html(this.template({ players: players }));
+            if (playerCollection.isEmpty()) {
+                this.$el.html(this.noPlayersTemplate());
+            } else {
+                var players = _.map(playerCollection.models, function (player) {
+                    return player.toJSON();
+                });
+                this.$el.html(this.template({ players: players }));
+            }
         },
         refresh: function () {
             var view = this;
@@ -1646,11 +1665,16 @@ define('views/LogoffView', [
             });
         },
         signOutFromGoogle: function (completion) {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                console.log('User signed out.');
-                completion();
-            });
+            var options = {
+                success: function (data, textStatus, jqXHR) {
+                    completion();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    completion();
+                }
+            };
+            $.ajax('https://mail.google.com/mail/u/0/?logout', options);
         },
         render: function () {
             if (appContext.hasCurrentUser()) {
