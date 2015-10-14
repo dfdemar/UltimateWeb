@@ -41,7 +41,8 @@ public class WebPageController extends AbstractController {
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String getAdminPage(ModelMap model, HttpServletRequest request) {
-		return "redirect:/admin-app/index.html";
+//		return "redirect:/admin-app/index.html";
+		return "redirect:/team/admin-classic";
 	}
 	
 	@RequestMapping(value = "/admin-classic", method = RequestMethod.GET)
