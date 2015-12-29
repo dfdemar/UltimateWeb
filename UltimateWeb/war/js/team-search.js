@@ -108,7 +108,7 @@ function appendRecentGames(recentGames){
 	  return 0;
   })
   var numberOfGames = Math.min(numberOfRecentGamesToDisplay, mostRecentGames.length);
-  for (var i = 0; i < numberOfRecentGamesToDisplay; i++){
+  for (var i = 0; i < numberOfGames; i++){
     $('.teams').append(createRecentGameLink(mostRecentGames[i]));
   }
 }
