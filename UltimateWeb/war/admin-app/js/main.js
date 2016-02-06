@@ -1471,10 +1471,11 @@ define('views/TeamDetailView', [
     'views/SettingView',
     'views/GamesView',
     'views/PlayersView',
+    'views/UltiView',
     'appContext',
     'restService'
-], function ($, _, Backbone, playerCollection, gameCollection, TabView, SettingView, GamesView, PlayersView, appContext, restService) {
-    var TeamDetailView = Backbone.View.extend({
+], function ($, _, Backbone, playerCollection, gameCollection, TabView, SettingView, GamesView, PlayersView, UltiView, appContext, restService) {
+    var TeamDetailView = UltiView.extend({
         el: '[ulti-team-detail]',
         initialize: function () {
             this.tabView = new TabView();
