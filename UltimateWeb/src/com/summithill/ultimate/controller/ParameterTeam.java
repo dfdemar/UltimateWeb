@@ -2,10 +2,10 @@ package com.summithill.ultimate.controller;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.summithill.ultimate.model.Team;
 
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ParameterTeam {
 	private String cloudId;
 	private String teamId;  // mobile id

@@ -1,9 +1,9 @@
 package com.summithill.ultimate.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.summithill.ultimate.model.Player;
 
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ParameterPlayer implements Comparable<ParameterPlayer> {
 	private String name;
 	private String lastName;
