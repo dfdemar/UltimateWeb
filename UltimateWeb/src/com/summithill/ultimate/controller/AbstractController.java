@@ -40,6 +40,7 @@ import com.summithill.ultimate.service.TeamService;
 public class AbstractController {
 	protected Logger log = Logger.getLogger(MobileRestController.class.getName());
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
+	private final static String PASSWORD_CUSTOM_HEADER_NAME = "IUltimateAuth";
 	private final static String TEST_TEAM_NAME_MARKER = "@test@";
 	private final static String GOOGLE_OAUTH2_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
 	
@@ -363,6 +364,9 @@ public class AbstractController {
 	protected void verifyAccess(Team team, HttpServletRequest request) {
 		if (team.hasPassword()) {
 			String userEnterdPasswordHash = this.getPasswordCookieValue(request);
+			if (userEnterdPasswordHash == null) {
+				userEnterdPasswordHash = this.getPasswordCustomHeaderValue(request);
+			}
 			if (userEnterdPasswordHash != null) {
 				String correctPasswordHash = this.hashPassword(team, team.getPassword());
 				if (correctPasswordHash.equals(userEnterdPasswordHash)) {
@@ -380,12 +384,16 @@ public class AbstractController {
 		return true;
 	}
 	
-    protected void addPasswordHashCookie(HttpServletResponse response, Team team) {
+	protected void addPasswordHashCookie(HttpServletResponse response, Team team) {
     	if (team.hasPassword()) {
         	Cookie cookie = new Cookie(PASSWORD_COOKIE_NAME, hashPassword(team, team.getPassword()));
         	cookie.setPath("/");
         	response.addCookie(cookie);
     	}
+    }
+    
+    protected void addPasswordHashCustomHeader(HttpServletResponse response, Team team) {
+    	response.setHeader(PASSWORD_CUSTOM_HEADER_NAME, hashPassword(team, team.getPassword()));
     }
 	
 	private String getPasswordCookieValue(HttpServletRequest request) {
@@ -399,6 +407,10 @@ public class AbstractController {
 			}
 		}
 		return null;
+	}
+	
+	private String getPasswordCustomHeaderValue(HttpServletRequest request) {
+		return request.getHeader(PASSWORD_CUSTOM_HEADER_NAME);
 	}
 	
 	protected Set<String> extractPlayerNamesFromGames(String teamId)  {

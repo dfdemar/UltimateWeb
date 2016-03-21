@@ -1,0 +1,17 @@
+If the team is password protected you must authenticate before using the rest of the endpoints.
+
+To authenticate:
+
+http://www.ultianalytics.com/rest/view/team/{teamid}/authenticate/{password}
+POST
+
+Example: 
+http://www.ultianalytics.com/rest/view/team/5153567363039232/authenticate/mypass
+
+The response will include the response header IUltimateAuth which contains an authentication token you can use for subsequent calls.
+
+On subsequent calls include the request heaeder iUltimateAuth with the value returned in the response header.
+
+
+
+
