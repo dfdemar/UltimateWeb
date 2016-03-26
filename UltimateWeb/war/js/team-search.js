@@ -48,6 +48,35 @@ var teamsJson2015 =_([
 {"id": 5701751084679168, "name": "Riptide", location: "Vancouver"}
 ]).sortBy('location').valueOf();
 
+var teamsJson2016 =_([
+{"id": 5664284977659904, "name": "Hustle", location: "Atlanta"},
+{"id": 5128666635829248, "name": "Sol", location: "Austin"},
+{"id": 5640136574369792, "name": "Express", location: "Charlotte"},
+{"id": 5691616589250560, "name": "Wildfire", location: "Chicago"},
+{"id": 5069252692279296, "name": "Revolution", location: "Cincinnati"},
+{"id": 5206956054675456, "name": "Roughnecks", location: "Dallas"},
+{"id": 5705148370255872, "name": "Breeze", location: "DC"},
+{"id": 5769906008096768, "name": "Mechanix", location: "Detroit"},
+{"id": 5201331526565888, "name": "AlleyCats", location: "Indianapolis"},
+{"id": 6268098323677184, "name": "Cannons", location: "Jacksonville"},
+{"id": 4919856549855232, "name": "Aviators", location: "Los Angeles"},
+{"id": 5114556594520064, "name": "Radicals ", location: "Madison"},
+{"id": 5142198416834560, "name": "Wind Chill ", location: "Minnesota"},
+{"id": 5686487861428224, "name": "Royal", location: "Montreal"},
+{"id": 5749730717990912, "name": "Nightwatch", location: "Nashville"},
+{"id": 5632202645700608, "name": "Empire", location: "New York"},
+{"id": 5153306812874752, "name": "Outlaws ", location: "Ottawa"},
+{"id": 5675918433452032, "name": "Phoenix", location: "Philadelphia"},
+{"id": 5758196635402240, "name": "Thunderbirds", location: "Pittsburgh"},
+{"id": 5199033182191616, "name": "Flyers ", location: "Raleigh"},
+{"id": 5664810037411840, "name": "Growlers", location: "San Diego"},
+{"id": 5743365039587328, "name": "FlameThrowers", location: "San Francisco"},
+{"id": 5716256766296064, "name": "Spiders", location: "San Jose"},
+{"id": 4860723440123904, "name": "Cascades", location: "Seattle"},
+{"id": 5764281479987200, "name": "Rush ", location: "Toronto"},
+{"id": 6327231433408512, "name": "Riptide", location: "Vancouver"}
+]).sortBy('location').valueOf();
+
 var recentDays = 14;
 var recentDaysPreferred = 7;
 var numberOfRecentGamesToDisplay = 20;
@@ -61,11 +90,19 @@ recentGamesPromise.then(function(recentGames){
     establishSearch(teams, recentGames);
   });
 });
-var teamNodes = '';
-_.each(teamsJson2015, function(team){
-  teamNodes += '<li><a href="'+rootAppHref+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
-});
-$('.audl-teams').append(teamNodes)
+
+$('.audl-teams').append(createAudlTeamsHtml(teamsJson2016));
+$('.audl-teams-2015').append(createAudlTeamsHtml(teamsJson2015));
+$('.audl-teams-2014').append(createAudlTeamsHtml(teamsJson2014));
+
+function createAudlTeamsHtml(teams) {
+	var teamNodes = '';
+	_.each(teams, function(team){
+	  teamNodes += '<li><a href="'+rootAppHref+team.id+'/players">'+team.location+ ' ' +team.name+'</a></li>'
+	});
+	return teamNodes;
+}
+
 function establishSearch(teams, recentGames){
   var teamSearch = searchify(teams, 'name');
   var gameSearch = searchify(recentGames, 'opponentName');
