@@ -867,4 +867,25 @@ public class WebRestController extends AbstractController {
     protected boolean isOAuth2Client(HttpServletRequest request) {
     	return hasOAuth2Header(request) || request.getParameter("access_token") != null;
     }
+    
+    @RequestMapping(value = "/team-callback", method = RequestMethod.POST)
+	@ResponseBody
+	public void setTeamNotificationUrl(@RequestBody String[] teamIds, @RequestParam(value = "notifyUrl", required = true) String notifyUrl)  {
+    	for (String teamId : teamIds) {
+    		Team team = null;
+    		try {
+    			team = service.getTeam(teamId);
+    		} catch (Exception e) {
+    			logErrorAndThrow("teamId " + teamId + " get error",  e);
+    		}
+			if (team != null) {
+				team.setNotifyUrl(notifyUrl);
+				service.saveTeam(team.getUserIdentifier(), team);
+				logInfo("teamId " + teamId + " nofityURL updated to " + notifyUrl);
+			} else {
+				logErrorAndThrow("teamId " + teamId + " not found",  null);
+			}
+		}
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.summithill.ultimate.controller;
 
+import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
 
 import java.security.MessageDigest;
@@ -334,6 +335,10 @@ public class AbstractController {
 	protected void logErrorAndThrow(String userIdentifier, String message, Throwable t) {
 		String userQualifiedMessage = "User " + userIdentifier + " experienced error: " + message;
 		logErrorAndThrow(userQualifiedMessage, t);
+	}
+	
+	protected void logInfo(String message) {
+		log.log(INFO, message);
 	}
 	
 	protected void logRequest(HttpServletRequest req) {
