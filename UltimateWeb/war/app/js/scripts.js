@@ -3531,8 +3531,7 @@ angular.module('newBetaApp')
         options.data = request.data;
       }
       busyDialogStart();
-      Ultimate.sessionId = 'foo ';
-      var url = addQueryStringParameter(request.url, 'cachebuster ', Ultimate.sessionId);
+      var url = addQueryStringParameter(request.url, 'cachebuster', Ultimate.sessionId);
       options.xhrFields = {
         withCredentials: true
       };
