@@ -79,7 +79,7 @@ var teamsJson2016 =_([
 
 var recentDays = 14;
 var recentDaysPreferred = 7;
-var numberOfRecentGamesToDisplay = 20;
+var numberOfRecentGamesToDisplay = 60;
 var allTeamNamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/teams/all');
 var recentGamesPromise = $.ajax('http://www.ultianalytics.com/rest/view/games?days=' + recentDays + '&max=100');
 var rootAppHref = "http://www.ultianalytics.com/app/#/"
