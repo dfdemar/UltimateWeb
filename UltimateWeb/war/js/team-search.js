@@ -84,6 +84,9 @@ var schemeAndHost = '';
 var allTeamNamesPromise = $.ajax(schemeAndHost + 'rest/view/teams/all');
 var recentGamesPromise = $.ajax(schemeAndHost + 'rest/view/games?days=' + recentDays + '&max=100');
 var rootAppHref = schemeAndHost + 'app/#/';
+if (window.location.hostname == 'local.appspot.com') {
+	rootAppHref = schemeAndHost + 'http://local.appspot.com:9000/#/';
+}
 
 recentGamesPromise.then(function(recentGames){
   appendRecentGames(recentGames);
