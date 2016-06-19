@@ -227,7 +227,7 @@ public class Event {
 	public EventPosition getPos() {
 		return pos;
 	}
-
+	
 	public void setPos(EventPosition pos) {
 		this.pos = pos;
 	}
@@ -238,6 +238,14 @@ public class Event {
 
 	public void setPosBegin(EventPosition posBegin) {
 		this.posBegin = posBegin;
+	}
+	
+	public EventPosition getNormalizedPosition() {
+		return pos == null ? null : pos.normalized();
+	}
+	
+	public EventPosition getNormalizedPositionBegin() {
+		return posBegin == null ? null : posBegin.normalized();
 	}
 
 }

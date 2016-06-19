@@ -37,8 +37,10 @@ public class RawStatisticsExporter extends AbstractStatisticsCalculator {
 	private void writeStatsForGame(EventWriter eventWriter, Game game) {
 		Event firstEvent = game.getFirstEvent();
 		for (Point point : game.getPoints()) {
+			Event previousEvent = null;
 			for (Event event : point.getEvents()) {
-				eventWriter.writeEvent(event, game, point, firstEvent);
+				eventWriter.writeEvent(event, game, point, firstEvent, previousEvent);
+				previousEvent = event;
 			}
 		}
 	}

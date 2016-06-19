@@ -5,6 +5,7 @@ import java.io.Writer;
 
 import com.summithill.ultimate.model.Game;
 import com.summithill.ultimate.model.lightweights.Event;
+import com.summithill.ultimate.model.lightweights.FieldDimensions;
 import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.model.lightweights.PointSummary;
 
@@ -28,7 +29,8 @@ public class EventWriter {
 		this.writeHeader();
 	}
 
-	public void writeEvent(Event event, Game game, Point point, Event firstEventOfGame) {
+	public void writeEvent(Event event, Game game, Point point, Event firstEventOfGame, Event previousEvent) {
+		FieldDimensions fieldDimensions = game.getFieldDimensions();
 		PointSummary pointSummary = point.getSummary();
 		try {
 			if (this.teamId != null) {
@@ -70,6 +72,24 @@ public class EventWriter {
 				this.writeWithDelimiterBefore(this.asString(elapsedTime));
 			} else {
 				this.writeWithDelimiterBefore("");
+			}
+			if (game.isPositional() && fieldDimensions != null) {
+				writeDelimiter();
+				EventPositionalStatistics positionalStats = EventPositionalStatisticsCalculator.getInstance().calculatePositionalStats(fieldDimensions, event, previousEvent);
+				if (positionalStats.getBeginPosition() != null) {
+					writeWithDelimiterAfter(positionalStats.getBeginPosition().getAreaDescription());
+					writeWithDelimiterAfter(asString(positionalStats.getBeginPosition().getX(),3));
+					writeWithDelimiterAfter(asString(positionalStats.getBeginPosition().getY(),3));
+				} else {
+					writeDelimiters(3);
+				}
+				if (positionalStats.getEndPosition() != null) {
+					writeWithDelimiterAfter(positionalStats.getEndPosition().getAreaDescription());
+					writeWithDelimiterAfter(asString(positionalStats.getEndPosition().getX(),3));
+					writeWithDelimiterAfter(asString(positionalStats.getEndPosition().getY(),3));
+				} else {
+					writeDelimiters(3);
+				}
 			}
 			writer.write("\n");
 		} catch (IOException e) {
@@ -114,9 +134,31 @@ public class EventWriter {
 			}
 			writer.write(DELIMITER);
 			writer.write("Elapsed Time (secs)");
+			writer.write(DELIMITER);
+			writer.write("Begin Area");			
+			writer.write(DELIMITER);
+			writer.write("Begin X");
+			writer.write(DELIMITER);
+			writer.write("Begin Y");
+			writer.write(DELIMITER);
+			writer.write("End Area");			
+			writer.write(DELIMITER);
+			writer.write("End X");
+			writer.write(DELIMITER);
+			writer.write("End Y");			
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
+		}
+	}
+	
+	private void writeDelimiter() throws IOException {
+		writer.write(DELIMITER);
+	}
+	
+	private void writeDelimiters(int count) throws IOException {
+		for (int i = 0; i < count; i++) {
+			writeDelimiter();
 		}
 	}
 	
@@ -147,6 +189,10 @@ public class EventWriter {
 	
 	private String asString(float f) {
 		return Float.toString(f);
+	}
+	
+	private String asString(float f, int decimalPositions) {
+		return String.format("%." + decimalPositions + "f", f);
 	}
 	
 	private String teamDisplayName(String teamId) {

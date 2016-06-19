@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 import com.summithill.ultimate.controller.Wind;
 import com.summithill.ultimate.model.lightweights.Event;
+import com.summithill.ultimate.model.lightweights.FieldDimensions;
 import com.summithill.ultimate.model.lightweights.Point;
 import com.summithill.ultimate.util.JsonUtil;
 
@@ -47,6 +48,7 @@ public class Game extends ModelObject {
 	public static final String FIELD_DIMENSIONS_JSON_PROPERTY = "fieldDimensionsJson";
 	private List<Point> points; // transient
 	private Wind wind; // transient
+	private FieldDimensions fieldDimensions; // transient
 	
 	public static DateFormat getTimestampDateFormatter() {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -269,7 +271,7 @@ public class Game extends ModelObject {
 			try {
 				wind = (Wind) (json == null ? null : new ObjectMapper().readValue(json, new TypeReference<Wind>() {} ));
 			} catch (Exception e) {
-				throw new RuntimeException("Unable to parse points json",e);
+				throw new RuntimeException("Unable to parse wind json",e);
 			}
 		}
 		return wind;
@@ -306,6 +308,18 @@ public class Game extends ModelObject {
 	public void setFieldDimensionsJson(String json) {
 		Text text = json == null ? null : new Text(json);
 		entity.setProperty(FIELD_DIMENSIONS_JSON_PROPERTY, text);
+	}
+	
+	public FieldDimensions getFieldDimensions() {
+		if (fieldDimensions == null) {
+			String json = this.getFieldDimensionsJson();
+			try {
+				fieldDimensions = (FieldDimensions) (json == null ? null : new ObjectMapper().readValue(json, new TypeReference<FieldDimensions>() {} ));
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to parse field dimension json",e);
+			}
+		}
+		return fieldDimensions;
 	}
 	
 	public int halftimeHighestScore() {
