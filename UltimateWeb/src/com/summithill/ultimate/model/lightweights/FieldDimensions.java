@@ -45,5 +45,9 @@ public class FieldDimensions {
 		this.brick = brick;
 	}
 	
+	public String unitOfMeasureDescription() {
+		return um == 0 ? "yds" : "m";
+	}
+	
 
 }

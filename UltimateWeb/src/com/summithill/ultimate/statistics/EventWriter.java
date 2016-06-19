@@ -90,6 +90,10 @@ public class EventWriter {
 				} else {
 					writeDelimiters(3);
 				}
+				writeWithDelimiterAfter(fieldDimensions.unitOfMeasureDescription());
+				writeWithDelimiterAfter(asString(positionalStats.getDistance(),1));
+				writeWithDelimiterAfter(asString(positionalStats.getDistanceLateral(),1));
+				writeWithDelimiterAfter(asString(positionalStats.getDistanceTowardGoal(),1));
 			}
 			writer.write("\n");
 		} catch (IOException e) {
@@ -145,7 +149,15 @@ public class EventWriter {
 			writer.write(DELIMITER);
 			writer.write("End X");
 			writer.write(DELIMITER);
-			writer.write("End Y");			
+			writer.write("End Y");
+			writer.write(DELIMITER);
+			writer.write("Distance Unit of Measure");	
+			writer.write(DELIMITER);
+			writer.write("Absolute Distance");				
+			writer.write(DELIMITER);
+			writer.write("Lateral Distance");		
+			writer.write(DELIMITER);
+			writer.write("Toward Goal Distance");				
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);
