@@ -3,6 +3,7 @@ package com.summithill.ultimate.statistics;
 import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.EventPosition;
 import com.summithill.ultimate.model.lightweights.FieldDimensions;
+import com.summithill.ultimate.model.lightweights.Point;
 
 public class EventPositionalStatisticsCalculator {
 	
@@ -14,7 +15,7 @@ public class EventPositionalStatisticsCalculator {
         return instance;
     }
     
-	public EventPositionalStatistics calculatePositionalStats(FieldDimensions fieldDimensions, Event event, Event previousEvent) {
+	public EventPositionalStatistics calculatePositionalStats(Point point, FieldDimensions fieldDimensions, Event event, Event previousEvent) {
 		EventPositionalStatistics stats = new EventPositionalStatistics();
 		EventPosition position = event.getNormalizedPosition();
 		EventPosition previousPosition = event.getPosBegin() == null ? previousEvent.getNormalizedPosition() : event.getNormalizedPositionBegin();
@@ -24,7 +25,7 @@ public class EventPositionalStatisticsCalculator {
 		if (previousPosition != null) {
 			stats.setDistance(calculateAbsoluteDistance(fieldDimensions, stats, position, previousPosition));
 			stats.setDistanceLateral(calculateLateralDistance(fieldDimensions, stats, position, previousPosition));
-			stats.setDistanceTowardGoal(calculateDistanceTowardGoal(fieldDimensions, stats, position, previousPosition));
+			stats.setDistanceTowardGoal(calculateDistanceTowardGoal(point, fieldDimensions, stats, position, previousPosition));
 		}
 		
 		return stats;
@@ -45,10 +46,16 @@ public class EventPositionalStatisticsCalculator {
 		return (float) Math.abs(y2 - y1);
 	}
 	
-	private float calculateDistanceTowardGoal(FieldDimensions fieldDimensions, EventPositionalStatistics stats, EventPosition position, EventPosition previousPosition) {
+	private float calculateDistanceTowardGoal(Point point, FieldDimensions fieldDimensions, EventPositionalStatistics stats, EventPosition position, EventPosition previousPosition) {
 		float x1 = xInTotalFieldAndEndzonesLength(fieldDimensions, previousPosition);
 		float x2 = xInTotalFieldAndEndzonesLength(fieldDimensions, position);
 		float distance = x2 - x1;
+		Event pullEvent = point.initialEvent();
+		if (pullEvent != null && pullEvent.getPosBegin() != null) {
+			if (pullEvent.getPosBegin().normalized().isCloserTo0Endzone()) {
+				distance = distance * -1;
+			}
+		}
 		return distance;
 	}
 

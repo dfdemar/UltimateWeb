@@ -75,7 +75,7 @@ public class EventWriter {
 			}
 			if (game.isPositional() && fieldDimensions != null) {
 				writeDelimiter();
-				EventPositionalStatistics positionalStats = EventPositionalStatisticsCalculator.getInstance().calculatePositionalStats(fieldDimensions, event, previousEvent);
+				EventPositionalStatistics positionalStats = EventPositionalStatisticsCalculator.getInstance().calculatePositionalStats(point, fieldDimensions, event, previousEvent);
 				if (positionalStats.getBeginPosition() != null) {
 					writeWithDelimiterAfter(positionalStats.getBeginPosition().getAreaDescription());
 					writeWithDelimiterAfter(asString(positionalStats.getBeginPosition().getX(),3));

@@ -208,4 +208,9 @@ public class Point {
 		setLine(newLine);
 		return found;
 	}
+	
+	@JsonIgnore
+	public Event initialEvent() {
+		return getEvents().size() > 0 ? getEvents().get(0) : null;
+	}
 }

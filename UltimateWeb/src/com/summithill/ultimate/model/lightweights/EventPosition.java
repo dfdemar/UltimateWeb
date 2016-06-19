@@ -38,18 +38,23 @@ public class EventPosition {
 	public void setArea(String area) {
 		this.area = area;
 	}
+	
 	public boolean isFieldArea() {
 		return area.equals(FIELD_AREA);
 	}
+	
 	public boolean is0EndZone() {
 		return area.equals(ENDZONE0);
 	}
+	
 	public boolean is100EndZone() {
 		return area.equals(ENDZONE100);
 	}
+	
 	public boolean isEndZone() {
 		return !isFieldArea();
 	}
+	
 	public EventPosition normalized() {
 		if (inverted) {
 			EventPosition position = new EventPosition();
@@ -65,6 +70,17 @@ public class EventPosition {
 		}
 		return this;
 	}
+	
+	public boolean isCloserTo0Endzone() {
+		if (is0EndZone()) {
+			return true;
+		} else if (is100EndZone()) {
+			return false;
+		} else {
+			return x < .5;
+		}
+	}
+	
 	public String getAreaDescription() {
 		return isFieldArea() ? "Field" : (is0EndZone() ? "Endzone A" : "Endzone B");
 	}
