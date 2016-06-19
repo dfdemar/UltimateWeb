@@ -1,4 +1,4 @@
-package com.summithill.ultimate.statistics;
+	package com.summithill.ultimate.statistics;
 
 import com.summithill.ultimate.model.lightweights.Event;
 import com.summithill.ultimate.model.lightweights.EventPosition;
@@ -18,7 +18,10 @@ public class EventPositionalStatisticsCalculator {
 	public EventPositionalStatistics calculatePositionalStats(Point point, FieldDimensions fieldDimensions, Event event, Event previousEvent) {
 		EventPositionalStatistics stats = new EventPositionalStatistics();
 		EventPosition position = event.getNormalizedPosition();
-		EventPosition previousPosition = event.getPosBegin() == null ? previousEvent.getNormalizedPosition() : event.getNormalizedPositionBegin();
+		EventPosition previousPosition = event.getNormalizedPositionBegin();
+		if (previousPosition == null) {
+			previousPosition = previousEvent == null ? null : previousEvent.getNormalizedPosition();
+		}
 		stats.setBeginPosition(previousPosition);
 		stats.setEndPosition(position);
 
