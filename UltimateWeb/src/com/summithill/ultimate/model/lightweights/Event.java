@@ -124,6 +124,11 @@ public class Event {
 	}
 	
 	@JsonIgnore
+	public boolean isPullOrPullOb() {
+		return isPull() || isPullOb();
+	}
+	
+	@JsonIgnore
 	public boolean isOpponentEvent() {
 		return action.startsWith("Opponent");
 	}

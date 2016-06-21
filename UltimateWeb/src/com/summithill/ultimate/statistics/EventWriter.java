@@ -157,7 +157,7 @@ public class EventWriter {
 			writer.write(DELIMITER);
 			writer.write("Lateral Distance");		
 			writer.write(DELIMITER);
-			writer.write("Toward Goal Distance");				
+			writer.write("Toward Our Goal Distance");				
 			writer.write("\n");
 		} catch (IOException e) {
 			throw new RuntimeException("Error writing export", e);

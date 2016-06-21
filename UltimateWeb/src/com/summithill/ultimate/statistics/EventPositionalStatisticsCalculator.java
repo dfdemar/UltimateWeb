@@ -28,7 +28,7 @@ public class EventPositionalStatisticsCalculator {
 		if (previousPosition != null) {
 			stats.setDistance(calculateAbsoluteDistance(fieldDimensions, stats, position, previousPosition));
 			stats.setDistanceLateral(calculateLateralDistance(fieldDimensions, stats, position, previousPosition));
-			stats.setDistanceTowardGoal(calculateDistanceTowardGoal(point, fieldDimensions, stats, position, previousPosition));
+			stats.setDistanceTowardGoal(calculateDistanceTowardGoal(event, point, fieldDimensions, stats, position, previousPosition));
 		}
 		
 		return stats;
@@ -49,13 +49,16 @@ public class EventPositionalStatisticsCalculator {
 		return (float) Math.abs(y2 - y1);
 	}
 	
-	private float calculateDistanceTowardGoal(Point point, FieldDimensions fieldDimensions, EventPositionalStatistics stats, EventPosition position, EventPosition previousPosition) {
+	private float calculateDistanceTowardGoal(Event event, Point point, FieldDimensions fieldDimensions, EventPositionalStatistics stats, EventPosition position, EventPosition previousPosition) {
 		float x1 = xInTotalFieldAndEndzonesLength(fieldDimensions, previousPosition);
 		float x2 = xInTotalFieldAndEndzonesLength(fieldDimensions, position);
 		float distance = x2 - x1;
 		Event pullEvent = point.initialEvent();
 		if (pullEvent != null && pullEvent.getPosBegin() != null) {
-			if (pullEvent.getPosBegin().normalized().isCloserTo0Endzone()) {
+			if (pullEvent.getPosBegin().normalized().isCloserTo0Endzone()) { 
+				distance = distance * -1;
+			}
+			if (point.isDline()) {
 				distance = distance * -1;
 			}
 		}
