@@ -1,7 +1,7 @@
 /*
   Explanations for ULtiAnalytics calculations
 
-  Copyright 2014 Summit Hill Software, Inc., all rights reserved
+  Copyright 2016 Summit Hill Software, Inc., all rights reserved
 */
 
 if (!window.UltiAnalytics) {
