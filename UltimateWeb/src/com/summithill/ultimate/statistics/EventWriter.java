@@ -66,6 +66,8 @@ public class EventWriter {
 					this.writeWithDelimiterBefore("");
 					i++;
 				}
+			} else {
+				writeDelimiters(MAX_PLAYERS_IN_POINT);
 			}
 			if (firstEventOfGame != null && firstEventOfGame.getTimestamp() != 0 && event.getTimestamp() >= firstEventOfGame.getTimestamp()) {
 				int elapsedTime = (int) (event.getTimestamp() - firstEventOfGame.getTimestamp());
