@@ -1063,7 +1063,7 @@ define('templates/gameList.html', [], function () {
     return '<div class="container">\n    <% _.each(games, function(game) { %>\n    <div class="row" style="margin-bottom: 20px">\n        <div class="col-sm-6 <%= game.deleted ? \'strike-through\' : \'\' %>"><span><%= game.date + \' \' + game.time %></span>\n            <% if ( game.deleted ) { %>\n            <span> vs. <%= game.opponentName %></span>\n            <% } else { %>\n            <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>\n            <% } %>\n            <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? \'us\' : \'them\' %>)</span></div>\n        <div class="col-sm-6">\n            <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'\' : \'hidden\' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>\n            <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>\n        </div>\n    </div>\n    <% }); %>\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n';
 });
 define('templates/gameListEmpty.html', [], function () {
-    return '<div style="margin-left: 40px">\n    No games for this team\n</div>\n\n';
+    return '<div style="margin-left: 40px">\n    No games for this team\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n\n';
 });
 define('views/GamesView', [
     'jquery',
@@ -1678,13 +1678,13 @@ define('views/LogoffView', [
     });
     return LogoffView;
 });
-define('views/UserView', [
+define('views/SignedOnUserView', [
     'jquery',
     'underscore',
     'backbone',
     'appContext'
 ], function ($, _, Backbone, appContext) {
-    var UserView = Backbone.View.extend({
+    var SignedOnUserView = Backbone.View.extend({
         el: '[ulti-user]',
         initialize: function () {
             appContext.on('change:currentUser', this.userChanged, this);
@@ -1696,7 +1696,7 @@ define('views/UserView', [
             this.$el.html(appContext.currentUserEmail());
         }
     });
-    return UserView;
+    return SignedOnUserView;
 });
 define('app', [
     'jquery',
@@ -1709,13 +1709,13 @@ define('app', [
     'models/user',
     'restService',
     'views/LogoffView',
-    'views/UserView'
-], function ($, _, Backbone, bootstrap, appContext, router, appView, User, restService, LogoffView, UserView) {
+    'views/SignedOnUserView'
+], function ($, _, Backbone, bootstrap, appContext, router, appView, User, restService, LogoffView, SignedOnUserView) {
     return {
         initialize: function () {
             var logoffView = new LogoffView();
             logoffView.render();
-            var userView = new UserView();
+            var userView = new SignedOnUserView();
             userView.render();
             var profile = GoogleUser.getBasicProfile();
             var user = new User();
