@@ -1598,7 +1598,11 @@ angular.module('newBetaApp')
             return 'Their Goal';
           }
         case 'Callahan':
-          return 'Our Callahan (' + event.defender + ')';
+	        if (event.type === 'Offense') {
+	          return 'Their Callahan (' + event.passer + ')';
+	        } else {
+	          return 'Our Callahan (' + event.defender + ')';
+	        }
         case 'EndOfFirstQuarter':
           return 'End of 1st Quarter';
         case 'EndOfThirdQuarter':
