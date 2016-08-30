@@ -1630,61 +1630,61 @@ angular.module('newBetaApp')
   angular.module('newBetaApp').filter('eventImageUrl', function() {
     return function(event) {
       var url;
-      url = 'images/cuties/';
+      url = 'images/events/';
       switch (event.action) {
         case 'Catch':
-          url += 'big_smile.png';
+          url += 'pass.png';
           break;
         case 'Drop':
-          url += 'eyes_droped.png';
+          url += 'drop.png';
           break;
         case 'Throwaway':
-          url += event.type === 'Offense' ? 'shame.png' : 'exciting.png';
+          url += 'throwaway.png';
           break;
         case 'Stall':
-          url += 'shame.png';
+          url += 'stall.png';
           break;
         case 'MiscPenalty':
-          url += 'shame.png';
+          url += 'penalty.png';
           break;
         case 'D':
-          url += 'electric_shock.png';
+          url += 'd.png';
           break;
         case 'Pull':
-          url += 'nothing.png';
+          url += 'pull.png';
           break;
         case 'PullOb':
-          url += 'what.png';
+          url += 'pull-ob.png';
           break;
         case 'Goal':
-          url += event.type === 'Offense' ? 'super_man.png' : 'cry.png';
+          url += event.type === 'Offense' ? 'goal.png' : 'goal-opponent.png';
           break;
         case 'Callahan':
-          url += 'victory.png';
+          url += event.type === 'Offense' ? 'callahan-opponent.png' : 'callahan.png';
           break;
         case 'EndOfFirstQuarter':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         case 'EndOfThirdQuarter':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         case 'EndOfFourthQuarter':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         case 'EndOfOvertime':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         case 'Halftime':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         case 'GameOver':
-          url += 'finishflag.png';
+          url += 'game-over.png';
           break;
         case 'Timeout':
-          url += 'stopwatch1.png';
+          url += 'period-end.png';
           break;
         default:
-          url += 'money.png';
+          url += 'period-end.png';
       }
       return url;
     };
