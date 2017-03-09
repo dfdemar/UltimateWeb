@@ -77,6 +77,33 @@ var teamsJson2016 =_([
 {"id": 6327231433408512, "name": "Riptide", location: "Vancouver"}
 ]).sortBy('location').valueOf();
 
+var teamsJson2017 =_([
+{"id": 5762298832486400, "name": "Hustle", location: "Atlanta"},
+{"id": 5199348879065088, "name": "Sol", location: "Austin"},
+{"id": 5104011879383040, "name": "Wildfire", location: "Chicago"},
+{"id": 5688687119564800, "name": "Roughnecks", location: "Dallas"},
+{"id": 5634601401712640, "name": "Breeze", location: "DC"},
+{"id": 5173627930542080, "name": "Mechanix", location: "Detroit"},
+{"id": 5646521009700864, "name": "AlleyCats", location: "Indianapolis"},
+{"id": 5672188833169408, "name": "Cannons", location: "Jacksonville"},
+{"id": 5719707252424704, "name": "Aviators", location: "Los Angeles"},
+{"id": 5701394610782208, "name": "Radicals ", location: "Madison"},
+{"id": 5658753101725696, "name": "Wind Chill ", location: "Minnesota"},
+{"id": 5736577883963392, "name": "Royal", location: "Montreal"},
+{"id": 5672878150254592, "name": "Nightwatch", location: "Nashville"},
+{"id": 5767202099691520, "name": "Empire", location: "New York"},
+{"id": 5700228501995520, "name": "Outlaws ", location: "Ottawa"},
+{"id": 5666961832804352, "name": "Phoenix", location: "Philadelphia"},
+{"id": 5721191432060928, "name": "Thunderbirds", location: "Pittsburgh"},
+{"id": 5740216795004928, "name": "Flyers ", location: "Raleigh"},
+{"id": 5712818124881920, "name": "Growlers", location: "San Diego"},
+{"id": 5654595548217344, "name": "FlameThrowers", location: "San Francisco"},
+{"id": 5655358173347840, "name": "Spiders", location: "San Jose"},
+{"id": 5753798823772160, "name": "Cascades", location: "Seattle"},
+{"id": 5707300165648384, "name": "Rush ", location: "Toronto"},
+{"id": 5711261467672576, "name": "Riptide", location: "Vancouver"}
+]).sortBy('location').valueOf();
+
 var recentDays = 14;
 var recentDaysPreferred = 7;
 var numberOfRecentGamesToDisplay = 60;
@@ -95,7 +122,8 @@ recentGamesPromise.then(function(recentGames){
   });
 });
 
-$('.audl-teams').append(createAudlTeamsHtml(teamsJson2016));
+$('.audl-teams').append(createAudlTeamsHtml(teamsJson2017));
+$('.audl-teams-2016').append(createAudlTeamsHtml(teamsJson2016));
 $('.audl-teams-2015').append(createAudlTeamsHtml(teamsJson2015));
 $('.audl-teams-2014').append(createAudlTeamsHtml(teamsJson2014));
 
