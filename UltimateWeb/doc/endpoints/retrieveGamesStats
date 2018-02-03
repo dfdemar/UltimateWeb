@@ -1,0 +1,86 @@
+
+Get player stats for games.  Stats are returned per game (not summarized). More than one game can be requested for each team.
+
+
+http://www.ultianalytics.com/rest/view/games/stats
+POST
+
+SAMPLE REQUEST BODY:
+
+[
+  {"teamId" : "5762298832486400", "gameIds" : ["game-7946704A-BC4A-4B39-A5ED-164686BE113E", "game-532073A4-B5F8-4EFF-B82A-E0AC3A0B0851"]},
+  {"teamId" : "5199348879065088", "gameIds" : ["game-D51F9C3E-6371-4FB6-942A-A09E6CC54661"]},
+  {"teamId" : "5104011879383040", "gameIds" : ["game-8344C39B-0582-4492-9105-B6AF6F841BED"]},
+  {"teamId" : "5688687119564800", "gameIds" : ["game-8873E767-8C33-4406-934C-B29C14DEC579"]},
+  {"teamId" : "5634601401712640", "gameIds" : ["game-8D6BD9F1-80C6-47A8-9EE0-DEEF7994858C"]}
+]
+
+
+SAMPLE RESPONSE:
+
+[  
+   {  
+      "teamId":"5762298832486400",
+      "statsForGames":[  
+         {  
+            "gameId":"game-7946704A-BC4A-4B39-A5ED-164686BE113E",
+            "playerStats":[  
+               {  
+                  "playerName":"JP Burns",
+                  "plusMinusCount":2,
+                  "plusMinusOLine":1,
+
+                  	...
+
+                  "opointsPlayed":3.0,
+                  "dpointsPlayed":15.0,
+                  "passerTurnovers":0
+               },
+               {  
+                  "playerName":"Bush",
+                  "plusMinusCount":3,
+                  "plusMinusOLine":6,
+                  "plusMinusDLine":1,
+       
+                  	...
+
+                  "secondsPlayed":1676,
+                  "opointsPlayed":18.0,
+                  "dpointsPlayed":2.0,
+                  "passerTurnovers":0
+               },
+               
+               ...
+
+            ]
+         },
+         {  
+            "gameId":"game-532073A4-B5F8-4EFF-B82A-E0AC3A0B0851",
+            "playerStats":[  
+               {  
+                  "playerName":"Hunter",
+                  "plusMinusCount":1,
+                  "plusMinusOLine":-1,
+
+                  	...
+
+                  "secondsPlayed":514,
+                  "opointsPlayed":2.0,
+                  "dpointsPlayed":5.0,
+                  "passerTurnovers":0
+               }
+            ]
+         }
+      ]
+   },
+   {  
+      "teamId":"5104011879383040",
+      "statsForGames":[  
+         {  
+            "gameId":"game-8344C39B-0582-4492-9105-B6AF6F841BED",
+            "playerStats":[  
+               {  
+                  "playerName":"Rummel",
+                  "plusMinusCount":1,
+                  
+                  ...

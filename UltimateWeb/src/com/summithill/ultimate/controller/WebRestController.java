@@ -112,6 +112,36 @@ public class WebRestController extends AbstractController {
 		}
 	}
 	
+	@RequestMapping(value = "/games/stats", method = RequestMethod.POST)
+	@ResponseBody
+	public Collection<ParameterTeamGameStats> getGamesStats(@RequestBody ParameterTeamGames[] teamGames)  {	
+		try {
+			List<ParameterTeamGameStats> results = new ArrayList<ParameterTeamGameStats>();
+			for (int i = 0; i < teamGames.length; i++) {
+				String teamId = teamGames[i].getTeamId();
+				Team team = service.getTeam(teamId);
+				ParameterTeamGameStats teamGameStats = new ParameterTeamGameStats();
+				ArrayList<ParameterGamePlayerStatistics> statsForGames = new ArrayList<ParameterGamePlayerStatistics>();
+				teamGameStats.setStatsForGames(statsForGames);
+				teamGameStats.setTeamId(teamId);
+				for (String gameId : teamGames[i].getGameIds()) {
+					ParameterGamePlayerStatistics playerGameStats = new ParameterGamePlayerStatistics();
+					playerGameStats.setGameId(gameId);
+					List<String> gameIds = new ArrayList<String>();
+					gameIds.add(gameId);
+					Collection<PlayerStats> playerStats = new PlayerStatisticsCalculator(service).calculateStats(team, gameIds);
+					playerGameStats.setPlayerStats(playerStats);
+					statsForGames.add(playerGameStats);
+				}
+				results.add(teamGameStats);
+			}
+			return results;
+		} catch (Exception e) {
+			logErrorAndThrow("Error on getGamesStats", e);
+			return null;
+		}
+	}
+	
 	@RequestMapping(value = "/teams/all", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ParameterTeamInfo> getAllTeams(HttpServletRequest request) {
