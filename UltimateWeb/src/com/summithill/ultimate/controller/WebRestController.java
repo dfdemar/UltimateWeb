@@ -408,9 +408,7 @@ public class WebRestController extends AbstractController {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				verifyAdminUserAccessToTeam(request, teamId);
-				Game game = service.getGame(team, gameId);
-				game.setDeleted(true);
-				service.saveGame(userIdentifier, game);
+				service.deleteGameVirtually(userIdentifier, team, gameId, true);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on deleteGame", e);
@@ -427,9 +425,7 @@ public class WebRestController extends AbstractController {
 				throw new RuntimeException("Team " + teamId + " not found");
 			} else {
 				verifyAdminUserAccessToTeam(request, teamId);
-				Game game = service.getGame(team, gameId);
-				game.setDeleted(false);
-				service.saveGame(userIdentifier, game, false, null);
+				service.deleteGameVirtually(userIdentifier, team, gameId, false);
 			}
 		} catch (Exception e) {
 			logErrorAndThrow(userIdentifier, "Error on undeleteGame", e);

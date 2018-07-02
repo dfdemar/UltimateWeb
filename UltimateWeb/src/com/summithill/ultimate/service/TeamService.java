@@ -376,6 +376,19 @@ public class TeamService {
 	public void deleteTeam(Team team) {
 		getDatastore().delete(team.asEntity().getKey());
 	}
+	
+	public void deleteGameVirtually(String userIdentifier, Team team, String gameId, boolean shouldDelete) {
+		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
+		query.setAncestor(team.asEntity().getKey());
+		Query.Filter gameIdFilter = new Query.FilterPredicate(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL, gameId);
+		query.setFilter(gameIdFilter);
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
+		for (Entity gameEntity : gameEntities) {
+			Game game = Game.fromEntity(gameEntity);
+			game.setDeleted(shouldDelete);
+			saveGame(userIdentifier, game);
+		}
+	}
 
 	public void deleteAllGames(String userIdentifier, Team team) {
 		List<Game> games = getGames(team, true);
