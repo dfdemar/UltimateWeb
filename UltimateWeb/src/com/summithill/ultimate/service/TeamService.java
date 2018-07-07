@@ -7,9 +7,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -143,6 +145,11 @@ public class TeamService {
 		List<Game> gameList = new ArrayList<Game>();
 		for (Entity gameEntity : gameEntities) {
 			Game game = Game.fromEntity(gameEntity);
+			gameList.add(game);
+		}
+		List<Game> uniquGameList = this.filterUniqueGames(gameList);
+		gameList = new ArrayList<Game>();
+		for (Game game : uniquGameList) {
 			if (includeDeleted || !game.isDeleted()) {
 				if (!includePointsJson) {
 					game.setPointsJson(null);
@@ -165,6 +172,7 @@ public class TeamService {
 		for (Entity gameEntity : gameEntities) {
 			gameList.add(Game.fromEntity(gameEntity));
 		}
+		gameList = this.filterUniqueGames(gameList);
 		return gameList;
 	}
 
@@ -201,12 +209,14 @@ public class TeamService {
 			}
 		}
 		
+		gameList = this.filterUniqueGames(gameList);  // yes...this can potentially result in a max which varies from request but it is very rare and this API is just use to limit large lists
 		return gameList;
 	}
 
 	public List<String> getGameIDs(Team team) {
 		List<String> idList = new ArrayList<String>();
 		List<Game> games = this.getGames(team, false);
+		games = this.filterUniqueGames(games);
 		for (Game game : games) {
 			idList.add(game.getGameId());
 		}
@@ -237,11 +247,14 @@ public class TeamService {
 		query.setAncestor(team.asEntity().getKey());
 		Query.Filter gameIdFilter = new Query.FilterPredicate(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL, gameId);
 		query.setFilter(gameIdFilter);
-		Iterator<Entity> gameEntities = getDatastore().prepare(query)
-				.asIterator();
-		return gameEntities.hasNext() ? Game.fromEntity(gameEntities.next())
-				: null;
-		
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
+		List<Game> gameList = new ArrayList<Game>();
+		for (Entity gameEntity : gameEntities) {
+			Game game = Game.fromEntity(gameEntity);
+			gameList.add(game);
+		}
+		gameList = this.filterUniqueGames(gameList);
+		return gameList.size() > 0 ? gameList.get(0) : null;
 	}
 
 	public void saveGame(String userIdentifier, Game game) {
@@ -362,6 +375,19 @@ public class TeamService {
 
 	public void deleteTeam(Team team) {
 		getDatastore().delete(team.asEntity().getKey());
+	}
+	
+	public void deleteGameVirtually(String userIdentifier, Team team, String gameId, boolean shouldDelete) {
+		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
+		query.setAncestor(team.asEntity().getKey());
+		Query.Filter gameIdFilter = new Query.FilterPredicate(Game.GAME_ID_NAME_PROPERTY, Query.FilterOperator.EQUAL, gameId);
+		query.setFilter(gameIdFilter);
+		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable();
+		for (Entity gameEntity : gameEntities) {
+			Game game = Game.fromEntity(gameEntity);
+			game.setDeleted(shouldDelete);
+			saveGame(userIdentifier, game);
+		}
 	}
 
 	public void deleteAllGames(String userIdentifier, Team team) {
@@ -557,6 +583,27 @@ public class TeamService {
     		return true;
     	}
     	return false;
+    }
+    
+    private List<Game> filterUniqueGames(List<Game> games) {
+    	// will drop any duplicate games
+    	// when duplicates exist the most recent (judged by lastUpdateUtc) will be selected.
+    	Map<String, Game> gameMap = new HashMap<String, Game>();
+    	for (Iterator<Game> iterator = games.iterator(); iterator.hasNext();) {
+			Game game = (Game) iterator.next();
+			Game gameWithSameId = gameMap.get(game.getGameId());
+			if (gameWithSameId == null) {
+				gameMap.put(game.getGameId(), game);
+			} else {
+				gameMap.put(game.getGameId(), this.mostRecentGame(game, gameWithSameId));
+			}
+		}
+    	return new ArrayList<Game>(gameMap.values());
+    }
+
+    
+    private Game mostRecentGame(Game game1, Game game2) {
+    	return game1.getLastUpdateUtc().compareTo(game2.getLastUpdateUtc()) > 0 ? game1 : game2;
     }
 
 }
