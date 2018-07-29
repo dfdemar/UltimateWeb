@@ -345,7 +345,6 @@ public class AbstractController {
 		StringBuffer buf = new StringBuffer("Http Request details:\n");
 		buf.append(req.getRequestURL().toString());
 		buf.append("\nHeaders:");
-		@SuppressWarnings("unchecked")
 		Enumeration<String> headerNames = req.getHeaderNames();
 		while (headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();
