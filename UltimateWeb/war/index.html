@@ -62,16 +62,31 @@
 
   <script type="text/javascript">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-31918750-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-31918750-1']);
+	_gaq.push(['_trackPageview']);
+	
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+      
+    // make sure that index.html is actually on URL (so that server filtering can interpret correctly)
+	if (location.href.toLowerCase().indexOf('index.html') < 0) {
+		var parts = location.href.split('?');
+		var newURL = parts[0];
+		if (newURL[newURL.length - 1] !== '/') {
+			newURL += '/';
+		}
+		newURL += 'index.html';
+		if (parts.length > 1) {
+			newURL += '?' + parts[1];
+		}
+		location.href = newURL
+	}
+      
+      
   </script>
   </head>
 
