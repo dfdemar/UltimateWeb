@@ -341,7 +341,7 @@ define('restService', [
     if (window.location.href.indexOf('local-services=true') > -1) {
         return new RestService('http://' + document.location.hostname + ':' + document.location.port);
     } else {
-        return new RestService('http://www.ultianalytics.com');
+        return new RestService('https://www.ultianalytics.com');
     }
 });
 define('collections/teams', [
@@ -613,7 +613,7 @@ define('views/TeamStatsBasicInfoView', [
             var currentTeam = appContext.currentTeam();
             var cloudId = currentTeam.get('cloudId');
             this.$('[ulti-team-cloudid]').html(cloudId);
-            var url = 'http://www.ultianalytics.com/app/#/' + cloudId + '/players';
+            var url = 'https://www.ultianalytics.com/app/#/' + cloudId + '/players';
             this.$('[ulti-stats-site-link]').attr('href', url);
             this.$('[ulti-stats-site-link]').toggleClass('hidden', currentTeam.get('deleted'));
             return this;
@@ -1060,7 +1060,7 @@ define('views/GameVersionsDialogView', [
     return GameVersionsDialogView;
 });
 define('templates/gameList.html', [], function () {
-    return '<div class="container">\n    <% _.each(games, function(game) { %>\n    <div class="row" style="margin-bottom: 20px">\n        <div class="col-sm-6 <%= game.deleted ? \'strike-through\' : \'\' %>"><span><%= game.date + \' \' + game.time %></span>\n            <% if ( game.deleted ) { %>\n            <span> vs. <%= game.opponentName %></span>\n            <% } else { %>\n            <span> vs. <a href="http://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>\n            <% } %>\n            <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? \'us\' : \'them\' %>)</span></div>\n        <div class="col-sm-6">\n            <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'\' : \'hidden\' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>\n            <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>\n        </div>\n    </div>\n    <% }); %>\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n';
+    return '<div class="container">\n    <% _.each(games, function(game) { %>\n    <div class="row" style="margin-bottom: 20px">\n        <div class="col-sm-6 <%= game.deleted ? \'strike-through\' : \'\' %>"><span><%= game.date + \' \' + game.time %></span>\n            <% if ( game.deleted ) { %>\n            <span> vs. <%= game.opponentName %></span>\n            <% } else { %>\n            <span> vs. <a href="https://www.ultianalytics.com/app/#/<%= teamId %>/games?<%= game.gameId %>"><%= game.opponentName %></a></span>\n            <% } %>\n            <span> (<%= game.ours %>-<%= game.theirs %> <%= game.ours > game.theirs ? \'us\' : \'them\' %>)</span></div>\n        <div class="col-sm-6">\n            <button ulti-game-list-button-undelete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'\' : \'hidden\' %>" title="un-delete game"><i class="fa fa-undo" style="font-size: large"></i></button>\n            <button ulti-game-list-button-export="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="export game to your computer">Export</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-versions="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="display versions of this game">Versions</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n            <button ulti-game-list-button-delete="<%= game.gameId %>" class="borderless-button <%= game.deleted ? \'hidden\' : \'\' %>" title="delete game"><i class="fa fa-trash-o" style="font-size: large"></i></button>\n        </div>\n    </div>\n    <% }); %>\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n';
 });
 define('templates/gameListEmpty.html', [], function () {
     return '<div style="margin-left: 40px">\n    No games for this team\n</div>\n<div style="margin-top: 20px">\n    <button class="btn btn-primary" style="margin-top: 30px" ulti-game-import-button>Import Game</button>\n</div>\n\n';
