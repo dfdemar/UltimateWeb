@@ -28,11 +28,11 @@ UltiAnalytics.explanations =
  },
  {"name" : "oEfficiency", "explanations" : [{"lang" : "en",
    "title" : "o-Line officiency",
-   "description" : "<ul><li>+1 for an O-line<sup>2</sup> goal for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the O-line<sup>2</sup> (a break) in which the player was on the field<sup>1</sup>.</li></ul>"}]
+   "description" : "<ul><li>+1 for an O-line<sup>2</sup> goal for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the O-line<sup>2</sup> (a break) in which the player was on the field<sup>1</sup>.</li></ul><br><sup>1</sup>Players substituted out before the goal are not affected.<br><sup>2</sup>O-line refers to a point when the team receives a pull. "}]
  },
  {"name" : "dEfficiency", "explanations" : [{"lang" : "en",
    "title" : "d-Line efficiency",
-   "description" : "<li>+1 for a D-line<sup>2</sup> goal (a break) for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the D-line<sup>2</sup> for a point in which the player was on the field<sup>1</sup>.</li>"}]
+   "description" : "<li>+1 for a D-line<sup>2</sup> goal (a break) for a point in which the player was on the field<sup>1</sup>.</li><li>-1 for an opponent score against the D-line<sup>2</sup> for a point in which the player was on the field<sup>1</sup>.</li><br><sup>1</sup>Players substituted out before the goal are not affected.<br><sup>2</sup>D-line refers to a point when the team pulls. "}]
  },
  {"name" : "minutesPlayed", "explanations" : [{"lang" : "en",
    "title" : "minutes played",
