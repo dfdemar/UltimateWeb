@@ -207,6 +207,7 @@ function appendRecentGames(recentGames){
   for (var i = 0; i < numberOfGames; i++){
     $('.teams').append(createRecentGameLink(mostRecentGames[i]));
   }
+  $('.spinner').remove();
 }
 function createRecentGameLink(game){
   var utcDate = parseDateString(game.lastUpdateUtc);
