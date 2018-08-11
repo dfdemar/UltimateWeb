@@ -185,12 +185,12 @@ public class TeamService {
 		
 		Query query = new Query(Game.ENTITY_TYPE_NAME, null);
 		
-		Query.Filter beginDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.GREATER_THAN, firstDateString);
-		Query.Filter endDateFilter = new Query.FilterPredicate(Game.LAST_UPDATE_UTC_PROPERTY, Query.FilterOperator.LESS_THAN, tomorrowDateString);	
+		Query.Filter beginDateFilter = new Query.FilterPredicate(Game.TIMESTAMP_PROPERTY, Query.FilterOperator.GREATER_THAN, firstDateString);
+		Query.Filter endDateFilter = new Query.FilterPredicate(Game.TIMESTAMP_PROPERTY, Query.FilterOperator.LESS_THAN, tomorrowDateString);	
 		Query.Filter dateRangeQueryFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.asList(beginDateFilter, endDateFilter));
 
 		query.setFilter(dateRangeQueryFilter);
-		query.addSort(Game.LAST_UPDATE_UTC_PROPERTY, SortDirection.DESCENDING);
+		query.addSort(Game.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
 		int queryMax = (int)((float)max * 1.2);  // terrible hack but we can't query on the IS_DELETED property because it was added late so we just add some extra results to accommodate them and then filter them out later
 		Iterable<Entity> gameEntities = getDatastore().prepare(query).asIterable(FetchOptions.Builder.withLimit(queryMax));
 		
