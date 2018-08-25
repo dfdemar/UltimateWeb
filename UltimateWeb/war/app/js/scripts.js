@@ -13,8 +13,11 @@ angular.module('newBetaApp', [
       }
       function logRoute($location){
         if (typeof _gaq !== 'undefined' && _gaq.push){
-          var pageRoute = $location.url().replace(/\/\d+\//, '').match(/\w+/)[0];
-          _gaq.push(['_trackPageview', pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)]);
+          var pageRouteMatch = $location.url().replace(/\/\d+\//, '').match(/\w+/);
+          if (pageRouteMatch) {
+        	  var pageRoute  = pageRouteMatch[0];
+              _gaq.push(['_trackPageview', pageRoute.slice(0,1).toUpperCase() + pageRoute.slice(1)]);
+          }
         }
       }
 

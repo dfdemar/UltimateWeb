@@ -153,12 +153,13 @@ public class AbstractController {
 		return players;
 	}
 	
-	protected List<ParameterTeamInfo> getAllParameterTeamInfos() {
+	protected List<ParameterTeamInfo> getAllParameterTeamInfos(boolean filteredDeleted) {
 		try {
 			List<ParameterTeamInfo> teamsResponseList = new ArrayList<ParameterTeamInfo>();
 			List<Team> teams = service.getAllTeams();
 			for (Team team : teams) {
-				if (!isTestTeam(team)) {
+				boolean skipBecauseDeleted = filteredDeleted && team.isDeleted();
+				if (!isTestTeam(team) && !skipBecauseDeleted) {
 					ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
 					teamsResponseList.add(pTeam);
 				}

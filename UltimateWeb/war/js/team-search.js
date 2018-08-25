@@ -134,7 +134,7 @@ var recentDays = 14;
 var recentDaysPreferred = 7;
 var numberOfRecentGamesToDisplay = 60;
 var schemeAndHost = '';
-var allTeamNamesPromise = $.ajax(schemeAndHost + 'rest/view/teams/all');
+var allTeamNamesPromise = $.ajax(schemeAndHost + 'rest/view/teams/all?skip-deleted=true');
 var recentGamesPromise = $.ajax(schemeAndHost + 'rest/view/games?days=' + recentDays + '&max=100');
 var rootAppHref = schemeAndHost + 'app/#/';
 if (window.location.hostname == 'local.appspot.com') {

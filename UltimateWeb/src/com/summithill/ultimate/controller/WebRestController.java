@@ -144,8 +144,8 @@ public class WebRestController extends AbstractController {
 	
 	@RequestMapping(value = "/teams/all", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ParameterTeamInfo> getAllTeams(HttpServletRequest request) {
-		return getAllParameterTeamInfos();
+	public List<ParameterTeamInfo> getAllTeams(HttpServletRequest request, @RequestParam(value = "skip-deleted", required = false) boolean filterDeleted){
+		return getAllParameterTeamInfos(filterDeleted);
 	}
 	
 	@RequestMapping(value = "/games", method = RequestMethod.GET)
