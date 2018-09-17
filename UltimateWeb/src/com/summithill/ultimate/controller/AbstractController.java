@@ -43,6 +43,7 @@ public class AbstractController {
 	private final static String PASSWORD_COOKIE_NAME = "iultimate";
 	private final static String PASSWORD_CUSTOM_HEADER_NAME = "IUltimateAuth";
 	private final static String TEST_TEAM_NAME_MARKER = "@test@";
+	private final static String SECRET_TEAM_NAME_MARKER = "@secret@";
 	private final static String GOOGLE_OAUTH2_EMAIL_SCOPE = "https://www.googleapis.com/auth/userinfo.email";
 	
 	@Autowired
@@ -159,7 +160,7 @@ public class AbstractController {
 			List<Team> teams = service.getAllTeams();
 			for (Team team : teams) {
 				boolean skipBecauseDeleted = filteredDeleted && team.isDeleted();
-				if (!isTestTeam(team) && !skipBecauseDeleted) {
+				if (!isHiddenTeam(team) && !skipBecauseDeleted) {
 					ParameterTeamInfo pTeam = ParameterTeamInfo.fromTeam(team);
 					teamsResponseList.add(pTeam);
 				}
@@ -232,13 +233,13 @@ public class AbstractController {
 			
 			List<ParameterGame> parameterGames = new ArrayList<ParameterGame>();
 			for (Game game : games) {
-				if (!game.getOpponentName().contains(TEST_TEAM_NAME_MARKER) ) {
+				if (!isHiddenTeam(game.getOpponentName())) {
 					game.setPointsJson(null);  // dump the points JSON so we don't include it in the response
 					ParameterGame pGame = ParameterGame.fromGame(game);
 					String teamPersistenceId = game.getParentPersistenceId();
 					if (teamPersistenceId != null) {
 						Team team = teamLookup.get(teamPersistenceId);
-						if (team != null && !team.getName().contains(TEST_TEAM_NAME_MARKER) && !team.isDeleted()) {
+						if (team != null && !isHiddenTeam(team.getName()) && !team.isDeleted()) {
 							pGame.setTeamInfo(ParameterTeamInfo.fromTeam(team));
 							parameterGames.add(pGame);
 						}
@@ -481,8 +482,12 @@ public class AbstractController {
     	return request.getHeader("Authorization") != null;
     }
     
-	private boolean isTestTeam(Team team) {
-		return team.getName().contains(TEST_TEAM_NAME_MARKER) || team.getName().toLowerCase().contains("anonymous");
+	private boolean isHiddenTeam(Team team) {
+		return isHiddenTeam(team.getName());
+	}
+	
+	private boolean isHiddenTeam(String teamName) {
+		return teamName.contains(TEST_TEAM_NAME_MARKER) || teamName.contains(SECRET_TEAM_NAME_MARKER) || teamName.toLowerCase().contains("anonymous");
 	}
 	
 }
