@@ -151,7 +151,7 @@ var teamsJson2019 =_([
 {"id": 5661186758541312, "name": "Spiders", location: "San Jose"},
 {"id": 5405478582484992, "name": "Cascades", location: "Seattle"},
 {"id": 5775526035718144, "name": "Cannons", location: "Tampa Bay"},
-{"id": 4558192449159168, "name": "Rush ", location: "Toronto"}
+{"id": 5660854234120192, "name": "Rush ", location: "Toronto"}
 ]).sortBy('location').valueOf();
 
 var recentDays = 14;
