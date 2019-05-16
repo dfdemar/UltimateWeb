@@ -146,7 +146,7 @@ var teamsJson2019 =_([
 {"id": 5340445714415616, "name": "Outlaws ", location: "Ottawa"},
 {"id": 6369964004999168, "name": "Phoenix", location: "Philadelphia"},
 {"id": 5131989745139712, "name": "Thunderbirds", location: "Pittsburgh"},
-{"id": 5225326984560640, "name": "Flyers ", location: "Raleigh"},
+{"id": 5647500610371584, "name": "Flyers ", location: "Raleigh"},
 {"id": 6026025574072320, "name": "Growlers", location: "San Diego"},
 {"id": 5661186758541312, "name": "Spiders", location: "San Jose"},
 {"id": 5405478582484992, "name": "Cascades", location: "Seattle"},
