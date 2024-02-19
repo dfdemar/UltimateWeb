@@ -8,6 +8,9 @@ appengine-generated/
 .idea/
 *.iml
 
+## Build artifacts
+target/
+
 # jenv file
 .java-version
 
