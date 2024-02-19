@@ -4,6 +4,12 @@
 # Google App Engine generated folder
 appengine-generated/
 
+## IntelliJ
+.idea/
+*.iml
+
+# jenv file
+.java-version
 
 ### Eclipse ###
 *.pydevproject
