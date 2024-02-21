@@ -9,9 +9,6 @@
     </parent>
 
     <artifactId>ultimate-web</artifactId>
-    <packaging>jar</packaging>
-    <name>my-app</name>
-    <url>http://maven.apache.org</url>
 
     <dependencies>
 
@@ -146,6 +143,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
